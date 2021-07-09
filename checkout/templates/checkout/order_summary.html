@@ -1,6 +1,28 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
 this is the summary page
 {{package.name}}
+{{package_cost}}
+
+
+<!-- Payment form -->
+<form action="" id="payment_form"> {% csrf_token %}
+    <fieldset>
+        <legend>Payment here</legend>
+        <div id="card_element"></div>
+            <div id="card_errors">
+        </div>
+        <input type="submit" name="" id="submit_button">Click me</input>
+    </fieldset>
+</form>
+{% endblock %}
+
+
+{% block post_JS %}
+    {{ block.super }}
+    {{ stripe_public_key|json_script:"id_stripe_public_key" }}
+    {{ stripe_client_secret|json_script:"id_stripe_client_secret" }}
+    <script src="{% static 'checkout/js/stripe_elements.js' %}"></script>
 {% endblock %}
