@@ -2,4 +2,18 @@
 
 {% block content %}
 this is the packages page
+<div class="container">
+    <div class="row">
+        <div class="d-flex justify-content">
+            {% for package in packages %}
+            <div class="card">
+                {{package.name}}
+                {{package.description}}
+                {{package.price}}
+            </div>
+            {% endfor %}
+
+        </div>
+    </div>
+</div>
 {% endblock %}
