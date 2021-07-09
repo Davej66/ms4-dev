@@ -45,6 +45,8 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'home',
+    'users',
+    'packages'
 ]
 
 MIDDLEWARE = [
@@ -80,7 +82,7 @@ ACCOUNT_EMAIL_VERIFICATION = True
 ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = True
 ACCOUNT_UNIQUE_EMAIL = True
 LOGIN_URL = '/login'
-LOGIN_REDIRECT_URL = '/'
+# LOGIN_REDIRECT_URL = '/'
 ACCOUNT_LOGOUT_REDIRECT_URL = '/'
 
 ROOT_URLCONF = 'freelanceMeetup.urls'
