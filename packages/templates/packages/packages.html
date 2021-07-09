@@ -11,6 +11,11 @@ this is the packages page
                 {{package.description}}
                 {{package.price}}
             </div>
+            <form action="{% url 'summary' package.id %}" method="POST">{% csrf_token %}
+                <input type="text" name="package_id" value="{{ package.id }}">
+                <button type="submit">Get package</button>
+            </form>
+            
             {% endfor %}
 
         </div>
