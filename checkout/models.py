@@ -11,6 +11,7 @@ class Order(models.Model):
     order_id = models.CharField(max_length=50, blank=False, editable=False)
     buyer_name = models.CharField(max_length=50, blank=False, null=False)
     buyer_email = models.EmailField(max_length=155, blank=False, null=False)
+    package_purchased = models.ForeignKey(Package, null=False, blank=False, default=1, on_delete=models.CASCADE)
     date = models.DateTimeField(auto_now_add=True)
     order_total = order_total = models.DecimalField(max_digits=10, decimal_places=2, null=False, default=0)
 

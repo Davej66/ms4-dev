@@ -3,6 +3,9 @@ from django.conf import settings
 from django.contrib import messages
 from .contexts import order_summary_context
 from .forms import OrderForm
+from users.forms import UpdateUserPackage
+from users.models import MyAccount
+from packages.models import Package
 
 import stripe
 
@@ -26,30 +29,39 @@ def order_summary(request):
     
     stripe_pk = settings.STRIPE_PUBLIC_KEY
     stripe_sk = settings.STRIPE_SECRET_KEY
-    username = request.user
+    user_email = request.user
+    user = MyAccount.objects.get(email=user_email)
+    name = user.first_name + " " + user.last_name
 
-    print("user ",username)
+    package_selection = request.session['package_selection']['package_id']
+    current_package = Package.objects.get(pk=package_selection)
+
     if not stripe_pk:
         messages.warning(request, "No public key found for Stripe")
 
     if request.method == 'POST':
-        current_package = order_summary_context(request)
-        total_cost = current_package['package_cost']
+        total_cost = current_package.price
         stripe_total = round(total_cost * 100)
         form_data = {
-            "buyer_name": username,
-            "buyer_email": "admin@admin.com",
+            "buyer_name": name.title(),
+            "buyer_email": user_email,
+            "package_purchased": current_package,
             "order_total": total_cost,
         }
+        profile_form_data = {
+            "package_tier": current_package.tier,
+            "package_name": current_package
+        }
         order_form = OrderForm(form_data)
-        print("valid:", order_form.errors)
-        if order_form.is_valid():
+        profile_form = UpdateUserPackage(profile_form_data, instance=request.user)
+        print("valid:", profile_form.errors)
+        if order_form.is_valid() and profile_form.is_valid():
             order_form.save()
+            profile_form.save()
         return redirect(order_confirmation)
-        
-    else: 
-        current_package = order_summary_context(request)
-        total_cost = current_package['package_cost']
+    
+    else:
+        total_cost = current_package.price
         stripe_total = round(total_cost * 100)
         stripe.api_key = stripe_sk
         intent = stripe.PaymentIntent.create(
@@ -60,7 +72,7 @@ def order_summary(request):
             "stripe_public_key": stripe_pk,
             "stripe_client_secret": intent.client_secret
         }
-        print("price ", intent)
+        
         return render(request, 'checkout/order_summary.html', context)
 
     return render(request, 'checkout/checkout.html')

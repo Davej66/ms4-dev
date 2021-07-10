@@ -1,9 +1,15 @@
 from django.shortcuts import render
 from users.forms import ProfileForm
+from allauth.account.decorators import verified_email_required
+from users.models import MyAccount
 
 
+@verified_email_required
 def account_dashboard(request):
 
+    user = MyAccount.objects.get(email=request.user)
+    full_name = user.first_name + " " + user.last_name
+    user_package = user.package_name
     print(request.user)
     if request.method == "POST":
         form_data = {
@@ -18,4 +24,9 @@ def account_dashboard(request):
             profile_form.save()
             print("saved: ", form_data)
 
-    return render(request, 'users/dashboard.html')
+    context = {
+        'full_name': full_name.title(),
+        'package': user_package,
+    }
+
+    return render(request, 'users/dashboard.html', context)
