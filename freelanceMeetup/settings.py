@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 from pathlib import Path
 import os
 
+import users
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -73,17 +75,22 @@ SITE_ID = 1
 
 
 # AllAuth config
+
+AUTH_USER_MODEL = 'users.MyAccount'
+
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 ACCOUNT_AUTHENTICATED_LOGIN_REDIRECTS = True
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 3
 ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_EMAIL_VERIFICATION = True
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = True
 ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = None
+# ACCOUNT_USER_MODEL_USERNAME_FIELD = None
 LOGIN_URL = '/login'
-# LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/profile/dashboard/'
 ACCOUNT_LOGOUT_REDIRECT_URL = '/'
 
 ROOT_URLCONF = 'freelanceMeetup.urls'
