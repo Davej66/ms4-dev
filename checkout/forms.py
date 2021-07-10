@@ -4,7 +4,9 @@ from .models import Order
 
 class OrderForm(forms.ModelForm):
     class Meta:
-        model: Order
+        model = Order
         fields = '__all__'
+
+    
 
      

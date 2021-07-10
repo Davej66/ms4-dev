@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Sum
 from django.conf import settings
 from packages.models import Package
 
@@ -7,7 +8,7 @@ import uuid
 # Create your models here.
 
 class Order(models.Model):
-    order_id = models.IntegerField(null=False, blank=False, unique=True, editable=False)
+    order_id = models.CharField(max_length=50, blank=False, editable=False)
     buyer_name = models.CharField(max_length=50, blank=False, null=False)
     buyer_email = models.EmailField(max_length=155, blank=False, null=False)
     date = models.DateTimeField(auto_now_add=True)
@@ -25,12 +26,12 @@ class Order(models.Model):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return self.order_number
+        return self.order_id
 
 
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, null=False, blank=False, on_delete=models.CASCADE, related_name='order_item')
-    package = models.ForeignKey(Package, null=False, blank=False, on_delete=models.CASCADE, related_name='order_package')
+    package = models.ForeignKey(Package, null=False, blank=False, on_delete=models.CASCADE)
     quantity = models.IntegerField(null=False, blank=False, default=0)
     item_total = models.DecimalField(max_digits=6, decimal_places=2, null=False, blank=False, editable=False)
 
