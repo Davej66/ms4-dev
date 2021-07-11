@@ -6,5 +6,5 @@ urlpatterns = [
     path('', views.checkout, name="checkout"),
     path('summary/', views.order_summary, name="summary"),
     path('package_select/<package_id>', views.package_selection, name="package_selection"),
-    path('confirmation', views.order_confirmation, name="order_confirmation"),
+    path('confirmation/<order_id>', views.order_confirmation, name="order_confirmation"),
 ]

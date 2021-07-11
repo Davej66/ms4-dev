@@ -1,8 +1,9 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404, reverse
 from django.conf import settings
 from django.contrib import messages
 from .contexts import order_summary_context
 from .forms import OrderForm
+from .models import Order
 from users.forms import UpdateUserPackage
 from users.models import MyAccount
 from packages.models import Package
@@ -56,9 +57,11 @@ def order_summary(request):
         profile_form = UpdateUserPackage(profile_form_data, instance=request.user)
         print("valid:", profile_form.errors)
         if order_form.is_valid() and profile_form.is_valid():
-            order_form.save()
+            order = order_form.save()
             profile_form.save()
-        return redirect(order_confirmation)
+            return redirect(reverse('order_confirmation', args=[order.order_id]))
+        else:
+            messages.error(request, "There was an error in your form")
     
     else:
         total_cost = current_package.price
@@ -79,8 +82,17 @@ def order_summary(request):
 
 
 def checkout(request):
+    
+
     return render(request, 'checkout/checkout.html')
 
 
-def order_confirmation(request):
-    return render(request, 'checkout/order_confirmation.html')
+def order_confirmation(request, order_id):
+
+    order = get_object_or_404(Order, order_id=order_id)
+    messages.success(request, "Order confirmed")
+    context = {
+        'order': order
+    }
+
+    return render(request, 'checkout/order_confirmation.html', context)
