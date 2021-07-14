@@ -5,6 +5,7 @@ from django.db import models
 
 class Package(models.Model):
     tier = models.IntegerField(default=1, null=False, blank=False)
+    stripe_price_id = models.CharField(max_length=255, null=True, blank=True)
     name = models.CharField(max_length=255)
     description = models.TextField()
     price = models.DecimalField(max_digits=6, decimal_places=2)

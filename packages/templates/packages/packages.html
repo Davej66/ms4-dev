@@ -12,7 +12,7 @@ this is the packages page
                 {{package.price}}
             </div>
             <form action="{% url 'package_selection' package.id %}" method="POST">{% csrf_token %}
-                <input type="text" name="package_id" value="{{ package.id }}">
+                <input type="text" name="package_id" value="{{ package.stripe_price_id }}">
                 <button type="submit">Get package</button>
             </form>
             

@@ -46,6 +46,7 @@ class AccountManager(BaseUserManager):
 class MyAccount(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(max_length=60, unique=True)
     username = models.CharField(max_length=30, unique=True)
+    stripe_customer_id = models.CharField(max_length=50, unique=True, null=True)
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     package_tier = models.IntegerField(blank=False, default=1)
