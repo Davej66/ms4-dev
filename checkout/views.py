@@ -16,13 +16,39 @@ import json
 
 def package_selection(request, package_id):
 
+    stripe_pk = settings.STRIPE_PUBLIC_KEY
+    stripe_sk = settings.STRIPE_SECRET_KEY
+    stripe.api_key = stripe_sk
+
     context = {}
+    user_email = request.user
     package_selection = request.session.get('package_selection', {})
 
-    package_selection['package_id'] = package_id
-    request.session['package_selection'] = package_selection
 
+    package_selection['package_id'] = package_id
+    package_object = Package.objects.get(pk=package_id)
+    request.session['package_selection'] = package_selection
     context['p_selected'] = request.session
+
+    try:
+        # Create a new customer object
+        customer = stripe.Customer.create(
+            email = user_email
+            )
+
+        stripe_customer = customer.id
+        package_selection['stripe_cus'] = stripe_customer
+        package_selection['stripe_price_id'] = package_object.stripe_price_id
+        print("session", package_selection)
+        print("cus", stripe_customer, "type", type(stripe_customer))
+        return redirect(order_summary)
+            
+        
+    except Exception as e:
+        error = str(e)
+        print("error", e)    
+        return error
+
     print(context['p_selected'], "session: ",
           request.session['package_selection'])
 
@@ -38,6 +64,9 @@ def order_summary(request):
     name = user.first_name + " " + user.last_name
 
     package_selection = request.session['package_selection']['package_id']
+    stripe_customer = request.session['package_selection']['stripe_cus']
+    stripe_price_id = request.session['package_selection']['stripe_price_id']
+    print("who are ya", stripe_customer)
     current_package = Package.objects.get(pk=package_selection)
 
     if not stripe_pk:
@@ -94,7 +123,9 @@ def order_summary(request):
         )
         context = {
             "stripe_public_key": stripe_pk,
-            "stripe_client_secret": intent.client_secret
+            "stripe_client_secret": intent.client_secret,
+            "stripe_price_id": stripe_price_id,
+            "stripe_customer": stripe_customer,
         }
 
         return render(request, 'checkout/order_summary.html', context)
@@ -122,3 +153,34 @@ def order_confirmation(request, order_id):
     }
 
     return render(request, 'checkout/order_confirmation.html', context)
+
+
+def create_stripe_subscription(request):
+
+    stripe_pk = settings.STRIPE_PUBLIC_KEY
+    stripe_sk = settings.STRIPE_SECRET_KEY
+    stripe.api_key = stripe_sk
+
+    data = json.loads(request.body)
+    data_dict = dict(data)
+    customer = data_dict['customerId']
+    price_id = data_dict['priceId']
+    print("the things",data_dict)
+    # return JsonResponse(data)
+    
+    try:
+        subscription = stripe.Subscription.create(
+            customer= customer,
+            items=[{
+                'price': price_id
+            }],
+            payment_behavior='default_incomplete',
+            expand=['latest_invoice.payment_intent'],
+        )
+        print("work", subscription)
+        
+        return JsonResponse({'subId': subscription.id, 'clientSecret':subscription.latest_invoice.payment_intent.client_secret})
+        
+    except Exception as e:
+        print("didnt work", e.user_message)
+        return JsonResponse({'message': e.user_message}), 400

@@ -7,7 +7,6 @@ var elements = stripe.elements();
 var card = elements.create('card');
 card.mount('#card_element');
 
-console.log(stripeClientSecret)
 
 
 // Add errors to card handler

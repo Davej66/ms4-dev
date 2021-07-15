@@ -7,4 +7,5 @@ urlpatterns = [
     path('summary/', views.order_summary, name="summary"),
     path('package_select/<package_id>', views.package_selection, name="package_selection"),
     path('confirmation/<order_id>', views.order_confirmation, name="order_confirmation"),
+    path('create_subscription', views.create_stripe_subscription, name="create_subcription"),
 ]

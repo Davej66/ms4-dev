@@ -5,6 +5,8 @@
 this is the summary page
 {{package.name}}
 {{package_cost}}
+{{stripe_customer}}
+{{stripe_price_id}}
 
 
 <!-- Payment form -->
@@ -17,6 +19,34 @@ this is the summary page
         <input type="submit" name="" id="submit_button">Click me</input>
     </fieldset>
 </form>
+
+<script>
+
+$(document).ready(function(){
+    
+csrf = '{{ csrf_token }}'
+fetch('/checkout/create_subscription', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-CSRFToken': csrf,
+    },
+    body: JSON.stringify({
+    //   'data': 'data'
+        'priceId': ("{{stripe_price_id}}"),
+      'customerId': "{{stripe_customer}}",
+    })
+})
+// .then(response => {
+//         return response.json() //Convert response to JSON
+//   })
+//   .then(data => {
+//       console.log("receiving")
+//   //Perform actions with the response data from the view
+//   })
+})
+</script>
+
 {% endblock %}
 
 
