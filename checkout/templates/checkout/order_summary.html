@@ -37,13 +37,15 @@ fetch('/checkout/create_subscription', {
       'customerId': "{{stripe_customer}}",
     })
 })
-// .then(response => {
-//         return response.json() //Convert response to JSON
-//   })
-//   .then(data => {
-//       console.log("receiving")
-//   //Perform actions with the response data from the view
-//   })
+.then(response => {
+    // console.log(response.json())
+        return response.json() //Convert response to JSON
+  })
+  .then(data => {
+      console.log("receiving", data.clientSecret)
+      submitCard(data.clientSecret)
+  //Perform actions with the response data from the view
+  })
 })
 </script>
 

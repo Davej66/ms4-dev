@@ -5,7 +5,7 @@ from django.contrib import messages
 from .contexts import order_summary_context
 from .forms import OrderForm
 from .models import Order
-from users.forms import UpdateUserPackage
+from users.forms import UpdateUserPackage, AddUserSubscription
 from users.models import MyAccount
 from packages.models import Package
 
@@ -66,71 +66,103 @@ def order_summary(request):
     package_selection = request.session['package_selection']['package_id']
     stripe_customer = request.session['package_selection']['stripe_cus']
     stripe_price_id = request.session['package_selection']['stripe_price_id']
-    print("who are ya", stripe_customer)
     current_package = Package.objects.get(pk=package_selection)
+    print("who are ya", current_package)
 
     if not stripe_pk:
         messages.warning(request, "No public key found for Stripe")
 
-    if request.method == 'POST':
-        # Create a Stripe customer for subscription
-        try:
-            # Create a new customer object
-            customer = stripe.Customer.create(
-                email = user_email
+    try:
+        # Create a new customer object
+        customer = stripe.Customer.create(
+            email = user_email
             )
 
-            stripe_customer = customer.id
+        stripe_customer = customer.id
             
-            print("cus", stripe_customer, "type", type(stripe_customer))
-            total_cost = current_package.price
-            stripe_total = round(total_cost * 100)
-            form_data = {
+        print("cuspackage", current_package.tier, "type", current_package)
+        total_cost = current_package.price
+        stripe_total = round(total_cost * 100)
+        
+        profile_form_data = {
+            "package_tier": current_package.tier,
+            "package_name": current_package,
+            "stripe_customer_id": stripe_customer
+            }
+        profile_form = UpdateUserPackage(
+            profile_form_data, instance=request.user)
+        print("prf", profile_form.errors, "what is hte form", profile_form)
+        if profile_form.is_valid():
+            print("form can be saved")
+            profile_form.save()
+        else:
+            messages.error(request, "There was an error in your form")
+        
+    except Exception as e:
+        error = str(e)
+        print("error", e)    
+        return error
+
+
+    if request.method == 'POST':
+    #     # Create a Stripe customer for subscription
+    #     try:
+    #         # Create a new customer object
+    #         customer = stripe.Customer.create(
+    #             email = user_email
+    #         )
+
+    #         stripe_customer = customer.id
+            
+    #         print("cuspackage", current_package.tier, "type", current_package)
+    #         total_cost = current_package.price
+    #         stripe_total = round(total_cost * 100)
+        order_form_data = {
                 "buyer_name": name.title(),
                 "buyer_email": user_email,
                 "package_purchased": current_package,
                 "order_total": total_cost,
             }
-            profile_form_data = {
-                "package_tier": current_package.tier,
-                "package_name": current_package,
-                "stripe_customer_id": stripe_customer
-            }
-            order_form = OrderForm(form_data)
-            profile_form = UpdateUserPackage(
-                profile_form_data, instance=request.user)
-            print("errors order:", order_form.errors, "prf", profile_form.errors)
-            if order_form.is_valid() and profile_form.is_valid():
-                print("form can be saved")
-                order = order_form.save()
-                profile_form.save()
-                return redirect(reverse('order_confirmation', args=[order.order_id]))
-            else:
-                messages.error(request, "There was an error in your form")
+    #         # profile_form_data = {
+    #         #     "package_tier": current_package.tier,
+    #         #     "package_name": current_package,
+    #         #     "stripe_customer_id": stripe_customer
+    #         # }
+        order_form = OrderForm(order_form_data)
+    #         # profile_form = UpdateUserPackage(
+    #         #     profile_form_data, instance=request.user)
+    #         # print("errors order:", order_form.errors, "prf", profile_form.errors)
+        if order_form.is_valid():
+    #         #     print("form can be saved")
+            order = order_form.save()
+    #         #     profile_form.save()
+            return redirect(reverse('order_confirmation', args=[order.order_id]))
+        else:
+            messages.error(request, "There was an error in your form")
         
-        except Exception as e:
-            error = str(e)
-            print("error", e)    
-            return error
+    #     except Exception as e:
+    #         error = str(e)
+    #         print("error", e)    
+    #         return error
 
-    else:
-        total_cost = current_package.price
-        stripe_total = round(total_cost * 100)
-        stripe.api_key = stripe_sk
-        intent = stripe.PaymentIntent.create(
-            amount=stripe_total,
-            currency=settings.STRIPE_CURRENCY
-        )
-        context = {
-            "stripe_public_key": stripe_pk,
-            "stripe_client_secret": intent.client_secret,
-            "stripe_price_id": stripe_price_id,
-            "stripe_customer": stripe_customer,
+    # else:
+    #     total_cost = current_package.price
+    #     stripe_total = round(total_cost * 100)
+    #     stripe.api_key = stripe_sk
+    #     intent = stripe.PaymentIntent.create(
+    #         amount=stripe_total,
+    #         currency=settings.STRIPE_CURRENCY
+    #     )
+    context = {
+        "stripe_public_key": stripe_pk,
+        # "stripe_client_secret": intent.client_secret,
+        "stripe_price_id": stripe_price_id,
+        "stripe_customer": stripe_customer,
         }
 
-        return render(request, 'checkout/order_summary.html', context)
+    return render(request, 'checkout/order_summary.html', context)
 
-    return render(request, 'checkout/checkout.html')
+    # return render(request, 'checkout/checkout.html')
 
 
 def checkout(request):
@@ -177,7 +209,19 @@ def create_stripe_subscription(request):
             payment_behavior='default_incomplete',
             expand=['latest_invoice.payment_intent'],
         )
-        print("work", subscription)
+        # print("work", subscription)
+
+        add_sub_form_data = {
+            "stripe_subscription_id": subscription.id
+            }
+
+        profile_form = AddUserSubscription(
+                add_sub_form_data, instance=request.user)
+        print("prf", profile_form.errors)
+        if profile_form.is_valid():
+            profile_form.save()
+        else:
+            messages.error(request, "There has been an error updating your prescription. Please reload the page to try again.")
         
         return JsonResponse({'subId': subscription.id, 'clientSecret':subscription.latest_invoice.payment_intent.client_secret})
         

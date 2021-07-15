@@ -27,35 +27,39 @@ card.addEventListener('change', function (event) {
 })
 
 // Handle form submit
+function submitCard(stripeClientSecret) {
+    var form = document.getElementById('payment_form');
 
-var form = document.getElementById('payment_form');
-
-form.addEventListener('submit', function (event) {
-    event.preventDefault();
-    card.update({ 'disabled': true })
-    $('#submit_button').attr('disabled', true);
-    stripe.confirmCardPayment(stripeClientSecret, {
-        payment_method: {
-            card: card
-        }
-    }).then(function (result) {
-        var errorDiv = $('#card_errors')
-        if (event.error) {
-            var html = `
+    form.addEventListener('submit', function (event) {
+        event.preventDefault();
+        card.update({ 'disabled': true })
+        $('#submit_button').attr('disabled', true);
+        stripe.confirmCardPayment(stripeClientSecret, {
+            payment_method: {
+                card: card,
+                billing_details: {
+                    name: "bradley",
+                }
+            },
+        }).then(function (result) {
+            var errorDiv = $('#card_errors')
+            if (event.error) {
+                var html = `
         <span class="icon" role="alert">
             <i class="fas fa-times"></i>
         </span>
         <span>${event.error.message}</span>
         `
-            errorDiv.html(html);
-            card.update({ 'disabled': false })
-    $('#submit_button').attr('disabled', false);
-        } else {
-            errorDiv.text = ""
-            if (result.paymentIntent.status === 'succeeded') {
-                console.log("this worked")
-                form.submit()
+                errorDiv.html(html);
+                card.update({ 'disabled': false })
+                $('#submit_button').attr('disabled', false);
+            } else {
+                errorDiv.text = ""
+                if (result.paymentIntent.status === 'succeeded') {
+                    console.log("this worked")
+                    form.submit()
+                }
             }
-        }
+        })
     })
-})
+}
