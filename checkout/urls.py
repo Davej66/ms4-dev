@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.urls import path, include
 from . import views
+from .webhooks import webhook
 
 urlpatterns = [
     path('', views.checkout, name="checkout"),
@@ -8,4 +9,5 @@ urlpatterns = [
     path('package_select/<package_id>', views.package_selection, name="package_selection"),
     path('confirmation/<order_id>', views.order_confirmation, name="order_confirmation"),
     path('create_subscription', views.create_stripe_subscription, name="create_subcription"),
+    path('wh/', webhook, name="webhook")
 ]
