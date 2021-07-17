@@ -79,17 +79,19 @@ def order_summary(request):
 
     stripe_pk = settings.STRIPE_PUBLIC_KEY
     stripe_sk = settings.STRIPE_SECRET_KEY
+    stripe.api_key = stripe_sk
     user_email = request.user
     user = MyAccount.objects.get(email=user_email)
     name = user.first_name + " " + user.last_name
-    print("THIS USER IN VIEW",user)
 
     package_selection = request.session['package_selection']['package_id']
     stripe_customer = request.session['package_selection']['stripe_cus']
     stripe_price_id = request.session['package_selection']['stripe_price_id']
     current_package = Package.objects.get(pk=package_selection)
     
-    print("who are ya", name)
+    # Get the subscription to add latest invoice ID to the order
+    sub_id = user.stripe_subscription_id
+    subscription = stripe.Subscription.retrieve(sub_id)
 
     if not stripe_pk:
         messages.warning(request, "No public key found for Stripe")
@@ -104,7 +106,8 @@ def order_summary(request):
                 "buyer_name": name.title(),
                 "buyer_email": user_email,
                 "package_purchased": current_package,
-                "order_total": current_package.price
+                "order_total": current_package.price,
+                "stripe_invoice_id": subscription.latest_invoice
             }
         profile_form = UpdateUserPackage(
             profile_form_data, instance=request.user)

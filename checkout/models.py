@@ -13,8 +13,8 @@ class Order(models.Model):
     buyer_email = models.EmailField(max_length=155, blank=False, null=False)
     package_purchased = models.ForeignKey(Package, null=False, blank=False, default=1, on_delete=models.CASCADE)
     date = models.DateTimeField(auto_now_add=True)
-    order_total = order_total = models.DecimalField(max_digits=10, decimal_places=2, null=False, default=0)
-    # stripe_pid = models.CharField(max_length=155, null=False, default='')
+    order_total = models.DecimalField(max_digits=10, decimal_places=2, null=False, default=0)
+    stripe_invoice_id = models.CharField(max_length=155, null=False, default='')
 
     def _create_order_number(self):
         """Generate randomised order number using UUID"""
