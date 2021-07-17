@@ -1,5 +1,6 @@
-from django.shortcuts import render, redirect, get_object_or_404, reverse
+from django.shortcuts import render, redirect, get_object_or_404, reverse, HttpResponse
 from django.http import JsonResponse
+from django.views.decorators.http import require_POST
 from django.conf import settings
 from django.contrib import messages
 from .contexts import order_summary_context
@@ -12,6 +13,15 @@ from packages.models import Package
 import stripe
 import json
 # Create your views here.
+
+@require_POST
+def checkout_cach(request):
+    # TODO Extend this out
+    pid = request.POST.get('client_secret').split('_secret')[0]
+    stripe.api_key = settings.STRIPE_SECRET_KEY
+    stripe.Subscription.modify(pid, metadata={
+        'email': request.user
+    })
 
 
 def package_selection(request, package_id):
@@ -30,24 +40,34 @@ def package_selection(request, package_id):
     request.session['package_selection'] = package_selection
     context['p_selected'] = request.session
 
-    try:
-        # Create a new customer object
-        customer = stripe.Customer.create(
-            email = user_email
-            )
+    current_user = MyAccount.objects.get(email=user_email)
+    user_stripe_cus_id = current_user.stripe_customer_id
+    print("I am a stripe user",user_stripe_cus_id)
 
-        stripe_customer = customer.id
-        package_selection['stripe_cus'] = stripe_customer
-        package_selection['stripe_price_id'] = package_object.stripe_price_id
-        print("session", package_selection)
-        print("cus", stripe_customer, "type", type(stripe_customer))
-        return redirect(order_summary)
+    if user_stripe_cus_id is None:
+        try:
+            # Create a new customer object
+            customer = stripe.Customer.create(
+                email = user_email
+                )
+            package_selection['stripe_cus'] = customer.id
+            package_selection['stripe_price_id'] = package_object.stripe_price_id
+            return redirect(order_summary)
             
-        
-    except Exception as e:
-        error = str(e)
-        print("error", e)    
-        return error
+        except Exception as e:
+            error = str(e)
+            print("error", e)    
+            return error
+    else:
+        try:
+            package_selection['stripe_cus'] = user_stripe_cus_id
+            package_selection['stripe_price_id'] = package_object.stripe_price_id
+            return redirect(order_summary)
+            
+        except Exception as e:
+            error = str(e)
+            print("error", e)    
+            return error
 
     print(context['p_selected'], "session: ",
           request.session['package_selection'])
@@ -62,107 +82,48 @@ def order_summary(request):
     user_email = request.user
     user = MyAccount.objects.get(email=user_email)
     name = user.first_name + " " + user.last_name
+    print("THIS USER IN VIEW",user)
 
     package_selection = request.session['package_selection']['package_id']
     stripe_customer = request.session['package_selection']['stripe_cus']
     stripe_price_id = request.session['package_selection']['stripe_price_id']
     current_package = Package.objects.get(pk=package_selection)
-    print("who are ya", current_package)
+    
+    print("who are ya", name)
 
     if not stripe_pk:
         messages.warning(request, "No public key found for Stripe")
 
-    try:
-        # Create a new customer object
-        customer = stripe.Customer.create(
-            email = user_email
-            )
-
-        stripe_customer = customer.id
-            
-        print("cuspackage", current_package.tier, "type", current_package)
-        total_cost = current_package.price
-        stripe_total = round(total_cost * 100)
-        
+    if request.method == 'POST':
         profile_form_data = {
             "package_tier": current_package.tier,
             "package_name": current_package,
-            "stripe_customer_id": stripe_customer
+            'stripe_customer_id': stripe_customer
             }
-        profile_form = UpdateUserPackage(
-            profile_form_data, instance=request.user)
-        print("prf", profile_form.errors, "what is hte form", profile_form)
-        if profile_form.is_valid():
-            print("form can be saved")
-            profile_form.save()
-        else:
-            messages.error(request, "There was an error in your form")
-        
-    except Exception as e:
-        error = str(e)
-        print("error", e)    
-        return error
-
-
-    if request.method == 'POST':
-    #     # Create a Stripe customer for subscription
-    #     try:
-    #         # Create a new customer object
-    #         customer = stripe.Customer.create(
-    #             email = user_email
-    #         )
-
-    #         stripe_customer = customer.id
-            
-    #         print("cuspackage", current_package.tier, "type", current_package)
-    #         total_cost = current_package.price
-    #         stripe_total = round(total_cost * 100)
         order_form_data = {
                 "buyer_name": name.title(),
                 "buyer_email": user_email,
                 "package_purchased": current_package,
-                "order_total": total_cost,
+                "order_total": current_package.price
             }
-    #         # profile_form_data = {
-    #         #     "package_tier": current_package.tier,
-    #         #     "package_name": current_package,
-    #         #     "stripe_customer_id": stripe_customer
-    #         # }
+        profile_form = UpdateUserPackage(
+            profile_form_data, instance=request.user)
         order_form = OrderForm(order_form_data)
-    #         # profile_form = UpdateUserPackage(
-    #         #     profile_form_data, instance=request.user)
-    #         # print("errors order:", order_form.errors, "prf", profile_form.errors)
-        if order_form.is_valid():
-    #         #     print("form can be saved")
+        if order_form.is_valid() and profile_form.is_valid():
             order = order_form.save()
-    #         #     profile_form.save()
+            profile_form.save()
             return redirect(reverse('order_confirmation', args=[order.order_id]))
         else:
+            print("errors order in the view:",profile_form.errors, order_form.errors)
             messages.error(request, "There was an error in your form")
-        
-    #     except Exception as e:
-    #         error = str(e)
-    #         print("error", e)    
-    #         return error
-
-    # else:
-    #     total_cost = current_package.price
-    #     stripe_total = round(total_cost * 100)
-    #     stripe.api_key = stripe_sk
-    #     intent = stripe.PaymentIntent.create(
-    #         amount=stripe_total,
-    #         currency=settings.STRIPE_CURRENCY
-    #     )
+   
     context = {
         "stripe_public_key": stripe_pk,
-        # "stripe_client_secret": intent.client_secret,
         "stripe_price_id": stripe_price_id,
         "stripe_customer": stripe_customer,
         }
 
     return render(request, 'checkout/order_summary.html', context)
-
-    # return render(request, 'checkout/checkout.html')
 
 
 def checkout(request):
@@ -209,7 +170,6 @@ def create_stripe_subscription(request):
             payment_behavior='default_incomplete',
             expand=['latest_invoice.payment_intent'],
         )
-        # print("work", subscription)
 
         add_sub_form_data = {
             "stripe_subscription_id": subscription.id
