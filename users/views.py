@@ -7,6 +7,7 @@ from users.forms import ProfileForm
 from allauth.account.decorators import verified_email_required
 from users.models import MyAccount
 from django.template.loader import render_to_string
+from datetime import datetime
 
 import stripe
 import json
@@ -52,12 +53,38 @@ def dashboard_my_orders(request):
     stripe_customer_id = user.stripe_customer_id
     
     invoices = stripe.Invoice.list(
-        limit=10,
+        limit=3,
         customer = stripe_customer_id)
 
-    context = {
-        'invoices': invoices
+    upcoming_invoice = stripe.Invoice.upcoming(
+        customer = stripe_customer_id,
+        )
+
+    invoice_list = []
+
+    for i in invoices:
+        period = i.lines.data[0].period
+        invoice_date = datetime.fromtimestamp(i.created).strftime(
+            '%d %b %Y')
+        start_date = datetime.fromtimestamp(period.start).strftime(
+            '%d %b')
+        end_date = datetime.fromtimestamp(period.end).strftime(
+            '%d %b %Y')
+        invoice_data = {
+            "invoice_date": invoice_date,
+            "date_start": start_date,
+            "date_end": end_date,
+            "amount": i.total / 100,
+            "download_url": i.invoice_pdf
         }
-        
+        invoice_list.append(invoice_data)
+
+    context = {
+        'invoices': invoice_list,
+        'upcoming_invoice': upcoming_invoice
+        }
+
+
+
     payload = render_to_string('users/includes/dashboard_orders.html', context)
     return HttpResponse(json.dumps(payload), content_type="application/json")

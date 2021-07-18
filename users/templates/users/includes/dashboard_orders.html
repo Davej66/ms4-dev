@@ -1,31 +1,108 @@
-    <!-- TOP SECTION CARDS -->
-    <div class="container w-100 d-flex justify-content-center align-items-stretch mb-4">
-        <div class="d-flex justify-content-between row w-100">
-            <div class="py-2 col-lg-4">
-                <div class="container-rounded-light">card-content</div>
-            </div>
-            <div class="py-2 col-lg-4">
-                <div class="container-rounded-light">card-content</div>
-            </div>
-            <div class="py-2 col-lg-4">
-                <div class="container-rounded-light">card-content</div>
-            </div>
+<!-- TOP SECTION CARDS -->
+<div class="container w-100 d-flex justify-content-center align-items-stretch mb-4 fade-in">
+    <div class="d-flex justify-content-between row w-100">
+        <div class="py-2 col-lg-4">
+            <div class="container-rounded-light">card-content</div>
+        </div>
+        <div class="py-2 col-lg-4">
+            <div class="container-rounded-light">card-content</div>
+        </div>
+        <div class="py-2 col-lg-4">
+            <div class="container-rounded-light">card-content</div>
         </div>
     </div>
+</div>
 
-    {{invoices}}
 
-    <!-- MAIN BODY CARD -->
-    <div class="container w-100 d-flex flex-row justify-content-center align-items-stretch">
-        <div class="d-flex justify-content-between row w-100">
-            <!-- Start the Ajax Content Section -->
-            <div id="main_ajax_content" class="content col-12">
-                <div class="container-box-header">
-                    <h1>My Orders</h1>
+<!-- MAIN BODY CARD -->
+<div class="container w-100 d-flex flex-row justify-content-center align-items-stretch">
+    <div class="d-flex justify-content-between row w-100">
+        <!-- Start the Ajax Content Section -->
+        <div id="main_ajax_content" class="content col-12">
+            <div class="container-box-header pb-4">
+                <h1>My Subscription</h1>
+            </div>
+            <div class="container-rounded-light mb-3">
+                <h3>Upcoming Order</h3>
+                {{upcoming_invoice}}
+                <div class="my-orders-item no-b-line d-flex mb-5">
+                    <div class="order-detail">
+                        <label class="table-item-label">Invoice Date</label>
+                        <p>
+
+                        </p>
+                    </div>
+                    <div class="order-detail">
+                        <label class="table-item-label">Invoice Period</label>
+                        <p>
+
+                        </p>
+                    </div>
+                    <div class="order-detail">
+                        <label class="table-item-label">Amount Due</label>
+                        <p>
+{{upcoming_invoice.amount_due}}
+                        </p>
+                    </div>
+                    <div class="order-detail">
+                        <button type="button" data-bs-toggle="modal" data-bs-target="#update_billing_modal"
+                            class="btn primary-btn-outline m-auto" href="">Update Subscription</button>
+                    </div>
                 </div>
-                <div class="container-rounded-light mb-3">card-content</div>
-                <div class="container-rounded-light">card-content</div>
+                <h3>Previous Orders</h3>
+                {% for invoice in invoices %}
+
+                <div class="my-orders-item d-flex">
+                    <div class="order-detail">
+                        <label class="table-item-label">Invoice Date</label>
+                        <p>
+                            {{invoice.invoice_date}}
+                        </p>
+                    </div>
+                    <div class="order-detail">
+                        <label class="table-item-label">Invoice Period</label>
+                        <p>
+                            {{invoice.date_start}} - {{invoice.date_end}}
+                        </p>
+                    </div>
+                    <div class="order-detail">
+                        <label class="table-item-label">Amount Charged</label>
+                        <p>
+                            £{{invoice.amount}}
+                        </p>
+                    </div>
+                    <div class="order-detail">
+                        <a class="btn primary-btn m-auto" href="{{invoice.download_url}}">Download Invoice</a>
+                    </div>
+                </div>
+
+                {% endfor %}
             </div>
-            <!-- End of Ajax content section -->
+            <div class="container-rounded-light">card-content</div>
+        </div>
+        <!-- End of Ajax content section -->
+    </div>
+</div>
+
+<!-- Update Billing Modal -->
+<!-- Modal syntax from Bootstrap https://getbootstrap.com/docs/4.0/components/modal/ -->
+<div class="modal fade" id="update_billing_modal" tabindex="-1" role="dialog" aria-labelledby="update_billing_modal"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
         </div>
     </div>
+</div>

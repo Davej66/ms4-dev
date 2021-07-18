@@ -26,16 +26,10 @@ $.ajax({
     url: url,
     timeout: 10000,
     success: function (data) {
-        console.log("error", data)
-        console.log("Success")
         $('#ajax_content').html(data)
     },
     error: function (data) {
-        $('.content').html(data.responseText)
-        console.log
-    },
-    complete: function (data) {
-        console.log("complete")
+        console.log("There has been an error")
     }
 })
 }

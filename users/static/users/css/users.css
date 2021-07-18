@@ -96,3 +96,24 @@
     padding: 0px;
     background: var(--bg-grad-color);
 }
+
+/* My Order Section */
+.my-orders-item {
+    justify-content: space-evenly;
+    padding: 15px 0px;
+    border-bottom: 1px solid var(--light-line);
+}
+
+.my-orders-item:last-of-type, .my-orders-item.no-b-line {
+    border-bottom: none;
+}
+
+.order-detail {
+    display: flex;
+    flex-direction: column;
+}
+
+label.table-item-label {
+    font-size: 14px;
+    color: var(--light-text);
+}

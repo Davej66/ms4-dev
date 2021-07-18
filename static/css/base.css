@@ -14,7 +14,7 @@
 
     --light-line: #dcdcdc;
 
-    --bg-grad-color: linear-gradient(129deg, #cbcbcba6 0%, rgb(219 219 219 / 60%) 36%, #25daff24 100%)
+    --bg-grad-color: linear-gradient(129deg, #cbcbcba6 0%, rgb(219 219 219 / 60%) 36%, #25daff24 100%);
     --container-bg-color: #fff;
     --action-btn-grad: linear-gradient(113deg, rgba(255,70,33,1) 5%, rgba(254,75,36,1) 24%, rgba(252,84,41,1) 41%, rgba(251,94,46,1) 57%, rgba(250,99,49,1) 77%, rgba(247,113,56,1) 100%);
 
@@ -24,6 +24,9 @@
     --h2-alt-color: #fff;
     --h3-prim-color: #fff;
     --h3-alt-color: #fff;
+
+    --light-text: #585858;
+    --dark-text: #272727;
 
     --btn-prim-color: #fff;
     --btn-prim-hover-color: #fff;
@@ -36,10 +39,11 @@
 h1, h2, h3, h4, h5, h6, 
 a, p, ul, li {
     font-family: 'Poppins', sans-serif;
+    margin: 0;
 }
 
 .container-with-grad-bg {
-    background: linear-gradient(129deg, #cbcbcba6 0%, rgb(219 219 219 / 60%) 36%, #25daff24 100%)
+    background: var(--bg-grad-color);
 }
 
 .page-section-card {
@@ -58,6 +62,41 @@ a, p, ul, li {
     border-radius: 5px;
     padding: 20px;
     box-shadow: 1px 2px 8px -5px var(--dark-shadow);
+}
+
+/* Buttons */
+.btn, .btn:focus {
+    border-radius: 40px;
+    box-shadow: 1px 2px 8px -3px var(--dark-shadow);
+    transition: 0.3s ease-in-out;
+}
+
+.primary-btn {
+    background: var(--primary-color);
+    color: #fff;
+}
+
+.primary-btn:hover {
+    box-shadow: 1px 2px 8px -2px var(--dark-shadow);
+    background: var(--secondary-color);
+    color: #fff;
+    transform: translateY(-3px);
+}
+
+.primary-btn-outline {
+    border: 2px solid var(--primary-color);
+    color: var(--primary-color);
+}
+
+.primary-btn-outline:hover {
+    box-shadow: 1px 2px 8px -2px var(--dark-shadow);
+    background: var(--primary-color);
+    color: #fff;
+    transform: translateY(-3px);
+}
+
+.secondary-btn {
+
 }
 
 /* Bootstrap Override */
