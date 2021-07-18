@@ -1,0 +1,9 @@
+/* Dashboard Sidenav */
+#sidebar_wrap {
+    background: orange;
+    width: max-content;
+}
+
+#sidebar_wrap.active {
+    width: 25%;
+}

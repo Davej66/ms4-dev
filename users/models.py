@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin, AbstractUser
 from django.utils import timezone
+from django_resized import ResizedImageField
 
 # User extension classes built with guidance from Sarthak Kumar: 
 # https://medium.com/@ksarthak4ever/django-custom-user-model-allauth-for-oauth-20c84888c318
@@ -43,6 +44,16 @@ class AccountManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
+
+def get_profile_image_filepath(self, filename):
+    return f'profile_imgs/{self.pk}/profile_img.png'
+
+# Image from Pixabay Image by 
+# https://pixabay.com/users/wanderercreative-855399/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=973460">Stephanie Edwards</a> from <a href="https://pixabay.com/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=973460
+def get_default_profile_image():
+    return 'profile_imgs/default_avatar.png'
+
+
 class MyAccount(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(max_length=60, unique=True)
     username = models.CharField(max_length=30, unique=True)
@@ -58,7 +69,7 @@ class MyAccount(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
-    # profile_image = ResizedImageField(size=[500,500], upload_to=get_profile_image_filepath, null=True, blank=True, default=get_default_profile_image)
+    profile_image = ResizedImageField(size=[500,500], upload_to=get_profile_image_filepath, null=True, blank=True, default=get_default_profile_image)
     job_role = models.CharField(max_length=255, null=True, blank=True)
     description = models.TextField(max_length=1000, blank=True)
     skills = models.CharField(max_length=1000, null=True, blank=True)

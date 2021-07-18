@@ -1,17 +1,113 @@
-{% extends 'base.html' %}
+{% extends 'includes/base.html' %}
+{% load static %}
+
+{% block post_CSS %}
+<link rel="stylesheet" href="{% static 'users/css/users.css' %}">
+{% endblock %}
 
 {% block content %}
-this is the dashboard page
-<div class="container">
-    <div class="row">
-        <div class="d-flex justify-content">
-            {{full_name}}
-            {{package}}
-<form action="" method="POST"> {% csrf_token %}
-    <input type="text" name="">
-    <button type="submit">Click me</button>
-</form>
+
+<div class="container-fluid w-100 m-0 p-0">
+    <div class="row w-100 m-0">
+        <div class="d-flex justify-content p-0">
+            <!-- SIDENAV -->
+            {% include "navbar/sidenav.html" %}
+
+            <!-- MAIN PAGE CONTENT -->
+            <div class="container page-content-with-sidebar">
+                <section class="pg-section py-5 bg-grad-color min-vh">
+                    <div class="container w-100 d-flex flex-row justify-content-center align-items-stretch">
+                        <div class="d-flex justify-content-between row w-100 px-5">
+
+
+                            <div class="container-rounded-light flex-g-1 third">
+                                <div class="d-flex flex-column"><span>0</span>New Freelancer Matches</div>
+                            </div>
+                            <div class="container-rounded-light flex-g-1 third">try</div>
+                            <div class="container-rounded-light flex-g-1 third">try</div>
+
+                        </div>
+                    </div>
+                    <div class="container w-100 d-flex flex-row justify-content-center align-items-stretch">
+                        <div class="d-flex justify-content-between row w-100 px-5">
+                            <!-- Start the Ajax Content Section -->
+                            <div id="main_ajax_content" class="content px-0">
+                                <div class="container-box-header">
+                                    <h2>This is a Header</h2>
+                                </div>
+                                <div class="d-flex justify-content-between row w-100 mb-5">
+                                    <div class="container-rounded-light flex-g-1 two">
+                                        <div>
+                                            <h3 class="container-inner-subheader">This is a subheader</h3>
+                                            <p class="container-inner-p">This is the paragraph of this particular
+                                                section. This is the session where the inner content will be replaced
+                                                with the ajax request.</p>
+                                            <ul class="container-inner-list">
+                                                <li>
+                                                    <span class="inner-list-image"><img src="" alt=""></span>
+                                                    <p>Item here</p>
+                                                    <span class="inner-list-cta">Click me</span>
+                                                </li>
+                                                <li>Item One</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                    <div class="flex-column justify-content-between row w-50">
+                                        <div class="container-rounded-light flex-g-1 two-v">
+                                            <div>
+                                                <h3 class="container-inner-subheader">This is a subheader</h3>
+                                                <p class="container-inner-p">This is the paragraph of this particular
+                                                    section. This is the session where the inner content will be
+                                                    replaced with the ajax request.</p>
+                                            </div>
+                                        </div>
+                                        <div class="container-rounded-light flex-g-1 two-v">
+                                            <div>
+                                                <h3 class="container-inner-subheader">This is a subheader</h3>
+                                                <p class="container-inner-p">This is the paragraph of this particular
+                                                    section. This is the session where the inner content will be
+                                                    replaced with the ajax request.</p>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="d-flex justify-content-between row w-100">
+                                    <div class="container-rounded-light flex-g-1 two">
+                                        <div>
+                                            <h3 class="container-inner-subheader">This is a subheader</h3>
+                                            <p class="container-inner-p">This is the paragraph of this particular
+                                                section. This is the session where the inner content will be replaced
+                                                with the ajax request.</p>
+                                            <ul class="container-inner-list">
+                                                <li>
+                                                    <span class="inner-list-image"><img src="" alt=""></span>
+                                                    <p>Item here</p>
+                                                    <span class="inner-list-cta">Click me</span>
+                                                </li>
+                                                <li>Item One</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+
+                            </div>
+                            <!-- End of Ajax content section -->
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+
         </div>
     </div>
 </div>
+{% block post_JS %}
+    <script src="{% static 'users/js/users.js' %}" type="text/javascript"></script>
+{% endblock %}
+
 {% endblock %}

@@ -1,0 +1,90 @@
+/* Dashboard Sidenav */
+#sidebar_wrap {
+    background: var(--primary-color);
+    width: 7%;
+    transition: 0.3s ease-in-out;
+}
+
+#sidebar_wrap.active {
+    width: 20%;
+}
+
+#account_sidebar {
+    position: relative;
+}
+
+#sidebar_trigger {
+    width: 35px;
+    height: 35px;
+    position: absolute;
+    right: 0;
+    top: 10px;
+    cursor: pointer;
+    transform: rotate(0deg);
+    transition: 0.3s ease-in-out;
+    background: #fff;
+    margin: auto;
+    margin-right: -17.5px;
+    display: flex;
+    font-size: 25px;
+    border-radius: 35px;
+    box-shadow: 1px 1px 10px -1px var(--dark-shadow);
+}
+
+#sidebar_wrap.active > div > #sidebar_trigger {
+    transform: rotate(180deg);
+    top: 20px;
+}
+
+#sidebar_trigger > i {
+    margin: auto;
+}
+
+.sidenav-image-container {
+    height: 120px;
+    width: 120px;
+    overflow: hidden;
+    border-radius: 50%;
+    box-shadow: 1px 1px 10px -1px var(--dark-shadow);
+    margin: 50px auto;
+    transition: 0.3s ease-in-out;
+}
+
+.sidenav-image-container > img {
+    height: 100%;
+    width: auto;
+}
+
+.sidebar-profile-details.closed > .sidenav-image-container {
+    height: 70px;
+    width: 70px;
+}
+
+.sidenav-detail-text {
+    text-align: center;
+}
+
+.sidenav-detail-text h2 {
+    font-size: 1.4rem;
+    color: #fff;
+}
+
+
+#account_sidebar_ul {
+    color: #fff;
+    font-weight: 200;
+}
+
+#account_sidebar_ul li {
+    display: flex;
+    margin: 30px 0px;
+}
+
+.sidebar-icon-item {
+    font-size: 30px;
+    margin: auto 0px;
+}
+.sidebar-text-item {
+    margin: auto 0px;
+    padding-left: 15px;
+}

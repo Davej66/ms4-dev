@@ -1,0 +1,48 @@
+/*=============================================
+=            GLOBAL VARIABLES                 =
+=============================================*/
+
+/* Import Poppins Font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+:root {
+
+    --primary-color: rgb(25, 125, 255);
+    --secondary-color: #0f9fd8;
+    --accent-color: rgb(40, 194, 233);
+    --accent-color-light: rgba(40, 194, 233, 0.664);
+
+    --light-line: #dcdcdc;
+
+    --bg-grad-color: linear-gradient(129deg, #cbcbcb40 0%, rgb(219 219 219 / 44%) 36%, #25daff17 100%);
+    --container-bg-color: #fff;
+    --action-btn-grad: linear-gradient(113deg, rgba(255,70,33,1) 5%, rgba(254,75,36,1) 24%, rgba(252,84,41,1) 41%, rgba(251,94,46,1) 57%, rgba(250,99,49,1) 77%, rgba(247,113,56,1) 100%);
+
+    --h1-prim-color: #fff;
+    --h1-alt-color: #fff;
+    --h2-prim-color: #fff;
+    --h2-alt-color: #fff;
+    --h3-prim-color: #fff;
+    --h3-alt-color: #fff;
+
+    --btn-prim-color: #fff;
+    --btn-prim-hover-color: #fff;
+    --btn-second-color: rgb(235, 98, 98);
+    --btn-second-hover-color: #fff;
+
+    --dark-shadow: #4a4a4a
+}
+
+h1, h2, h3, h4, h5, h6, 
+a, p, ul, li {
+    font-family: 'Poppins', sans-serif;
+}
+
+
+/* Bootstrap Override */
+
+ul {
+    list-style: none;
+}
+
+

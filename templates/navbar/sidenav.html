@@ -1,0 +1,29 @@
+
+<div id="sidebar_wrap" class="active">
+    <div id="account_sidebar" class="d-flex flex-column">
+        <span onclick="triggerSidebar()" id="sidebar_trigger"><i class="fas fa-arrow-right"></i></span>
+        <div class="sidebar-profile-details">
+            <div class="sidenav-image-container mx-auto mb-4">
+                <img src="{{profile_image}}" alt="{{full_name}}'s profile image">
+            </div>
+            <div class="sidenav-detail-text">
+                <h2>{{full_name}}</h2>
+            </div>
+        </div>
+
+        <ul id="account_sidebar_ul">
+            <li><i class="fas fa-address-book sidebar-icon-item "></i>
+                <span class="sidebar-text-item">My Projects</span>
+            </li>
+            <li><i class="fas fa-address-book sidebar-icon-item "></i>
+                <span class="sidebar-text-item">Connections</span>
+            </li>
+            <li><a href="#"><i class="fas fa-address-book sidebar-icon-item "></i>
+                    <span class="sidebar-text-item">Account</span>
+                </a></li>
+            <li><i class="fas fa-address-book sidebar-icon-item "></i>
+                <span class="sidebar-text-item">Signout</span>
+            </li>
+        </ul>
+    </div>
+</div>
