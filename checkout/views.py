@@ -9,9 +9,11 @@ from .models import Order
 from users.forms import UpdateUserPackage, AddUserSubscription
 from users.models import MyAccount
 from packages.models import Package
+from datetime import datetime
 
 import stripe
 import json
+
 # Create your views here.
 
 @require_POST
@@ -221,8 +223,26 @@ def list_stripe_invoices(request):
         limit=10,
         customer = stripe_customer_id)
     print("invoices", invoices)
+    invoice_list = []
 
+    for i in invoices:
+        invoice_date = datetime.fromtimestamp(i.created).strftime(
+            '%Y-%m-%d %H:%M:%S')
+        start_date = datetime.fromtimestamp(i.period_start).strftime(
+            '%Y-%m-%d %H:%M:%S')
+        end_date = datetime.fromtimestamp(i.period_end).strftime(
+            '%Y-%m-%d %H:%M:%S')
+        invoice_data = {
+            "invoice_date": invoice_date,
+            "date_start": start_date,
+            "date_end": end_date,
+            "amount": i.lines.data[0].amount / 100,
+            "download_url": i.invoice_pdf
+        }
+        invoice_list.append(invoice_data)
+
+    print(invoice_list)
     context = {
-        'invoices': invoices
+        'invoices': invoice_list
     }
     return render(request, 'checkout/invoices.html', context)

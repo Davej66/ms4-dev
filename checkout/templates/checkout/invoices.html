@@ -6,7 +6,8 @@ this is the summary page
 {% for invoice in invoices %}
 <div class="card">
     <div class="card-content">{{invoice}}
-        <a href="{{invoice.invoice_pdf}}">Download Invoice</a>
+        <p> Start time</p>
+        <a href="{{invoice.download_url}}">Download Invoice</a>
     </div>
 </div>
 
