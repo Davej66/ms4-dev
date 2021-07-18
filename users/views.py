@@ -5,6 +5,7 @@ from django.contrib import messages
 from django.template.loader import render_to_string
 from users.forms import ProfileForm
 from allauth.account.decorators import verified_email_required
+from packages.models import Package
 from users.models import MyAccount
 from django.template.loader import render_to_string
 from datetime import datetime
@@ -59,6 +60,22 @@ def dashboard_my_orders(request):
     upcoming_invoice = stripe.Invoice.upcoming(
         customer = stripe_customer_id,
         )
+    
+    up_inv_period = upcoming_invoice.lines.data[0].period
+    package_id = upcoming_invoice.lines.data[0].price.id
+    get_package_object = Package.objects.get(stripe_price_id=package_id)
+
+    upcoming_invoice_dict = {
+        "date": datetime.fromtimestamp(
+            upcoming_invoice.created).strftime('%d %b %Y'),
+        "balance": upcoming_invoice.amount_due / 100,
+        "period_start": datetime.fromtimestamp(up_inv_period.start).strftime(
+            '%d %b %Y'),
+        "period_end": datetime.fromtimestamp(up_inv_period.end).strftime(
+            '%d %b %Y'),
+        "package": get_package_object
+    }
+
 
     invoice_list = []
 
@@ -81,7 +98,7 @@ def dashboard_my_orders(request):
 
     context = {
         'invoices': invoice_list,
-        'upcoming_invoice': upcoming_invoice
+        'upcoming_invoice': upcoming_invoice_dict
         }
 
 

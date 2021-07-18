@@ -2,10 +2,15 @@
 <div class="container w-100 d-flex justify-content-center align-items-stretch mb-4 fade-in">
     <div class="d-flex justify-content-between row w-100">
         <div class="py-2 col-lg-4">
-            <div class="container-rounded-light">card-content</div>
+            <div class="container-rounded-light color-on-hover">
+                <h4>{{upcoming_invoice.package.name}}</h4>
+            </div>
         </div>
         <div class="py-2 col-lg-4">
-            <div class="container-rounded-light">card-content</div>
+            <div class="container-rounded-light color-on-hover">
+                <h4>5 <span class="small-text">of</span> 5</h4>
+                <p>Events Remaining</p>
+            </div>
         </div>
         <div class="py-2 col-lg-4">
             <div class="container-rounded-light">card-content</div>
@@ -24,27 +29,28 @@
             </div>
             <div class="container-rounded-light mb-3">
                 <h3>Upcoming Order</h3>
-                {{upcoming_invoice}}
-                <div class="my-orders-item no-b-line d-flex mb-5">
-                    <div class="order-detail">
-                        <label class="table-item-label">Invoice Date</label>
-                        <p>
 
+                {{upcoming_invoice}}
+                <div class="my-orders-item no-b-line d-flex flex-lg-row flex-column flex-md-column  mb-5">
+                    <div class="order-detail col-lg-2 col-12">
+                        <label class="table-item-label">Billing Date</label>
+                        <p>
+                            {{upcoming_invoice.date}}
                         </p>
                     </div>
-                    <div class="order-detail">
+                    <div class="order-detail col-lg-3 col-12">
                         <label class="table-item-label">Invoice Period</label>
                         <p>
-
+                            {{upcoming_invoice.period_start}} - {{upcoming_invoice.period_end}}
                         </p>
                     </div>
-                    <div class="order-detail">
+                    <div class="order-detail col-lg-2 col-12">
                         <label class="table-item-label">Amount Due</label>
                         <p>
-{{upcoming_invoice.amount_due}}
+                            £{{upcoming_invoice.balance}}
                         </p>
                     </div>
-                    <div class="order-detail">
+                    <div class="order-detail col-lg-3 col-12">
                         <button type="button" data-bs-toggle="modal" data-bs-target="#update_billing_modal"
                             class="btn primary-btn-outline m-auto" href="">Update Subscription</button>
                     </div>

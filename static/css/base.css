@@ -64,6 +64,13 @@ a, p, ul, li {
     box-shadow: 1px 2px 8px -5px var(--dark-shadow);
 }
 
+/* Typography */
+.small-text {
+    font-size: 16px;
+    font-weight: 200;
+}
+
+
 /* Buttons */
 .btn, .btn:focus {
     border-radius: 40px;
@@ -108,4 +115,16 @@ ul {
     list-style: none;
 }
 
+
+/* Effects */
+.color-on-hover {
+    background: linear-gradient(to right, #fff 50%, var(--secondary-color) 50%);
+    background-size: 201% 100%;
+    background-position:left bottom;
+    transition: 0.7s ease-in-out;
+}
+
+.color-on-hover:hover {
+    background-position:right bottom;
+}
 
