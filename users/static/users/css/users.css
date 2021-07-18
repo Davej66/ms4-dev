@@ -88,3 +88,11 @@
     margin: auto 0px;
     padding-left: 15px;
 }
+
+/* Main body section of dashboard */
+.page-content-with-sidebar {
+    width: 100%;
+    margin: 0px;
+    padding: 0px;
+    background: var(--bg-grad-color);
+}

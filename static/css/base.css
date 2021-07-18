@@ -14,7 +14,7 @@
 
     --light-line: #dcdcdc;
 
-    --bg-grad-color: linear-gradient(129deg, #cbcbcb40 0%, rgb(219 219 219 / 44%) 36%, #25daff17 100%);
+    --bg-grad-color: linear-gradient(129deg, #cbcbcba6 0%, rgb(219 219 219 / 60%) 36%, #25daff24 100%)
     --container-bg-color: #fff;
     --action-btn-grad: linear-gradient(113deg, rgba(255,70,33,1) 5%, rgba(254,75,36,1) 24%, rgba(252,84,41,1) 41%, rgba(251,94,46,1) 57%, rgba(250,99,49,1) 77%, rgba(247,113,56,1) 100%);
 
@@ -38,8 +38,32 @@ a, p, ul, li {
     font-family: 'Poppins', sans-serif;
 }
 
+.container-with-grad-bg {
+    background: linear-gradient(129deg, #cbcbcba6 0%, rgb(219 219 219 / 60%) 36%, #25daff24 100%)
+}
+
+.page-section-card {
+    background: #fff;
+    border-radius: 5px;
+    box-shadow: 1px 2px 8px -5px var(--dark-shadow);
+}
+
+.page-section-card.transparent{
+    background: transparent;
+    box-shadow: none;
+}
+
+.container-rounded-light {
+    background: #fff;
+    border-radius: 5px;
+    padding: 20px;
+    box-shadow: 1px 2px 8px -5px var(--dark-shadow);
+}
 
 /* Bootstrap Override */
+.container {
+    max-width: 100%;
+}
 
 ul {
     list-style: none;

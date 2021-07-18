@@ -15,12 +15,9 @@
             <li><i class="fas fa-address-book sidebar-icon-item "></i>
                 <span class="sidebar-text-item">My Projects</span>
             </li>
-            <li><i class="fas fa-address-book sidebar-icon-item "></i>
-                <span class="sidebar-text-item">Connections</span>
+            <li onclick="get_ajax_data(`{% url 'get_my_orders' %}`)"><i class="fas fa-address-book sidebar-icon-item "></i>
+                <span class="sidebar-text-item">My Orders</span>
             </li>
-            <li><a href="#"><i class="fas fa-address-book sidebar-icon-item "></i>
-                    <span class="sidebar-text-item">Account</span>
-                </a></li>
             <li><i class="fas fa-address-book sidebar-icon-item "></i>
                 <span class="sidebar-text-item">Signout</span>
             </li>

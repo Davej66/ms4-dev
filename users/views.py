@@ -1,8 +1,15 @@
-from django.shortcuts import render
+from django.shortcuts import render, HttpResponse
+from django.http import JsonResponse
+from django.conf import settings
+from django.contrib import messages
+from django.template.loader import render_to_string
 from users.forms import ProfileForm
 from allauth.account.decorators import verified_email_required
 from users.models import MyAccount
+from django.template.loader import render_to_string
 
+import stripe
+import json
 
 @verified_email_required
 def account_dashboard(request):
@@ -30,3 +37,27 @@ def account_dashboard(request):
     }
 
     return render(request, 'users/dashboard.html', context)
+
+
+""" AJAX REQUESTS """
+
+# Ajax function inspiration from Coding with Mitch tutorials - https://codingwithmitch.com/
+@verified_email_required
+def dashboard_my_orders(request):
+
+    stripe_sk = settings.STRIPE_SECRET_KEY
+    stripe.api_key = stripe_sk
+
+    user = MyAccount.objects.get(email=request.user)
+    stripe_customer_id = user.stripe_customer_id
+    
+    invoices = stripe.Invoice.list(
+        limit=10,
+        customer = stripe_customer_id)
+
+    context = {
+        'invoices': invoices
+        }
+        
+    payload = render_to_string('users/includes/dashboard_orders.html', context)
+    return HttpResponse(json.dumps(payload), content_type="application/json")
