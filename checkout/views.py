@@ -135,18 +135,27 @@ def checkout(request):
 
 
 def order_confirmation(request, order_id):
+    stripe_pk = settings.STRIPE_PUBLIC_KEY
+    stripe_sk = settings.STRIPE_SECRET_KEY
+    stripe.api_key = stripe_sk
 
     user = MyAccount.objects.get(email=request.user)
     stripe_customer_id = user.stripe_customer_id
     order = get_object_or_404(Order, order_id=order_id)
     print('cus id', stripe_customer_id)    
     messages.success(request, "Order confirmed")
+    
+    invoices = stripe.Invoice.list(
+        limit=10,
+        customer = stripe_customer_id)
+    print("invoices", invoices)
+
     context = {
         'order': order,
         'package': order.package_purchased,
         'customer': stripe_customer_id
-
     }
+
 
     return render(request, 'checkout/order_confirmation.html', context)
 
@@ -157,37 +166,63 @@ def create_stripe_subscription(request):
     stripe_sk = settings.STRIPE_SECRET_KEY
     stripe.api_key = stripe_sk
 
+    user = MyAccount.objects.get(email=request.user)
     data = json.loads(request.body)
     data_dict = dict(data)
     customer = data_dict['customerId']
     price_id = data_dict['priceId']
-    print("the things",data_dict)
-    # return JsonResponse(data)
     
-    try:
-        subscription = stripe.Subscription.create(
-            customer= customer,
-            items=[{
-                'price': price_id
-            }],
-            payment_behavior='default_incomplete',
-            expand=['latest_invoice.payment_intent'],
-        )
+    if not user.stripe_subscription_id:
+        try:
+            subscription = stripe.Subscription.create(
+                customer= customer,
+                items=[{
+                    'price': price_id
+                }],
+                payment_behavior='default_incomplete',
+                expand=['latest_invoice.payment_intent'],
+            )
 
-        add_sub_form_data = {
-            "stripe_subscription_id": subscription.id
-            }
+            add_sub_form_data = {
+                "stripe_subscription_id": subscription.id
+                }
 
-        profile_form = AddUserSubscription(
-                add_sub_form_data, instance=request.user)
-        print("prf", profile_form.errors)
-        if profile_form.is_valid():
-            profile_form.save()
-        else:
-            messages.error(request, "There has been an error updating your prescription. Please reload the page to try again.")
-        
-        return JsonResponse({'subId': subscription.id, 'clientSecret':subscription.latest_invoice.payment_intent.client_secret})
-        
-    except Exception as e:
-        print("didnt work", e.user_message)
-        return JsonResponse({'message': e.user_message}), 400
+            profile_form = AddUserSubscription(
+                    add_sub_form_data, instance=request.user)
+            print("prf", profile_form.errors)
+            if profile_form.is_valid():
+                profile_form.save()
+            else:
+                messages.error(request, "There has been an error updating your prescription. Please reload the page to try again.")
+            
+            return JsonResponse({'subId': subscription.id, 'clientSecret':subscription.latest_invoice.payment_intent.client_secret})
+            
+        except Exception as e:
+            print("didnt work", e.user_message)
+            return JsonResponse({'message': e.user_message}), 400
+    # else:
+    #     subscription = stripe.Subscription.retrieve(
+    #         user.stripe_subscription_id,
+    #         expand=['latest_invoice.payment_intent'])
+    #     print("Sub already exists", subscription)
+    #     return HttpResponse(content="Subscription already exists for this user.", status=200)
+
+
+def list_stripe_invoices(request):
+
+    stripe_pk = settings.STRIPE_PUBLIC_KEY
+    stripe_sk = settings.STRIPE_SECRET_KEY
+    stripe.api_key = stripe_sk
+
+    user = MyAccount.objects.get(email=request.user)
+    stripe_customer_id = user.stripe_customer_id
+    
+    invoices = stripe.Invoice.list(
+        limit=10,
+        customer = stripe_customer_id)
+    print("invoices", invoices)
+
+    context = {
+        'invoices': invoices
+    }
+    return render(request, 'checkout/invoices.html', context)

@@ -69,41 +69,10 @@ class StripeWH_Handler:
                 order_form = OrderForm(order_form_data)
                 if order_form.is_valid():
                     order = order_form.save()
-            except expression as identifier:
+                return HttpResponse(content=f'Webhook received: {event["type"]} | \
+                ORDER CREATED: No order found in database', status=200)
+            except Exception as e:
                 pass
-        # package_selection = self.request.session['package_selection']['package_id']
-        # stripe_customer = self.request.session['package_selection']['stripe_cus']
-        # stripe_price_id = self.request.session['package_selection']['stripe_price_id']
-        # current_package = Package.objects.get(pk=package_selection)
-        # user = MyAccount.objects.get(stripe_customer_id=stripe_customer)
-        # print("THE USER", user)
-        # name = user.first_name + " " + user.last_name
-
-        # #  Update user profile with new package
-        # profile_form_data = {
-        #     "package_tier": current_package.tier,
-        #     "package_name": current_package,
-        #     }
-        # profile_form = UpdateUserPackage(
-        #     profile_form_data, instance=self.request.user)
-
-        # #  Create new order when payment successful
-        # order_form_data = {
-        #         "buyer_name": name.title(),
-        #         "buyer_email": self.request.user,
-        #         "package_purchased": current_package,
-        #         "order_total": current_package.price,
-        #     }
-        # order_form = OrderForm(order_form_data)
-        
-        # # Save forms if valid
-        # if order_form.is_valid() and profile_form.is_valid():
-        #     order = order_form.save()
-        #     profile_form.save()
-        #     return redirect(reverse('order_confirmation', args=[order.order_id]))
-        # else:
-        #     print("errors order:", order_form.errors)
-        #     messages.error(self.request, "There was an error in your form")
         return HttpResponse(content=f'Webhook received: {event["type"]}', status=200)
     
     def handle_payment_failed_event(self, event):
