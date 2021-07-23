@@ -17,7 +17,7 @@ import json
 # Create your views here.
 
 @require_POST
-def checkout_cach(request):
+def checkout_cache(request):
     # TODO Extend this out
     pid = request.POST.get('client_secret').split('_secret')[0]
     stripe.api_key = settings.STRIPE_SECRET_KEY
@@ -136,35 +136,8 @@ def checkout(request):
     return render(request, 'checkout/checkout.html')
 
 
-def order_confirmation(request, order_id):
-    stripe_pk = settings.STRIPE_PUBLIC_KEY
-    stripe_sk = settings.STRIPE_SECRET_KEY
-    stripe.api_key = stripe_sk
-
-    user = MyAccount.objects.get(email=request.user)
-    stripe_customer_id = user.stripe_customer_id
-    order = get_object_or_404(Order, order_id=order_id)
-    print('cus id', stripe_customer_id)    
-    messages.success(request, "Order confirmed")
-    
-    invoices = stripe.Invoice.list(
-        limit=10,
-        customer = stripe_customer_id)
-    print("invoices", invoices)
-
-    context = {
-        'order': order,
-        'package': order.package_purchased,
-        'customer': stripe_customer_id
-    }
-
-
-    return render(request, 'checkout/order_confirmation.html', context)
-
-
+# Create a stripe subscription when package selected
 def create_stripe_subscription(request):
-
-    stripe_pk = settings.STRIPE_PUBLIC_KEY
     stripe_sk = settings.STRIPE_SECRET_KEY
     stripe.api_key = stripe_sk
 
@@ -210,9 +183,61 @@ def create_stripe_subscription(request):
     #     return HttpResponse(content="Subscription already exists for this user.", status=200)
 
 
+def update_stripe_subscription(request):
+    stripe_sk = settings.STRIPE_SECRET_KEY
+    stripe.api_key = stripe_sk
+
+    user = MyAccount.objects.get(email=request.user)
+    user_stripe_sub = user.stripe_subscription_id
+    
+    if request.method is "POST":
+         
+
+    # new_price_id = Package.objects.get(tier=new_package).stripe_price_id
+
+    # subscription = stripe.Subscription.modify(
+    #     user_stripe_sub,
+    #     )
+
+    # get_subscription_item = subscription.items.data[0].id
+    # print(get_subscription_item)
+    # stripe.SubscriptionItem.modify(
+    #     get_subscription_item,
+    #     price={"id": new_price_id}
+    #     )
+
+    return render(request, 'checkout/update_subscription.html')
+
+def order_confirmation(request, order_id):
+    # stripe_pk = settings.STRIPE_PUBLIC_KEY
+    stripe_sk = settings.STRIPE_SECRET_KEY
+    stripe.api_key = stripe_sk
+
+    user = MyAccount.objects.get(email=request.user)
+    stripe_customer_id = user.stripe_customer_id
+    order = get_object_or_404(Order, order_id=order_id)
+    print('cus id', stripe_customer_id)    
+    messages.success(request, "Order confirmed")
+    
+    invoices = stripe.Invoice.list(
+        limit=10,
+        customer = stripe_customer_id)
+    print("invoices", invoices)
+
+    context = {
+        'order': order,
+        'package': order.package_purchased,
+        'customer': stripe_customer_id
+    }
+
+    return render(request, 'checkout/order_confirmation.html', context)
+
+
+
+
 def list_stripe_invoices(request):
 
-    stripe_pk = settings.STRIPE_PUBLIC_KEY
+    # stripe_pk = settings.STRIPE_PUBLIC_KEY
     stripe_sk = settings.STRIPE_SECRET_KEY
     stripe.api_key = stripe_sk
 

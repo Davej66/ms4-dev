@@ -1,3 +1,5 @@
+{% load static %}
+
 <!-- TOP SECTION CARDS -->
 <div class="container w-100 d-flex justify-content-center align-items-stretch mb-4 fade-in">
     <div class="d-flex justify-content-between row w-100">
@@ -51,8 +53,8 @@
                         </p>
                     </div>
                     <div class="order-detail col-lg-3 col-12">
-                        <button type="button" data-bs-toggle="modal" data-bs-target="#update_billing_modal"
-                            class="btn primary-btn-outline m-auto" href="">Update Subscription</button>
+                        <a type="button"
+                            class="btn primary-btn-outline m-auto" href="{% url 'update_subscription' %}">Update Subscription</a>
                     </div>
                 </div>
                 <h3>Previous Orders</h3>
@@ -103,7 +105,11 @@
                 </button>
             </div>
             <div class="modal-body">
-                ...
+                
+                    <button onclick="update_subscription(1)">Free</button>
+                    <button onclick="update_subscription(2)">Everyday</button>
+                    <button onclick="update_subscription(3)">Pro</button>
+                
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -112,3 +118,26 @@
         </div>
     </div>
 </div>
+
+<script>
+    function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }   
+    return cookieValue;
+}
+
+var csrftoken = getCookie('csrftoken');
+console.log('csrftoken',csrftoken)
+</script>
+
+<script src="{% static 'users/js/post_load_ajax.js' %}" type="text/javascript"></script>
