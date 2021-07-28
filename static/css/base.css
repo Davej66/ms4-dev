@@ -17,6 +17,7 @@
     --bg-grad-color: linear-gradient(129deg, #cbcbcba6 0%, rgb(219 219 219 / 60%) 36%, #25daff24 100%);
     --container-bg-color: #fff;
     --action-btn-grad: linear-gradient(113deg, rgba(255,70,33,1) 5%, rgba(254,75,36,1) 24%, rgba(252,84,41,1) 41%, rgba(251,94,46,1) 57%, rgba(250,99,49,1) 77%, rgba(247,113,56,1) 100%);
+    --action-btn-grad-trns: linear-gradient(113deg, rgba(255,70,33,0.5) 5%, rgba(254,75,36,0.5) 24%, rgba(252,84,41,0.5) 41%, rgba(251,94,46,0.5) 57%, rgba(250,99,49,0.5) 77%, rgba(247,113,56,0.5) 100%);
 
     --h1-prim-color: #fff;
     --h1-alt-color: #fff;
@@ -34,6 +35,16 @@
     --btn-second-hover-color: #fff;
 
     --dark-shadow: #4a4a4a
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+footer {
+    margin-top: auto;
 }
 
 h1, h2, h3, h4, h5, h6, 
@@ -115,6 +126,17 @@ ul {
     list-style: none;
 }
 
+.card {
+    box-shadow: 1px 1px 9px -3px var(--dark-shadow);
+    transition: 0.3s ease-in-out;
+    border: none;
+}
+
+.card:hover {
+    box-shadow: 1px 2px 9px -2px var(--dark-shadow);
+    transform: translateY(-3px);
+}
+
 
 /* Effects */
 .color-on-hover {
@@ -126,5 +148,9 @@ ul {
 
 .color-on-hover:hover {
     background-position:right bottom;
+}
+
+.hidden {
+    display: none;
 }
 

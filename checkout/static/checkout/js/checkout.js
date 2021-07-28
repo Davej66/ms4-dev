@@ -1,3 +1,26 @@
+/* LAYOUT JS */
+
+// Find current package and set card to active
+var currentPackageTier = $('#id_current_package_tier').val();
+var activePackageCard = $(`#tier_${currentPackageTier}_package`);
+var activePackageCardLabel = $(`#tier_${currentPackageTier}_package > .current_package_label`);
+var allPackageCardLabel = $(`.current_package_label`);
+activePackageCard.addClass('active');
+activePackageCardLabel.text('Your current package');
+activePackageCardLabel.removeClass('hidden');
+
+$('.update-package-card').on('click', function() {
+    $(this).find('span:first').removeClass('hidden')
+    if (this != activePackageCard) {
+        activePackageCard.addClass('hlf-trans');
+        $(activePackageCard).find('.update-package-card-overlay').css('opacity', '0.75');
+        $(activePackageCard).css('color', 'var(--dark-text)');
+    }
+})
+
+
+/* STRIPE ELEMENTS */
+
 // Logic below from Stripe documentation here: https://stripe.com/docs/payments/accept-a-payment
 
 var stripePublicKey = $('#id_stripe_public_key').text().slice(1, -1);
@@ -6,8 +29,6 @@ var stripe = Stripe(stripePublicKey);
 var elements = stripe.elements();
 var card = elements.create('card');
 card.mount('#card_element');
-
-
 
 // Add errors to card handler
 

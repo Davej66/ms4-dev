@@ -1,28 +1,77 @@
 {% extends 'includes/base.html' %}
 {% load static %}
-
+{% block post_CSS %}
+<link rel="stylesheet" href="{% static '/css/checkout.css' %}">
+{% endblock %}
 {% block content %}
-this is the summary page
-{{package.name}}
-{{package_cost}}
-{{stripe_customer}}
-{{stripe_price_id}}
-
 
 {% if messages %}
 <ul class="messages">
     {% for message in messages %}
-    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-    {% endfor %}
+    <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+        {% endfor %}
 </ul>
 {% endif %}
+
+<div class="container min-vh">
+    <div class="row">
+        <div class="container container-with-grad-bg">
+            <div class="col-8">
+                <section class="pg-section py-5 min-vh page-section-card">
+                    <div class="container w-100 d-flex flex-row justify-content-center align-items-stretch">
+                        <div class="d-flex justify-content-between row w-100">
+                            <!-- Start the Ajax Content Section -->
+                            <div id="main_ajax_content" class="content col-12">
+                                <div class="container-box-header">
+                                    <h1>Update your subscription</h1>
+                                </div>
+                                <article id="current_sub_details">
+                                    <h3>Your current subscription</h3>
+                                    <input type="hidden" id="id_current_package_tier"
+                                        value="{{this_user.package_tier}}">
+                                    <div class="row d-flex justify-content-between">
+                                        <div id="tier_1_package" class="update-package-card card col-lg-3">
+                                        <div class="update-package-card-overlay"></div> 
+                                        <h3>Free
+                                            Account</h3>
+                                            <span class="current_package_label">Select this package</span>
+                                        </div>
+                                        <div id="tier_2_package" class="update-package-card card col-lg-3">
+                                                <div class="update-package-card-overlay"></div> 
+                                                <h3>Everyday Account</h3>
+                                                <span class="current_package_label">Select this package</span>
+                                            </div>
+                                            <div id="tier_3_package" class="update-package-card card col-lg-3">
+                                                <div class="update-package-card-overlay"></div> 
+                                                <h3>Pro Account</h3>
+                                                <span class="current_package_label">Select this package</span>
+                                        </div>
+                                    </div>
+                                    <p>{{this_user.package_name}}</p>
+
+                                </article>
+                            </div>
+                            <!-- End of Ajax content section -->
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <div class="col-4"></div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
 
 <!-- Payment form -->
 <form action="" id="payment_form" method="POST"> {% csrf_token %}
     <fieldset>
         <legend>Payment here</legend>
         <div id="card_element"></div>
-            <div id="card_errors">
+        <div id="card_errors">
         </div>
         <input type="submit" name="" id="submit_button">Click me</input>
     </fieldset>
@@ -30,39 +79,38 @@ this is the summary page
 
 <script>
 
-$(document).ready(function(){
-    
-csrf = '{{ csrf_token }}'
-fetch('/checkout/create_subscription', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'X-CSRFToken': csrf,
-    },
-    body: JSON.stringify({
-    //   'data': 'data'
-        'priceId': ("{{stripe_price_id}}"),
-      'customerId': "{{stripe_customer}}",
-    })
-})
-.then(response => {
-    // console.log(response.json())
-        return response.json() //Convert response to JSON
-  })
-  .then(data => {
-      console.log("receiving", data.clientSecret)
-      submitCard(data.clientSecret)
-  //Perform actions with the response data from the view
-  })
-})
+    // $(document).ready(function () {
+
+    //     csrf = '{{ csrf_token }}'
+    //     fetch('/checkout/create_subscription', {
+    //         method: 'POST',
+    //         headers: {
+    //             'Content-Type': 'application/json',
+    //             'X-CSRFToken': csrf,
+    //         },
+    //         body: JSON.stringify({
+    //             'customerId': "{{this_user.stripe_customer_id}}",
+    //         })
+    //     })
+    //         .then(response => {
+    //             // console.log(response.json())
+    //             return response.json() //Convert response to JSON
+    //         })
+    //         .then(data => {
+    //             console.log("receiving", data.clientSecret)
+    //             submitCard(data.clientSecret)
+    //             //Perform actions with the response data from the view
+    //         })
+    // })
 </script>
 
 {% endblock %}
 
 
 {% block post_JS %}
-    {{ block.super }}
-    {{ stripe_public_key|json_script:"id_stripe_public_key" }}
-    {{ stripe_client_secret|json_script:"id_stripe_client_secret" }}
-    <script src="{% static 'checkout/js/stripe_elements.js' %}"></script>
+{{ block.super }}
+{{ stripe_public_key|json_script:"id_stripe_public_key" }}
+{{ stripe_client_secret|json_script:"id_stripe_client_secret" }}
+{{ current_package_tier|json_script:"id_current_package_tier" }}
+<script src="{% static 'checkout/js/checkout.js' %}"></script>
 {% endblock %}

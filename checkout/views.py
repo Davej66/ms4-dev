@@ -3,6 +3,7 @@ from django.http import JsonResponse
 from django.views.decorators.http import require_POST
 from django.conf import settings
 from django.contrib import messages
+from allauth.account.decorators import verified_email_required
 from .contexts import order_summary_context
 from .forms import OrderForm
 from .models import Order
@@ -182,15 +183,17 @@ def create_stripe_subscription(request):
     #     print("Sub already exists", subscription)
     #     return HttpResponse(content="Subscription already exists for this user.", status=200)
 
-
+@verified_email_required
 def update_stripe_subscription(request):
+    
+    user = request.user
     stripe_sk = settings.STRIPE_SECRET_KEY
     stripe.api_key = stripe_sk
 
     user = MyAccount.objects.get(email=request.user)
     user_stripe_sub = user.stripe_subscription_id
     
-    if request.method is "POST":
+    # if request.method is "POST":
          
 
     # new_price_id = Package.objects.get(tier=new_package).stripe_price_id

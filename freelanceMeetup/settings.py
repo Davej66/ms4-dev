@@ -172,6 +172,7 @@ STATICFILES_DIRS = [
     BASE_DIR /
     'static',
     'users/static/users/',
+    'checkout/static/checkout/',
     ]
 
 MEDIA_URL = '/media/'

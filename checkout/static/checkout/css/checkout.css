@@ -1,4 +1,76 @@
-#card_element {
-    color: #000;
-    border: 1px solid #000;
+
+
+
+/* UPDATE PACKAGE CARDS */
+
+.update-package-card.active, .update-package-card.selected {
+    background: var(--action-btn-grad);
+    color: #fff;
+}
+
+.update-package-card {
+    padding: 30px;
+    cursor: pointer;
+    text-align: center;
+    transition: 0.3s ease-in-out;
+    position: relative;
+}
+
+.update-package-card.active span {
+    opacity: 1;
+}
+
+.update-package-card span {
+    position: absolute;
+    opacity: 0;
+    width: 100%;
+    left: 0;
+    justify-content: center;
+    bottom: 20px;
+    transition: 0.3s ease-in-out;
+}
+
+.update-package-card:hover span {
+    opacity: 1;
+}
+
+.update-package-card:hover h3 {
+    transform: translateY(-10px);
+}
+
+.update-package-card.active h3 {
+    transform: translateY(-10px);
+}
+
+.update-package-card.active:hover {
+    transform: translateY(0px);
+}
+
+.update-package-card h3 {
+    font-size: 1.4rem;
+    font-weight: 300;
+    margin: auto;
+    transition: 0.3s ease-in-out;
+    z-index: 1;
+}
+
+.update-package-card-overlay {
+    background: #fff;
+    opacity: 0;
+    height: 100%;
+    width: 100%;
+    border-radius: 4px;
+    display: flex;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 0;
+    transition: 0.3s ease-in-out;
+}
+
+.current_package_label {
+    padding-top: 10px;
+    font-size: 14px;
+    font-weight: 500;
+    z-index: 1;
 }
