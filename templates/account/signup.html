@@ -1,0 +1,36 @@
+<!-- HTML Customised from Allauth existing template here 
+    https://github.com/pennersr/django-allauth/blob/master/allauth/templates/account/signup.html -->
+
+{% extends "includes/base.html" %}
+{% load static %}
+
+{% load i18n %}
+
+{% block head_title %}{% trans "Signup" %}{% endblock %}
+
+{% block content %}
+<section class="grad-bg d-flex">
+  <div class="container-fluid m-5 p-0">
+    <div class="row w-100 m-0">
+      <div class="d-flex justify-content p-0">
+        <div class="card muted p-5 w-100"><h1>Register Here</h1>
+          <form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
+            {% csrf_token %}
+            {{ form.as_p }}
+            {% if redirect_field_value %}
+            <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+            {% endif %}
+            <button type="submit">Register Now</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<h1>{% trans "Sign Up" %}</h1>
+words her
+<p>{% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">sign in</a>.{% endblocktrans %}</p>
+
+
+
+{% endblock %}

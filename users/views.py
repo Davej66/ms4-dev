@@ -5,6 +5,8 @@ from django.contrib import messages
 from django.template.loader import render_to_string
 from users.forms import ProfileForm
 from allauth.account.decorators import verified_email_required
+from allauth.account.views import SignupView
+from users.forms import RegistrationForm
 from packages.models import Package
 from users.models import MyAccount
 from django.template.loader import render_to_string
@@ -12,6 +14,19 @@ from datetime import datetime
 
 import stripe
 import json
+
+# Create customised context for Allauth registration. Credits to Mikeec3
+# In this StackOverflow thread: https://stackoverflow.com/questions/29499449/django-allauth-login-signup-form-on-homepage 
+class CustomRegistrationView(SignupView):
+    
+    # Get the original signup form and add the custom form to this
+    def get_context_data(self, **kwargs):
+        context = super(CustomRegistrationView, self).get_context_data(**kwargs)
+        context['reg_form'] = RegistrationForm()
+        return context
+
+register = CustomRegistrationView.as_view()
+
 
 @verified_email_required
 def account_dashboard(request):
@@ -39,6 +54,18 @@ def account_dashboard(request):
     }
 
     return render(request, 'users/dashboard.html', context)
+
+
+@verified_email_required
+def view_profile(request, *args, **kwargs):
+
+    view_user = kwargs.get('username')
+
+    context = {
+        "user": view_user
+    }
+
+    return render(request, 'view_profile.html', context)
 
 
 """ AJAX REQUESTS """

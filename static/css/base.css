@@ -117,6 +117,18 @@ a, p, ul, li {
 
 }
 
+/* Page Blocks  */
+
+section.grad-bg {
+    background-color: var(--bg-grad-color);
+}
+
+.card.muted:hover {
+    transform: translateY(0px);
+    box-shadow: 1px 1px 9px -3px var(--dark-shadow);
+}
+
+
 /* Bootstrap Override */
 .container {
     max-width: 100%;

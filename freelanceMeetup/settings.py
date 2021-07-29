@@ -92,6 +92,8 @@ ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = None
 LOGIN_URL = '/account/login'
 LOGIN_REDIRECT_URL = '/profile/dashboard/'
 ACCOUNT_LOGOUT_REDIRECT_URL = '/'
+ACCOUNT_FORMS = {'signup': 'users.forms.RegistrationForm'}
+
 
 ROOT_URLCONF = 'freelanceMeetup.urls'
 

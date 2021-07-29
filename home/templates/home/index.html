@@ -1,1 +1,13 @@
 {% extends 'includes/base.html' %}
+
+ertr7678
+{% block content %}
+<form method='post' action='{% url "registration" %}' id='signup'>
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type='text' name="first_name" id="first_name">
+    <input type='text' name="last_name" id="last_name">
+    <input type='email' name="email" id="email">
+    <input type='submit' value='Sign Up'>
+</form>
+{% endblock %}
