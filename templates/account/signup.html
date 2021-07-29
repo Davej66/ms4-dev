@@ -10,17 +10,17 @@
 
 {% block content %}
 <section class="grad-bg d-flex">
-  <div class="container-fluid m-5 p-0">
+  <div class="container-fluid my-5 p-0">
     <div class="row w-100 m-0">
-      <div class="d-flex justify-content p-0">
-        <div class="card muted p-5 w-100"><h1>Register Here</h1>
-          <form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
+      <div class="d-flex justify-content-center p-0">
+        <div class="card muted p-5 m-2 col-lg-6"><h1>Register for your Free Account</h1>
+          <form class="signup py-4" id="signup_form" method="post" action="{% url 'account_signup' %}">
             {% csrf_token %}
             {{ form.as_p }}
             {% if redirect_field_value %}
             <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
             {% endif %}
-            <button type="submit">Register Now</button>
+            <button class="btn primary-btn large" type="submit">Register Now</button>
           </form>
         </div>
       </div>

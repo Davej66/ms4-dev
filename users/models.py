@@ -1,4 +1,5 @@
 from django.db import models
+from django import forms
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin, AbstractUser
 from django.utils import timezone
 from django_resized import ResizedImageField
@@ -7,7 +8,7 @@ from django_resized import ResizedImageField
 # https://medium.com/@ksarthak4ever/django-custom-user-model-allauth-for-oauth-20c84888c318
 
 class AccountManager(BaseUserManager):
-    def _create_user(self, email, password, is_staff, is_superuser):
+    def _create_user(self, email, password_clean, is_staff, is_superuser):
         if not email:
             raise ValueError('Please enter a valid email address')
         now = timezone.now()
@@ -20,7 +21,7 @@ class AccountManager(BaseUserManager):
             last_login=now,
             date_joined=now
         )
-        user.set_password(password)
+        user.set_password(password_clean)
         user.save(using=self._db)
         return user
 
@@ -56,7 +57,6 @@ def get_default_profile_image():
 
 class MyAccount(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(max_length=60, unique=True)
-    username = models.CharField(max_length=30, unique=True)
     stripe_customer_id = models.CharField(max_length=150, unique=True, null=True, blank=True)
     stripe_subscription_id = models.CharField(max_length=150, unique=True, null=True)
     first_name = models.CharField(max_length=50)

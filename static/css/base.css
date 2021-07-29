@@ -34,7 +34,8 @@
     --btn-second-color: rgb(235, 98, 98);
     --btn-second-hover-color: #fff;
 
-    --dark-shadow: #4a4a4a
+    --dark-shadow: #4a4a4a;
+    --error-highlight: #ff2424;
 }
 
 body {
@@ -94,9 +95,13 @@ a, p, ul, li {
     color: #fff;
 }
 
+.primary-btn.large {
+    padding: 10px 20px;
+}
+
 .primary-btn:hover {
     box-shadow: 1px 2px 8px -2px var(--dark-shadow);
-    background: var(--secondary-color);
+    background: var(--accent-color);
     color: #fff;
     transform: translateY(-3px);
 }
@@ -126,6 +131,47 @@ section.grad-bg {
 .card.muted:hover {
     transform: translateY(0px);
     box-shadow: 1px 1px 9px -3px var(--dark-shadow);
+}
+
+
+/* Forms */
+
+input {
+    border: 1px solid var(--light-text);
+    padding: 5px 10px;
+    transition: 0.3s ease-in-out;
+    border-radius: 3px;
+    outline-width: 0!important;
+
+}
+input:focus, input:active, input:focus-visible {
+    border: 2px solid var(--primary-color);
+    padding: 10px 10px 10px 15px;
+    box-shadow: 1px 2px 8px -3px var(--dark-shadow);
+}
+
+input:invalid:focus {
+    border: 2px solid var(--error-highlight);
+    padding: 10px 10px 10px 15px;
+    box-shadow: 1px 2px 8px -3px var(--dark-shadow);
+}
+
+#signup_form {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+#signup_form p {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+#signup_form p:nth-of-type(1), 
+#signup_form p:nth-of-type(2) {
+    width: 49%;
 }
 
 
