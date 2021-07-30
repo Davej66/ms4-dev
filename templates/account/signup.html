@@ -13,24 +13,25 @@
   <div class="container-fluid my-5 p-0">
     <div class="row w-100 m-0">
       <div class="d-flex justify-content-center p-0">
-        <div class="card muted p-5 m-2 col-lg-6"><h1>Register for your Free Account</h1>
+        <div class="card muted p-5 m-2 col-lg-6 fade-in">
+          <h1>Register for your Free Account</h1>
+          <p class="py-3">We'll automatically enroll you in our Free Account subscription.
+            <br><br>For additional event registration and peer to peer networking, upgrade your account
+            after signup, or <br> <a href="{% url 'packages' %}">select a new package now</a>!
+          </p>
           <form class="signup py-4" id="signup_form" method="post" action="{% url 'account_signup' %}">
             {% csrf_token %}
             {{ form.as_p }}
             {% if redirect_field_value %}
             <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
             {% endif %}
-            <button class="btn primary-btn large" type="submit">Register Now</button>
+            <button class="btn primary-btn large center-half-btn-cta mt-3" type="submit">Register Now</button>
           </form>
+          <p class="text-center">Already have an account? <a href="{{ login_url }}">Login here</a>.</p>
         </div>
       </div>
     </div>
   </div>
 </section>
-<h1>{% trans "Sign Up" %}</h1>
-words her
-<p>{% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">sign in</a>.{% endblocktrans %}</p>
-
-
 
 {% endblock %}

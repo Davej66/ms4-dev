@@ -58,7 +58,6 @@ def get_default_profile_image():
 
 class MyAccount(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(max_length=60, unique=True)
-    username = models.CharField(max_length=60, unique=True, default=00000)
     stripe_customer_id = models.CharField(max_length=150, unique=True, null=True, blank=True)
     stripe_subscription_id = models.CharField(max_length=150, unique=True, null=True, blank=True)
     first_name = models.CharField(max_length=50, blank=True)

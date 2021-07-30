@@ -15,6 +15,7 @@
     --light-line: #dcdcdc;
 
     --bg-grad-color: linear-gradient(129deg, #cbcbcba6 0%, rgb(219 219 219 / 60%) 36%, #25daff24 100%);
+    --bg-backup: #25daff24;
     --container-bg-color: #fff;
     --action-btn-grad: linear-gradient(113deg, rgba(255,70,33,1) 5%, rgba(254,75,36,1) 24%, rgba(252,84,41,1) 41%, rgba(251,94,46,1) 57%, rgba(250,99,49,1) 77%, rgba(247,113,56,1) 100%);
     --action-btn-grad-trns: linear-gradient(113deg, rgba(255,70,33,0.5) 5%, rgba(254,75,36,0.5) 24%, rgba(252,84,41,0.5) 41%, rgba(251,94,46,0.5) 57%, rgba(250,99,49,0.5) 77%, rgba(247,113,56,0.5) 100%);
@@ -77,6 +78,15 @@ a, p, ul, li {
 }
 
 /* Typography */
+p {
+    font-weight: 300;
+    font-size: 1.1rem;
+}
+
+a {
+    text-decoration: none;
+}
+
 .small-text {
     font-size: 16px;
     font-weight: 200;
@@ -122,10 +132,16 @@ a, p, ul, li {
 
 }
 
+.center-half-btn-cta {
+    margin: auto;
+    width: 50%;
+}
+
 /* Page Blocks  */
 
 section.grad-bg {
-    background-color: var(--bg-grad-color);
+    background: var(--bg-grad-color);
+    background-color: var(--bg-backup);
 }
 
 .card.muted:hover {
@@ -136,24 +152,28 @@ section.grad-bg {
 
 /* Forms */
 
+label {
+    font-size: 14px;
+    font-weight: 300;
+}
+
 input {
-    border: 1px solid var(--light-text);
+    border: none;
+    border-bottom: 2px solid var(--light-line);
     padding: 5px 10px;
     transition: 0.3s ease-in-out;
-    border-radius: 3px;
+    border-radius: 0px;
     outline-width: 0!important;
 
 }
 input:focus, input:active, input:focus-visible {
-    border: 2px solid var(--primary-color);
+    border-bottom: 2px solid var(--primary-color);
     padding: 10px 10px 10px 15px;
-    box-shadow: 1px 2px 8px -3px var(--dark-shadow);
 }
 
 input:invalid:focus {
-    border: 2px solid var(--error-highlight);
+    border-bottom: 2px solid var(--error-highlight);
     padding: 10px 10px 10px 15px;
-    box-shadow: 1px 2px 8px -3px var(--dark-shadow);
 }
 
 #signup_form {
@@ -174,6 +194,14 @@ input:invalid:focus {
     width: 49%;
 }
 
+.errorlist {
+    padding: 5px 0px 0px 0px;
+    font-size: 14px;
+    color: var(--error-highlight);
+    animation: color-in 0.1s ease-in-out;
+    transition: 0.3s ease-in-out;
+}
+
 
 /* Bootstrap Override */
 .container {
@@ -188,6 +216,7 @@ ul {
     box-shadow: 1px 1px 9px -3px var(--dark-shadow);
     transition: 0.3s ease-in-out;
     border: none;
+    border-radius: 20px;
 }
 
 .card:hover {
@@ -210,5 +239,19 @@ ul {
 
 .hidden {
     display: none;
+}
+
+.fade-in {
+    animation: fade-in 0.4s ease-in-out;
+}
+
+@keyframes fade-in {
+    0% {opacity: 0;}
+    100% {opacity: 1;}
+}
+
+@keyframes color-in {
+    0% {color: transparent;}
+    100% {color: inherit;}
 }
 
