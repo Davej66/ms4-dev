@@ -1,14 +1,15 @@
 from django import forms
 from .models import MyAccount
-from allauth.account.forms import SignupForm
-
+import random
 
 # Allauth form customisation tutorial from Gavin Wiener at Medium:
 # https://gavinwiener.medium.com/modifying-django-allauth-forms-6eb19e77ef56
 
-class RegistrationForm(forms.ModelForm, SignupForm):
-    
-    field_order = ['first_name', 'last_name', 'email', 'password1']
+class RegistrationForm(forms.ModelForm):
+    """
+    Add additional fields to the standard Allauth signup form.
+    """
+    field_order = ['first_name', 'last_name']
 
     def __init__(self, *args, **kwargs):
         super(RegistrationForm, self).__init__(*args, **kwargs)
@@ -22,16 +23,21 @@ class RegistrationForm(forms.ModelForm, SignupForm):
         self.fields['last_name'].widget.attrs.update({
             'class':'half-input',
         })
-        password1 = forms.CharField(label='Password', widget=forms.PasswordInput(attrs={'placeholder': 'Password:'}))
+        
 
     # Allauth custom password input code snippet for 'password1' from dirkgroten on SO:
     # https://stackoverflow.com/questions/48073923/django-allauth-custom-template-not-hashing-passwords
     class Meta:
         model = MyAccount
-        fields = ('first_name', 'last_name', 'email')
-    
-    
+        fields = ('first_name', 'last_name')
 
+    # Snippet below from 'Pennersr' in this StackOverflow thread: 
+    # https://stackoverflow.com/questions/12303478/how-to-customize-user-profile-when-using-django-allauth
+    def signup(self, request, user):
+        user.first_name = self.cleaned_data['first_name']
+        user.last_name = self.cleaned_data['last_name']
+        user.username = random.randint(10000,99999)
+        user.save()
 
 
 class ProfileForm(forms.ModelForm):

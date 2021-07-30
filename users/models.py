@@ -3,6 +3,7 @@ from django import forms
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin, AbstractUser
 from django.utils import timezone
 from django_resized import ResizedImageField
+import uuid
 
 # User extension classes built with guidance from Sarthak Kumar: 
 # https://medium.com/@ksarthak4ever/django-custom-user-model-allauth-for-oauth-20c84888c318
@@ -57,10 +58,11 @@ def get_default_profile_image():
 
 class MyAccount(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(max_length=60, unique=True)
+    username = models.CharField(max_length=60, unique=True, default=00000)
     stripe_customer_id = models.CharField(max_length=150, unique=True, null=True, blank=True)
-    stripe_subscription_id = models.CharField(max_length=150, unique=True, null=True)
-    first_name = models.CharField(max_length=50)
-    last_name = models.CharField(max_length=50)
+    stripe_subscription_id = models.CharField(max_length=150, unique=True, null=True, blank=True)
+    first_name = models.CharField(max_length=50, blank=True)
+    last_name = models.CharField(max_length=50, blank=True)
     package_tier = models.IntegerField(blank=False, default=1)
     package_name = models.CharField(max_length=50, blank=False, default="Free Account")
     date_joined = models.DateTimeField(verbose_name='date joined', auto_now_add=True)
