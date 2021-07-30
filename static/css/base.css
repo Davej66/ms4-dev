@@ -85,6 +85,17 @@ p {
 
 a {
     text-decoration: none;
+    transition: 0.3s ease-in-out;
+}
+
+.anchor-link {
+    color: var(--primary-color);
+    cursor: pointer;
+    transition: 0.3s ease-in-out;
+}
+
+a:hover, .anchor-link:hover {
+    border-bottom: 1px solid var(--primary-color);
 }
 
 .small-text {
@@ -128,10 +139,6 @@ a {
     transform: translateY(-3px);
 }
 
-.secondary-btn {
-
-}
-
 .center-half-btn-cta {
     margin: auto;
     width: 50%;
@@ -147,6 +154,10 @@ section.grad-bg {
 .card.muted:hover {
     transform: translateY(0px);
     box-shadow: 1px 1px 9px -3px var(--dark-shadow);
+}
+
+.close {
+    cursor: pointer;
 }
 
 
@@ -176,13 +187,19 @@ input:invalid:focus {
     padding: 10px 10px 10px 15px;
 }
 
-#signup_form {
+input[type=checkbox]{
+    height: 20px;
+    width: 20px;
+    margin: 0px 10px;
+}
+
+.account-form {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
 }
 
-#signup_form p {
+.account-form p {
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -192,6 +209,10 @@ input:invalid:focus {
 #signup_form p:nth-of-type(1), 
 #signup_form p:nth-of-type(2) {
     width: 49%;
+}
+
+form.login p:nth-of-type(3) {
+    flex-direction: row;
 }
 
 .errorlist {
@@ -222,6 +243,19 @@ ul {
 .card:hover {
     box-shadow: 1px 2px 9px -2px var(--dark-shadow);
     transform: translateY(-3px);
+}
+
+.modal-content {
+    border: none;
+    box-shadow: 1px 1px 15px -5px var(--dark-shadow);
+    border-radius: 10px;
+
+}
+
+.modal-dialog {
+    min-width: 45vw;
+    height: -webkit-fill-available;
+    display: flex;
 }
 
 

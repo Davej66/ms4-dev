@@ -1,0 +1,27 @@
+<!-- HTML Customised from Allauth existing template here 
+    https://github.com/pennersr/django-allauth/blob/master/allauth/templates/account/signup.html -->
+
+{% extends "includes/base.html" %}
+{% load static %}
+
+{% block head_title %}Verify Email{% endblock %}
+
+{% block content %}
+<section class="grad-bg d-flex">
+  <div class="container-fluid my-5 p-0">
+    <div class="row w-100 m-0">
+      <div class="d-flex justify-content-center p-0">
+        <div class="card muted p-5 m-2 col-lg-6 fade-in text-center">
+          <h1>Please verify your email.</h1>
+          <p class="py-3">Great news! You've signed up to FreelanceMeetups!
+            <br><br>Before we can get you up and running however, you'll need to verify your email by clicking the link we just sent you!
+          </p>
+          
+          <p class="text-center">Didn't receive and email? <span class="anchor-link" data-bs-toggle="modal" data-bs-target="#contactModal">Contact us here</a>.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

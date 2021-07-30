@@ -6,6 +6,7 @@ from django.template.loader import render_to_string
 from users.forms import ProfileForm
 from allauth.account.decorators import verified_email_required
 from allauth.account.views import SignupView
+from allauth.account.utils import send_email_confirmation
 from users.forms import RegistrationForm
 from packages.models import Package
 from users.models import MyAccount
@@ -27,6 +28,11 @@ class CustomRegistrationView(SignupView):
 
 register = CustomRegistrationView.as_view()
 
+
+def resend_verification_email(request):
+    print('user', request.user)
+
+    send_email_confirmation(request, user)
 
 @verified_email_required
 def account_dashboard(request):
