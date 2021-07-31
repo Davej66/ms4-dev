@@ -1,0 +1,44 @@
+<!-- HTML Customised from Allauth existing template here 
+    https://github.com/pennersr/django-allauth/blob/master/allauth/templates/account/signup.html -->
+
+{% extends "includes/base.html" %}
+{% load static %}
+{% load account %}
+
+{% block head_title %}Verify Email{% endblock %}
+
+{% block content %}
+<section class="grad-bg d-flex">
+  <div class="container-fluid my-5 p-0">
+    <div class="row w-100 m-0">
+      <div class="d-flex justify-content-center p-0">
+        <div class="card muted p-5 m-2 col-lg-6 fade-in text-center">
+          <h1>Confirm your email address.</h1>
+          {% if confirmation %}
+
+          {% user_display confirmation.email_address.user as user_display %}
+            <p class="py-4 col-lg-8 m-auto">Welcome back! Please verify your email <a href="mailto:{{ user_display }}">{{ user_display }}</a> 
+              to begin drafting your profile!</p>
+            <form method="post" action="{% url 'account_confirm_email' confirmation.key %}">
+              {% csrf_token %}
+              <button type="submit" class="btn primary-btn large center-half-btn-cta my-3">Confirm my email</button>
+            </form>
+            <p class="text-center">Having issues verifying? <span class="anchor-link" data-bs-toggle="modal"
+                data-bs-target="#contactModal">Contact us here</span>.</p>
+          {% else %}
+          
+          {% url 'account_email' as email_url %}
+            <p class="py-4 col-lg-8 m-auto">This e-mail confirmation link expired or is invalid. 
+              <br> Please contact us below for account support.
+            </p>
+            <button type="button" class="btn primary-btn large center-half-btn-cta my-3" data-bs-toggle="modal" data-bs-target="#contactModal">Request account support</button>
+
+          {% endif %}
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
