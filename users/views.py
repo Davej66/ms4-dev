@@ -3,11 +3,10 @@ from django.http import JsonResponse
 from django.conf import settings
 from django.contrib import messages
 from django.template.loader import render_to_string
-from users.forms import ProfileForm
 from allauth.account.decorators import verified_email_required
 from allauth.account.views import SignupView
 from allauth.account.utils import send_email_confirmation
-from users.forms import RegistrationForm
+from users.forms import RegistrationForm, EditProfileForm
 from packages.models import Package
 from users.models import MyAccount
 from django.template.loader import render_to_string
@@ -27,12 +26,6 @@ class CustomRegistrationView(SignupView):
         return context
 
 register = CustomRegistrationView.as_view()
-
-
-def resend_verification_email(request):
-    print('user', request.user)
-
-    send_email_confirmation(request, user)
 
 @verified_email_required
 def account_dashboard(request):
@@ -60,6 +53,22 @@ def account_dashboard(request):
     }
 
     return render(request, 'users/dashboard.html', context)
+
+
+@verified_email_required
+def edit_profile(request):
+
+    if request.method == 'POST':
+        form = EditProfileForm(request.POST, request.FILES, instance=request.user)
+        if form.is_valid():
+            form.save()
+            print("It saved this", form)
+            messages.success(request, "Form saved")
+        else:
+            print("Couldn't save", form.errors)
+            messages.error(request, "Form saved")
+
+    return render(request, 'users/edit_profile.html')
 
 
 @verified_email_required

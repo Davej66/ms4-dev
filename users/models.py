@@ -48,7 +48,7 @@ class AccountManager(BaseUserManager):
 
 
 def get_profile_image_filepath(self, filename):
-    return f'profile_imgs/{self.pk}/profile_img.png'
+    return f'profile_imgs/{self.pk}_{self.first_name}_{self.last_name}/profile_img.png'
 
 # Image from Pixabay Image by 
 # https://pixabay.com/users/wanderercreative-855399/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=973460">Stephanie Edwards</a> from <a href="https://pixabay.com/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=973460
@@ -60,8 +60,8 @@ class MyAccount(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(max_length=60, unique=True)
     stripe_customer_id = models.CharField(max_length=150, unique=True, null=True, blank=True)
     stripe_subscription_id = models.CharField(max_length=150, unique=True, null=True, blank=True)
-    first_name = models.CharField(max_length=50, blank=True)
-    last_name = models.CharField(max_length=50, blank=True)
+    first_name = models.CharField(max_length=50, blank=False, default="")
+    last_name = models.CharField(max_length=50, blank=False, default="")
     package_tier = models.IntegerField(blank=False, default=1)
     package_name = models.CharField(max_length=50, blank=False, default="Free Account")
     date_joined = models.DateTimeField(verbose_name='date joined', auto_now_add=True)
@@ -70,7 +70,7 @@ class MyAccount(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
-    profile_image = ResizedImageField(size=[500,500], upload_to=get_profile_image_filepath, null=True, blank=True, default=get_default_profile_image)
+    profile_image = models.ImageField(upload_to=get_profile_image_filepath, null=True, blank=True, default=get_default_profile_image)
     job_role = models.CharField(max_length=255, null=True, blank=True)
     description = models.TextField(max_length=1000, blank=True)
     skills = models.CharField(max_length=1000, null=True, blank=True)

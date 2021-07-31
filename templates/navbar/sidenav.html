@@ -1,26 +1,33 @@
-
 <div id="sidebar_wrap" class="active">
     <div id="account_sidebar" class="d-flex flex-column">
         <span onclick="triggerSidebar()" id="sidebar_trigger"><i class="fas fa-arrow-right"></i></span>
+        {% with request.resolver_match.url_name as url_name %}
         <div class="sidebar-profile-details">
-            <div class="sidenav-image-container mx-auto mb-4">
-                <img src="{{profile_image}}" alt="{{full_name}}'s profile image">
+            <div class="sidenav-image-container prf-img-preview-wrapper mx-auto mb-4">
+                <img class="prf-img-preview" src="{{profile_image}}" 
+                alt="{{full_name}}'s profile image" onload="specImageOrientation(this);">
             </div>
             <div class="sidenav-detail-text">
                 <h2>{{full_name}}</h2>
+                {% if url_name != "edit_profile" %}
+                <a href="{% url 'edit_profile' %}" class="btn secondary-btn">Edit Profile</a>
+                {% endif %}
             </div>
         </div>
 
         <ul id="account_sidebar_ul">
-            <li><i class="fas fa-address-book sidebar-icon-item "></i>
+            <li class="{% if url_name == 'account_dashboard' %}active{% endif %}"><i
+                    class="fas fa-address-book sidebar-icon-item "></i>
                 <span class="sidebar-text-item">My Projects</span>
             </li>
-            <li onclick="get_ajax_data(`{% url 'get_my_orders' %}`)"><i class="fas fa-address-book sidebar-icon-item "></i>
+            <li onclick="get_ajax_data(`{% url 'get_my_orders' %}`)"><i
+                    class="fas fa-address-book sidebar-icon-item "></i>
                 <span class="sidebar-text-item">My Orders</span>
             </li>
             <li><i class="fas fa-address-book sidebar-icon-item "></i>
                 <span class="sidebar-text-item">Signout</span>
             </li>
         </ul>
+        {% endwith %}
     </div>
 </div>

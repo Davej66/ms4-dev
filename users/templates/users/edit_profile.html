@@ -1,0 +1,85 @@
+{% extends 'includes/base.html' %}
+{% load static %}
+
+{% block post_CSS %}
+<link rel="stylesheet" href="{% static 'users/css/users.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid w-100 m-0 p-0">
+    <div class="row w-100 m-0">
+        <div class="d-flex justify-content p-0">
+            <!-- SIDENAV -->
+            {% include "navbar/sidenav.html" %}
+
+            <!-- MAIN PAGE CONTENT -->
+            <div class="container container-with-grad-bg">
+                <section id="ajax_content" class="pg-section py-5 min-vh page-section-card transparent">
+                    <!-- TOP SECTION CARDS -->
+                    <div class="container w-100 d-flex justify-content-center align-items-stretch mb-4">
+                        <div class="d-flex justify-content-between row w-100">
+                            <div class="py-2 col-lg-4">
+                                <div class="container-rounded-light">card-content</div>
+                            </div>
+                            <div class="py-2 col-lg-4">
+                                <div class="container-rounded-light">card-content</div>
+                            </div>
+                            <div class="py-2 col-lg-4">
+                                <div class="container-rounded-light">card-content</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- MAIN BODY CARD -->
+                    <div class="container w-100 d-flex flex-row justify-content-center align-items-stretch">
+                        <div class="d-flex justify-content-between row w-100">
+                            <!-- Start the Ajax Content Section -->
+                            <div id="main_ajax_content" class="content col-12">
+                                <div class="container-box-header pb-4">
+                                    <h1>Edit Profile</h1>
+                                </div>
+
+                                <!-- Begin user profile edit form -->
+                                <form action="{% url 'edit_profile' %}" method="POST" enctype="multipart/form-data">{% csrf_token %}
+                                    <!-- First card section -->
+                                    <div class="container-rounded-light mb-3">
+                                        <div class="col-lg-4">
+                                            <div class="edit-prf-pic-img-wrap prf-img-preview-wrapper">
+                                                <img class="prf-img-preview" src="{{profile_image}}"
+                                                    alt="{{this_user.first_name}} {{this_user.last_name}}'s profile image" 
+                                                    onload="specImageOrientation(this);">
+                                                <div class="overlay-edit-trigger" onclick="prfImgUpload();">
+                                                    <i class="fas fa-camera"></i>
+                                                </div>
+                                            </div>
+                                            <input type="text" id="first_name" name="first_name" value="{{this_user.first_name}}">
+                                            <input type="text" id="last_name" name="last_name" value="{{this_user.last_name}}">
+                                            <button type="button" class="btn secondary-btn" onclick="prfImgUpload();">Replace Photo</button>
+                                            <input class="d-none" type="file" accept="image/*" id="profile_image" name="profile_image">
+                                        </div>
+                                        <div class="col-lg-8"></div>
+                                    </div>
+
+                                    <!-- Second card section -->
+                                    <div class="container-rounded-light">card-content</div>
+                                    <button type="submit">Submit</button>
+                                </form>
+                                <!-- End user profile edit form -->
+
+                            </div>
+                            <!-- End of Ajax content section -->
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+<!-- Page only scripts -->
+<script src="{% static 'users/js/users.js' %}" type="text/javascript"></script>
+
+{% endblock %}

@@ -40,10 +40,10 @@ class RegistrationForm(forms.ModelForm):
         user.save()
 
 
-class ProfileForm(forms.ModelForm):
+class EditProfileForm(forms.ModelForm):
     class Meta:
         model = MyAccount
-        fields = ('first_name', 'last_name', 'job_role')
+        fields = ('first_name', 'last_name', 'job_role', 'profile_image')
 
 
 class UpdateUserPackage(forms.ModelForm):

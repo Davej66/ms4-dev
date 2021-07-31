@@ -139,6 +139,22 @@ a:hover, .anchor-link:hover {
     transform: translateY(-3px);
 }
 
+.secondary-btn {
+    background: var(--secondary-color);
+    color: #fff;
+}
+
+.secondary-btn.large {
+    padding: 10px 20px;
+}
+
+.secondary-btn:hover {
+    box-shadow: 1px 2px 8px -2px var(--dark-shadow);
+    background: var(--accent-color);
+    color: #fff;
+    transform: translateY(-3px);
+}
+
 .center-half-btn-cta {
     margin: auto;
     width: 50%;
@@ -223,6 +239,27 @@ form.login p:nth-of-type(3) {
     transition: 0.3s ease-in-out;
 }
 
+/* Image Handlers */
+
+.prf-img-preview-wrapper {
+    position: relative;
+}
+
+.portrait-img {
+    width: 100%!important;
+    height: auto!important;
+}
+
+.landscape-img {
+    height: 100%!important;
+    width: auto!important;
+    position: absolute;
+    top: -9999px;
+    bottom: -9999px;
+    left: -9999px;
+    right: -9999px;
+    margin: auto;
+}
 
 /* Bootstrap Override */
 .container {
