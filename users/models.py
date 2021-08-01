@@ -1,6 +1,10 @@
 from django.db import models
 from django import forms
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin, AbstractUser
+from django.contrib.auth.models import (
+    AbstractBaseUser,
+    BaseUserManager,
+    PermissionsMixin,
+    AbstractUser)
 from django.utils import timezone
 from django_resized import ResizedImageField
 import uuid
@@ -83,3 +87,17 @@ class MyAccount(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.email
+
+
+class Skills(models.Model):
+    skill_name = models.CharField(max_length=50, null=False, blank=False, default="")
+
+    def __str__(self):
+        return self.skill_name
+
+
+class Roles(models.Model):
+    role_name = models.CharField(max_length=50, null=False, blank=False, default="")
+
+    def __str__(self):
+        return self.role_name

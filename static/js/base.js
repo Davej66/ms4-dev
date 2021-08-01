@@ -8,3 +8,16 @@ $(document).ready(function () {
         error.appendTo(invalidInput)  
     })
 })
+
+
+// Auto resize textarea
+function resizeTextarea(textarea) {
+    var currentHeight = $(textarea).height();
+    var scrollHeight = $(textarea).prop('scrollHeight');
+    if ((scrollHeight - 10) > currentHeight) {
+        if (scrollHeight > 240) {
+            $(textarea).css('overflow-y', 'auto');
+        }
+        textarea.style.height = scrollHeight + 'px';
+    }
+}

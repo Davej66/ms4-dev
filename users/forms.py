@@ -43,7 +43,8 @@ class RegistrationForm(forms.ModelForm):
 class EditProfileForm(forms.ModelForm):
     class Meta:
         model = MyAccount
-        fields = ('first_name', 'last_name', 'job_role', 'profile_image')
+        fields = ('first_name', 'last_name', 'job_role',
+            'profile_image', 'skills', 'location', 'description')
 
 
 class UpdateUserPackage(forms.ModelForm):

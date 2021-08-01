@@ -4,3 +4,4 @@ from django.test import TestCase
 
 
 # create a test to check user is logged in and verified before showing page
+# test contexts.py exception
