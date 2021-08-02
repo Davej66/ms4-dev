@@ -167,4 +167,49 @@ label.table-item-label {
     background: var(--accent-color);
     box-shadow: 1px 2px 10px -3px var(--dark-shadow);
     color: #fff;
+    margin: 0px 5px 5px 0px;
+    display: flex;
+    height: max-content;
+}
+
+.skill-pill i {
+    font-size: 12px;
+    margin: auto;
+    padding-left: 10px;
+    line-height: normal;
+    cursor: pointer;
+}
+
+/* Multiselect - set wrapper relative to custom button */
+.skills-wrapper {
+    position: relative;
+}
+
+.skills-display-wrapper {
+    position: relative;
+    display: flex;
+    flex-direction: row-reverse;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+}
+
+.vscomp-wrapper {
+    position: absolute;
+    right: 0;
+    width: 250%;
+    bottom: 55px;
+}
+
+.vscomp-wrapper.role {
+    position: relative;
+    width: 100%;
+    bottom: 0;
+}
+
+.vscomp-wrapper.role > .vscomp-toggle-button {
+    display: block;
+}
+
+.vscomp-toggle-button {
+    display: none;
 }

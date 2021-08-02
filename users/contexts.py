@@ -7,6 +7,7 @@ from users.models import MyAccount, Skills, Roles
 def user_context(request):
 
     skill_names = []
+    role_names = []
 
     try:
         this_user = MyAccount.objects.get(email=request.user)
@@ -18,10 +19,19 @@ def user_context(request):
         for skill in skills:
             skill_names.append(skill.skill_name)
         user_skills = this_user.skills
-        print("user skills",user_skills)
-        
+        if not user_skills:
+            user_skills = ""
+
         # Return all roles and user role
-        roles = serialize('json', Roles.objects.all())
+        roles = Roles.objects.all()
+        for role in roles: 
+            role_names.append(role.role_name)
+        # print("no skill", this_user.role)
+        # user_role = this_user.role
+        # if not user_role:
+        #     user_role = ""
+        #     print("no role")
+        # print("role_names", role_names, skill_names)
 
         context = {
             'this_user': this_user,
@@ -29,7 +39,7 @@ def user_context(request):
             'full_name': full_name_title,
             'skills': skill_names,
             'user_skills': user_skills,
-            'roles': roles,
+            # 'roles': role_names,
         }
         return context
     except Exception as e:

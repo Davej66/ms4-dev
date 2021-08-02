@@ -80,6 +80,7 @@
                                             <div class="input-row d-flex justify-content-between">
                                                 <div class="fieldset">
                                                     <label for="job_role">Job Role</label>
+                                                    <div id="role-select"></div>
                                                     <input type="text" id="job_role" name="job_role"
                                                         value="{{this_user.job_role|default:''}}"
                                                         placeholder="Select your expertise">
@@ -90,20 +91,27 @@
                                                         value="{{this_user.location|default:''}}"
                                                         placeholder="Enter your city">
                                                 </div>
-                                                <div class="fieldset">
-                                                    <label for="location">About me</label>
-                                                    <textarea id="description" name="description"
-                                                        value="{{this_user.bio|default:''}}"
-                                                        oninput="resizeTextarea(this);"
-                                                        placeholder="Enter your city"></textarea>
-                                                </div>
-                                                
-                                                <div id="skills_display" class="fieldset skills-display-wrapper">
-
-                                                </div>
-                                                <div id="skills-select"></div>
                                             </div>
+                                            <div id="skills_display" class="skills-display-wrapper">
+                                                <!-- Skills wills append here using JS -->
+                                            
+                                            <div class="skills-wrapper">
+                                                <button type="button" class="btn secondary-btn" onclick="addSkill(this);"><i
+                                                        class="fas fa-plus"></i> Add Skill</button>
+                                                <div id="skills-select">
+                                                </div>
+                                            </div>
+                                            </div>
+                                            
+
                                         </div>
+                                    </div>
+                                    <hr>
+                                    <div class="fieldset">
+                                        <label for="location">About me</label>
+                                        <textarea id="description" name="description"
+                                            value="{{this_user.bio|default:''}}" oninput="resizeTextarea(this);"
+                                            placeholder="Tell other users a little about yourself"></textarea>
                                     </div>
                                 </div>
 
@@ -125,6 +133,7 @@
 
 <!-- Page only scripts -->
 {{ skills|json_script:"all_skills" }}
+{{ roles|json_script:"all_roles" }}
 <script src="{% static 'users/js/users.js' %}" type="text/javascript"></script>
 
 

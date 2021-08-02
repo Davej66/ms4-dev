@@ -1,10 +1,14 @@
 // Initialize on page load
 const skills = JSON.parse(document.getElementById('all_skills').textContent);
+const roles = JSON.parse(document.getElementById('all_roles').textContent);
 
+console.log(skills)
 $(document).ready(function () {
 
+    // Multiselect library by 'sa-si-dev': https://sa-si-dev.github.io/virtual-select/
+
+    // Skill Select
     (function () {
-        // Multiselect library by 'sa-si-dev': https://sa-si-dev.github.io/virtual-select/
         VirtualSelect.init({
             ele: '#skills-select',
             options: [],
@@ -21,6 +25,7 @@ $(document).ready(function () {
 
         var vsOptions = $('.vscomp-options > .vscomp-option');
         var skillsDisplay = $('#skills_display');
+        // TODO connect skills to db
         var userSkills = ['HTML', 'CSS'];
 
         // Add existing skills to display
@@ -51,16 +56,42 @@ $(document).ready(function () {
             }
         })
     })();
+
+    // Role Select
+    (function () {
+        var role = VirtualSelect.init({
+            ele: '#role-select',
+            options: [],
+            multiple: false,
+            name: 'role',
+            additionalClasses: 'role'
+
+        });
+        for (i = 0; i < roles.length; i++) {
+            document.querySelector('#skills-select').addOption({
+                value: skills[i],
+                label: skills[i],
+            });
+        };
+        return role
+    })();
 });
-    function removeSkill(skill) {
-        var skillPillClose = $('#skills_display > .skill-pill');
-            var skill_name = $(skill).attr('value')
-            var skillSelect = $(`.vscomp-option[data-value="${skill_name}"]`)
-            if ($(skillSelect).hasClass('selected')) {
-                skillSelect.click()
-                $(this).parent().remove()
-            }
+
+
+/* Custom skill pill add and remove, to interact with 
+hidden dropdown when user clicks custom button */
+function addSkill(toggle) {
+    $('.vscomp-toggle-button').click()
+}
+function removeSkill(skill) {
+    var skillPillClose = $('#skills_display > .skill-pill');
+    var skill_name = $(skill).attr('value')
+    var skillSelect = $(`.vscomp-option[data-value="${skill_name}"]`)
+    if ($(skillSelect).hasClass('selected')) {
+        skillSelect.click()
+        $(this).parent().remove()
     }
+}
 
 
 
