@@ -2,24 +2,29 @@
 =            GLOBAL VARIABLES                 =
 =============================================*/
 
-/* Import Poppins Font */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
-
 :root {
 
-    --primary-color: rgb(25, 125, 255);
-    --secondary-color: #0f9fd8;
-    --accent-color: rgb(40, 194, 233);
-    --accent-color-light: rgba(40, 194, 233, 0.664);
+    --primary-color: #FF4E4E;
+    --primary-color-sub: #094DD6;
+    --primary-color-sub-grad: linear-gradient(145deg, #003fbd 0%,#094DD6 45%, #3D7AF5 100%);
+    --secondary-color: #FDB047;
+    --secondary-color-sub: #3D7AF5;
+    --accent-color: #52DE81;
+    --accent-color-grad: linear-gradient(145deg, #52DE81 0%, #7aeccc 100%);;
+    --accent-color-light: #7aeccc;
+
+    /* Semantic */
+    --success: #4dd179;
+    --error: #ff3838;
+    --warning: #FDB047;
+    --info: #3D7AF5;
 
     --light-line: #dcdcdc;
 
     --bg-grad-color: linear-gradient(129deg, #cbcbcba6 0%, rgb(219 219 219 / 60%) 36%, #25daff24 100%);
     --bg-backup: #25daff24;
     --container-bg-color: #fff;
-    --action-btn-grad: linear-gradient(113deg, rgba(255,70,33,1) 5%, rgba(254,75,36,1) 24%, rgba(252,84,41,1) 41%, rgba(251,94,46,1) 57%, rgba(250,99,49,1) 77%, rgba(247,113,56,1) 100%);
-    --action-btn-grad-trns: linear-gradient(113deg, rgba(255,70,33,0.5) 5%, rgba(254,75,36,0.5) 24%, rgba(252,84,41,0.5) 41%, rgba(251,94,46,0.5) 57%, rgba(250,99,49,0.5) 77%, rgba(247,113,56,0.5) 100%);
-
+    
     --h1-prim-color: #fff;
     --h1-alt-color: #fff;
     --h2-prim-color: #fff;
@@ -29,6 +34,7 @@
 
     --light-text: #585858;
     --dark-text: #272727;
+
 
     --btn-prim-color: #fff;
     --btn-prim-hover-color: #fff;
@@ -47,12 +53,6 @@ body {
 
 footer {
     margin-top: auto;
-}
-
-h1, h2, h3, h4, h5, h6, 
-a, p, ul, li {
-    font-family: 'Poppins', sans-serif;
-    margin: 0;
 }
 
 .container-with-grad-bg {
@@ -77,7 +77,14 @@ a, p, ul, li {
     box-shadow: 1px 2px 8px -5px var(--dark-shadow);
 }
 
-/* Typography */
+/* Fonts */
+h1, h2, h3, h4, h5, h6, 
+a, p, ul, li {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    font-display: optional!important;
+}
+
 p {
     font-weight: 300;
     font-size: 1.1rem;
@@ -108,11 +115,19 @@ a:hover, .anchor-link:hover {
 .btn, .btn:focus {
     border-radius: 40px;
     box-shadow: 1px 2px 8px -3px var(--dark-shadow);
-    transition: 0.3s ease-in-out;
+    transition: 0.3s ease-out;
+}
+
+.large-cta {
+    padding: 20px 30px;
+    font-size: 18px;
+    font-weight: 400;
+    box-shadow: 2px 2px 15px -2px var(--dark-shadow);
+    border: none;
 }
 
 .primary-btn {
-    background: var(--primary-color);
+    background: var(--primary-color-sub-grad);
     color: #fff;
 }
 
@@ -122,26 +137,31 @@ a:hover, .anchor-link:hover {
 
 .primary-btn:hover {
     box-shadow: 1px 2px 8px -2px var(--dark-shadow);
-    background: var(--accent-color);
-    color: #fff;
+    border: none;
+    background: var(--accent-color-grad);
+    color: var(--primary-color-sub);
     transform: translateY(-3px);
 }
 
 .primary-btn-outline {
-    border: 2px solid var(--primary-color);
-    color: var(--primary-color);
+    border: 2px solid #fff;
+    color: #fff;
+    padding: 19px 29px;
 }
 
 .primary-btn-outline:hover {
     box-shadow: 1px 2px 8px -2px var(--dark-shadow);
-    background: var(--primary-color);
-    color: #fff;
+    border: 2px solid transparent!important;
+    border-bottom: 2px solid transparent!important;
+    background: var(--accent-color-grad);
+    color: var(--primary-color-sub);
     transform: translateY(-3px);
 }
 
 .secondary-btn {
     background: var(--secondary-color);
     color: #fff;
+    border: none;
 }
 
 .secondary-btn.large {
@@ -165,6 +185,10 @@ a:hover, .anchor-link:hover {
 section.grad-bg {
     background: var(--bg-grad-color);
     background-color: var(--bg-backup);
+}
+
+.section-with-padding {
+    padding: 0px 50px;
 }
 
 .card.muted:hover {
@@ -344,5 +368,12 @@ ul {
 @keyframes color-in {
     0% {color: transparent;}
     100% {color: inherit;}
+}
+
+@keyframes fade-up {
+    0% {transform: translateY(30px);
+        opacity: 0;}
+    100% {opacity: 1;
+        transform: translateY(0px)}
 }
 

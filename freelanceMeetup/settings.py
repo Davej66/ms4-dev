@@ -176,6 +176,7 @@ STATICFILES_DIRS = [
     BASE_DIR /
     'static',
     'users/static/users/',
+    'home/static/home/',
     'checkout/static/checkout/',
     ]
 

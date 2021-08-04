@@ -1,13 +1,39 @@
 {% extends 'includes/base.html' %}
+{% load static %}
 
-ertr7678
+{% block post_CSS %}
+<link rel="stylesheet" href="{% static 'home/css/home.css' %}">
+{% endblock %}
+
 {% block content %}
-<form method='post' action='{% url "registration" %}' id='signup'>
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type='text' name="first_name" id="first_name">
-    <input type='text' name="last_name" id="last_name">
-    <input type='email' name="email" id="email">
-    <input type='submit' value='Sign Up'>
-</form>
+<section id="landing_pg_top" class="section-with-padding">
+    <div class="container landing-pg-header">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="homepage-header fade-in">
+                    <h1 class="pb-5">Find Freelance Meetups in Your Industry</h1>
+                    <a href="{% url 'registration' %}" class="btn primary-btn large-cta">Create your Free Account</a>
+                    <a href="{% url 'account_login' %}" class="btn large-cta primary-btn-outline mx-3">Login to your
+                        account</a>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="homepage-graphic">
+                    <div class="card event-card">
+                        <div class="event-header-image">
+                            <div class="dummy-image">
+                                <i class="fas fa-camera"></i>
+                            </div>
+                            <div class="event-header-pills">
+                                <span class="event-ind-pill">Photography</span>
+                                <span class="event-loc-pill">Virtual</span>
+                            </div>
+                        </div>
+                        <div class="card-content p-4">dd</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 {% endblock %}
