@@ -5,6 +5,7 @@
 :root {
 
     --primary-color: #FF4E4E;
+    --primary-color-grad: linear-gradient(145deg, #FF4E4E 10%,#f45f4e 55%, #f5714b 100%);
     --primary-color-sub: #094DD6;
     --primary-color-sub-grad: linear-gradient(145deg, #003fbd 0%,#094DD6 45%, #3D7AF5 100%);
     --secondary-color: #FDB047;
@@ -341,6 +342,11 @@ ul {
 
 
 /* Effects */
+
+.no-hover {
+    pointer-events: none;
+}
+
 .color-on-hover {
     background: linear-gradient(to right, #fff 50%, var(--secondary-color) 50%);
     background-size: 201% 100%;
@@ -360,6 +366,11 @@ ul {
     animation: fade-in 0.4s ease-in-out;
 }
 
+.fade-up-delay {
+    animation: fade-up 0.3s ease-in;
+    animation-delay: 0.5s;
+}
+
 @keyframes fade-in {
     0% {opacity: 0;}
     100% {opacity: 1;}
@@ -371,9 +382,26 @@ ul {
 }
 
 @keyframes fade-up {
-    0% {transform: translateY(30px);
-        opacity: 0;}
+    0% {
+    opacity: 0!important;
+    transform: translateY(30px);
+}
     100% {opacity: 1;
         transform: translateY(0px)}
 }
 
+
+
+/*=============================================
+=              MEDIA QUERIES                  =
+=============================================*/
+
+@media (max-width: 575.98px) { 
+    .section-with-padding {
+        padding: 0px 20px;
+    }
+ }
+
+ @media (max-width: 991.98px) { 
+     
+  }

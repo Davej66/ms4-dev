@@ -1,6 +1,8 @@
 {% extends 'includes/base.html' %}
 {% load static %}
 
+{% block head_title %}Home{% endblock %}
+
 {% block post_CSS %}
 <link rel="stylesheet" href="{% static 'home/css/home.css' %}">
 {% endblock %}
@@ -8,30 +10,81 @@
 {% block content %}
 <section id="landing_pg_top" class="section-with-padding">
     <div class="container landing-pg-header">
-        <div class="row">
-            <div class="col-lg-8">
+        <div class="row flex-sm-column flex-md-row">
+            <div class="col-lg-7 col-md-7 col-sm-12 d-flex">
                 <div class="homepage-header fade-in">
                     <h1 class="pb-5">Find Freelance Meetups in Your Industry</h1>
                     <a href="{% url 'registration' %}" class="btn primary-btn large-cta">Create your Free Account</a>
-                    <a href="{% url 'account_login' %}" class="btn large-cta primary-btn-outline mx-3">Login to your
+                    <a href="{% url 'account_login' %}" class="btn large-cta primary-btn-outline">Login to your
                         account</a>
                 </div>
             </div>
-            <div class="col-lg-4">
+            <div class="col-lg-5 col-md-5 col-sm-12 d-flex flex-column">
                 <div class="homepage-graphic">
-                    <div class="card event-card">
-                        <div class="event-header-image">
-                            <div class="dummy-image">
-                                <i class="fas fa-camera"></i>
+                    <div class="event-section ">
+                        <div class="card event-card no-hover">
+                            <div class="event-header-image">
+                                <div class="dummy-image">
+                                    <i class="fas fa-camera"></i>
+                                </div>
+                                <div class="event-header-pills">
+                                    <span class="event-ind-pill">Photography</span>
+                                    <span class="event-loc-pill">Virtual</span>
+                                </div>
                             </div>
-                            <div class="event-header-pills">
-                                <span class="event-ind-pill">Photography</span>
-                                <span class="event-loc-pill">Virtual</span>
+                            <div class="card-content p-4 ">
+                                <div class="dummy-text-homepage-card large long"> </div>
+                                <div class="dummy-text-homepage-card two-thirds"> </div>
+                                <div class="dummy-text-homepage-card"> </div>
+                                <div class="d-flex justify-content-between flex-wrap">
+                                    <div class="btn secondary-btn btn-example-disabled my-sm-10">Join Event</div>
+                                    <div class="btn secondary-btn btn-example-disabled my-sm-10 ">View Guestlist</div>
+                                </div>
                             </div>
                         </div>
-                        <div class="card-content p-4">dd</div>
+                        <div class="homepage-event-attendees align-right">
+                            <div class="event-attendee-example-img "><img
+                                    src="{% static 'images/homepage_event_attendees/att1.jpg' %}" alt=""></div>
+                            <div class="event-attendee-example-img"><img
+                                    src="{% static 'images/homepage_event_attendees/att2.jpg' %}" alt=""></div>
+                            <div class="event-attendee-example-img"><img
+                                    src="{% static 'images/homepage_event_attendees/att3.jpg' %}" alt=""></div>
+                        </div>
                     </div>
+                    <div class="event-section">
+                        <div class="card event-card no-hover">
+                            <div class="event-header-image">
+                                <div class="dummy-image">
+                                   <img src="{% static 'images/homepage_event_headers/london.jpg' %}" alt="">
+                                </div>
+                                <div class="event-header-pills">
+                                    <span class="event-ind-pill">Event Industry</span>
+                                    <span class="event-loc-pill">London, UK</span>
+                                </div>
+                            </div>
+                            <div class="card-content p-4 ">
+                                <div class="dummy-text-homepage-card large long"> </div>
+                                <div class="dummy-text-homepage-card"> </div>
+                                <div class="dummy-text-homepage-card two-thirds"> </div>
+                                <div class="d-flex justify-content-between flex-wrap">
+                                    <div class="btn secondary-btn btn-example-disabled mb-10">Join Event</div>
+                                    <div class="btn secondary-btn btn-example-disabled mb-10">View Guestlist</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="homepage-event-attendees justify-content-end">
+                            <div class="event-attendee-example-img"><img
+                                    src="{% static 'images/homepage_event_attendees/att4.jpg' %}" alt=""></div>
+                            <div class="event-attendee-example-img"><img
+                                    src="{% static 'images/homepage_event_attendees/att2.jpg' %}" alt=""></div>
+                            <div class="event-attendee-example-img"><img
+                                    src="{% static 'images/homepage_event_attendees/att3.jpg' %}" alt=""></div>
+                        </div>
+                    </div>
+                    
                 </div>
+                <!-- <div class="event-attendee-example-img"><img
+                        src="{% static 'images/homepage_event_attendees/att4.jpg' %}" alt=""></div> -->
             </div>
         </div>
     </div>
