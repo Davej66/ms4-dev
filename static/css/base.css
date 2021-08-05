@@ -13,6 +13,7 @@
     --accent-color: #52DE81;
     --accent-color-grad: linear-gradient(145deg, #52DE81 0%, #7aeccc 100%);;
     --accent-color-light: #7aeccc;
+    --neutral-light-grad: linear-gradient(145deg, #f5f5f5 0%, #e6feff 100%);;
 
     /* Semantic */
     --success: #4dd179;
@@ -111,6 +112,10 @@ a:hover, .anchor-link:hover {
     font-weight: 200;
 }
 
+.header-underline {
+    border-bottom: 5px solid var(--accent-color);
+}
+
 
 /* Buttons */
 .btn, .btn:focus {
@@ -146,6 +151,19 @@ a:hover, .anchor-link:hover {
 
 .primary-btn-outline {
     border: 2px solid #fff;
+    color: #fff;
+    padding: 19px 29px;
+}
+
+.primary-btn-outline-color {
+    border: 2px solid var(--primary-color);
+    color: var(--primary-color);
+    padding: 19px 29px;
+}
+
+.primary-btn-outline-color:hover {
+    border: 2px solid var(--primary-color);
+    background: var(--primary-color-grad);
     color: #fff;
     padding: 19px 29px;
 }
