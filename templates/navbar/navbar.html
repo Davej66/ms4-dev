@@ -1,9 +1,9 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="transparent-nav navbar navbar-expand-lg navbar-light fade-in">
   <div class="container-fluid">
-    <a class="navbar-brand no-highlight-hover" href="#" aria-label="Home"></a>
+    <a class="navbar-brand no-highlight-hover" href="/" aria-label="Home"></a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
       aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
+      <i class="fas fa-bars"></i>
     </button>
     <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
       <ul class="navbar-nav mb-2 mb-lg-0">
@@ -17,7 +17,7 @@
           <a class="nav-link" aria-label="Home" href="#">Freelancers</a>
         </li>
         {% if user.is_authenticated %}
-        <li class="nav-item dropdown">
+        <li class="nav-item dropdown d-none d-lg-block">
           <a class="nav-link dropdown-toggle nav-img-wrapper" href="#" id="navbarDropdown" role="button"
             data-bs-toggle="dropdown" aria-expanded="false">
             <img src="{{profile_image}}" onload="specImageOrientation(this)"
@@ -31,16 +31,35 @@
               <a class="dropdown-item" href="{% url 'account_logout' %}">Logout</a>
             </li>
           </ul>
-          </li> 
-          {% else %}
-        <li class="nav-item">
-          <a class="nav-link btn primary-btn" href="{% url 'account_signup' %}">Register</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link btn primary-btn-outline-color" href="{% url 'account_login' %}">Login</a>
-        </li>
-        {% endif %}
         
+          <li class="nav-item d-md-block d-lg-none">
+            <a class="nav-link" href="{% url 'account_dashboard' %}">My Dashboard</a>
+          </li>
+          <li class="nav-item d-md-block d-lg-none">
+            <a class="nav-link" href="{% url 'account_logout' %}">Logout</a>
+          </li>
+        
+        {% else %}
+
+        <li class="nav-item d-md-block d-lg-none">
+          <a class="nav-link" href="{% url 'account_signup' %}">Register</a>
+        </li>
+        <li class="nav-item d-md-block d-lg-none">
+          <a class="nav-link" href="{% url 'account_login' %}">Login</a>
+        </li>
+
+        <li class="nav-item d-none d-lg-flex">
+          <a class="nav-link btn primary-btn no-active-highlight" href="{% url 'account_signup' %}">Register</a>
+        </li>
+        <li class="nav-item d-none d-lg-flex">
+          <a class="nav-link btn primary-btn-outline-color no-active-highlight" href="{% url 'account_login' %}">Login</a>
+        </li>
+
+
+
+        {% endif %}
+
 
       </ul>
     </div>

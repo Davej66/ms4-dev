@@ -52,6 +52,8 @@ body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    background: linear-gradient( 105.2deg,  #ff4e4e 11.2%, #fdb047 117.9% );
+    animation: fade-in 0.3s ease-in-out;
 }
 
 footer {
@@ -215,6 +217,10 @@ section.grad-bg {
 
 .section-with-padding {
     padding: 0px 50px;
+}
+
+.screen-height {
+    min-height: 100vh;
 }
 
 .card.muted:hover {
@@ -421,10 +427,42 @@ nav {
     height: 100px;
     box-shadow: 1px 1px 15px -2px var(--dark-shadow);
     position: fixed!important;
+    background: #fff;
     transition: 0.3s ease-in-out;
     width: 100%;
     z-index: 99;
     top: 0;
+}
+
+nav.transparent-nav {
+    background: transparent;
+    box-shadow: none;
+    color: #fff;
+}
+
+nav.transparent-nav.scrolled {
+    background: #f5f5f5;
+    box-shadow: 1px 1px 15px -2px var(--dark-shadow);
+}
+
+nav.transparent-nav > div > .navbar-brand {
+    background-image: url('/static/brand/logos/FreelanceMeetupsLogo_white.svg');
+}
+
+nav.transparent-nav.scrolled > div > .navbar-brand {
+    background-image: url('/static/brand/logos/FreelanceMeetupsLogo_colour.svg');
+}
+
+nav.transparent-nav > div > .navbar-collapse > ul > li > a {
+    color: #fff!important;
+}
+
+nav.transparent-nav.scrolled > div > .navbar-collapse > ul > li > a {
+    color: var(--dark-text)!important;
+}
+
+.nav-top-padding {
+    padding-top: 100px;
 }
 
 nav>* {
@@ -573,8 +611,52 @@ a.nav-img-wrapper img {
     .section-with-padding {
         padding: 0px 20px;
     }
+
+    nav > div {
+        padding: 0px 20px!important;
+        height: 100%;
+    }
+
  }
 
  @media (max-width: 991.98px) { 
+    nav {
+        min-height: 80px;
+        height: auto;
+        position: relative!important;
+    }
+
+    .navbar-brand {
+        margin-right: 0px;
+        height: 60px;
+    }
+
+    .nav-item {
+        margin: auto;
+        margin-right: 0px;
+    }
+
+    .navbar-collapse {
+        margin-bottom: -50px;
+    }
+
+    .homepage-header {
+        padding-top: 0px!important;
+    }
      
+    .navbar-toggler:focus,
+    .navbar-toggler:active {
+        border: none!important;
+        box-shadow: none;
+    }
+
+    .navbar-toggler, 
+    nav.transparent-nav.scrolled .navbar-toggler {
+        border: none;
+        color: var(--dark-text);
+    }
+
+    nav.transparent-nav .navbar-toggler {
+        color: #fff;
+    }
   }

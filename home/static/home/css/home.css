@@ -1,9 +1,9 @@
 /* Homepage Top Page Elements */
 
 #landing_pg_top {
-    height: 100vh;
-    background: rgb(10,102,194);
-    background: linear-gradient( 105.2deg,  #ff4e4e 11.2%, #fdb047 117.9% );;
+    min-height: 100vh;
+    /* background: rgb(10,102,194); */
+    /* background: linear-gradient( 105.2deg,  #ff4e4e 11.2%, #fdb047 117.9% );; */
     display: flex;
     flex-direction: column;
 }
@@ -210,7 +210,7 @@
 /* Homepage Lower Page Elements */
 
 #landing_pg_bottom {
-    height: 100vh;
+    min-height: 100vh;
     background: rgb(10,102,194);
     background: var(--neutral-light-grad);
     display: flex;
@@ -280,6 +280,22 @@
 
 
 /* MEDIA QUERIES */
+@media (max-width: 576.98px) { 
+    .homepage-header h1 {
+        font-size: 2.75rem;
+        margin-top: 20px;
+    }
+
+    .homepage-packages-section {
+        padding: 50px 0px;
+        text-align: center;
+    }
+
+    .homepage-packages-section h2 {
+        font-size: 2rem;
+    }
+}
+
 @media (max-width: 991.98px) { 
     .event-section:nth-of-type(2){
         display: none;

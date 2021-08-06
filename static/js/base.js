@@ -1,26 +1,3 @@
-// Get page title to determine which nav style to show
-window.onload = () => {
-    var titleArr = ['Home | FreelanceMeetups', 'Register | FreelanceMeetups',
-        'Login | FreelanceMeetups']
-    var title = document.title;
-    var titleShort = title.split('|')[0].trim();
-
-    var titleConfirmed = titleArr.includes(title);
-    if (titleConfirmed == true) {
-        $('.navbar').addClass('transparent-nav');
-    } else {
-        $('.navbar').removeClass('transparent-nav');
-    }
-
-    // Add 'active' class to current page nav link
-    var currPath = window.location.pathname;
-    console.log(currPath)
-    var currPageNavLink = $(`.nav-link[href="${currPath}"`);
-    $(currPageNavLink).addClass('active');
-
-}
-
-
 // Add 'scrolled' to navbar
 $(document).scroll(function () {
     if ($(document).scrollTop() >= 50) {
@@ -32,8 +9,31 @@ $(document).scroll(function () {
 
 
 $(document).ready(function () {
+
     var dropdownId = $('.dropdown-toggle').attr('id');
-    var dropdownMenu = $(`ul[aria-labelledby=${dropdownId}]`)
+    var dropdownMenu = $(`ul[aria-labelledby=${dropdownId}]`);
+
+    // Determine which navbar to show
+    var titleArr = ['Home | FreelanceMeetups', 'Register | FreelanceMeetups',
+        'Login | FreelanceMeetups']
+    var title = document.title;
+    var titleShort = title.split('|')[0].trim();
+    console.log(title)
+    var titleConfirmed = titleArr.includes(title);
+    if (titleConfirmed == true) {
+        $('.navbar').addClass('transparent-nav');
+    } else {
+        $('.navbar').removeClass('transparent-nav');
+    }
+
+    // Add 'active' class to current page nav link
+    var currPath = window.location.pathname;
+    var currPageNavLink = $(`.nav-link[href="${currPath}"`);
+    var isCtaLink = $(currPageNavLink).hasClass('no-active-highlight');
+    if (isCtaLink == false) {
+        $(currPageNavLink).addClass('active');
+    }
+
 
     // Open navbar dropdown on hover
     $('.dropdown-toggle').hover(
@@ -61,6 +61,21 @@ $(document).ready(function () {
         var invalidInput = error.next();
         error.appendTo(invalidInput);
     });
+
+    // Switch navbar-toggler to cross when selected
+    $('.navbar-toggler').click(function () {
+        var open = $('.navbar-toggler > i').hasClass('fa-bars');
+        var toggler = $(this).children()
+        if (open == true) {
+            $(toggler).removeClass('fa-bars')
+            $(toggler).addClass('fade-in')
+            $(toggler).addClass('fa-times')
+        } else {
+            $(toggler).removeClass('fa-times')
+            $(toggler).removeClass('fade-in')
+            $(toggler).addClass('fa-bars')
+        }
+    })
 });
 
 
@@ -90,3 +105,4 @@ function specImageOrientation(image) {
         $(image).addClass('square-img');
     }
 }
+
