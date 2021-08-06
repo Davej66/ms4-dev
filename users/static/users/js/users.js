@@ -2,7 +2,6 @@
 const skills = JSON.parse(document.getElementById('all_skills').textContent);
 const roles = JSON.parse(document.getElementById('all_roles').textContent);
 
-console.log(skills)
 $(document).ready(function () {
 
     // Multiselect library by 'sa-si-dev': https://sa-si-dev.github.io/virtual-select/
@@ -113,21 +112,6 @@ function triggerSidebar() {
         $('.sidebar-text-item').delay('500').fadeIn();
     }
 };
-
-// Specify profile image rotation and add appropriate class
-function specImageOrientation(image) {
-    var height = image.height;
-    var width = image.width;
-    if (height > width) {
-        $(image).removeClass('landscape-img');
-        $(image).addClass('portrait-img');
-    } else if (height < width) {
-        $(image).removeClass('portrait-img');
-        $(image).addClass('landscape-img');
-    } else {
-        $(image).addClass('square-img');
-    }
-}
 
 
 // Click the hidden file input 

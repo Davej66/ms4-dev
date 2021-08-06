@@ -1,13 +1,67 @@
-/* Append allauth form errors to input parent 
-in order to style relative to invalid input */
+// Get page title to determine which nav style to show
+window.onload = () => {
+    var titleArr = ['Home | FreelanceMeetups', 'Register | FreelanceMeetups',
+        'Login | FreelanceMeetups']
+    var title = document.title;
+    var titleShort = title.split('|')[0].trim();
+
+    var titleConfirmed = titleArr.includes(title);
+    if (titleConfirmed == true) {
+        $('.navbar').addClass('transparent-nav');
+    } else {
+        $('.navbar').removeClass('transparent-nav');
+    }
+
+    // Add 'active' class to current page nav link
+    var currPath = window.location.pathname;
+    console.log(currPath)
+    var currPageNavLink = $(`.nav-link[href="${currPath}"`);
+    $(currPageNavLink).addClass('active');
+
+}
+
+
+// Add 'scrolled' to navbar
+$(document).scroll(function () {
+    if ($(document).scrollTop() >= 50) {
+        $('.navbar').addClass('scrolled');
+    } else {
+        $('.navbar').removeClass('scrolled');
+    }
+});
+
 
 $(document).ready(function () {
+    var dropdownId = $('.dropdown-toggle').attr('id');
+    var dropdownMenu = $(`ul[aria-labelledby=${dropdownId}]`)
+
+    // Open navbar dropdown on hover
+    $('.dropdown-toggle').hover(
+        function () {
+            $(dropdownMenu).addClass('show');
+            $(dropdownMenu).addClass('fade-in');
+        },
+        function () {
+            $(dropdownMenu).removeClass('show');
+            $(dropdownMenu).removeClass('fade-in');
+        }
+    );
+
+    $(dropdownMenu).hover(
+        function () {
+            $(dropdownMenu).addClass('show');
+        },
+        function () {
+            $(dropdownMenu).removeClass('show');
+        }
+    );
+
     var getErrors = $('.errorlist').each(function (index) {
-        error = $(this)
-        var invalidInput = error.next()
-        error.appendTo(invalidInput)  
-    })
-})
+        error = $(this);
+        var invalidInput = error.next();
+        error.appendTo(invalidInput);
+    });
+});
 
 
 // Auto resize textarea
@@ -19,5 +73,20 @@ function resizeTextarea(textarea) {
             $(textarea).css('overflow-y', 'auto');
         }
         textarea.style.height = scrollHeight + 'px';
+    }
+}
+
+// Specify profile image rotation and add appropriate class
+function specImageOrientation(image) {
+    var height = image.height;
+    var width = image.width;
+    if (height > width) {
+        $(image).removeClass('landscape-img');
+        $(image).addClass('portrait-img');
+    } else if (height < width) {
+        $(image).removeClass('portrait-img');
+        $(image).addClass('landscape-img');
+    } else {
+        $(image).addClass('square-img');
     }
 }

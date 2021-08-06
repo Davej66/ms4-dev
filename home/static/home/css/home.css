@@ -112,8 +112,8 @@
 }
 
 .event-ind-pill {
-    background: var(--primary-color);
-    color: #fff;
+    background: var(--accent-color);
+    color: var(--dark-text);
     margin-right: 5px;
 }
 
