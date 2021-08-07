@@ -30,6 +30,13 @@ Credits:
      }`
 6. With the new database connected, apply the outstanding migrations to the new database with `python3 manage.py migrate`.
 7. Load development data into the new database with `python3 manage.py loaddata YOUR_APP_NAME`
+8. Install **gunicorn** to act as web server - `pip3 install gunicorn`.
+9. Add the modules to your dependencies file with: 
+`pip3 freeze --local > requirements.txt`
+10. Create a new **Procfile** in the root directory and add instructions to start a new web Dyno on Heroku: `web: gunicorn YOUR-DJANGO-PROJECT.wsgi:application`
+11. Log into Heroku with `heroku login -i`
+12. Disable Heroku from collecting static files by entering this into the CLI: `heroku config:set DISABLE_COLLECTSTATIC=1 --app YOUR-HEROKU-APP-NAME`
+13. Add Heroku to the 'ALLOWED_HOSTS' list in **settings.py**: `ALLOWED_HOSTS = ['YOUR-HEROKU-APP-NAME.herokuapp.com']`
 
 ### Libraries
 - Multiselect JS Library by [sa-si-dev](https://github.com/sa-si-dev/virtual-select)

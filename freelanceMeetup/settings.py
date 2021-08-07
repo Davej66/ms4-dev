@@ -29,7 +29,7 @@ SECRET_KEY = 'django-insecure-62ea)u=_p#h1jv^s9tj&^ww_&_&-dq!@#-c5bw-ii$gc!iu7-4
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['bc-freelance-meetups.herokuapp.com', 'localhost']
 
 
 # Application definition
