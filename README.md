@@ -1,10 +1,35 @@
-# MS4-brewbros
+# MS4-FreelanceMeetups
 
 
 Credits:
 - Render to string with JsonResponse - BeryCZ https://stackoverflow.com/questions/64688157/django-render-json-response-html
 
+
+
 ## Tools
+- [RandomKeyGen](https://randomkeygen.com/) for generating Django secret key to store in environment variables in Gitpod and Heroku
+
+
+## Deployment
+
+### Github
+### Deploy to Production environment in Heroku
+1. Navigate to Heroku dashboard and click 'create new app' from the dropdown option.
+#### Provision a new Postgres database in production
+2. Under the 'Resources' tab, provision a new Postgres database (select the 'hobby' plan when prompted).
+3. On the CLI in your development environment, install the following modules:
+`pip3 install dj_database_url` and `pip3 install psycopg2-binary` 
+4. Add the modules to your dependencies file with: 
+`pip3 freeze --local > requirements.txt`
+5. In **settings.py**:
+    a. Import the module `import dj_database_url`. 
+    b. Find and copy the `DATABASE_URL` Config Var in Heroku by clicking 'settings' then 'Reveal Config Vars'.
+    c. Configure the **DATABASES** settings with the value copied from Heroku: 
+    `DATABASES = {
+        'default': dj_database_url.parse('YOUR CONFIG VAR VALUE HERE')
+     }`
+6. With the new database connected, apply the outstanding migrations to the new database with `python3 manage.py migrate`.
+7. Load development data into the new database with `python3 manage.py loaddata YOUR_APP_NAME`
 
 ### Libraries
 - Multiselect JS Library by [sa-si-dev](https://github.com/sa-si-dev/virtual-select)

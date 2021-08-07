@@ -13,6 +13,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='myaccount',
             name='username',
-            field=models.CharField(default=models.EmailField(max_length=60, unique=True), max_length=30, unique=True),
+            field=models.CharField(default=models.EmailField(max_length=60, unique=True), max_length=150, unique=True),
         ),
     ]

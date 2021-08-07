@@ -312,22 +312,25 @@ label.table-item-label {
     display: flex;
 }
 
-.search-button-wrapper button {
+.search-button-wrapper button,
+.search-button-wrapper a {
     margin: auto;
     margin-top: 10px;
     padding: 10px 20px;
     min-width: max-content;
 }
-.search-button-wrapper button:first-of-type {
+.search-button-wrapper button {
     min-width: 70%;
 }
 
-.search-button-wrapper button:last-of-type {
+.search-button-wrapper a {
     min-width: 25%;
+    padding: 10px 20px!important;
+    height: max-content;
 }
 
-.search-button-wrapper button:last-of-type:hover {
-    padding: 10px 20px;
+.search-button-wrapper a:hover {
+    
 }
 
 h3.results-count {
