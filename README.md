@@ -7,7 +7,7 @@ Credits:
 
 
 ## Tools
-- [RandomKeyGen](https://randomkeygen.com/) for generating Django secret key to store in environment variables in Gitpod and Heroku
+- [Django Secret Key Generator](https://miniwebtool.com/django-secret-key-generator/) for generating Django secret key to store in environment variables in Gitpod and Heroku
 
 
 ## Deployment
@@ -37,6 +37,9 @@ Credits:
 11. Log into Heroku with `heroku login -i`
 12. Disable Heroku from collecting static files by entering this into the CLI: `heroku config:set DISABLE_COLLECTSTATIC=1 --app YOUR-HEROKU-APP-NAME`
 13. Add Heroku to the 'ALLOWED_HOSTS' list in **settings.py**: `ALLOWED_HOSTS = ['YOUR-HEROKU-APP-NAME.herokuapp.com']`
+14. After committing and pushing changes to GitHub, connect your GitHub repo to Heroku with `heroku git:remote -a YOUR-HEROKU-APP-NAME` and push to the Heroku deployment with `git push heroku main`.
+15. Setup auto-deploy from GitHub in Heroku by clicking on the 'Deploy' tab, select 'GitHub', search for your respository, click 'connect' and then 'Enable Automatic Deploys'.
+16. Generate a new Django SECRET_KEY using a key generator and add to Heroku - select 'settings', 'Reveal Config Vars' and add a new key 'SECRET_KEY' and value as the generated key. 
 
 ### Libraries
 - Multiselect JS Library by [sa-si-dev](https://github.com/sa-si-dev/virtual-select)
