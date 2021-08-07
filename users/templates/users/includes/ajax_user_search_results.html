@@ -1,8 +1,7 @@
 {% if search_results %}
 <div class="w-100 text-center">
     <h3 class="results-count">We found {{search_results.count}}
-        result
-        {%if search_results.count > 1%}s{%endif%} with that search!</h3>
+        result{%if search_results.count > 1%}s{%endif%} with that search!</h3>
 </div>
 {% for user in search_results %}
 <div class="card user-card fade-in muted">

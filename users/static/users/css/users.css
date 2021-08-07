@@ -306,13 +306,28 @@ label.table-item-label {
 }
 
 .search-button-wrapper {
-    height: 50px;
+    height: max-content;
+    min-height: 50px;
     margin-top: 10px;
+    display: flex;
 }
 
 .search-button-wrapper button {
-    margin-right: 0px!important;
-    width: 100%;
+    margin: auto;
+    margin-top: 10px;
+    padding: 10px 20px;
+    min-width: max-content;
+}
+.search-button-wrapper button:first-of-type {
+    min-width: 70%;
+}
+
+.search-button-wrapper button:last-of-type {
+    min-width: 25%;
+}
+
+.search-button-wrapper button:last-of-type:hover {
+    padding: 10px 20px;
 }
 
 h3.results-count {
