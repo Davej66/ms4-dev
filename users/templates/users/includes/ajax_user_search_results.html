@@ -1,0 +1,43 @@
+{% if search_results %}
+{% for user in search_results %}
+<div class="card user-card fade-in muted">
+    <div class="d-flex flex-wrap">
+        <div class="prf-img-preview">
+            <img class="prf-img-preview" src="/media/{{user.profile_image}}"
+                alt="{{user.first_name}} {{user.last_name}}'s profile image" onload="specImageOrientation(this);">
+        </div>
+        <!-- TODO remove default testing input -->
+        <div class="user-details-mast">
+            <h3>{{user.first_name}} {{user.last_name}}</h3>
+            <p>{{user.role}}Project Manager</p>
+            <p>{{user.location}}London</p>
+            <span class="user-ind-pill green">{{user.location}}Events Management</span>
+        </div>
+    </div>
+    <hr>
+    <div class="user-details-bottom">
+        <p class="user-skills">{{user.skills}}</p>
+        <p>{{user.about}} Lorem ipsum dolor, sit amet consectetur adipisicing elit. Odit voluptatibus eos
+            veritatis hic nisi possimus, pariatur architecto velit illum repellendus tempore eligendi magni
+            amet laudantium, quam exercitationem totam saepe repudiandae? </p>
+    </div>
+    <div class="user-cta d-flex flex-wrap justify-content-between mt-3">
+        <button class="btn primary-btn px-3 py-1 m-1">Send Connection Request</button>
+        <button class="btn primary-btn-outline-color px-3 py-1 m-1">Remove Connection</button>
+    </div>
+</div>
+{% endfor %}
+
+<!-- If no results show no results card to user -->
+{% else %}
+<div class="card user-card fade-in w-100 no-results muted">
+    <div class="d-flex flex-wrap">
+        <!-- TODO remove default testing input -->
+        <div class="user-details-mast text-center">
+            <i class="far fa-frown"></i>
+            <p>Looks like we couldn't find any results with that search.
+               <br><br>Try a different search or come back soon when more users have joined.</p>
+        </div>
+    </div>
+</div>
+{% endif %}

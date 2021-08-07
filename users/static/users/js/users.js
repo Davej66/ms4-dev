@@ -204,7 +204,9 @@ $('#user_search_form').submit(function (e) {
         url: $(this).attr('action'),
         timeout: 10000,
         success: function (data) {
-            console.log('this worked')
+            $('#search_results').html(data)
+            console.log('this worked', data)
+
         },
         error: function (data) {
             console.log("There has been an error")

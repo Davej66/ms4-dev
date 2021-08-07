@@ -2,6 +2,8 @@ from django.shortcuts import render, HttpResponse
 from django.http import JsonResponse
 from django.conf import settings
 from django.contrib import messages
+from django.db.models import Q
+from django.contrib.postgres.search import SearchVector
 from django.template.loader import render_to_string
 from allauth.account.decorators import verified_email_required
 from allauth.account.views import SignupView
@@ -16,16 +18,21 @@ import stripe
 import json
 
 # Create customised context for Allauth registration. Credits to Mikeec3
-# In this StackOverflow thread: https://stackoverflow.com/questions/29499449/django-allauth-login-signup-form-on-homepage 
+# In this StackOverflow thread: https://stackoverflow.com/questions/29499449/django-allauth-login-signup-form-on-homepage
+
+
 class CustomRegistrationView(SignupView):
-    
+
     # Get the original signup form and add the custom form to this
     def get_context_data(self, **kwargs):
-        context = super(CustomRegistrationView, self).get_context_data(**kwargs)
+        context = super(CustomRegistrationView,
+                        self).get_context_data(**kwargs)
         context['reg_form'] = RegistrationForm()
         return context
 
+
 register = CustomRegistrationView.as_view()
+
 
 @verified_email_required
 def account_dashboard(request):
@@ -59,7 +66,8 @@ def account_dashboard(request):
 def edit_profile(request):
 
     if request.method == 'POST':
-        form = EditProfileForm(request.POST, request.FILES, instance=request.user)
+        form = EditProfileForm(
+            request.POST, request.FILES, instance=request.user)
         if form.is_valid():
             form.save()
             print("It saved this", form)
@@ -89,14 +97,21 @@ def all_users(request):
     all_users = MyAccount.objects.all()
 
     if request.is_ajax and request.method == "POST":
-        search = request.POST
-        query1 = MyAccount.objects.filter()
+        query = request.POST['user_search']
         
-        print(request.POST)
-        return HttpResponse("nailed it")
+        queries = Q(first_name__icontains=query) | Q(
+            last_name__icontains=query) | Q(description__icontains=query) | Q(location__icontains=query)
+        results = MyAccount.objects.filter(queries)
+        
+        context = {
+            'search_results': results
+        }
+        print(query)
+        payload = render_to_string('users/includes/ajax_user_search_results.html', context)
+        return HttpResponse(json.dumps(payload), content_type="application/json")
 
 
-    context = {
+    context={
         'users': all_users,
     }
 
@@ -106,7 +121,7 @@ def all_users(request):
 """ AJAX REQUESTS """
 
 # Ajax function inspiration from Coding with Mitch tutorials - https://codingwithmitch.com/
-@verified_email_required
+@ verified_email_required
 def dashboard_my_orders(request):
 
     stripe_sk = settings.STRIPE_SECRET_KEY
@@ -114,20 +129,20 @@ def dashboard_my_orders(request):
 
     user = MyAccount.objects.get(email=request.user)
     stripe_customer_id = user.stripe_customer_id
-    
+
     invoices = stripe.Invoice.list(
-        limit=3,
+        limit = 3,
         customer = stripe_customer_id)
 
-    upcoming_invoice = stripe.Invoice.upcoming(
+    upcoming_invoice=stripe.Invoice.upcoming(
         customer = stripe_customer_id,
         )
-    
-    up_inv_period = upcoming_invoice.lines.data[0].period
-    package_id = upcoming_invoice.lines.data[0].price.id
-    get_package_object = Package.objects.get(stripe_price_id=package_id)
 
-    upcoming_invoice_dict = {
+    up_inv_period=upcoming_invoice.lines.data[0].period
+    package_id=upcoming_invoice.lines.data[0].price.id
+    get_package_object=Package.objects.get(stripe_price_id = package_id)
+
+    upcoming_invoice_dict={
         "date": datetime.fromtimestamp(
             upcoming_invoice.created).strftime('%d %b %Y'),
         "balance": upcoming_invoice.amount_due / 100,
@@ -145,11 +160,11 @@ def dashboard_my_orders(request):
         period = i.lines.data[0].period
         invoice_date = datetime.fromtimestamp(i.created).strftime(
             '%d %b %Y')
-        start_date = datetime.fromtimestamp(period.start).strftime(
+        start_date=datetime.fromtimestamp(period.start).strftime(
             '%d %b')
-        end_date = datetime.fromtimestamp(period.end).strftime(
+        end_date=datetime.fromtimestamp(period.end).strftime(
             '%d %b %Y')
-        invoice_data = {
+        invoice_data={
             "invoice_date": invoice_date,
             "date_start": start_date,
             "date_end": end_date,

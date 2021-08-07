@@ -6,9 +6,9 @@
 {% endblock %}
 
 {% block content %}
-<section class="light-page screen-height">
+<section class="light-page screen-height section-with-padding">
     <div class="nav-top-padding"></div>
-    <div class="container-fluid w-100 m-auto py-5 centered-col-large-page">
+    <div class="container-fluid w-100 m-auto py-5 px-0 centered-col-large-page">
         <h1 class="header-underline-after">Discover New Freelancers</h1>
         <div class="search-row py-5">
             <div class="card search-box-card muted">
@@ -30,45 +30,47 @@
                         </div>
                     </div>
                     <div class="fixed-40">
-                    <button type="submit" class="btn primary-btn">Filter Results</button>
-                </div>
+                        <button type="submit" class="btn primary-btn">Filter Results</button>
+                    </div>
                 </form>
             </div>
         </div>
-    </div>
 
-    <div class="page-results flex-wrap">
-        {% for user in users %}
-        <div class="card user-card">
-            <div class="d-flex flex-wrap">
-                <div class="prf-img-preview">
-                    <img class="prf-img-preview" src="/media/{{user.profile_image}}"
-                        alt="{{user.first_name}} {{user.last_name}}'s profile image"
-                        onload="specImageOrientation(this);">
+
+        <div id="search_results" class="page-results flex-wrap">
+            {% for user in users %}
+            <div class="card user-card muted">
+                <div class="d-flex flex-wrap">
+                    <div class="prf-img-preview">
+                        <img class="prf-img-preview" src="/media/{{user.profile_image}}"
+                            alt="{{user.first_name}} {{user.last_name}}'s profile image"
+                            onload="specImageOrientation(this);">
+                    </div>
+                    <!-- TODO remove default testing input -->
+                    <div class="user-details-mast">
+                        <h3>{{user.first_name}} {{user.last_name}}</h3>
+                        <p>{{user.role}}Project Manager</p>
+                        <p>{{user.location}}London</p>
+                        <span class="user-ind-pill green">{{user.location}}Events Management</span>
+                    </div>
                 </div>
-                <!-- TODO remove default testing input -->
-                <div class="user-details-mast">
-                    <h3>{{user.first_name}} {{user.last_name}}</h3>
-                    <p>{{user.role}}Project Manager</p>
-                    <p>{{user.location}}London</p>
-                    <span class="user-ind-pill green">{{user.location}}Events Management</span>
+                <hr>
+                <div class="user-details-bottom">
+                    <p class="user-skills">{{user.skills}}</p>
+                    <p>{{user.about}} Lorem ipsum dolor, sit amet consectetur adipisicing elit. Odit voluptatibus eos
+                        veritatis hic nisi possimus, pariatur architecto velit illum repellendus tempore eligendi magni
+                        amet laudantium, quam exercitationem totam saepe repudiandae? </p>
+                </div>
+                <div class="user-cta d-flex flex-wrap justify-content-between mt-3">
+                    <button class="btn primary-btn px-3 py-1 m-1">Send Connection Request</button>
+                    <button class="btn primary-btn-outline-color px-3 py-1 m-1">Remove Connection</button>
                 </div>
             </div>
-            <hr>
-            <div class="user-details-bottom">
-                <p class="user-skills">{{user.skills}}</p>
-                <p>{{user.about}} Lorem ipsum dolor, sit amet consectetur adipisicing elit. Odit voluptatibus eos
-                    veritatis hic nisi possimus, pariatur architecto velit illum repellendus tempore eligendi magni
-                    amet laudantium, quam exercitationem totam saepe repudiandae? </p>
-            </div>
-            <div class="user-cta d-flex flex-wrap justify-content-between mt-3">
-                <button class="btn primary-btn px-3 py-1 m-1">Send Connection Request</button>
-                <button class="btn primary-btn-outline-color px-3 py-1 m-1">Remove Connection</button>
-            </div>
+            {% endfor %}
         </div>
-        {% endfor %}
     </div>
-    </div>
+    <div class="fixed-40"></div>
+    
 </section>
 
 {{ industries|json_script:"all_inds" }}

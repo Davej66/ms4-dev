@@ -300,6 +300,19 @@ label.table-item-label {
     display: block;
 }
 
+.no-results {
+    width: 100%;
+    max-width: 100%;
+}
+
+.no-results > div > div > i {
+    font-size: 100px;
+    text-align: center;
+    width: 100%;
+    padding: 20px;
+    color: var(--light-grey);
+}
+
 /* Media Queries */
 
 @media (max-width: 449.98px) { 
