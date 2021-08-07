@@ -270,21 +270,24 @@ label {
     font-weight: 300;
 }
 
-input, textarea {
-    border: none;
-    border-bottom: 2px solid var(--light-line);
-    padding: 5px 10px;
+input, textarea, .vscomp-toggle-button {
+    border: none!important;
+    border-bottom: 2px solid var(--light-line)!important;
+    padding: 5px 10px!important;
     transition: 0.3s ease-in-out;
     border-radius: 0px;
     outline-width: 0!important;
     resize: none;
     max-height: 250px;
     overflow-y: hidden;
-
+    box-shadow: none!important;
 }
-input:focus, input:active, input:focus-visible, textarea:focus {
-    border-bottom: 2px solid var(--primary-color);
-    padding: 10px 10px 10px 15px;
+
+input:focus, input:active, input:focus-visible, 
+textarea:focus, .vscomp-wrapper.opened > .vscomp-toggle-button {
+    border-bottom: 2px solid var(--primary-color)!important;
+    padding: 10px 10px 10px 15px!important;
+    box-shadow: none!important;
 }
 
 input:invalid:focus {

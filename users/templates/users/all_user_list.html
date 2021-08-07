@@ -1,6 +1,8 @@
 {% extends 'includes/base.html' %}
 {% load static %}
 
+{% block head_title %}Freelancers{% endblock %}
+
 {% block post_CSS %}
 <link rel="stylesheet" href="{% static 'users/css/users.css' %}">
 {% endblock %}
@@ -14,23 +16,18 @@
             <div class="card search-box-card muted">
                 <h2>Filter your search</h2>
                 <form action="{% url 'all_users' %}" id="user_search_form" method="POST">{%csrf_token%}
-                    <div class="fieldset">
-                        <label for="industry">Industry</label>
-                        <input type="text" name="user_search" id="user_search" placeholder="Search by keyword">
-                    </div>
-                    <div class="input-row d-flex justify-content-between">
+                    <div class="input-row d-flex justify-content-between mt-3">
+                        <div class="fieldset">
+                            <label for="industry" class="mb-3">By Keyword</label>
+                            <input type="text" name="user_search" id="user_search" placeholder="Search by name, location, skill, description">
+                        </div>
                         <div class="fieldset" id="industry_search">
-                            <label for="industry">Industry</label>
+                            <label for="industry" class="mb-3">By Industry</label>
                             <div id="ind-select"></div>
                         </div>
-                        <div class="fieldset">
-                            <label for="location_search">Location</label>
-                            <input type="text" name="location_search" id="location_search"
-                                placeholder="Filter by location">
-                        </div>
                     </div>
-                    <div class="fixed-40">
-                        <button type="submit" class="btn primary-btn">Filter Results</button>
+                    <div class="d-flex search-button-wrapper">
+                        <button type="submit" class="btn primary-btn large m-auto">Filter Results</button>
                     </div>
                 </form>
             </div>
@@ -70,7 +67,7 @@
         </div>
     </div>
     <div class="fixed-40"></div>
-    
+
 </section>
 
 {{ industries|json_script:"all_inds" }}

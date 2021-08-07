@@ -93,14 +93,17 @@ def view_profile(request, *args, **kwargs):
 
 @verified_email_required
 def all_users(request):
-
+    """
+    Return all users to the page, and return filtered users if search form utilised via ajax.
+    """
     all_users = MyAccount.objects.all()
 
     if request.is_ajax and request.method == "POST":
         query = request.POST['user_search']
         
-        queries = Q(first_name__icontains=query) | Q(
-            last_name__icontains=query) | Q(description__icontains=query) | Q(location__icontains=query)
+        queries = Q(first_name__icontains=query) | Q(last_name__icontains=query) | Q(
+            description__icontains=query) | Q(location__icontains=query) | Q(
+            job_role__icontains=query) | Q(skills__icontains=query)
         results = MyAccount.objects.filter(queries)
         
         context = {

@@ -1,4 +1,9 @@
 {% if search_results %}
+<div class="w-100 text-center">
+    <h3 class="results-count">We found {{search_results.count}}
+        result
+        {%if search_results.count > 1%}s{%endif%} with that search!</h3>
+</div>
 {% for user in search_results %}
 <div class="card user-card fade-in muted">
     <div class="d-flex flex-wrap">
@@ -36,7 +41,8 @@
         <div class="user-details-mast text-center">
             <i class="far fa-frown"></i>
             <p>Looks like we couldn't find any results with that search.
-               <br><br>Try a different search or come back soon when more users have joined.</p>
+                <br><br>Try a different search or come back soon when more users have joined.
+            </p>
         </div>
     </div>
 </div>
