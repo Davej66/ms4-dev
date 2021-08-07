@@ -25,11 +25,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get('SECRET_KEY', '')
+# SECRET_KEY = ("q^k#!6odky-m^yb7^)_sm1i&c&3^4!l)xwk*zqu)90ph4n+")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = 'DEVELOPMENT' in os.environ
+DEBUG = 'DEVELOPMENT' in os.environ.get('DEVELOPMENT')
+# DEBUG = True
 
-ALLOWED_HOSTS = ['https://bc-freelance-meetups.herokuapp.com/', 'localhost']
+ALLOWED_HOSTS = ['bc-freelance-meetups.herokuapp.com', 'localhost']
 
 
 # Application definition
@@ -178,15 +180,18 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
+
+
 STATIC_URL = '/static/'
+STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 # STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-STATICFILES_DIRS = [
-    BASE_DIR /
-    'static',
-    'users/static/users/',
-    'home/static/home/',
-    'checkout/static/checkout/',
-    ]
+# STATICFILES_DIRS = [
+#     BASE_DIR /
+#     'static',
+#     'users/static/users/',
+#     'home/static/home/',
+#     'checkout/static/checkout/',
+#     ]
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
