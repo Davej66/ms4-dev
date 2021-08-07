@@ -127,16 +127,19 @@ WSGI_APPLICATION = 'freelanceMeetup.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
 
-DATABASES = {
-    'default': dj_database_url.parse('postgres://kqqkxvqnampeqj:ccf2371fe1e87ce7f51cb4d4df7b8553d412c98b4659f754ac7eaf5ba41b48e0@ec2-54-229-68-88.eu-west-1.compute.amazonaws.com:5432/dbe8rvqv8jf9c1')
-}
+if 'DATABASE_URL' in os.environ:
+    DATABASES = {
+        'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))
+    }
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
