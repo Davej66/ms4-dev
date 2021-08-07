@@ -1,9 +1,12 @@
 // Initialize on page load
-const skills = JSON.parse(document.getElementById('all_skills').textContent);
-const roles = JSON.parse(document.getElementById('all_roles').textContent);
+
+// Get all skills and roles on page if they exist and return variables if yes
+const getSkills = document.getElementById('all_skills')
+const skills = getSkills ? JSON.parse(document.getElementById('all_skills').textContent) : "";
+const getInds = document.getElementById('all_inds')
+const industries = getInds ? JSON.parse(document.getElementById('all_inds').textContent) : "";
 
 $(document).ready(function () {
-
     // Multiselect library by 'sa-si-dev': https://sa-si-dev.github.io/virtual-select/
 
     // Skill Select
@@ -56,26 +59,39 @@ $(document).ready(function () {
         })
     })();
 
-    // Role Select
+    // Industry Select
     (function () {
         var role = VirtualSelect.init({
-            ele: '#role-select',
-            options: [],
+            ele: '#ind-select',
+            options: [{
+                'label': 'Photography',
+                'value': 'Photography',
+            }],
             multiple: false,
-            name: 'role',
-            additionalClasses: 'role'
+            name: 'industry',
+            additionalClasses: 'industry'
 
         });
-        for (i = 0; i < roles.length; i++) {
-            document.querySelector('#skills-select').addOption({
-                value: skills[i],
-                label: skills[i],
-            });
-        };
-        return role
     })();
 });
 
+
+// Split user skills into pills on all user page
+function splitSkills() {
+    var skillsLists = $('.user-skills')
+    for (i = 0; i < skillsLists.length; i++) {
+        if ($(skillsLists[i]).text() != "") {
+            var skillSet = $(skillsLists[i]).text().split(',');
+            $(skillsLists[i]).text("");
+            skillSet.forEach(element => {
+                $(skillsLists[i]).append(`
+            <span class="skill-pill">${element}</span>
+            `)
+            })
+        }
+    }
+};
+splitSkills();
 
 /* Custom skill pill add and remove, to interact with 
 hidden dropdown when user clicks custom button */
@@ -156,12 +172,14 @@ function previewImage(input) {
         image.readAsDataURL(uploadedImg);
     }
 }
+
 $('input#profile_image').on('change', function () {
     previewImage(this)
 })
 
-// AJAX Handlers
 
+
+// AJAX Handlers
 function get_ajax_data(url) {
     $.ajax({
         type: 'GET',
@@ -175,3 +193,24 @@ function get_ajax_data(url) {
         }
     })
 }
+
+$('#user_search_form').submit(function (e) {
+    e.preventDefault();
+    var jsonData = $(this).serialize();
+    $.ajax({
+        type: 'POST',
+        datatype: 'json',
+        data: jsonData,
+        url: $(this).attr('action'),
+        timeout: 10000,
+        success: function (data) {
+            console.log('this worked')
+        },
+        error: function (data) {
+            console.log("There has been an error")
+        },
+        complete: function (data) {
+            console.log("Complete")
+        }
+    })
+});

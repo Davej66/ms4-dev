@@ -80,7 +80,27 @@ def view_profile(request, *args, **kwargs):
         "user": view_user
     }
 
-    return render(request, 'view_profile.html', context)
+    return render(request, 'users/view_profile.html', context)
+
+
+@verified_email_required
+def all_users(request):
+
+    all_users = MyAccount.objects.all()
+
+    if request.is_ajax and request.method == "POST":
+        search = request.POST
+        query1 = MyAccount.objects.filter()
+        
+        print(request.POST)
+        return HttpResponse("nailed it")
+
+
+    context = {
+        'users': all_users,
+    }
+
+    return render(request, 'users/all_user_list.html', context)
 
 
 """ AJAX REQUESTS """

@@ -18,12 +18,14 @@ from django.conf import settings
 from django.urls import path, include
 from django.conf.urls.static import static
 import home, packages, users
+from users.views import all_users
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('account/', include('allauth.urls')),
     path('profile/', include('users.urls')),
+    path('', include('users.urls')),
     path('packages/', include('packages.urls')),
     path('checkout/', include('checkout.urls')),
     path('events/', include('events.urls')),

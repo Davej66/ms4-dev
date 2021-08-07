@@ -14,7 +14,7 @@
           <a class="nav-link" aria-label="Home" href="/">Meetups</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" aria-label="Home" href="#">Freelancers</a>
+          <a class="nav-link" aria-label="Home" href="{% url 'all_users' %}">Freelancers</a>
         </li>
         {% if user.is_authenticated %}
         <li class="nav-item dropdown d-none d-lg-block">
