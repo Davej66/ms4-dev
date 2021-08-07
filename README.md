@@ -84,7 +84,37 @@ Create a new user and to access the bucket under 'IAM' management
     a. Create a user with the name of the project, and append `-staticfiles-user` to identify the user type. 
     b. Select 'Programmatic Access', under 'Permissions' on the next page, select the group previously created. 
     c. Click through the next pages and 'Create User'.
-    d. **IMPORTANT**: On the final step, download the .csv to access the users secret keys, required to authenticate with the Django Project
+    d. **IMPORTANT**: On the final step, download the .csv to access the users secret keys, required to authenticate with the Django Project.
+
+
+Connect Django to AWS
+1. Install `pip3 install boto3` and `pip3 install django-storages`.
+2. Freeze the new dependencies with `pip3 freeze --local > requirements.txt`.
+3. Add `storages` to the installed apps list in **settings.py**
+4. Configure your AWS S3 settings in settings.py, by adding your bucket name, region, and config keys. For example:
+`if 'USE_AWS' in os.environ:
+    AWS_STORAGE_BUCKET_NAME = 'YOUR-S3-BUCKET-NAME'
+    AWS_S3_REGION_NAME = 'eu-west-2'
+    AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID', '')
+    AWS_SECRET_ACCESS_KEY_ID = os.environ.get('AWS_SECRET_ACCESS_KEY_ID', '')`
+5. Using the Keys provided in the .csv file downloaded on AWS setup above, add these to Heroku Config Vars under 'settings'. In addition, add the 'USE_AWS' key with a value of 'True' so that the Django project uses the AWS config when using Heroku.
+6. Now that S3 is setup, remove the 'DISABLE_COLLECTSTATIC' key from the config vars, so new deployments upload static files to S3.
+7. Set the S3 domain in **settings.py** to in the AWS config with: `AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'`.
+8. Tell Django to store all static files in S3 for production: 
+    a. Create new file called 'custom_storages.py' and set the Static and Media files locations within an 'S3Boto3Storage' extended class: 
+    `from django.conf import settings
+    from storages.backends.s3boto3 import S3Boto3Storage
+
+    class StaticStorage(S3Boto3Storage):
+    location = settings.STATICFILES_LOCATION`
+    b. In **settings.py** set the new storage location for static and media files by routing these from the custom_storages.py file: 
+    `STATICFILES_STORAGE = 'custom_storages.StaticStorage'
+    STATICFILES_LOCATION = 'static'
+    DEFAULT_FILE_STORAGE = 'custom_storages.MediaStorage'
+    MEDIAFILES_LOCATION = 'static'`
+
+c. Override the static and media URLs in production, for example: 
+`STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{STATICFILES_LOCATION}/'` 
 
 
 ### Libraries
