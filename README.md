@@ -41,6 +41,52 @@ Credits:
 15. Setup auto-deploy from GitHub in Heroku by clicking on the 'Deploy' tab, select 'GitHub', search for your respository, click 'connect' and then 'Enable Automatic Deploys'.
 16. Generate a new Django SECRET_KEY using a key generator and add to Heroku - select 'settings', 'Reveal Config Vars' and add a new key 'SECRET_KEY' and value as the generated key. 
 
+#### Setting up AWS to host static files and media
+1. Signup for a free [AWS account](https://aws.amazon.com/) or login.
+2. In the services searchbar at the top, type and select 'S3'.
+3. Create a new 'bucket'. Use your Heroku app name to ensure it is clearly identifiable.
+4. Select the region closest to you, uncheck the 'Block all public access' box and check the acknowledgement box at the bottom. Finally select 'create bucket'.
+5. Configure the new bucket - click into the bucket and select the 'Properties' tab, and 'Static website hosting' option to create a new endpoint (enter default values into the prompts and click save).
+6. Under the 'Permissions' tab, update the CORS configuration, by adding the below snippet: `[
+  {
+      "AllowedHeaders": [
+          "Authorization"
+      ],
+      "AllowedMethods": [
+          "GET"
+      ],
+      "AllowedOrigins": [
+          "*"
+      ],
+      "ExposeHeaders": []
+  }
+]`
+7. Under 'Bucket Policy' select 'Policy Generator' at the bottom of the editor to create a new policy for the bucket:
+    a. Select 'S3 Bucket Policy' as the type
+    b. Use '*' to allow all principals
+    c. Select 'Get Object' as the **action**
+    d. Paste in the **ARN** found at the top of the 'Bucket Policy Editor' tab. 
+    e. Click add policy, then 'generate policy', finally copy and paste the generated policy into the policy editor on the previous page.
+    f. Before saving changes, allow all resources by adding `/*` to the end of the 'Resources' value. e.g `"Resource": "arn:aws:s3:::YOUR-BUCKET-NAME/*"`
+8. Finally, set the access control to public for this bucket by clicking 'Access Control List', then selecting 'Everyone (and list objects)' under 'Public Access'.
+
+
+Create a new user and to access the bucket under 'IAM' management 
+1. Back in the services menu, select 'IAM'
+2. Under 'User Groups' create a new group with the name of the Django Project.
+3. Create a new group policy by selecting 'Polices' on the left pane, and 'Create Policy'
+    a. Select 'JSON' tab, and click 'Import managed policy'
+    b. Search for 'S3' and select 'S3 Full Access Policy'
+    c. To restrict access to the bucket created in the previous step, replace the 'Resource' value with the 'ARN' value created in the previous step.
+    d. Click 'Next: Tags' and again to 'Review Policy', provide a name and description then click 'Create Policy'.
+4. Attach the policy to the group by selecting the group name under 'User Groups', select 'Attach Policy' and select the newly created policy.
+5. Under 'Users' create a new user to add to the group: 
+    a. Create a user with the name of the project, and append `-staticfiles-user` to identify the user type. 
+    b. Select 'Programmatic Access', under 'Permissions' on the next page, select the group previously created. 
+    c. Click through the next pages and 'Create User'.
+    d. **IMPORTANT**: On the final step, download the .csv to access the users secret keys, required to authenticate with the Django Project
+
+
 ### Libraries
 - Multiselect JS Library by [sa-si-dev](https://github.com/sa-si-dev/virtual-select)
 
