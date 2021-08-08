@@ -117,7 +117,7 @@ Connect Django to AWS
     `STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{STATICFILES_LOCATION}/'` 
 9. Finally, set the caching control within AWS to store static files locally in the user browser, since these files are not regularly updated. Within the AWS config in **settings.py**, set the parameters as follows:
 `AWS_S3_OBJECT_PARAMETERS = {
-        'Expires': 'Thum 31 Dec 2099 20:00:00 GMT',
+        'Expires': 'Thu, 31 Dec 2099 20:00:00 GMT',
         'CacheControl': 'max-age=94608000'
     }`
 
