@@ -35,12 +35,12 @@ ALLOWED_HOSTS = ['bc-freelance-meetups.herokuapp.com', 'localhost']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
+    'django.contrib.sites',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # 'django.contrib.sites',
 
     # Custom apps
     'allauth',
