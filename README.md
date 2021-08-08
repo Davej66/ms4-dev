@@ -8,7 +8,7 @@ Credits:
 
 ## Tools
 - [Django Secret Key Generator](https://miniwebtool.com/django-secret-key-generator/) for generating Django secret key to store in environment variables in Gitpod and Heroku
-
+- [temp-email.org](https://temp-mail.org/) used for generating temporary emails for demo user accounts.
 
 ## Deployment
 
