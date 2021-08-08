@@ -115,11 +115,18 @@ Connect Django to AWS
 
     c. Override the static and media URLs in production, for example: 
     `STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{STATICFILES_LOCATION}/'` 
-9. Finally, set the caching control within AWS to store static files locally in the user browser, since these files are not regularly updated. Within the AWS config in **settings.py**, set the parameters as follows:
+9. Next, set the caching control within AWS to store static files locally in the user browser, since these files are not regularly updated. Within the AWS config in **settings.py**, set the parameters as follows:
 `AWS_S3_OBJECT_PARAMETERS = {
         'Expires': 'Thu, 31 Dec 2099 20:00:00 GMT',
         'CacheControl': 'max-age=94608000'
     }`
+
+
+#### Connect Stripe to Heroku Production Environment
+1. Create a superuser in the Heroku deployment by clicking More / Run Console in the top right of the app dashboard. Start a new **bash** console when prompted, and type `python3 manage.py createsuperuser`, completing the prompts.
+2. Login to your Stripe dashboard to retrieve the `STRIPE_PUBLIC_KEY` and `STRIPE_SECRET_KEY`, and add these to the Heroku Config Vars. 
+3. Create a new Stripe webhook endpoint pointing to the new Heroku app URL. Once created, copy the webhook 'Signing Secret' from Stripe and add to the Heroku Config Vars using `STRIPE_WH_SECRET` as the key.
+4. Test the new webhook connection in the Stripe webhook dashboard. Select 'Send Test Webhook' in the topbar options and select from the dropdown. 
 
 
 ### Libraries
