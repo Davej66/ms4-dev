@@ -5,49 +5,34 @@
 <link rel="stylesheet" href="{% static 'users/css/users.css' %}">
 {% endblock %}
 
+{% block head_title %}Edit Profile{% endblock %}
 {% block content %}
 
-<div class="container-fluid w-100 m-0 p-0">
+<div class="container-fluid w-100 m-0 p-0 light-page">
     <div class="row w-100 m-0">
         <div class="d-flex justify-content p-0">
             <!-- SIDENAV -->
             {% include "navbar/sidenav.html" %}
 
             <!-- MAIN PAGE CONTENT -->
-            <div class="container container-with-grad-bg">
-                <section class="pg-section pt-5 min-vh page-section-card transparent">
-                    <!-- TOP SECTION CARDS -->
-                    <div class="container w-100 d-flex justify-content-center align-items-stretch mb-4">
-                        <div class="d-flex justify-content-between row w-100">
-                            <div class="py-2 col-lg-4">
-                                <div class="container-rounded-light">card-content</div>
-                            </div>
-                            <div class="py-2 col-lg-4">
-                                <div class="container-rounded-light">card-content</div>
-                            </div>
-                            <div class="py-2 col-lg-4">
-                                <div class="container-rounded-light">card-content</div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-                <section class="pb-5">
+            <div class="container nav-top-padding">
+                <section class="py-5 section-with-padding">
                     <!-- MAIN BODY CARD -->
                     <div class="container w-100 d-flex flex-row justify-content-center align-items-stretch">
                         <div class="d-flex justify-content-between row w-100">
 
                             <div class="container-box-header pb-4">
-                                <h1>Edit Profile</h1>
+                                <h1 class="header-underline-after">Edit Profile</h1>
                             </div>
 
                             <!-- Begin user profile edit form -->
                             <form action="{% url 'edit_profile' %}" method="POST" enctype="multipart/form-data">
                                 {% csrf_token %}
                                 <!-- First card section -->
-                                <div class="container-rounded-light mb-3 container">
+                                <div class="card muted mb-3 p-5">
+                                    <h3 class="edit-profile-section-header mb-5">The Basics</h3>
                                     <div class="row">
-                                        <div class="d-flex flex-column col-lg-4">
-                                            <h3 class="edit-profile-section-header pb-4">Your profile image</h3>
+                                        <div class="d-flex flex-column col-lg-4 px-0">
                                             <div class="edit-prf-pic-img-wrap prf-img-preview-wrapper m-auto">
                                                 <img class="prf-img-preview fade-in" src="{{profile_image}}"
                                                     alt="{{this_user.first_name}} {{this_user.last_name}}'s profile image"
@@ -62,8 +47,7 @@
                                                 name="profile_image">
                                         </div>
 
-                                        <div class="col-lg-8 d-flex flex-column">
-                                            <h3 class="edit-profile-section-header pb-4">The Basics</h3>
+                                        <div class="col-lg-8 d-flex flex-column px-0">
                                             <div class="input-row d-flex justify-content-between">
                                                 <div class="fieldset">
                                                     <label for="first_name">First Name</label>

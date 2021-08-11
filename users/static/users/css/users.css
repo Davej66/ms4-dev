@@ -121,7 +121,20 @@ label.table-item-label {
 /* Edit Profile Page */
 
 .edit-profile-section-header {
-    font-size: 1.2rem;
+    position: relative;
+    width: max-content;
+    z-index: 1;
+    font-size: 1.5rem;
+}
+
+.edit-profile-section-header::after {
+    content: "";
+    position: absolute;
+    border-bottom: 5px solid var(--primary-color);
+    width: 100%;
+    bottom: -25%;
+    right: 0;
+    z-index: -1;
 }
 
 .edit-prf-pic-img-wrap {
@@ -212,6 +225,10 @@ label.table-item-label {
 
 .vscomp-toggle-button {
     display: none;
+}
+
+.vscomp-dropbox-container {
+    width: auto!important;
 }
 
 /* All users page */

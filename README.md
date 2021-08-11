@@ -141,6 +141,7 @@ Connect Django to AWS
 - Example Attendee Image by [Daniel Xavier](https://www.pexels.com/@danxavier?utm_content=attributionCopyText&utm_medium=referral&utm_source=pexels) from Pexels
 - Example Attendee Image by [Hamed Gharaee](https://www.pexels.com/@hamed-gharaee-1120343?utm_content=attributionCopyText&utm_medium=referral&utm_source=pexels) from Pexels
 - London skyline on homepage by [Pixabay](https://www.pexels.com/@pixabay) on Pexels
+- User image photo by [Alena Darmel](https://www.pexels.com/@a-darmel?utm_content=attributionCopyText&utm_medium=referral&utm_source=pexels) from Pexels
 
 ### Tutorials and Guides
 - [Markdown cheatsheet](https://www.markdownguide.org/basic-syntax/)

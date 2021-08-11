@@ -2,8 +2,6 @@
 
 #landing_pg_top {
     min-height: 100vh;
-    /* background: rgb(10,102,194); */
-    /* background: linear-gradient( 105.2deg,  #ff4e4e 11.2%, #fdb047 117.9% );; */
     display: flex;
     flex-direction: column;
 }

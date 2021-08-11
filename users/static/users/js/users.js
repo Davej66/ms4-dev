@@ -157,7 +157,8 @@ function previewImage(input) {
                 var height = imgFile.height;
                 var width = imgFile.width;
                 var size = uploadedImg.size;
-                if (height > 1000 || width > 1000 || size > 1024) {
+                console.log(height, width)
+                if (height > 1000 || width > 1000) {
                     $('.prf-img-preview').attr('src', originalImage);
                     $(`<ul class='errorlist'><li>
                         Your image is too large - please upload an image no larger than
