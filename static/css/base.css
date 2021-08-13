@@ -320,6 +320,12 @@ input[type=checkbox]{
     flex-direction: column;
     margin: 0px 10px;
     margin-bottom: 20px;
+    height: 70px;
+    position: relative;
+}
+
+.fieldset.textarea {
+    height: auto;
 }
 
 .account-form {

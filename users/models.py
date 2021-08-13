@@ -76,6 +76,7 @@ class MyAccount(AbstractBaseUser, PermissionsMixin):
     is_superuser = models.BooleanField(default=False)
     profile_image = models.ImageField(upload_to=get_profile_image_filepath, null=True, blank=True, default=get_default_profile_image)
     job_role = models.CharField(max_length=255, null=True, blank=True, default="")
+    industry = models.CharField(max_length=255, null=True, blank=True, default="")
     description = models.TextField(max_length=1000, blank=True)
     skills = models.CharField(max_length=1000, null=True, blank=True, default="")
     hide_email = models.BooleanField(default=True)

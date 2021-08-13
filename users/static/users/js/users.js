@@ -59,17 +59,35 @@ $(document).ready(function () {
         })
     })();
 
-    // Industry Select
+    // Industry Select - options from below, not from DB
     (function () {
         var role = VirtualSelect.init({
-            ele: '#ind-select',
+            ele: '#ind_select_profile_edit',
+            selectedValue: "{{this_user.industry}}",
             options: [{
                 'label': 'Photography',
                 'value': 'Photography',
-            }],
+            },
+            {
+                'label': 'Events Management',
+                'value': 'Events Management',
+            },
+            {
+                'label': 'Music',
+                'value': 'Music',
+            },
+            {
+                'label': 'Film & TV',
+                'value': 'Film & TV',
+            },
+            {
+                'label': 'Theatre',
+                'value': 'Theatre',
+            },
+        ],
             multiple: false,
             name: 'industry',
-            additionalClasses: 'industry'
+            additionalClasses: 'industry-edit-profile'
 
         });
     })();

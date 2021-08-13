@@ -64,10 +64,7 @@
                                             <div class="input-row d-flex justify-content-between">
                                                 <div class="fieldset">
                                                     <label for="industry">Industry</label>
-                                                    <div id="ind-select"></div>
-                                                    <input type="text" id="industry" name="industry"
-                                                        value="{{this_user.industry|default:''}}"
-                                                        placeholder="Select your expertise">
+                                                    <div id="ind_select_profile_edit"></div>
                                                 </div>
                                                 <div class="fieldset">
                                                     <label for="location">Location</label>
@@ -85,7 +82,7 @@
                                             <div id="skills_display" class="skills-display-wrapper">
                                                 <!-- Skills wills append here using JS -->
                                             
-                                            <div class="skills-wrapper">
+                                            <div class="skills-wrapper d-flex flex-column">
                                                 <button type="button" class="btn secondary-btn" onclick="addSkill(this);"><i
                                                         class="fas fa-plus"></i> Add Skill</button>
                                                 <div id="skills-select">
@@ -97,7 +94,7 @@
                                         </div>
                                     </div>
                                     <hr>
-                                    <div class="fieldset">
+                                    <div class="fieldset textarea">
                                         <label for="location">About me</label>
                                         <textarea id="description" name="description"
                                             value="{{this_user.bio|default:''}}" oninput="resizeTextarea(this);"

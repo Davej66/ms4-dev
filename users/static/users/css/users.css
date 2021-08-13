@@ -223,6 +223,31 @@ label.table-item-label {
     display: block;
 }
 
+#ind_select_profile_edit {
+    position: relative;
+    bottom: 0px;
+    left: 0px;
+}
+
+.vscomp-wrapper.industry-edit-profile {
+    bottom: 0px;
+    width: 100%;
+    position: relative;
+    height: 36px;
+}
+
+.industry-edit-profile > .vscomp-toggle-button {
+    display: inline-block;
+}
+
+.industry-edit-profile > .vscomp-toggle-button > .vscomp-value {
+    height: 100%;
+    line-height: 24px;
+    color: #757575;
+    font-size: 16px;
+    opacity: 1;
+}
+
 .vscomp-toggle-button {
     display: none;
 }
@@ -344,10 +369,6 @@ label.table-item-label {
     min-width: 25%;
     padding: 10px 20px!important;
     height: max-content;
-}
-
-.search-button-wrapper a:hover {
-    
 }
 
 h3.results-count {
