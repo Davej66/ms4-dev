@@ -10,7 +10,7 @@
 
 <div class="container-fluid w-100 m-0 p-0 light-page">
     <div class="row w-100 m-0">
-        <div class="d-flex justify-content p-0">
+        <div class="d-flex justify-content p-0 relative">
             <!-- SIDENAV -->
             {% include "navbar/sidenav.html" %}
 
@@ -31,8 +31,8 @@
                                 <!-- First card section -->
                                 <div class="card muted mb-3 p-5">
                                     <h3 class="edit-profile-section-header mb-5">The Basics</h3>
-                                    <div class="row">
-                                        <div class="d-flex flex-column col-lg-4 px-0">
+                                    <div class="d-flex row flex-wrap">
+                                        <div class="d-flex flex-column px-0" id="edit_prf_img_col">
                                             <div class="edit-prf-pic-img-wrap prf-img-preview-wrapper m-auto">
                                                 <img class="prf-img-preview fade-in" src="{{profile_image}}"
                                                     alt="{{this_user.first_name}} {{this_user.last_name}}'s profile image"
@@ -47,7 +47,7 @@
                                                 name="profile_image">
                                         </div>
 
-                                        <div class="col-lg-8 d-flex flex-column px-0">
+                                        <div class="d-flex flex-column px-0" id="edit_prf_basics_col">
                                             <div class="input-row d-flex justify-content-between">
                                                 <div class="fieldset">
                                                     <label for="first_name">First Name</label>

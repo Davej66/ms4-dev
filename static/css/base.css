@@ -266,6 +266,10 @@ a:hover, .anchor-link:hover {
     cursor: pointer;
 }
 
+.relative {
+    position: relative;
+}
+
 
 /* Forms */
 
@@ -323,6 +327,9 @@ input[type=checkbox]{
     outline: none;
 }
 
+.vscomp-ele {
+    max-width: 100%!important;
+}
 
 .input-row {
     flex-wrap: wrap;
@@ -684,7 +691,6 @@ a.nav-img-wrapper img {
         padding: 0px 20px!important;
         height: 100%;
     }
-
  }
 
  @media (max-width: 991.98px) { 
@@ -710,7 +716,7 @@ a.nav-img-wrapper img {
     }
 
     .nav-top-padding {
-        display: none;
+        padding: 0px;
     }
 
     .homepage-header {

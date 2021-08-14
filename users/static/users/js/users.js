@@ -11,9 +11,14 @@ const getRoles = document.getElementById('all_roles')
 const roles = getUserInd ? JSON.parse(document.getElementById('all_roles').textContent) : "";
 const getUserRole = document.getElementById('user_role')
 const userRole = getUserRole ? JSON.parse(document.getElementById('user_role').textContent) : "";
-console.log(userSkills)
+const screenWidth = $(window).width()
+
 $(document).ready(function () {
-    
+    // Check screen width and remove active from sidenav if mobile
+    if(screenWidth > 991.98){
+        $('#sidebar_wrap').addClass('active')
+    }
+
     /** 
     * Multiselect library by 'sa-si-dev': https://sa-si-dev.github.io/virtual-select/
     **/
@@ -192,20 +197,27 @@ function removeSkill(skill) {
 
 // Sidebar Nav Expand / Collapse
 function triggerSidebar() {
-    sidebar = $('#sidebar_wrap')
-    console.log(sidebar)
+    let sidebar = $('#sidebar_wrap')
     if (sidebar.hasClass('active')) {
         $('#sidebar_wrap').removeClass('active')
         $('.sidebar-profile-details').addClass('closed')
         $('#account_sidebar > ul').addClass('closed')
         $('.sidenav-detail-text').fadeOut(200);
         $('.sidebar-text-item').fadeOut(200);
+        if (screenWidth <= 991.98) {
+            console.log(screenWidth)
+            $('body').css('overflow-y', 'auto')
+        }
     } else {
         $('#sidebar_wrap').addClass('active')
         $('.sidebar-profile-details').removeClass('closed')
         $('#account_sidebar > ul').removeClass('closed')
         $('.sidenav-detail-text').delay('100').fadeIn();
         $('.sidebar-text-item').delay('500').fadeIn();
+        if (screenWidth <= 991.98) {
+            console.log("now active", screenWidth)
+            $('body').css('overflow-y', 'hidden')
+        }
     }
 };
 
