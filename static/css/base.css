@@ -124,9 +124,10 @@ a:hover, .anchor-link:hover {
 
 .header-underline {
     border-bottom: 5px solid var(--accent-color);
-}
+}   
 
-.header-underline-after {
+.header-underline-after,
+.p-text-underline {
     position: relative;
     z-index: 2;
     width: max-content;
@@ -139,6 +140,18 @@ a:hover, .anchor-link:hover {
     border-bottom: 14px solid var(--accent-color-light);
     display: block;
     bottom: 6px;
+    left: 0;
+    z-index: -1;
+    width: -webkit-fill-available;
+    max-width: 100vw;
+}
+
+.p-text-underline::after {
+    position: absolute;
+    content: '';
+    border-bottom: 3px solid var(--accent-color-light);
+    display: block;
+    bottom: -3px;
     left: 0;
     z-index: -1;
     width: -webkit-fill-available;
@@ -270,6 +283,36 @@ a:hover, .anchor-link:hover {
     position: relative;
 }
 
+.row {
+    --bs-gutter-x: 0;
+    --bs-gutter-y: 0;
+}
+
+.message-wrap {
+    position: absolute;
+    width: 100%;
+    display: flex;
+    top: 8%;
+}
+
+.message {
+    position: fixed;
+    top: 8%;
+    z-index: 99;
+    background: var(--accent-color-grad);
+    color: var(--dark-text);
+    box-shadow: 1px 1px 10px -2px var(--dark-shadow);
+    padding: 20px 30px;
+    border-radius: 50px;
+    font-size: 18px;
+    left: 40%;
+    font-weight: 300;
+}
+
+.message i {
+    margin-left: 10px;
+    cursor: pointer;
+}
 
 /* Forms */
 
@@ -690,6 +733,10 @@ a.nav-img-wrapper img {
     nav > div {
         padding: 0px 20px!important;
         height: 100%;
+    }
+
+    .card {
+        padding: 25px!important ;
     }
  }
 

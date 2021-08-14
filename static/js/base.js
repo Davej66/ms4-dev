@@ -93,7 +93,7 @@ function resizeTextarea(textarea) {
     }
 }
 
-    
+
 // Specify profile image rotation and add appropriate class
 function specImageOrientation(image) {
     var height = image.height;
@@ -109,3 +109,11 @@ function specImageOrientation(image) {
     }
 }
 
+
+// Remove message when 'times' clicked
+function removeMessage(closeMessage){
+    let message = $(closeMessage).parent();
+    $(message).animate({
+        top: '-30%',
+    }, 200);
+}

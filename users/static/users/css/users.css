@@ -1,7 +1,8 @@
 /* Dashboard Sidenav */
 #sidebar_wrap {
     background: var(--primary-color);
-    width: 7%;
+    width: 9%;
+    min-width: 8%;
     transition: 0.3s ease-in-out;
 }
 
@@ -139,11 +140,15 @@ label.table-item-label {
 }
 
 #edit_prf_img_col {
-    flex: 1 1 30%;
+    flex: 1 1 29%;
+    min-width: 200px;
+    max-width: 250px;
+    margin: auto;
 }
 
 #edit_prf_basics_col {
-    flex: 1 1 70%;
+    flex: 1 1 69%;
+    padding: 0px 10px!important;
 }
 
 .edit-prf-pic-img-wrap {
@@ -295,6 +300,7 @@ label.table-item-label {
 
 .vscomp-dropbox-container {
     width: auto!important;
+    z-index: 99!important;
 }
 
 .vscomp-option.selected {
@@ -389,6 +395,7 @@ label.table-item-label {
 /* Searchbar */
 .search-box-card {
     padding: 20px;
+    z-index: 99;
 }
 
 #industry_search > div {

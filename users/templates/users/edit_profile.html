@@ -8,6 +8,14 @@
 {% block head_title %}Edit Profile{% endblock %}
 {% block content %}
 
+{% if messages %}
+{% for message in messages %}
+<div class="message">
+    <span>{{message}}</span><i class="fas fa-times" onclick="removeMessage(this);"></i>
+</div>
+{% endfor %}
+{% endif %}
+
 <div class="container-fluid w-100 m-0 p-0 light-page">
     <div class="row w-100 m-0">
         <div class="d-flex justify-content p-0 relative">

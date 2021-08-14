@@ -12,6 +12,7 @@
                 {% if url_name != "edit_profile" %}
                 <a href="{% url 'edit_profile' %}" class="btn secondary-btn">Edit Profile</a>
                 {% endif %}
+                <p class="text-white m-auto p-text-underline">{{this_user.job_role}}</p>
             </div>
         </div>
 
