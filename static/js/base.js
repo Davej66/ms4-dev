@@ -83,15 +83,17 @@ $(document).ready(function () {
 function resizeTextarea(textarea) {
     var currentHeight = $(textarea).height();
     var scrollHeight = $(textarea).prop('scrollHeight');
-    console.log(currentHeight, scrollHeight)
-    if ((scrollHeight) > currentHeight) {
+    if (scrollHeight > currentHeight) {
         if (scrollHeight > 240) {
             $(textarea).css('overflow-y', 'auto');
         }
-        textarea.style.height = scrollHeight + 'px';
+        $(textarea).animate({
+            height: scrollHeight
+        }, 100);
     }
 }
 
+    
 // Specify profile image rotation and add appropriate class
 function specImageOrientation(image) {
     var height = image.height;

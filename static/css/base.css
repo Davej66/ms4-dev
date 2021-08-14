@@ -275,7 +275,12 @@ label {
 }
 
 textarea {
-    min-height: 60px;
+    min-height: 80px;
+    transition: 0.3s ease-in-out;
+}
+
+textarea.no-padding-on-focus:focus {
+    padding: 5px 10px!important;
 }
 
 input, textarea, .vscomp-toggle-button {
@@ -333,7 +338,8 @@ input[type=checkbox]{
     flex-direction: column;
     margin: 0px 10px;
     margin-bottom: 10px;
-    height: 70px;
+    height: max-content;
+    min-height: 70px;
     position: relative;
 }
 
