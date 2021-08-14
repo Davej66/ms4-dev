@@ -3,11 +3,17 @@
 // Get all skills and roles on page if they exist and return variables if yes
 const getSkills = document.getElementById('all_skills')
 const skills = getSkills ? JSON.parse(document.getElementById('all_skills').textContent) : "";
-const getInds = document.getElementById('all_inds')
-const industries = getInds ? JSON.parse(document.getElementById('all_inds').textContent) : "";
-
+const getUserInd = document.getElementById('user_ind')
+const userInd = getUserInd ? JSON.parse(document.getElementById('user_ind').textContent) : "";
+const getRoles = document.getElementById('all_roles')
+const roles = getUserInd ? JSON.parse(document.getElementById('all_roles').textContent) : "";
+const getUserRole = document.getElementById('user_role')
+const userRole = getUserRole ? JSON.parse(document.getElementById('user_role').textContent) : "";
+console.log(userRole)
 $(document).ready(function () {
-    // Multiselect library by 'sa-si-dev': https://sa-si-dev.github.io/virtual-select/
+    /** 
+    * Multiselect library by 'sa-si-dev': https://sa-si-dev.github.io/virtual-select/
+    **/
 
     // Skill Select
     (function () {
@@ -61,9 +67,10 @@ $(document).ready(function () {
 
     // Industry Select - options from below, not from DB
     (function () {
-        var role = VirtualSelect.init({
+        var industry = VirtualSelect.init({
             ele: '#ind_select_profile_edit',
-            selectedValue: "{{this_user.industry}}",
+            selectedValue: userInd,
+            hideClearButton: true,
             options: [{
                 'label': 'Photography',
                 'value': 'Photography',
@@ -84,13 +91,66 @@ $(document).ready(function () {
                 'label': 'Theatre',
                 'value': 'Theatre',
             },
-        ],
+            ],
             multiple: false,
             name: 'industry',
-            additionalClasses: 'industry-edit-profile'
-
+            additionalClasses: 'select-edit-profile'
         });
+
+
     })();
+
+    // Job Role Select - options from DB
+    (function () {
+        var role = VirtualSelect.init({
+            ele: '#role_select_profile_edit',
+            hideClearButton: true,
+            options: [],
+            multiple: false,
+            name: 'job_role',
+            search: true,
+            additionalClasses: 'select-edit-profile',
+            selectedValue: userRole,
+        })
+        for (i = 0; i < roles.length; i++) {
+            document.querySelector('#role_select_profile_edit').addOption({
+                value: roles[i],
+                label: roles[i],
+            });
+        };
+        let roleWrap = $('#role_select_profile_edit')
+        $(roleWrap).find(`div[data-value='${userRole}']`).addClass('selected');
+        $(roleWrap).find(`input[name='job_role']`).val(`${userRole}`);
+        $(roleWrap).find(`.vscomp-value`).text(`${userRole}`);
+    })();
+
+
+    /** 
+    * Open select boxes and allow selection using keyboard only
+    **/
+
+    // Give all select options tabindex
+    $('.vscomp-option').each(function (item) {
+        $(this).attr('tabindex', '0');
+    });
+
+    // Remove tabindex from hidden fields
+    $('.vscomp-hidden-input').attr('tabindex', '-1')
+
+    let toggleInd = $('#ind_select_profile_edit')
+    let toggleRole = $('#role_select_profile_edit')
+
+    function openSelectOnTab(select) {
+        $(select).keyup(function (e) {
+            var key = e.keycode || e.which
+            if (key == 9 || key == 13 || key == 32) {
+                $(select).find('.vscomp-toggle-button').click();
+                $(select).find('.vscomp-option').first().focus().toggleClass('focused');
+            }
+        });
+    }
+    openSelectOnTab(toggleInd);
+    openSelectOnTab(toggleRole);
 });
 
 
@@ -114,7 +174,7 @@ splitSkills();
 /* Custom skill pill add and remove, to interact with 
 hidden dropdown when user clicks custom button */
 function addSkill(toggle) {
-    $('.vscomp-toggle-button').click()
+    $('#skills-select').find('.vscomp-toggle-button').click()
 }
 function removeSkill(skill) {
     var skillPillClose = $('#skills_display > .skill-pill');

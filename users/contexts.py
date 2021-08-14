@@ -39,7 +39,9 @@ def user_context(request):
             'full_name': full_name_title,
             'skills': skill_names,
             'user_skills': user_skills,
-            # 'roles': role_names,
+            'user_ind': this_user.industry,
+            'all_roles': role_names,
+            'user_role': this_user.job_role,
         }
         return context
     except Exception as e:

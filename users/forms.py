@@ -44,7 +44,7 @@ class EditProfileForm(forms.ModelForm):
     class Meta:
         model = MyAccount
         fields = ('first_name', 'last_name', 'job_role',
-            'profile_image', 'skills', 'location', 'description')
+            'profile_image', 'skills', 'location', 'description', 'industry')
 
 
 class UpdateUserPackage(forms.ModelForm):

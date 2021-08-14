@@ -70,11 +70,10 @@ def edit_profile(request):
             request.POST, request.FILES, instance=request.user)
         if form.is_valid():
             form.save()
-            print("It saved this", form)
             messages.success(request, "Form saved")
         else:
             print("Couldn't save", form.errors)
-            messages.error(request, "Form saved")
+            messages.error(request, "Form not saved")
 
     return render(request, 'users/edit_profile.html')
 

@@ -83,7 +83,8 @@ $(document).ready(function () {
 function resizeTextarea(textarea) {
     var currentHeight = $(textarea).height();
     var scrollHeight = $(textarea).prop('scrollHeight');
-    if ((scrollHeight - 10) > currentHeight) {
+    console.log(currentHeight, scrollHeight)
+    if ((scrollHeight) > currentHeight) {
         if (scrollHeight > 240) {
             $(textarea).css('overflow-y', 'auto');
         }

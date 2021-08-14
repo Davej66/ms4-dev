@@ -229,21 +229,24 @@ label.table-item-label {
     left: 0px;
 }
 
-.vscomp-wrapper.industry-edit-profile {
+.vscomp-wrapper.select-edit-profile {
     bottom: 0px;
     width: 100%;
     position: relative;
     height: 36px;
 }
 
-.industry-edit-profile > .vscomp-toggle-button {
+.vscomp-wrapper.select-edit-profile > .vscomp-dropbox-container {
+    width: 100%!important;
+}
+
+.select-edit-profile > .vscomp-toggle-button {
     display: inline-block;
 }
 
-.industry-edit-profile > .vscomp-toggle-button > .vscomp-value {
+.select-edit-profile > .vscomp-toggle-button > .vscomp-value {
     height: 100%;
     line-height: 24px;
-    color: #757575;
     font-size: 16px;
     opacity: 1;
 }
@@ -254,6 +257,25 @@ label.table-item-label {
 
 .vscomp-dropbox-container {
     width: auto!important;
+}
+
+.vscomp-option.selected {
+    background-color: var(--accent-color);
+}
+
+.vscomp-search-container > .vscomp-search-clear {
+    margin: auto;
+    display: flex;
+}
+
+.vscomp-search-container > .vscomp-search-input {
+    padding: 0px;
+    border-bottom: 0px!important;
+    font-size: 16px;
+}
+
+.vscomp-search-container {
+    padding: 0px!important;
 }
 
 /* All users page */
@@ -331,7 +353,7 @@ label.table-item-label {
     padding: 20px;
 }
 
-#ind-select {
+#industry_search > div {
     max-width: 100%;
 }
 
@@ -340,11 +362,20 @@ label.table-item-label {
     display: block;
     bottom: 0;
     width: 100%;
+    max-width: 100%;
 }
 
-#industry_search > #ind-select > div > .vscomp-toggle-button {
+#industry_search > div > div > .vscomp-toggle-button {
     display: block;
-    min-height: 36px;
+    min-height: 33px;
+    height: 33px;
+    transition: 0.3s ease-in-out;
+}
+
+#industry_search > div > div.focused > .vscomp-toggle-button {
+    display: block;
+    min-height: 33px;
+    height: auto;
 }
 
 .search-button-wrapper {
