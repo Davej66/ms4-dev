@@ -3,14 +3,17 @@
 // Get all skills and roles on page if they exist and return variables if yes
 const getSkills = document.getElementById('all_skills')
 const skills = getSkills ? JSON.parse(document.getElementById('all_skills').textContent) : "";
+const getUserSkills = document.getElementById('user_skills')
+const userSkills = getUserSkills ? JSON.parse(document.getElementById('user_skills').textContent) : "";
 const getUserInd = document.getElementById('user_ind')
 const userInd = getUserInd ? JSON.parse(document.getElementById('user_ind').textContent) : "";
 const getRoles = document.getElementById('all_roles')
 const roles = getUserInd ? JSON.parse(document.getElementById('all_roles').textContent) : "";
 const getUserRole = document.getElementById('user_role')
 const userRole = getUserRole ? JSON.parse(document.getElementById('user_role').textContent) : "";
-console.log(userRole)
+console.log(userSkills)
 $(document).ready(function () {
+    
     /** 
     * Multiselect library by 'sa-si-dev': https://sa-si-dev.github.io/virtual-select/
     **/
@@ -33,14 +36,13 @@ $(document).ready(function () {
 
         var vsOptions = $('.vscomp-options > .vscomp-option');
         var skillsDisplay = $('#skills_display');
-        // TODO connect skills to db
-        var userSkills = ['HTML', 'CSS'];
+        var userSkillsArr = userSkills.split(',');
 
         // Add existing skills to display
         for (i = 0; i < vsOptions.length; i++) {
             var skill = vsOptions[i]
             var skill_name = $(skill).attr('data-value')
-            if (userSkills.includes(skill_name)) {
+            if (userSkillsArr.includes(skill_name)) {
                 $(skill).click()
                 skillsDisplay.append(`
                 <span class="skill-pill" value="${skill_name}">${skill_name}

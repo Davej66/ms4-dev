@@ -194,22 +194,50 @@ label.table-item-label {
 }
 
 /* Multiselect - set wrapper relative to custom button */
+#skills-select {
+    width: auto!important;
+}
+
+#skills-select .vscomp-search-wrapper {
+    padding: 0px 15px!important;
+}
+
+#skills-select .vscomp-dropbox-container {
+    width: 100%!important;
+    bottom: 35px;
+}
+
 .skills-wrapper {
     position: relative;
+    width: max-content;
+}
+
+.skills-wrapper > button{
+    width: max-content;
+    padding: 5px 10px;
+    margin: 0px 5px 5px 0px;
 }
 
 .skills-display-wrapper {
     position: relative;
     display: flex;
-    flex-direction: row-reverse;
+    flex-direction: row;
     flex-wrap: wrap;
-    justify-content: flex-end;
+}
+
+.vscomp-dropbox {
+    box-shadow: 1px 2px 10px -1px var(--dark-shadow);
+    border-radius: 5px;
+}
+
+.vscomp-option:last-of-type {
+    border-radius: 0px 0px 5px 5px;
 }
 
 .vscomp-wrapper {
     position: absolute;
     right: 0;
-    width: 250%;
+    width: 100%;
     bottom: 55px;
 }
 

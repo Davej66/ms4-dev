@@ -64,11 +64,13 @@
                                             <div class="input-row d-flex justify-content-between">
                                                 <div class="fieldset">
                                                     <label for="industry">Industry</label>
-                                                    <div id="ind_select_profile_edit" class="no-outline-on-focus" tabindex="0"></div>
+                                                    <div id="ind_select_profile_edit" class="no-outline-on-focus"
+                                                        tabindex="0"></div>
                                                 </div>
                                                 <div class="fieldset">
                                                     <label for="job_role">Role</label>
-                                                    <div id="role_select_profile_edit" class="no-outline-on-focus"></div>
+                                                    <div id="role_select_profile_edit" class="no-outline-on-focus">
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="input-row d-flex justify-content-between">
@@ -86,8 +88,8 @@
                                                     <button type="button" class="btn secondary-btn"
                                                         onclick="addSkill(this);"><i class="fas fa-plus"></i> Add
                                                         Skill</button>
-                                                    <div id="skills-select">
-                                                    </div>
+                                                </div>
+                                                <div id="skills-select">
                                                 </div>
                                             </div>
 
@@ -121,6 +123,7 @@
 
 <!-- Page only scripts -->
 {{ skills|json_script:"all_skills" }}
+{{ user_skills|json_script:"user_skills" }}
 {{ user_ind|json_script:"user_ind" }}
 {{ all_roles|json_script:"all_roles" }}
 {{ user_role|json_script:"user_role" }}
