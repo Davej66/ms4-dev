@@ -12,10 +12,11 @@ const roles = getUserInd ? JSON.parse(document.getElementById('all_roles').textC
 const getUserRole = document.getElementById('user_role')
 const userRole = getUserRole ? JSON.parse(document.getElementById('user_role').textContent) : "";
 const screenWidth = $(window).width()
+const skillsDisplay = $('#skills_display');
 
 $(document).ready(function () {
     // Check screen width and remove active from sidenav if mobile
-    if(screenWidth > 991.98){
+    if (screenWidth > 991.98) {
         $('#sidebar_wrap').addClass('active')
     }
 
@@ -25,52 +26,110 @@ $(document).ready(function () {
 
     // Skill Select
     (function () {
-        VirtualSelect.init({
-            ele: '#skills-select',
-            options: [],
-            multiple: true,
-            name: 'skills',
-
-        });
+        var userSkillsArr = userSkills.split(',');
+        let skillOptions = []
         for (i = 0; i < skills.length; i++) {
-            document.querySelector('#skills-select').addOption({
+            skillOptions.push({
                 value: skills[i],
                 label: skills[i],
             });
-        };
+        }
+        VirtualSelect.init({
+            ele: '#skills-select',
+            options: skillOptions,
+            multiple: true,
+            name: 'skills',
+            search: true,
+            maxValues: 0,
+            optionsCount: 25,
+            selectedValue: userSkillsArr
+        });
 
-        var vsOptions = $('.vscomp-options > .vscomp-option');
-        var skillsDisplay = $('#skills_display');
-        var userSkillsArr = userSkills.split(',');
+        var vsOption = $('#skills-select .vscomp-options > .vscomp-option');
+
+
+        
 
         // Add existing skills to display
-        for (i = 0; i < vsOptions.length; i++) {
-            var skill = vsOptions[i]
-            var skill_name = $(skill).attr('data-value')
-            if (userSkillsArr.includes(skill_name)) {
-                $(skill).click()
+        for (i = 0; i < userSkillsArr.length; i++) {
+            var skill = userSkillsArr[i]
                 skillsDisplay.append(`
-                <span class="skill-pill" value="${skill_name}">${skill_name}
-                <i class="fas fa-times" value="${skill_name}" onclick="removeSkill(this);"></i>
+                <span class="skill-pill" value="${skill}">
+                    ${skill}
+                    <i class="fas fa-times" value="${skill}" onclick="removeSkill(this);"></i>
                 </span>
                 `)
-            }
         }
 
         // Add or remove skills on input select
-        vsOptions.click(function () {
-            var skill_name = $(this).text().trim()
-            if ($(this).hasClass('selected')) {
-                $(`.skill-pill[value="${skill_name}"]`).remove()
-            } else {
-                skillsDisplay.append(`
-                <span class="skill-pill" value="${skill_name}">${skill_name}
-                <i class="fas fa-times" value="${skill_name}" onclick="removeSkill(this);"></i>
-                </span>
-                `)
+        // Add new skills to input as user selects
+        function addSkillClick() {
+            $('#skills-select .vscomp-option').on('click', function () {
+                var thisSkill = $(this).text().trim();
+                var thisSkillPill = $(`.skill-pill[value="${thisSkill}"]`);
+                var isSelected = $(this).hasClass('selected')
+                if (thisSkillPill.length == 1) {
+                    $(thisSkillPill).fadeOut(300,
+                        function () { $(this).remove() });
+                } else {
+                    skillsDisplay.append(`
+        <span class="skill-pill fade-in" value="${thisSkill}">
+        ${thisSkill}
+        <i class="fas fa-times" value="${thisSkill}" onclick="removeSkill(this);"></i>
+        </span>
+        `)
+                }
+            });
+        }
+        function addSkillEnter() {
+            $('#skills-select .vscomp-option').keyup(function (e) {
+                e.stopPropagation();
+                e.stopImmediatePropagation();
+                var key = e.keycode || e.which
+                if (key == 13) {
+                    let focusedOption = $('.vscomp-options').find('.focused').text().trim();
+                    var thisSkillPill = $(`.skill-pill[value="${focusedOption}"]`);
+                    if (thisSkillPill.length == 1) {
+                        $(thisSkillPill).fadeOut(300,
+                            function () { $(this).remove() });
+                    } else {
+                        skillsDisplay.append(`
+        <span class="skill-pill fade-in" value="${focusedOption}">
+        ${focusedOption}
+        <i class="fas fa-times" value="${focusedOption}" onclick="removeSkill(this);"></i>
+        </span>
+        `)
+                    }
+                }
+            });
+        }
+        addSkillClick();
+        addSkillEnter();
+
+        // Allow for option selects after scroll or when search function used
+        $('.vscomp-options-container').on('scroll', function (e) {
+            e.stopPropagation();
+            e.stopImmediatePropagation();
+            addSkillClick();
+            addSkillEnter();
+        })
+        $('.vscomp-options-container').keyup(function (e) {
+            e.stopPropagation();
+            e.stopImmediatePropagation();
+            var key = e.keycode || e.which
+            if (key == 38 || key == 40) {
+                addSkillClick();
+                addSkillEnter();
             }
         })
+        $('.vscomp-search-input').on('change', function (e) {
+            e.stopPropagation();
+            e.stopImmediatePropagation();
+            addSkillClick();
+            addSkillEnter();
+        })
     })();
+
 
     // Industry Select - options from below, not from DB
     (function () {
@@ -103,9 +162,8 @@ $(document).ready(function () {
             name: 'industry',
             additionalClasses: 'select-edit-profile'
         });
-
-
     })();
+
 
     // Job Role Select - options from DB
     (function () {
@@ -178,13 +236,13 @@ function splitSkills() {
 };
 splitSkills();
 
+
 /* Custom skill pill add and remove, to interact with 
 hidden dropdown when user clicks custom button */
-function addSkill(toggle) {
+function addSkill() {
     $('#skills-select').find('.vscomp-toggle-button').click()
 }
 function removeSkill(skill) {
-    var skillPillClose = $('#skills_display > .skill-pill');
     var skill_name = $(skill).attr('value')
     var skillSelect = $(`.vscomp-option[data-value="${skill_name}"]`)
     if ($(skillSelect).hasClass('selected')) {
@@ -192,7 +250,6 @@ function removeSkill(skill) {
         $(this).parent().remove()
     }
 }
-
 
 
 // Sidebar Nav Expand / Collapse
@@ -306,3 +363,4 @@ $('#user_search_form').submit(function (e) {
         }
     })
 });
+

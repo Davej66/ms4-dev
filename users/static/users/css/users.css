@@ -223,6 +223,10 @@ label.table-item-label {
     top: 65px;
 }
 
+#skills-select .vscomp-toggle-button {
+    display: none;
+}
+
 .skills-wrapper {
     position: relative;
     width: max-content;
@@ -314,8 +318,22 @@ label.table-item-label {
     border-bottom: none;
 }
 
+.vscomp-wrapper .checkbox-icon {
+    border: 1px solid var(--light-line);
+}
+
+.vscomp-option.selected .checkbox-icon {
+    border: none!important;
+}
+
 .vscomp-wrapper .checkbox-icon::after {
-    border: 1px solid var(--light-line)!important;
+    border: none;
+}
+
+.vscomp-option.selected .checkbox-icon::after {
+    border: none;
+    border-right: 1px solid var(--primary-color)!important;
+    border-bottom: 1px solid var(--primary-color)!important;
 }
 
 .vscomp-search-container > .vscomp-search-clear {

@@ -1,19 +1,163 @@
 [
     {
         "model": "users.Skills",
-        "pk": 65,
+        "pk": 1,
         "fields": {
-            "skill_name": "2018-10-10 02:33:29",
-            "last_login": "2021-02-02 05:41:10",
-            "first_name": "Paige",
-            "last_name": "Horton",
-            "email": "paigehorton@premiant.com",
-            "is_admin": "False",
-            "is_active": "True",
-            "is_staff": "False",
-            "is_superuser": "False",
-            "location": "Logan",
-            "industry": "Photography"
+            "skill_name": "Budget Management"
         }
     },
+    {
+        "model": "users.Skills",
+        "pk": 2,
+        "fields": {
+            "skill_name": "Project Management"
+        }
+    },
+    {
+        "model": "users.Skills",
+        "pk": 3,
+        "fields": {
+            "skill_name": "CSS"
+        }
+    },
+    {
+        "model": "users.Skills",
+        "pk": 4,
+        "fields": {
+            "skill_name": "HTML"
+        }
+    },
+    {
+        "model": "users.Skills",
+        "pk": 5,
+        "fields": {
+            "skill_name": "Photography"
+        }
+    },
+    {
+        "model": "users.Skills",
+        "pk": 6,
+        "fields": {
+            "skill_name": "Adobe Illustrator"
+        }
+    },
+    {
+        "model": "users.Skills",
+        "pk": 7,
+        "fields": {
+            "skill_name": "Adobe Photoshop"
+        }
+    },
+    {
+        "model": "users.Skills",
+        "pk": 8,
+        "fields": {
+            "skill_name": "Adobe InDesign"
+        }
+    },
+    {
+        "model": "users.Skills",
+        "pk": 9,
+        "fields": {
+            "skill_name": "Script Writing"
+        }
+    },
+    {
+        "model": "users.Skills",
+        "pk": 10,
+        "fields": {
+            "skill_name": "Media Production"
+        }
+    },
+    {
+        "model": "users.Skills",
+        "pk": 11,
+        "fields": {
+            "skill_name": "Final Cut Pro"
+        }
+    },
+    {
+        "model": "users.Skills",
+        "pk": 12,
+        "fields": {
+            "skill_name": "Adobe After Effects"
+        }
+    },
+    {
+        "model": "users.Skills",
+        "pk": 12,
+        "fields": {
+            "skill_name": "Video Editing"
+        }
+    },
+    {
+        "model": "users.Skills",
+        "pk": 13,
+        "fields": {
+            "skill_name": "Vision Mixing"
+        }
+    },
+    {
+        "model": "users.Skills",
+        "pk": 14,
+        "fields": {
+            "skill_name": "Supplier Liaison"
+        }
+    },
+    {
+        "model": "users.Skills",
+        "pk": 15,
+        "fields": {
+            "skill_name": "Artist Liaison"
+        }
+    },
+    {
+        "model": "users.Skills",
+        "pk": 16,
+        "fields": {
+            "skill_name": "Social Promotion"
+        }
+    },
+    {
+        "model": "users.Skills",
+        "pk": 17,
+        "fields": {
+            "skill_name": "Artist Repetoire"
+        }
+    },
+    {
+        "model": "users.Skills",
+        "pk": 18,
+        "fields": {
+            "skill_name": "Bookings Management"
+        }
+    },
+    {
+        "model": "users.Skills",
+        "pk": 19,
+        "fields": {
+            "skill_name": "Staffing Management"
+        }
+    },
+    {
+        "model": "users.Skills",
+        "pk": 20,
+        "fields": {
+            "skill_name": "Event Planning"
+        }
+    },
+    {
+        "model": "users.Skills",
+        "pk": 21,
+        "fields": {
+            "skill_name": "Transport Management"
+        }
+    },
+    {
+        "model": "users.Skills",
+        "pk": 22,
+        "fields": {
+            "skill_name": "Event Production"
+        }
+    }
 ]

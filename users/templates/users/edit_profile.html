@@ -39,7 +39,7 @@
                             <form action="{% url 'edit_profile' %}" method="POST" enctype="multipart/form-data">
                                 {% csrf_token %}
                                 <!-- First card section -->
-                                <div class="card muted mb-3 p-5">
+                                <div class="card muted mb-3 p-5 z-2">
                                     <h3 class="edit-profile-section-header mb-5">The Basics</h3>
                                     <div class="d-flex row flex-wrap">
                                         <div class="d-flex flex-column px-0" id="edit_prf_img_col">
@@ -96,7 +96,7 @@
                                                 <div id="skills_display" class="skills-display-wrapper">
                                                     <!-- Skills wills append here using JS -->
                                                     <input type="hidden" id="profile_completed" name="profile_completed"
-                                                        value="True">
+                                                    value="True">
                                                     <div class="skills-wrapper d-flex flex-column">
                                                         <button type="button" class="btn secondary-btn"
                                                             onclick="addSkill(this);"><i class="fas fa-plus"></i> Add

@@ -23,8 +23,6 @@ $(document).ready(function () {
     var titleArr = ['Home | FreelanceMeetups', 'Register | FreelanceMeetups',
         'Login | FreelanceMeetups']
     var title = document.title;
-    var titleShort = title.split('|')[0].trim();
-    console.log(title)
     var titleConfirmed = titleArr.includes(title);
     if (titleConfirmed == true) {
         $('.navbar').addClass('transparent-nav');
@@ -118,7 +116,7 @@ function specImageOrientation(image) {
 
 // Remove message when 'times' clicked
 function removeMessage(closeMessage) {
-    let message = $(closeMessage).parent();
+    let message = $(closeMessage).parent().parent();
     $(message).animate({
         top: '-30%',
     }, 200);

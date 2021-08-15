@@ -15,7 +15,7 @@ def user_context(request):
         full_name_title = full_name.title()
         
         # Return all skills and user skills
-        skills = Skills.objects.all()
+        skills = Skills.objects.all().order_by('skill_name')
         for skill in skills:
             skill_names.append(skill.skill_name)
         user_skills = this_user.skills
@@ -23,7 +23,7 @@ def user_context(request):
             user_skills = ""
 
         # Return all roles and user role
-        roles = Roles.objects.all()
+        roles = Roles.objects.all().order_by('role_name')
         for role in roles: 
             role_names.append(role.role_name)
         # print("no skill", this_user.role)

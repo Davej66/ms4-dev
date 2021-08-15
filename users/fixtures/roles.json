@@ -1,0 +1,79 @@
+[
+    {
+      "model": "users.Roles",
+      "pk": 18,
+      "fields": {
+        "role_name": "Event Producer"
+      }
+    },
+    {
+      "model": "users.Roles",
+      "pk": 38,
+      "fields": {
+        "role_name": "Project Manager"
+      }
+    },
+    {
+      "model": "users.Roles",
+      "pk": 90,
+      "fields": {
+        "role_name": "Photographer"
+      }
+    },
+    {
+      "model": "users.Roles",
+      "pk": 92,
+      "fields": {
+        "role_name": "Cinematogprapher"
+      }
+    },
+    {
+      "model": "users.Roles",
+      "pk": 55,
+      "fields": {
+        "role_name": "Stage Manager"
+      }
+    },
+    {
+      "model": "users.Roles",
+      "pk": 79,
+      "fields": {
+        "role_name": "Event Manager"
+      }
+    },
+    {
+      "model": "users.Roles",
+      "pk": 57,
+      "fields": {
+        "role_name": "Talent Manager"
+      }
+    },
+    {
+      "model": "users.Roles",
+      "pk": 65,
+      "fields": {
+        "role_name": "Director"
+      }
+    },
+    {
+      "model": "users.Roles",
+      "pk": 56,
+      "fields": {
+        "role_name": "Video Editor"
+      }
+    },
+    {
+      "model": "users.Roles",
+      "pk": 82,
+      "fields": {
+        "role_name": "Vision Director"
+      }
+    },
+    {
+      "model": "users.Roles",
+      "pk": 70,
+      "fields": {
+        "role_name": "Musician"
+      }
+    }
+  ]
