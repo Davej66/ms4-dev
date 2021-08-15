@@ -91,17 +91,22 @@ def all_users(request):
         first_name__exact='').exclude(last_name__exact='')
 
     if request.is_ajax and request.method == "POST":
-        query = request.POST['user_search']
+        query = request.POST['user_search'] 
+        industry_query = request.POST['industry']
         
-        queries = Q(first_name__icontains=query) | Q(last_name__icontains=query) | Q(
-            description__icontains=query) | Q(location__icontains=query) | Q(
-            job_role__icontains=query) | Q(skills__icontains=query)
+        if query != "":
+            queries = Q(first_name__icontains=query) | Q(last_name__icontains=query) | Q(
+                description__icontains=query) | Q(location__icontains=query) | Q(
+                job_role__icontains=query) | Q(skills__icontains=query)
+        else: 
+            queries = Q(industry=industry_query)
+        
         results = MyAccount.objects.filter(queries)
         
         context = {
             'search_results': results
         }
-        print(query)
+        print(query, industry_query)
         payload = render_to_string('users/includes/ajax_user_search_results.html', context)
         return HttpResponse(json.dumps(payload), content_type="application/json")
 

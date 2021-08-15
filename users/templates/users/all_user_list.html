@@ -18,7 +18,7 @@
                 <form action="{% url 'all_users' %}" id="user_search_form" method="POST">{%csrf_token%}
                     <div class="input-row d-flex justify-content-between mt-3">
                         <div class="fieldset">
-                            <label for="industry" class="mb-3">By Keyword</label>
+                            <label for="user_search" class="mb-3">By Keyword</label>
                             <input type="text" name="user_search" id="user_search" placeholder="Search by name, location, skill, description">
                         </div>
                         <div class="fieldset" id="industry_search">
@@ -55,9 +55,7 @@
                 <hr>
                 <div class="user-details-bottom">
                     <p class="user-skills">{{user.skills}}</p>
-                    <p>{{user.about}} Lorem ipsum dolor, sit amet consectetur adipisicing elit. Odit voluptatibus eos
-                        veritatis hic nisi possimus, pariatur architecto velit illum repellendus tempore eligendi magni
-                        amet laudantium, quam exercitationem totam saepe repudiandae? </p>
+                    <p class="pt-3">{{user.description}}</p>
                 </div>
                 <div class="user-cta d-flex flex-wrap justify-content-between mt-3">
                     <button class="btn primary-btn px-3 py-1 m-1">Send Connection Request</button>

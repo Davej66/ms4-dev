@@ -406,7 +406,7 @@ input[type=checkbox]{
 
 .input-row .fieldset {
     min-width: 45%;
-    flex-grow: 1;
+    flex: 1 1 45%;
 }
 
 .fieldset, 
@@ -808,6 +808,11 @@ a.nav-img-wrapper img {
         min-height: 80px;
         height: auto;
         position: relative!important;
+    }
+
+    nav.scrolled {
+        min-height: 80px;
+        height: auto;
     }
 
     .navbar-brand {

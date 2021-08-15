@@ -45,21 +45,20 @@ $(document).ready(function () {
             selectedValue: userSkillsArr
         });
 
-        var vsOption = $('#skills-select .vscomp-options > .vscomp-option');
-
-
-        
-
         // Add existing skills to display
         for (i = 0; i < userSkillsArr.length; i++) {
             var skill = userSkillsArr[i]
-                skillsDisplay.append(`
+            skillsDisplay.append(`
                 <span class="skill-pill" value="${skill}">
                     ${skill}
                     <i class="fas fa-times" value="${skill}" onclick="removeSkill(this);"></i>
                 </span>
                 `)
         }
+
+        /** 
+        * Open select boxes and allow selection using keyboard only
+        **/
 
         // Add or remove skills on input select
         // Add new skills to input as user selects
@@ -163,7 +162,7 @@ $(document).ready(function () {
             additionalClasses: 'select-edit-profile'
         });
     })();
-
+    
 
     // Job Role Select - options from DB
     (function () {
@@ -189,10 +188,6 @@ $(document).ready(function () {
         $(roleWrap).find(`.vscomp-value`).text(`${userRole}`);
     })();
 
-
-    /** 
-    * Open select boxes and allow selection using keyboard only
-    **/
 
     // Give all select options tabindex
     $('.vscomp-option').each(function (item) {
@@ -223,13 +218,27 @@ $(document).ready(function () {
 function splitSkills() {
     var skillsLists = $('.user-skills')
     for (i = 0; i < skillsLists.length; i++) {
+        var maxSkillsShown = 5;
+        var limitReached = false;
+
+
         if ($(skillsLists[i]).text() != "") {
             var skillSet = $(skillsLists[i]).text().split(',');
             $(skillsLists[i]).text("");
-            skillSet.forEach(element => {
-                $(skillsLists[i]).append(`
+            skillSet.forEach(function callback(element, index) {
+                if (index <= (maxSkillsShown - 1)) {
+                    $(skillsLists[i]).append(`
             <span class="skill-pill">${element}</span>
-            `)
+            `);
+                } else if (limitReached != true) {
+                    var skillsHidden = skillSet.length - maxSkillsShown
+                    $(skillsLists[i]).append(`
+                    <span class="skill-pill">+${skillsHidden}</span>
+                    `);
+                    limitReached = true;
+                } else {
+                    return false;
+                }
             })
         }
     }
@@ -289,7 +298,6 @@ function prfImgUpload() {
 
 function previewImage(input) {
     var originalImage = $('.prf-img-preview').attr('src');
-    console.log(originalImage)
     if (input.files && input.files[0]) {
         var uploadedImg = input.files[0];
         var image = new FileReader();
@@ -304,7 +312,6 @@ function previewImage(input) {
                 var height = imgFile.height;
                 var width = imgFile.width;
                 var size = uploadedImg.size;
-                console.log(height, width)
                 if (height > 1000 || width > 1000) {
                     $('.prf-img-preview').attr('src', originalImage);
                     $(`<ul class='errorlist'><li>
@@ -351,16 +358,23 @@ $('#user_search_form').submit(function (e) {
         url: $(this).attr('action'),
         timeout: 10000,
         success: function (data) {
-            $('#search_results').html(data)
-            console.log('this worked', data)
-
+            $('#search_results').html(data);
+            splitSkills();
         },
         error: function (data) {
             console.log("There has been an error")
-        },
-        complete: function (data) {
-            console.log("Complete")
         }
     })
 });
 
+/* All user page - determine whether user header details 
+are wrapped and apply 'text-center' class if so */
+(() => {
+var userHeaders = $('.user-details-mast')
+var width = $(userHeaders[0]).width() + 80
+var parent = $(userHeaders[0]).parent().width()
+if((parent - width) < 30){
+    $(userHeaders).addClass('text-center')
+    $(userHeaders).addClass('px-5')
+}
+})();
