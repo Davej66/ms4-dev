@@ -52,7 +52,7 @@ INSTALLED_APPS = [
     'users',
     'packages',
     'checkout',
-    'storages'
+    'storages',
 ]
 
 MIDDLEWARE = [

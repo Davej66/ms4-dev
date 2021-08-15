@@ -40,24 +40,17 @@ def account_dashboard(request):
     user = MyAccount.objects.get(email=request.user)
     full_name = user.first_name + " " + user.last_name
     user_package = user.package_name
-    print(request.user)
-    if request.method == "POST":
-        form_data = {
-            "first_name": "bradley",
-            "last_name": "cooney",
-            "job_role": "producer",
-        }
-
-        profile_form = ProfileForm(form_data, instance=request.user)
-        print(profile_form.errors)
-        if profile_form.is_valid():
-            profile_form.save()
-            print("saved: ", form_data)
+    profile_complete = user.profile_completed
 
     context = {
         'full_name': full_name.title(),
         'package': user_package,
     }
+    
+    if not profile_complete:
+        messages.success(request, "Welcome! You will need to complete \
+                         your profile information before you're visible to other users!")
+        return render(request, 'users/edit_profile.html')    
 
     return render(request, 'users/dashboard.html', context)
 
@@ -94,7 +87,8 @@ def all_users(request):
     """
     Return all users to the page, and return filtered users if search form utilised via ajax.
     """
-    all_users = MyAccount.objects.all()
+    all_users = MyAccount.objects.all().exclude(
+        first_name__exact='').exclude(last_name__exact='')
 
     if request.is_ajax and request.method == "POST":
         query = request.POST['user_search']

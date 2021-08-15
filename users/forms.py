@@ -17,11 +17,13 @@ class RegistrationForm(forms.ModelForm):
             field.widget.attrs.update({
                 'class':'form_input',    
             })
+            
         self.fields['first_name'].widget.attrs.update({
-            'class': 'half-input',
+            'placeholder': 'Enter your first name'
         })
+        
         self.fields['last_name'].widget.attrs.update({
-            'class':'half-input',
+            'placeholder': 'Enter your last name'
         })
         
 
@@ -45,7 +47,7 @@ class EditProfileForm(forms.ModelForm):
         model = MyAccount
         fields = ('first_name', 'last_name', 'job_role',
             'profile_image', 'skills', 'location', 'description', 
-            'industry', 'email', 'show_profile')
+            'industry', 'email', 'show_profile', 'profile_completed')
 
 
 class UpdateUserPackage(forms.ModelForm):

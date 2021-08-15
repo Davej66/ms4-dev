@@ -164,6 +164,7 @@ a:hover, .anchor-link:hover {
     border-radius: 40px;
     box-shadow: 1px 2px 8px -3px var(--dark-shadow);
     transition: 0.3s ease-out;
+    border: none;
 }
 
 .large-cta {
@@ -245,6 +246,10 @@ a:hover, .anchor-link:hover {
 
 .fixed-40 {
     height: 40px;
+}
+
+.fixed-60 {
+    height: 60px;
 }
 
 /* Page Blocks  */
@@ -400,7 +405,8 @@ input[type=checkbox]{
     flex-grow: 1;
 }
 
-.fieldset {
+.fieldset, 
+#signup_form p {
     display: flex;
     flex-direction: column;
     margin: 0px 10px;
@@ -418,6 +424,8 @@ input[type=checkbox]{
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
+    max-width: 700px;
+    margin: auto;
 }
 
 .account-form p {
@@ -427,9 +435,12 @@ input[type=checkbox]{
     margin-bottom: 20px;
 }
 
-#signup_form p:nth-of-type(1), 
-#signup_form p:nth-of-type(2) {
-    width: 49%;
+#signup_form p {
+    flex: 1 1 46%;
+}
+
+#signup_form p:nth-of-type(3) {
+    flex: 1 1 100%;
 }
 
 form.login p:nth-of-type(3) {
@@ -515,6 +526,13 @@ ul {
 .card:hover {
     box-shadow: 1px 2px 9px -2px var(--dark-shadow);
     transform: translateY(-3px);
+}
+
+.register-login-card {
+    width: 80%;
+    max-width: max-content;
+    margin-top: 100px!important;
+    padding: 50px;
 }
 
 .modal-content {
