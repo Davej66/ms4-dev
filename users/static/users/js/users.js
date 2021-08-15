@@ -269,7 +269,6 @@ $('input#profile_image').on('change', function () {
 })
 
 
-
 // AJAX Handlers
 function get_ajax_data(url) {
     $.ajax({

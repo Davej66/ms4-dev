@@ -45,8 +45,6 @@ def user_context(request):
         }
         return context
     except Exception as e:
-        messages.error(request,
-            f"There's been an error: {e}. We couldn't find the user you're looking for.")
         context = {
             'this_user': "Anonymous",
             'profile_image': "",

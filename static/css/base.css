@@ -289,23 +289,23 @@ a:hover, .anchor-link:hover {
 }
 
 .message-wrap {
-    position: absolute;
+    position: fixed;
     width: 100%;
     display: flex;
     top: 8%;
+    z-index: 99;
+    height: 0;
 }
 
 .message {
-    position: fixed;
-    top: 8%;
-    z-index: 99;
+    position: relative;
+    margin: auto;
     background: var(--accent-color-grad);
     color: var(--dark-text);
     box-shadow: 1px 1px 10px -2px var(--dark-shadow);
     padding: 20px 30px;
     border-radius: 50px;
     font-size: 18px;
-    left: 40%;
     font-weight: 300;
 }
 
@@ -359,6 +359,23 @@ input[type=checkbox]{
     height: 20px;
     width: 20px;
     margin: 0px 10px;
+}
+
+.form-switch {
+    height: 36px;
+    padding: 5px 10px;
+    display: flex;
+}
+
+.form-switch .form-check-input {
+    margin: auto 10px!important;
+    border: 1px solid var(--primary-color)!important;
+    box-shadow: 1px 1px 4px -2px var(--dark-shadow)!important;
+}
+
+.form-switch .form-check-input:checked {
+    box-shadow: 1px 1px 4px -2px var(--dark-shadow)!important;
+    background-color: var(--primary-color-sub);
 }
 
 .no-outline-on-focus:focus-visible {
@@ -425,6 +442,30 @@ form.login p:nth-of-type(3) {
     color: var(--error-highlight);
     animation: color-in 0.1s ease-in-out;
     transition: 0.3s ease-in-out;
+}
+
+.send-form-buttons {
+    height: 50px;
+    justify-content: flex-end;
+}
+
+.send-form-buttons button {
+    transition: 0.3s ease-in-out;
+    width: 100%;
+    min-width: 170px;
+}
+
+.form-submit-verify {
+    display: none;
+    opacity: 0;
+    width: 0;
+}
+
+.form-submit-verify p {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin: auto;
+    margin-right: 20px;
 }
 
 /* Image Handlers */

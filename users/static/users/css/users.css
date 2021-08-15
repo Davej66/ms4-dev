@@ -219,7 +219,8 @@ label.table-item-label {
 
 #skills-select .vscomp-dropbox-container {
     width: 100%!important;
-    bottom: 35px;
+    bottom: 15px;
+    top: 65px;
 }
 
 .skills-wrapper {
@@ -296,6 +297,7 @@ label.table-item-label {
 
 .vscomp-toggle-button {
     display: none;
+    min-height: 36px!important;
 }
 
 .vscomp-dropbox-container {
@@ -304,7 +306,16 @@ label.table-item-label {
 }
 
 .vscomp-option.selected {
-    background-color: var(--accent-color);
+    background: var(--accent-color-grad);
+    border-bottom: 1px solid var(--light-line);
+}
+
+.vscomp-option.selected:last-of-type {
+    border-bottom: none;
+}
+
+.vscomp-wrapper .checkbox-icon::after {
+    border: 1px solid var(--light-line)!important;
 }
 
 .vscomp-search-container > .vscomp-search-clear {
@@ -395,7 +406,7 @@ label.table-item-label {
 /* Searchbar */
 .search-box-card {
     padding: 20px;
-    z-index: 99;
+    z-index: 2;
 }
 
 #industry_search > div {

@@ -10,8 +10,10 @@
 
 {% if messages %}
 {% for message in messages %}
-<div class="message">
-    <span>{{message}}</span><i class="fas fa-times" onclick="removeMessage(this);"></i>
+<div class="message-wrap">
+    <div class="message">
+        <span>{{message}}</span><i class="fas fa-times" onclick="removeMessage(this);"></i>
+    </div>
 </div>
 {% endfor %}
 {% endif %}
@@ -60,7 +62,7 @@
                                                 <div class="fieldset">
                                                     <label for="first_name">First Name</label>
                                                     <input type="text" id="first_name" name="first_name"
-                                                        value="{{this_user.first_name}}">
+                                                        value="{{this_user.first_name}}" autofocus>
                                                 </div>
 
                                                 <div class="fieldset">
@@ -115,8 +117,44 @@
                                 </div>
 
                                 <!-- Second card section -->
-                                <div class="container-rounded-light">card-content</div>
-                                <button type="submit">Submit</button>
+                                <div class="card muted mb-3 p-5">
+                                    <h3 class="edit-profile-section-header mb-5">Your Account</h3>
+                                    <div class="d-flex row flex-wrap">
+                                        <div class="d-flex flex-column px-0" id="edit_prf_basics_col">
+                                            <div class="input-row d-flex justify-content-between">
+                                                <div class="fieldset">
+                                                    <label for="email">Email</label>
+                                                    <input type="text" id="email" name="email"
+                                                        value="{{this_user.email}}">
+                                                </div>
+
+                                                <div class="fieldset">
+                                                    <label class="form-check-label">Hide my profile from other
+                                                        users?</label>
+                                                    <div class="form-switch">
+                                                        <span>Hide me</span>
+                                                        {% if this_user.show_profile is True %}
+                                                        <input class="form-check-input" type="checkbox"
+                                                            id="show_profile" name="show_profile" checked>
+                                                        {% else %}
+                                                        <input class="form-check-input" type="checkbox"
+                                                            id="show_profile" name="show_profile">
+                                                        {% endif %}
+                                                        <span>Show me to others</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="send-form-buttons d-flex m-auto">
+                                    <div class="form-submit-verify">
+                                        <p class="p-text-underline">Saving will overwrite your previous information...
+                                        </p>
+                                    </div>
+                                    <button class="btn primary-btn large" type="button" onclick="verifyForm(this);">Save
+                                        Changes</button>
+                                </div>
                             </form>
                             <!-- End user profile edit form -->
 

@@ -12,6 +12,12 @@ $(document).ready(function () {
 
     var dropdownId = $('.dropdown-toggle').attr('id');
     var dropdownMenu = $(`ul[aria-labelledby=${dropdownId}]`);
+    var messages = $('.message-wrap')
+
+    // Hide messages after 10 seconds
+    setTimeout(() => {
+        $(messages).fadeOut();
+    }, 10000);
 
     // Determine which navbar to show
     var titleArr = ['Home | FreelanceMeetups', 'Register | FreelanceMeetups',
@@ -111,9 +117,30 @@ function specImageOrientation(image) {
 
 
 // Remove message when 'times' clicked
-function removeMessage(closeMessage){
+function removeMessage(closeMessage) {
     let message = $(closeMessage).parent();
     $(message).animate({
         top: '-30%',
     }, 200);
 }
+
+
+// Show verify form submission options
+function verifyForm(firstButton) {
+    $('.form-submit-verify').css('display', 'flex').animate(
+        {
+            opacity: '1',
+            width: '50%'
+        }, 100);
+    if ($(firstButton).hasClass('verify')) {
+        $(firstButton).attr('type', 'submit');
+    } else {
+        $(firstButton).addClass('verify').text('I know! Update Information');
+        $(firstButton).animate({
+            width: '50%'
+        }, 100);
+    }
+}
+
+
+

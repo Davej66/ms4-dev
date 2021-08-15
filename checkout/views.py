@@ -169,7 +169,7 @@ def create_stripe_subscription(request):
             if profile_form.is_valid():
                 profile_form.save()
             else:
-                messages.error(request, "There has been an error updating your prescription. Please reload the page to try again.")
+                messages.error(request, "There has been an error updating your subscription. Please reload the page to try again.")
             
             return JsonResponse({'subId': subscription.id, 'clientSecret':subscription.latest_invoice.payment_intent.client_secret})
             
