@@ -1,0 +1,19 @@
+[
+    {
+        "model": "users.Skills",
+        "pk": 65,
+        "fields": {
+            "skill_name": "2018-10-10 02:33:29",
+            "last_login": "2021-02-02 05:41:10",
+            "first_name": "Paige",
+            "last_name": "Horton",
+            "email": "paigehorton@premiant.com",
+            "is_admin": "False",
+            "is_active": "True",
+            "is_staff": "False",
+            "is_superuser": "False",
+            "location": "Logan",
+            "industry": "Photography"
+        }
+    },
+]
