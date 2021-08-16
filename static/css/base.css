@@ -194,7 +194,7 @@ a:hover, .anchor-link:hover {
 
 .primary-btn-outline {
     border: 2px solid #fff;
-    color: #fff;
+    color: var(--dark-text);
     padding: 19px 29px;
 }
 
@@ -280,6 +280,15 @@ a:hover, .anchor-link:hover {
     box-shadow: 1px 1px 9px -3px var(--dark-shadow);
 }
 
+.card-row-two {
+    margin: 0px -10px;
+}
+
+.card-row-two > div {
+    flex: 1 1 47%;
+    margin: 0px 10px;
+}
+
 .close {
     cursor: pointer;
 }
@@ -317,6 +326,22 @@ a:hover, .anchor-link:hover {
 .message i {
     margin-left: 10px;
     cursor: pointer;
+}
+
+.tooltip-top {
+    position: absolute;
+    display: none;
+    color: #fff;
+    background: var(--light-grey);
+    font-size: 14px;
+    padding: 3px 5px;
+    width: max-content;
+    border-radius: 5px;
+    box-shadow: 1px 1px 10px -2px grey;
+    z-index: 99;
+    transition: 0.3s ease-in-out;
+    top: -35px;
+    left: -20%;
 }
 
 .z-2 {
@@ -489,6 +514,17 @@ form.login p:nth-of-type(3) {
     position: relative;
 }
 
+.thumbnail-wrapper {
+    min-height: 50px;
+    height: 50px;
+    min-width: 50px;
+    width: 50px;
+    overflow: hidden;
+    border-radius: 50px;
+    box-shadow: 1px 1px 10px -1px var(--dark-shadow);
+    animation: fade-in 0.3s ease-in-out;
+}
+
 .portrait-img {
     width: 100%!important;
     height: auto!important;
@@ -547,9 +583,15 @@ ul {
 }
 
 .modal-dialog {
+    z-index: 9;
+    position: relative;
     min-width: 45vw;
     height: -webkit-fill-available;
     display: flex;
+}
+
+.w-45 {
+    width: 45%;
 }
 
 /* Effects */
@@ -577,6 +619,11 @@ ul {
     animation: fade-in 0.4s ease-in-out;
 }
 
+.slide-out {
+    animation: slide-out 0.2s linear;
+    animation-fill-mode: forwards;
+}
+
 .fade-up-delay {
     animation: fade-up 0.3s ease-in;
     animation-delay: 0.5s;
@@ -594,11 +641,25 @@ ul {
 
 @keyframes fade-up {
     0% {
-    opacity: 0!important;
-    transform: translateY(30px);
+        opacity: 0!important;
+        transform: translateY(30px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0px)
+    }
 }
-    100% {opacity: 1;
-        transform: translateY(0px)}
+
+@keyframes slide-out {
+    0% {
+        opacity: 1!important;
+        transform: translateX(0);
+    }
+    100% {
+        opacity: 0;
+        transform: translateX(-100%);
+        display: none;
+    }
 }
 
 /*=============================================
@@ -800,6 +861,10 @@ a.nav-img-wrapper img {
 
     .card {
         padding: 25px!important ;
+    }
+
+    .flex-sm-column {
+        flex-direction: column!important;
     }
  }
 

@@ -87,6 +87,9 @@ class MyAccount(AbstractBaseUser, PermissionsMixin):
     objects = AccountManager()
 
     USERNAME_FIELD = 'email'
+    
+    def skills_as_list(self):
+        return self.skills.split(',')
 
     def __str__(self):
         return self.email

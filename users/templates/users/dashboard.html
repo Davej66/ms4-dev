@@ -1,21 +1,33 @@
 {% extends 'includes/base.html' %}
 {% load static %}
+{% load friendshiptags %}
+
 {% block post_CSS %}
 <link rel="stylesheet" href="{% static 'users/css/users.css' %}">
 {% endblock %}
 
 {% block head_title %}Dashboard{% endblock %}
 {% block content %}
-<div class="nav-top-padding"></div>
-<div class="container-fluid w-100 m-0 p-0">
+
+{% if messages %}
+{% for message in messages %}
+<div class="message-wrap">
+    <div class="message">
+        <span>{{message}}</span><i class="fas fa-times" onclick="removeMessage(this);"></i>
+    </div>
+</div>
+{% endfor %}
+{% endif %}
+
+<div class="container-fluid w-100 m-0 p-0 light-page">
     <div class="row w-100 m-0">
-        <div class="d-flex justify-content p-0">
+        <div class="d-flex justify-content p-0 relative">
             <!-- SIDENAV -->
             {% include "navbar/sidenav.html" %}
 
             <!-- MAIN PAGE CONTENT -->
-            <div class="container container-with-grad-bg">
-                <section id="ajax_content" class="pg-section py-5 min-vh page-section-card transparent">
+            <div class="container nav-top-padding">
+                <section id="ajax_content" class="pg-section py-5 min-vh section-with-padding">
                     <!-- TOP SECTION CARDS -->
                     <div class="container w-100 d-flex justify-content-center align-items-stretch mb-4">
                         <div class="d-flex justify-content-between row w-100">
@@ -36,10 +48,68 @@
                         <div class="d-flex justify-content-between row w-100">
                             <!-- Start the Ajax Content Section -->
                             <div id="main_ajax_content" class="content col-12">
-                                <div class="container-box-header">
-                                    <h1>My Orders</h1>
+                                <div class="container-box-header pb-4">
+                                    <h1 class="header-underline-after">My Dashboard</h1>
                                 </div>
-                                <div class="container-rounded-light mb-3">card-content</div>
+                                <div class="d-flex flex-wrap card-row-two">
+                                    <div class="mb-3 card muted z-2">
+                                        <h3 class="edit-profile-section-header mb-5">Pending Connections</h3>
+
+                                        <!-- List pending requests sent to the user -->
+                                        <div class="pending-requests-to-me">
+                                            {% for new_connection in pending_friend_reqs %}
+                                            <div class="conn-request-item flex-row flex-wrap"
+                                                value="{{new_connection.pk}}">
+                                                <div
+                                                    class="img-and-details-mast d-flex col-xl-8 col-lg-12 col-12 flex-column flex-sm-row">
+                                                    <div class="thumbnail-wrapper prf-img-preview-wrapper m-auto">
+                                                        <img class="prf-img-preview"
+                                                            src="/media/{{new_connection.profile_image}}"
+                                                            alt="{{new_connection.first_name}} {{new_connection.last_name}}'s' profile image"
+                                                            onload="specImageOrientation(this);">
+                                                    </div>
+                                                    <div class="new-req-details d-flex flex-column text-xl-start 
+                                                        text-lg-start text-sm-start text-center">
+                                                        <p>{{new_connection.first_name}} {{new_connection.last_name}}
+                                                        </p>
+                                                        <p>{{new_connection.job_role}}
+                                                            <span
+                                                                class="user-ind-pill">{{new_connection.industry}}</span>
+                                                        </p>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Action buttons -->
+                                                <div class="action-btns col-xl-4">
+                                                    <button class="accept-conn-btn btn primary-btn conn-response-btn"
+                                                        onclick="accept_friend('{{new_connection.pk}}')"
+                                                        value="{{new_connection.pk}}" data-toggle="tooltip">
+                                                        <i class="fas fa-check"></i>
+                                                        <span class="tooltip-top">Accept the request</span>
+                                                    </button>
+                                                    <button class="view-conn-btn btn primary-btn conn-response-btn"
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#view_user_{{new_connection.pk}}"
+                                                        value="{{new_connection.pk}}">
+                                                        <i class="fas fa-eye"></i>
+                                                        <span class="tooltip-top">View the user</span>
+                                                    </button>
+                                                    <button
+                                                        class="decline-conn-btn btn primary-btn conn-response-btn warning"
+                                                        onclick="decline_friend('{{new_connection.pk}}')"
+                                                        value="{{new_connection.pk}}">
+                                                        <i class="fas fa-times"></i>
+                                                        <span class="tooltip-top">Decline the request</span>
+                                                    </button>
+                                                </div>
+
+                                            </div>
+
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                    <div class="mb-3 card muted">card-content</div>
+                                </div>
                                 <div class="container-rounded-light">card-content</div>
                             </div>
                             <!-- End of Ajax content section -->
@@ -47,11 +117,62 @@
                     </div>
                 </section>
             </div>
-
-
         </div>
     </div>
 </div>
+
+<!-- View User Modal START -->
+{%for new_connection in pending_friend_reqs%}
+<div class="modal user-view fade" id="view_user_{{new_connection.pk}}" tabindex="-1" role="dialog"
+    aria-labelledby="view_user_{{new_connection.pk}}" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <span class="d-flex" data-bs-dismiss="modal" aria-label="Close"><i
+                        class="fas fa-times ml-auto "></i></span>
+                <div class="user-card muted m-0 pt-0">
+                    <div class="d-flex flex-wrap flex-column flex-sm-row">
+                        <div class="prf-img-preview mx-0">
+                            <img class="prf-img-preview portrait-img" src="/media/{{new_connection.profile_image}}"
+                                alt="Bradley Cooney's profile image" onload="specImageOrientation(this);">
+                        </div>
+                        <div class="user-details-mast-modal px-4">
+                            <h3>{{new_connection.first_name}} {{new_connection.last_name}}</h3>
+                            <p>{{new_connection.job_role}}</p>
+                            <p>{{new_connection.location}}</p>
+                            <span class="user-ind-pill green">{{new_connection.industry}}</span>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="user-details-bottom">
+                        
+                        <p class="user-skills">
+                            {{ new_connection.skills }}
+                        </p>
+                        <p class="pt-3">{{new_connection.description}}</p>
+                    </div>
+                    <div class="action-btns d-flex">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer flex-row">
+                <button class="accept-conn-btn btn primary-btn conn-response-btn w-45"
+                    onclick="accept_friend('{{new_connection.pk}}')" value="{{new_connection.pk}}" data-toggle="tooltip"
+                    data-bs-dismiss="modal" aria-label="Close">
+                    <i class="fas fa-check"></i><span class="mx-2">Accept the request</span>
+                </button>
+                <button class="decline-conn-btn btn primary-btn conn-response-btn w-45"
+                    onclick="decline_friend('{{new_connection.pk}}')" value="{{new_connection.pk}}"
+                    data-bs-dismiss="modal" aria-label="Close">
+                    <i class="fas fa-times"></i><span class="mx-2">Decline the request</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+<!-- View User Modal END -->
+
 <input type="hidden" id="csrf" value="{{csrf_token}}">
 {% block post_JS %}
 {{ stripe_public_key|json_script:"csrf" }}

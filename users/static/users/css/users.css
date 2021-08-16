@@ -99,6 +99,109 @@
     background: var(--bg-grad-color);
 }
 
+.pending-requests-to-me {
+    display: flex;
+    flex-direction: column;
+}
+
+.conn-request-item {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--light-line);
+}
+
+.conn-request-item:last-of-type {
+    border-bottom: none;
+}
+
+.conn-request-item > div {
+    max-width: 100%;
+}
+
+.conn-request-item > div > .new-req-details {
+    margin: auto ;
+    padding: 5px 10px;
+    display: flex;
+    max-width: 100%;
+    min-width: 80%;
+}
+
+.new-req-details p:first-of-type {
+    font-weight: 500;
+    font-size: 16px;
+}
+
+.new-req-details p:nth-of-type(2) {
+    font-weight: 200;
+    font-size: 14px;
+}
+
+.conn-request-item > .action-btns {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 10px auto;
+    min-width: max-content;
+}
+
+.action-btns .conn-response-btn {
+    margin: auto 5px;
+    height: 40px;
+    width: 40px;
+    position: relative;
+}
+
+.conn-response-btn:hover {
+    color: inherit!important;
+    z-index: 99;
+}
+
+.conn-response-btn:hover .tooltip-top {
+    animation: fade-in 0.3s ease-in-out;
+    display: flex;
+    z-index: 99;
+}
+
+.conn-response-btn.view-conn-btn {
+    background: var(--bg-grad-color);
+    color: var(--dark-text);
+}
+
+.conn-response-btn.decline-conn-btn {
+    background: var(--primary-color-grad);
+
+}
+
+.conn-response-btn.accept-conn-btn {
+    background: var(--accent-color-grad);
+    color: var(--dark-text);
+}
+
+.modal.user-view > .modal-dialog {
+    height: 100%;
+}
+
+.modal-dialog > .modal-content {
+    height: max-content;
+    margin: auto;
+}
+
+.modal-body > .user-card {
+    max-width: 100%!important;
+}
+
+.modal-body > span > i {
+    margin-left: auto;
+    cursor: pointer;
+}
+
+.modal-footer button {
+    flex: 1 1 48%;
+}
+
+
 /* My Order Section */
 .my-orders-item {
     justify-content: space-evenly;
@@ -125,6 +228,7 @@ label.table-item-label {
 .edit-profile-section-header {
     position: relative;
     width: max-content;
+    max-width: 100%;
     z-index: 1;
     font-size: 1.5rem;
 }
@@ -386,6 +490,7 @@ label.table-item-label {
     border-radius: 50px;
     font-size: 12px;
     padding: 5px 10px;
+    white-space: nowrap;
 }
 
 .user-ind-pill.red {
@@ -516,6 +621,18 @@ h3.results-count {
         text-align: center;
         padding: 0px;
         margin: auto;
+    }
+    
+    .modal-body > .user-card {
+        justify-content: center;
+        text-align: center;
+        padding: 0px;
+        min-width: auto;
+    }
+
+    .modal-body > .user-card > div > .prf-img-preview {
+        margin: auto!important;
+        margin-bottom: 10px!important;
     }
 }
 

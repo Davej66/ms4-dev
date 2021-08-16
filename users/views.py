@@ -1,4 +1,5 @@
-from django.shortcuts import render, HttpResponse
+from django.db.models.query_utils import PathInfo
+from django.shortcuts import render, HttpResponse, get_object_or_404
 from django.http import JsonResponse, response
 from django.conf import settings
 from django.contrib import messages
@@ -41,10 +42,18 @@ def account_dashboard(request):
     full_name = user.first_name + " " + user.last_name
     user_package = user.package_name
     profile_complete = user.profile_completed
+    pending_reqs_to_user = Friend.objects.unrejected_requests(user=request.user)
+    
+    requested_users = []
+    
+    for int in pending_reqs_to_user:
+        get_requestor = get_object_or_404(MyAccount, email=int.from_user)
+        requested_users.append(get_requestor)
 
     context = {
         'full_name': full_name.title(),
         'package': user_package,
+        'pending_friend_reqs': requested_users
     }
     
     if not profile_complete:
@@ -212,3 +221,40 @@ def cancel_friend(request, **kwargs):
         return JsonResponse({"response":"Connection Cancelled Successfully", 
                              "buttonId": other_user,
                             "type": "cancel"})
+
+
+@verified_email_required
+def accept_friend(request, **kwargs):
+    """ Accept an incoming pending request to this user """
+    if request.is_ajax and request.method == "GET":
+        other_user = kwargs.get('other_user')
+        
+        # Accept the request
+        try:
+            FriendshipRequest.objects.get(to_user=request.user, from_user=other_user).accept()
+        except:
+            messages.error(request, 
+                           "We could no longer find this request. Please refresh the page and try again")
+        
+        return JsonResponse({"response":"Connection Accepted Successfully", 
+                             "buttonId": other_user,
+                            "type": "accept"})
+        
+
+@verified_email_required
+def decline_friend(request, **kwargs):
+    """ Decline an incoming pending request to this user """
+    if request.is_ajax and request.method == "GET":
+        other_user = kwargs.get('other_user')
+        other_user_pk = MyAccount.objects.get(pk=other_user)
+        
+        # Decline the request
+        try:
+            FriendshipRequest.objects.get(to_user=request.user, from_user=other_user).reject()
+        except:
+            messages.error(request, 
+                           "We could no longer find this request. Please refresh the page and try again")
+        
+        return JsonResponse({"response":"Connection Declined Successfully", 
+                             "buttonId": other_user,
+                            "type": "decline"})

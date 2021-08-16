@@ -186,7 +186,7 @@ $('#user_search_form').submit(function (e) {
 function add_friend(other_user) {
     $.ajax({
         type: 'GET',
-        url: `ajax/add_friend/${other_user}`,
+        url: `../ajax/add_friend/${other_user}`,
         timeout: 10000,
         success: function (data) {
             console.log("The response: ", data.response);
@@ -203,9 +203,44 @@ function cancel_friend(other_user) {
     var user_int = parseInt(other_user)
     $.ajax({
         type: 'GET',
-        url: `ajax/cancel_friend/${user_int}`,
+        url: `../ajax/cancel_friend/${user_int}`,
         timeout: 10000,
         success: function (data) {
+            changeButtonUI(data.buttonId, data.type);
+        },
+        error: function (data) {
+            console.log("There has been an error")
+        }
+    })
+};
+
+
+// Accept pending request
+function accept_friend(other_user) {
+    var user_int = parseInt(other_user)
+    $.ajax({
+        type: 'GET',
+        url: `../ajax/accept_friend/${user_int}`,
+        timeout: 10000,
+        success: function (data) {
+            console.log("Friend accepted")
+            changeButtonUI(data.buttonId, data.type);
+        },
+        error: function (data) {
+            console.log("There has been an error")
+        }
+    })
+};
+
+// Decline pending request
+function decline_friend(other_user) {
+    var user_int = parseInt(other_user)
+    $.ajax({
+        type: 'GET',
+        url: `../ajax/decline_friend/${user_int}`,
+        timeout: 10000,
+        success: function (data) {
+            console.log("Friend declined")
             changeButtonUI(data.buttonId, data.type);
         },
         error: function (data) {
@@ -224,20 +259,20 @@ function cancel_friend(other_user) {
 
 // Change the friend 'connection' button on successful add
 function changeButtonUI(buttonId, type) {
-    // TODO here
-    console.log(type)
     let buttonTarget = $(`.send-connection-btn[value="${buttonId}"]`);
     $(buttonTarget).text('Connection Request Sent');
-    $(buttonTarget).removeClass('send-connection-btn');
-    $(buttonTarget).addClass('req-sent-btn');
+    $(buttonTarget).removeClass('send-connection-btn').addClass('req-sent-btn');
     $(buttonTarget).attr('onclick', `cancel_friend(${buttonId});`);
 
-    if(type == "cancel"){
+    if (type == "cancel") {
         let buttonTarget = $(`.req-sent-btn[value="${buttonId}"]`);
         $(buttonTarget).text('Send Connection Request');
-        $(buttonTarget).addClass('send-connection-btn');
-        $(buttonTarget).removeClass('req-sent-btn');
+        $(buttonTarget).addClass('send-connection-btn').removeClass('req-sent-btn');
         $(buttonTarget).attr('onclick', `add_friend(${buttonId});`);
-    
+    } else if (type == "accept" || type == "decline"){
+        $(`.conn-request-item[value="${buttonId}"]`).fadeOut("fast", "linear") 
+        console.log("got you")
     }
+
+
 };
