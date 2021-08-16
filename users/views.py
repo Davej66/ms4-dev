@@ -1,15 +1,15 @@
 from django.shortcuts import render, HttpResponse
-from django.http import JsonResponse
+from django.http import JsonResponse, response
 from django.conf import settings
 from django.contrib import messages
 from django.db.models import Q
-from django.contrib.postgres.search import SearchVector
 from django.template.loader import render_to_string
 from allauth.account.decorators import verified_email_required
 from allauth.account.views import SignupView
-from allauth.account.utils import send_email_confirmation
+from allauth.account.utils import send_email_confirmation, user_pk_to_url_str
 from users.forms import RegistrationForm, EditProfileForm
 from packages.models import Package
+from friendship.models import Friend, Follow, Block, FriendshipRequest
 from users.models import MyAccount
 from django.template.loader import render_to_string
 from datetime import datetime
@@ -85,10 +85,12 @@ def view_profile(request, *args, **kwargs):
 @verified_email_required
 def all_users(request):
     """
-    Return all users to the page, and return filtered users if search form utilised via ajax.
+    Return all users to the page and search if there is an ajax search request.
     """
     all_users = MyAccount.objects.all().exclude(
         first_name__exact='').exclude(last_name__exact='')
+    
+    user_friend_requests = Friend.objects.sent_requests(user=request.user)
 
     if request.is_ajax and request.method == "POST":
         query = request.POST['user_search'] 
@@ -110,9 +112,9 @@ def all_users(request):
         payload = render_to_string('users/includes/ajax_user_search_results.html', context)
         return HttpResponse(json.dumps(payload), content_type="application/json")
 
-
     context={
         'users': all_users,
+        'pending_friend_reqs': user_friend_requests
     }
 
     return render(request, 'users/all_user_list.html', context)
@@ -182,3 +184,31 @@ def dashboard_my_orders(request):
 
     payload = render_to_string('users/includes/dashboard_orders.html', context)
     return HttpResponse(json.dumps(payload), content_type="application/json")
+
+
+# Connection functions using AJAX
+@verified_email_required
+def add_friend(request, **kwargs):
+    """ Add a friend to this user's friend list with Ajax """
+    if request.is_ajax and request.method == "GET":
+        other_user = kwargs.get('other_user')
+        other_user_pk = MyAccount.objects.get(pk=other_user)
+        Friend.objects.add_friend(request.user, other_user_pk)
+        return JsonResponse({"response":"Connection Requested Successfully", 
+                             "buttonId": other_user,
+                             "type": "add"})
+
+
+@verified_email_required
+def cancel_friend(request, **kwargs):
+    """ Cancel a pending request sent from user """
+    if request.is_ajax and request.method == "GET":
+        other_user = kwargs.get('other_user')
+        other_user_pk = MyAccount.objects.get(pk=other_user)
+        
+        # Cancel the request
+        FriendshipRequest.objects.get(to_user=other_user_pk).cancel()
+        
+        return JsonResponse({"response":"Connection Cancelled Successfully", 
+                             "buttonId": other_user,
+                            "type": "cancel"})

@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'packages',
     'checkout',
     'storages',
+    'friendship'
 ]
 
 MIDDLEWARE = [

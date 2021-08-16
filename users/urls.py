@@ -11,4 +11,6 @@ urlpatterns = [
     path('freelancers/', views.all_users, name="all_users"),
     path('<username>/', views.view_profile, name="view_profile"),
     path('register/', views.CustomRegistrationView, name="registration"),
+    path('freelancers/ajax/add_friend/<other_user>', views.add_friend, name="add_friend"),
+    path('freelancers/ajax/cancel_friend/<other_user>', views.cancel_friend, name="cancel_friend"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

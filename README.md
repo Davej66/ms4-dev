@@ -11,6 +11,7 @@ Credits:
 - [temp-email.org](https://temp-mail.org/) used for generating temporary emails for demo user accounts.
 - [JSON Generator](https://www.json-generator.com/) to create randomised user data for demo user testing.
 - [Randomuser.me](https://randomuser.me/) to create randomised user profile images for demo user testing.
+- [Javascript Cookie Library by 'js-cookie' on GitHub](https://cdn.jsdelivr.net/npm/js-cookie@3.0.0/dist/js.cookie.min.js), used to simplify the retrieval of cookies when sending ajax requests.
 
 ## Deployment
 

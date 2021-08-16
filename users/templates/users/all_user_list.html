@@ -1,5 +1,6 @@
 {% extends 'includes/base.html' %}
 {% load static %}
+{% load friendshiptags %}
 
 {% block head_title %}Freelancers{% endblock %}
 
@@ -19,7 +20,8 @@
                     <div class="input-row d-flex justify-content-between mt-3">
                         <div class="fieldset">
                             <label for="user_search" class="mb-3">By Keyword</label>
-                            <input type="text" name="user_search" id="user_search" placeholder="Search by name, location, skill, description">
+                            <input type="text" name="user_search" id="user_search"
+                                placeholder="Search by name, location, skill, description">
                         </div>
                         <div class="fieldset" id="industry_search">
                             <label for="industry" class="mb-3">By Industry</label>
@@ -58,7 +60,19 @@
                     <p class="pt-3">{{user.description}}</p>
                 </div>
                 <div class="user-cta d-flex flex-wrap justify-content-between mt-3">
-                    <button class="btn primary-btn px-3 py-1 m-1">Send Connection Request</button>
+
+                    {% for req in pending_friend_reqs %}
+
+                    {% if req.to_user == user %}
+                    <button class="req-sent-btn btn primary-btn px-3 py-1 m-1" onclick="cancel_friend('{{user.pk}}')"
+                        value="{{user.pk}}">Connection Request Sent</button>
+                    {% else %}
+                    {% endif %}
+                    {% endfor %}
+                    <button class="send-connection-btn btn primary-btn px-3 py-1 m-1" onclick="add_friend('{{user.pk}}')"
+                        value="{{user.pk}}">Send Connection Request</button>
+
+
                     <button class="btn primary-btn-outline-color px-3 py-1 m-1">Remove Connection</button>
                 </div>
             </div>
@@ -70,6 +84,7 @@
 </section>
 
 {{ industries|json_script:"all_inds" }}
+<script src="{% static 'users/js/options_multiselect.js' %}" type="text/javascript"></script>
 <script src="{% static 'users/js/users.js' %}" type="text/javascript"></script>
 
 
