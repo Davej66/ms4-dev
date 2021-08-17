@@ -141,4 +141,23 @@ function verifyForm(firstButton) {
 }
 
 
+// Set the industry pill colour on page load
+$(document).ready(function () {
+    $('span.ind-pill').each(function (e) {
+        var industry = $(this).text()
+        if (industry == "Film & TV") {
+            $(this).addClass('red');
+            $(this).removeClass('purple orange blue');
+        } else if (industry == "Events Management") {
+            $(this).addClass('blue');
+            $(this).removeClass('purple orange red');
+        } else if (industry == "Music") {
+            $(this).addClass('orange');
+            $(this).removeClass('purple red blue');
+        } else if (industry == "Theatre") {
+            $(this).addClass('purple');
+            $(this).removeClass('red orange blue');
+        }
+    })
+});
 

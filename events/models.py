@@ -1,9 +1,11 @@
 from django.db import models
+from timezone_field import TimeZoneField
 from django.db.models.base import ModelState
 from django.db.models.fields import related
 from django.utils import tree
 from users.models import MyAccount
 
+import pytz
 
 
 def get_header_image_filepath(self, filename):
@@ -22,7 +24,9 @@ class Event(models.Model):
     location = models.CharField(max_length=100, blank=False, default="Online")
     start_datetime = models.DateTimeField(verbose_name='start_date', blank=False, default="")
     end_datetime = models.DateTimeField(verbose_name='end_date', blank=False, default="")
-    registrants = models.ManyToManyField(MyAccount, related_name='attendees')
+    timezone = TimeZoneField(choices_display='WITH_GMT_OFFSET', default='Europe/London')
+    registrants = models.ManyToManyField(MyAccount, related_name='attendees', blank=True)
+    max_reg = models.IntegerField(blank=False, default=100)
 
     def __str__(self):
         return self.title

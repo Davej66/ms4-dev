@@ -345,6 +345,36 @@ a:hover, .anchor-link:hover {
     left: -20%;
 }
 
+.ind-pill {
+    background: var(--accent-color);
+    color: var(--dark-text);
+    margin-right: 5px;
+    border-radius: 50px;
+    font-size: 12px;
+    padding: 5px 10px;
+    white-space: nowrap;
+}
+
+.ind-pill.red {
+    background: var(--primary-dark);
+    color: #fff;
+}
+
+.ind-pill.blue {
+    background: var(--primary-color-sub);
+    color: #fff;
+}
+
+.ind-pill.orange {
+    background: var(--secondary-color);
+    color: var(--dark-text);
+}
+
+.ind-pill.purple {
+    background: var(--secondary-color-sub);
+    color: #fff;
+}
+
 .z-2 {
     z-index: 2;
 }

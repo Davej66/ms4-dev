@@ -484,31 +484,6 @@ label.table-item-label {
     min-width: 65%;
 }
 
-.user-ind-pill {
-    background: var(--accent-color);
-    color: var(--dark-text);
-    margin-right: 5px;
-    border-radius: 50px;
-    font-size: 12px;
-    padding: 5px 10px;
-    white-space: nowrap;
-}
-
-.user-ind-pill.red {
-    background: var(--primary-dark);
-    color: #fff;
-}
-
-.user-ind-pill.blue {
-    background: var(--primary-color-sub);
-    color: #fff;
-}
-
-.user-ind-pill.orange {
-    background: var(--secondary-color);
-    color: var(--dark-text);
-}
-
 .user-details-bottom > .user-skills {
     display: flex;
     flex-wrap: wrap;

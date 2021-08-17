@@ -11,16 +11,48 @@
     max-width: 460px;
 }
 
-.event-card > div > .prf-img-preview {
-    height: 100px;
-    width: 100px;
+.event-header-img {
+    height: 200px;
     min-height: 100px;
-    min-width: 100px;
+    min-width: 100%;
     overflow: hidden;
-    border-radius: 50px;
-    box-shadow: 1px 1px 10px -2px var(--dark-shadow);
-    margin: auto;
-    margin-bottom: 10px;
+    border-radius: 10px 10px 0px 0px;
+    margin: -20px;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.event-header-img > img.landscape-img {
+    height: auto!important;
+    width: 100%!important;
+}
+
+.card-title-overlay {
+    position: absolute;
+    background: linear-gradient(360deg, #313131, transparent);
+    width: 100%;
+    z-index: 1;
+    height: 100%;
+    bottom: 0;
+    right: 0;
+}
+
+.event-header-img .event-card-title {
+    position: absolute;
+    bottom: 20px;
+    padding: 0px 20px;
+    color: #fff;
+    z-index: 2;
+}
+
+.event-card-title::after {
+    content: "";
+    position: absolute;
+    border: 3px solid var(--primary-color);
+    width: 75%;
+    bottom: -6px;
+    left: 20px;
+    z-index: -1;
 }
 
 .event-details-mast {
@@ -28,31 +60,6 @@
     height: max-content;
     margin: auto;   
     min-width: 65%;
-}
-
-.event-ind-pill {
-    background: var(--accent-color);
-    color: var(--dark-text);
-    margin-right: 5px;
-    border-radius: 50px;
-    font-size: 12px;
-    padding: 5px 10px;
-    white-space: nowrap;
-}
-
-.event-ind-pill.red {
-    background: var(--primary-dark);
-    color: #fff;
-}
-
-.event-ind-pill.blue {
-    background: var(--primary-color-sub);
-    color: #fff;
-}
-
-.event-ind-pill.orange {
-    background: var(--secondary-color);
-    color: var(--dark-text);
 }
 
 .event-details-bottom > .event-skills {

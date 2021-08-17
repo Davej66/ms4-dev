@@ -54,7 +54,8 @@ INSTALLED_APPS = [
     'packages',
     'checkout',
     'storages',
-    'friendship'
+    'friendship',
+    'timezone_field'
 ]
 
 MIDDLEWARE = [
@@ -167,7 +168,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'GMT'
 
 USE_I18N = True
 
