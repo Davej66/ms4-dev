@@ -1,3 +1,27 @@
+// Submit an AJAX search form on 'all events' page
+$('#event_search_form').submit(function (e) {
+    e.preventDefault();
+    var jsonData = $(this).serialize();
+    $.ajax({
+        type: 'POST',
+        datatype: 'json',
+        data: jsonData,
+        url: $(this).attr('action'),
+        timeout: 10000,
+        success: function (data) {
+            $('#search_results').html(data);
+        },
+        error: function (data) {
+            console.log("There has been an error")
+        }
+    })
+});
+
+
+/***  
+*** Event Registration Actions
+***/
+
 // Register for event
 function event_register(event_id) {
     var event_int = parseInt(event_id)
@@ -62,7 +86,6 @@ function changeButtonUI(buttonId, type) {
         }
     })  
 })();
-
 
 
 /***

@@ -10,7 +10,8 @@ from .models import Event
 from friendship.models import Friend, FriendshipRequest
 from users.models import MyAccount
 
-# Create your views here.
+import json
+
 
 def event_listings(request):
     
@@ -24,7 +25,24 @@ def event_listings(request):
     for uid in user_connections:
         user_connections_list.append(uid.pk)
     
-    print("my friends",user_connections)
+    if request.is_ajax and request.method == "POST":
+        query = request.POST['event_search'] 
+        industry_query = request.POST['industry']
+        
+        if query != "":
+            queries = Q(title__icontains=query) | Q(description__icontains=query) | Q(
+                location__icontains=query) | Q(industry__icontains=query)
+        else: 
+            queries = Q(industry=industry_query)
+        
+        results = Event.objects.filter(queries)
+        
+        context = {
+            'search_results': results
+        }
+        payload = render_to_string('events/includes/ajax_event_search_results.html', context)
+        return HttpResponse(json.dumps(payload), content_type="application/json")
+    
     context = {
         'events': all_events,
         'pending_friend_reqs': connection_requests,
