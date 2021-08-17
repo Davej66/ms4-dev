@@ -7,4 +7,6 @@ from events import views
 
 urlpatterns = [
     path('meetups/', views.event_listings, name="event_listings"),
+    path('meetups/ajax/event_register/<event_id>', views.event_register, name="event_register"),
+    path('meetups/ajax/event_cancel/<event_id>', views.event_cancel, name="event_cancel"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

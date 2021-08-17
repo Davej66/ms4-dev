@@ -92,6 +92,9 @@ h1 {
 p {
     font-weight: 300;
     font-size: 1rem;
+}
+
+p.white-space {
     white-space: pre-line;
 }
 

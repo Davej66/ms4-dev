@@ -73,6 +73,19 @@
     line-height: initial;
 }
 
+.event-card-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.event-card-buttons button {
+    width: 47%;
+}
+
+.event-card-buttons button i{
+    margin-right: 5px;
+}
 
 .event-card-buttons > .view-attendees-btn {
     background: var(--bg-grad-color);
@@ -81,11 +94,26 @@
 
 .event-card-buttons > .remove-reg-btn {
     background: var(--primary-color-grad);
+    border: 2px solid transparent;
+    color: #fff;
+}
+
+.event-card-buttons > .remove-reg-btn:hover {
+    background: transparent;
+    color: var(--primary-dark);
+    border: 2px solid var(--primary-color);
 }
 
 .event-card-buttons > .register-btn {
-    background: var(--accent-color-grad);
+    background: transparent;
+    color: var(--primary-dark);
+    border: 2px solid var(--primary-color);
+}
+
+.event-card-buttons > .register-btn:hover {
+    background: var(--accent-color);
     color: var(--dark-text);
+    border-color: var(--accent-color);
 }
 
 /* Attendee list modal */

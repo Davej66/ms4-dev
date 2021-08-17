@@ -51,30 +51,29 @@
                     <div class="event-details-mast p-0 m-auto text-center">
                         <span class="ind-pill">{{event.industry}}</span>
                         <p class="d-inline">{{event.location}}</p>
-                        <p class="event-datetime d-block mt-2 text-center">{{event.start_datetime|date:"D d M Y gA"}}
-                            ({{event.timezone}})</p>
+                        <p class="event-datetime d-block mt-2 text-center">
+                            <strong>{{event.start_datetime|date:"f a"}}</strong> on
+                            <strong>{{event.start_datetime|date:"d M Y"}}</strong>
+                            ({{event.timezone}})
+                        </p>
                         {% if event.timezone != this_user.timezone%}
-                        <span class="timezone-warning"><em>This event doesn't occur in your timezone!</em></span>
+                        <span class="timezone-warning"><em>This event doesn't occur in your chosen timezone!</em></span>
                         {% endif %}
                     </div>
                 </div>
                 <hr>
                 <div class="event-details-bottom">
-                    <p class="event-skills">{{event.description}}</p>
+                    <p class="event-skills white-space">{{event.description}}</p>
                 </div>
-
+                <hr>
                 <div class="event-card-buttons">
                     <button class="view-attendees-btn btn primary-btn px-3 py-1 m-1"
                         onclick="cancel_friend('{{user.pk}}')" data-bs-toggle="modal"
-                        data-bs-target="#view_event_{{event.pk}}" value="{{event.pk}}"><i class="fas fa-eye"></i>View
+                        data-bs-target="#view_event_{{event.pk}}" value="{{event.pk}}"><i class="fas fa-eye"></i>
                         Attendees</button>
-                    <button class="register-btn btn primary-btn px-3 py-1 m-1" onclick="cancel_friend('{{user.pk}}')"
+                    <button class="register-btn btn primary-btn-outline-color px-3 py-1 m-1 w-45"
+                        onclick="event_register('{{event.pk}}')"
                         value="{{event.pk}}"><i class="fas fa-clipboard"></i>Register</button>
-                    <button class="remove-reg-btn btn primary-btn px-3 py-1 m-1" onclick="add_friend('   {{user.pk}}')"
-                        value="{{event.pk}}"><i class="fas fa-check"></i>Registered</button>
-
-
-                    <button class="btn primary-btn-outline-color px-3 py-1 m-1">Cancel Registration</button>
                 </div>
             </div>
             {% endfor %}

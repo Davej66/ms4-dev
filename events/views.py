@@ -44,7 +44,7 @@ def event_register(request, **kwargs):
 
 
 @verified_email_required
-def cancel_reg(request, **kwargs):
+def event_cancel(request, **kwargs):
     """ Cancel previous existing registration """
     if request.is_ajax and request.method == "GET":
         event_id = kwargs.get('event_id')
