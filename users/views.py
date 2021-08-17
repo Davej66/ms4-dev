@@ -10,9 +10,8 @@ from allauth.account.views import SignupView
 from allauth.account.utils import send_email_confirmation, user_pk_to_url_str
 from users.forms import RegistrationForm, EditProfileForm
 from packages.models import Package
-from friendship.models import Friend, Follow, Block, FriendshipRequest
+from friendship.models import Friend, FriendshipRequest
 from users.models import MyAccount
-from django.template.loader import render_to_string
 from datetime import datetime
 
 import stripe
