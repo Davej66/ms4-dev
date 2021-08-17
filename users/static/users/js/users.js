@@ -249,6 +249,23 @@ function decline_friend(other_user) {
     })
 };
 
+// Remove existing connection
+function remove_friend(other_user) {
+    var user_int = parseInt(other_user)
+    $.ajax({
+        type: 'GET',
+        url: `../ajax/remove_friend/${user_int}`,
+        timeout: 10000,
+        success: function (data) {
+            console.log("Friend removed")
+            changeButtonUI(data.buttonId, data.type);
+        },
+        error: function (data) {
+            console.log("There has been an error")
+        }
+    })
+};
+
 // Set friendship buttons on each card on page load
 (() => {
     $(`.req-sent-btn`).each(function () {
@@ -263,7 +280,7 @@ function changeButtonUI(buttonId, type) {
     $(buttonTarget).text('Connection Request Sent');
     $(buttonTarget).removeClass('send-connection-btn').addClass('req-sent-btn');
     $(buttonTarget).attr('onclick', `cancel_friend(${buttonId});`);
-
+    console.log(type)
     if (type == "cancel") {
         let buttonTarget = $(`.req-sent-btn[value="${buttonId}"]`);
         $(buttonTarget).text('Send Connection Request');
@@ -271,7 +288,6 @@ function changeButtonUI(buttonId, type) {
         $(buttonTarget).attr('onclick', `add_friend(${buttonId});`);
     } else if (type == "accept" || type == "decline"){
         $(`.conn-request-item[value="${buttonId}"]`).fadeOut("fast", "linear") 
-        console.log("got you")
     }
 
 

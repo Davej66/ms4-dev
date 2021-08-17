@@ -15,4 +15,5 @@ urlpatterns = [
     path('ajax/cancel_friend/<other_user>', views.cancel_friend, name="cancel_friend"),
     path('ajax/accept_friend/<other_user>', views.accept_friend, name="accept_friend"),
     path('ajax/decline_friend/<other_user>', views.decline_friend, name="decline_friend"),
+    path('ajax/remove_friend/<other_user>', views.remove_friend, name="remove_friend"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

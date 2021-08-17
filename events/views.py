@@ -7,6 +7,7 @@ from django.db.models import Q
 from django.template.loader import render_to_string
 from allauth.account.decorators import verified_email_required
 from .models import Event
+from friendship.models import Friend, FriendshipRequest
 from users.models import MyAccount
 
 # Create your views here.
@@ -15,8 +16,19 @@ def event_listings(request):
     
     all_events = Event.objects.all()
     
+    query = Q(to_user=request.user) | Q(from_user=request.user)
+    connection_requests = FriendshipRequest.objects.filter(query)
+    user_connections = Friend.objects.friends(request.user)
+    user_connections_list = []
+    
+    for uid in user_connections:
+        user_connections_list.append(uid.pk)
+    
+    print("my friends",user_connections)
     context = {
-        'events': all_events
+        'events': all_events,
+        'pending_friend_reqs': connection_requests,
+        'current_connections': user_connections
     }
     
     return render(request, 'events/all_events_list.html', context)
