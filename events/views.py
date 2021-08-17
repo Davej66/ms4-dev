@@ -13,17 +13,7 @@ from users.models import MyAccount
 
 def event_listings(request):
     
-    all_events = Event.objects.get(title="Test Event")
-    print("THIS IS THE PRINT",all_events.description, all_events.registrants.all())
-    
-    # registrant_one = all_events.registrants.get(email='bradleyh.cooney@gmail.com')
-    registrant_two = MyAccount.objects.get(email='martacraig@premiant.com')
-    print("THIS IS USER", registrant_two)
-    
-    # all_events.registrants.remove(registrant_one)
-    all_events.registrants.add(registrant_two)
-    
-    print("THIS FINAL",all_events.registrants.all())
+    all_events = Event.objects.all()
     
     context = {
         'events': all_events

@@ -145,6 +145,14 @@ Connect Django to AWS
 - Example Attendee Image by [Hamed Gharaee](https://www.pexels.com/@hamed-gharaee-1120343?utm_content=attributionCopyText&utm_medium=referral&utm_source=pexels) from Pexels
 - London skyline on homepage by [Pixabay](https://www.pexels.com/@pixabay) on Pexels
 - User image photo by [Alena Darmel](https://www.pexels.com/@a-darmel?utm_content=attributionCopyText&utm_medium=referral&utm_source=pexels) from Pexels
+- Demo event header image of London by [Mike](https://www.pexels.com/@mikebirdy?utm_content=attributionCopyText&utm_medium=referral&utm_source=pexels) from Pexels
+- Demo event header image of New York by [Roberto Vivancos](https://www.pexels.com/@robertovivancos?utm_content=attributionCopyText&utm_medium=referral&utm_source=pexels) from Pexels
+- Demo event header image of Paris by [Thorsten technoman](https://www.pexels.com/@thorsten-technoman-109353?utm_content=attributionCopyText&utm_medium=referral&utm_source=pexels) from Pexels
+- Demo event header image of Edinburgh by [Carsten Ruthemann](https://www.pexels.com/@carsten-ruthemann-8804932?utm_content=attributionCopyText&utm_medium=referral&utm_source=pexels) from Pexels
+- Demo event header image of Dublin by [Lukas Kloeppel](https://www.pexels.com/@lkloeppel?utm_content=attributionCopyText&utm_medium=referral&utm_source=pexels) from Pexels
+- Demo event header image of L.A by [Martin Péchy](https://www.pexels.com/@martinpechy?utm_content=attributionCopyText&utm_medium=referral&utm_source=pexels) from Pexels
+- Demo event header image of Madrid by [Gotta Be Worth It](https://www.pexels.com/@myersmc16?utm_content=attributionCopyText&utm_medium=referral&utm_source=pexels) from Pexels
+
 
 ### Tutorials and Guides
 - [Markdown cheatsheet](https://www.markdownguide.org/basic-syntax/)

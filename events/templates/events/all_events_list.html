@@ -37,29 +37,138 @@
 
 
         <div id="search_results" class="page-results flex-wrap">
-            
-            <div class="card user-card muted">
+            {% for event in events %}
+            <div class="card event-card muted">
                 <div class="d-flex flex-wrap">
                     <div class="prf-img-preview">
-                        <img class="prf-img-preview" src="/media/{{user.profile_image}}"
-                        alt="{{user.first_name}} {{user.last_name}}'s profile image"
-                        onload="specImageOrientation(this);">
+                        <img class="prf-img-preview" src="/media/{{event.header_image}}"
+                            alt="{{event.title}} - header image" onload="specImageOrientation(this);">
                     </div>
                     <!-- TODO remove default testing input -->
-                    <div class="user-details-mast">
-                        <h3>TITLE</h3>
+                    <div class="event-details-mast">
+                        <h3>{{event.title}}</h3>
                         <p>{{event.location}}</p>
-                        <span class="user-ind-pill green">{{event.industry}}</span>
+                        <span class="event-ind-pill green">{{event.industry}}</span>
                     </div>
                 </div>
                 <hr>
-                <div class="user-details-bottom">
-                    <p class="user-skills">skills</p>
-                </div>    
+                <div class="event-details-bottom">
+                    <p class="event-skills">skills</p>
+                    <p class="event-skills">{{event.description}}</p>
+                </div>
+
+                <div class="event-card-buttons">
+                    <button class="view-attendees-btn btn primary-btn px-3 py-1 m-1"
+                        onclick="cancel_friend('{{user.pk}}')" data-bs-toggle="modal"
+                        data-bs-target="#view_event_{{event.pk}}" value="{{event.pk}}"><i class="fas fa-eye"></i>View
+                        Attendees</button>
+                    <button class="register-btn btn primary-btn px-3 py-1 m-1" onclick="cancel_friend('{{user.pk}}')"
+                        value="{{event.pk}}"><i class="fas fa-clipboard"></i>Register</button>
+                    <button class="remove-reg-btn btn primary-btn px-3 py-1 m-1" onclick="add_friend('   {{user.pk}}')"
+                        value="{{event.pk}}"><i class="fas fa-check"></i>Registered</button>
+
+
+                    <button class="btn primary-btn-outline-color px-3 py-1 m-1">Cancel Registration</button>
+                </div>
             </div>
+            {% endfor %}
         </div>
     </div>
     <div class="fixed-40"></div>
+
+    <!-- View Event Modal START -->
+    {%for event in events%}
+    <div class="modal event-view fade" id="view_event_{{event.pk}}" tabindex="-1" role="dialog"
+        aria-labelledby="view_event_{{event.pk}}" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <span class="d-flex" data-bs-dismiss="modal" aria-label="Close"><i
+                            class="fas fa-times ml-auto "></i></span>
+                    <div class="event-card muted m-0 pt-0">
+                        <div class="d-flex flex-wrap flex-column flex-sm-row">
+                            <div class="prf-img-preview mx-0">
+                                <img class="prf-img-preview portrait-img" src="/media/{{new_connection.profile_image}}"
+                                    alt="Bradley Cooney's profile image" onload="specImageOrientation(this);">
+                            </div>
+
+
+                        </div>
+                        <hr>
+                        <div class="event-details-bottom">
+                            <!-- List registered attendees -->
+                            <div class="pending-requests-to-me">
+                                {% for reg in event.registrants.all %}
+                                <div class="attendee-item-item flex-row flex-wrap" value="{{new_connection.pk}}">
+                                    <div
+                                        class="img-and-details-mast d-flex col-xl-8 col-lg-12 col-12 flex-column flex-sm-row">
+                                        <div class="thumbnail-wrapper prf-img-preview-wrapper m-auto">
+                                            <img class="prf-img-preview" src="/media/{{reg.profile_image}}"
+                                                alt="{{new_connection.first_name}} {{new_connection.last_name}}'s' profile image"
+                                                onload="specImageOrientation(this);">
+                                        </div>
+                                        <div class="new-req-details d-flex flex-column text-xl-start 
+                    text-lg-start text-sm-start text-center">
+                                            <p>{{reg.first_name}} {{reg.last_name}}
+                                            </p>
+                                            <p>{{reg.job_role}}
+                                                <span class="user-ind-pill">{{reg.industry}}</span>
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <!-- Action buttons -->
+                                    <div class="action-btns col-xl-4">
+                                        <button class="accept-conn-btn btn primary-btn attendee-action-btn"
+                                            onclick="accept_friend('{{new_connection.pk}}')"
+                                            value="{{new_connection.pk}}" data-toggle="tooltip">
+                                            <i class="fas fa-check"></i>
+                                            <span class="tooltip-top">Accept the request</span>
+                                        </button>
+                                        <button class="view-conn-btn btn primary-btn attendee-action-btn"
+                                            data-bs-toggle="modal" data-bs-target="#view_user_{{new_connection.pk}}"
+                                            value="{{new_connection.pk}}">
+                                            <i class="fas fa-eye"></i>
+                                            <span class="tooltip-top">View the user</span>
+                                        </button>
+                                        <button class="decline-conn-btn btn primary-btn attendee-action-btn warning"
+                                            onclick="decline_friend('{{new_connection.pk}}')"
+                                            value="{{new_connection.pk}}">
+                                            <i class="fas fa-times"></i>
+                                            <span class="tooltip-top">Decline the request</span>
+                                        </button>
+                                    </div>
+
+                                </div>
+
+                                {% endfor %}
+                            </div>
+                            <p class="event-skills">
+                                {{ new_connection.skills }}
+                            </p>
+                            <p class="pt-3">{{new_connection.description}}</p>
+                        </div>
+                        <div class="action-btns d-flex">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer flex-row">
+                    <button class="accept-conn-btn btn primary-btn attendee-action-btn w-45"
+                        onclick="accept_friend('{{new_connection.pk}}')" value="{{new_connection.pk}}"
+                        data-toggle="tooltip" data-bs-dismiss="modal" aria-label="Close">
+                        <i class="fas fa-check"></i><span class="mx-2">Accept the request</span>
+                    </button>
+                    <button class="decline-conn-btn btn primary-btn attendee-action-btn w-45"
+                        onclick="decline_friend('{{new_connection.pk}}')" value="{{new_connection.pk}}"
+                        data-bs-dismiss="modal" aria-label="Close">
+                        <i class="fas fa-times"></i><span class="mx-2">Decline the request</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    <!-- View Event Modal END -->
 
 </section>
 

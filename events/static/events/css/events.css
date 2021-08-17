@@ -1,3 +1,199 @@
+/**
+*** All users page general
+**/
+
+/* Event Card */
+.event-card {
+    padding: 20px;
+    margin: 10px;
+    flex: 1 0 31%;
+    min-width: 300px;
+    max-width: 460px;
+}
+
+.event-card > div > .prf-img-preview {
+    height: 100px;
+    width: 100px;
+    min-height: 100px;
+    min-width: 100px;
+    overflow: hidden;
+    border-radius: 50px;
+    box-shadow: 1px 1px 10px -2px var(--dark-shadow);
+    margin: auto;
+    margin-bottom: 10px;
+}
+
+.event-details-mast {
+    padding-left: 20px;
+    height: max-content;
+    margin: auto;   
+    min-width: 65%;
+}
+
+.event-ind-pill {
+    background: var(--accent-color);
+    color: var(--dark-text);
+    margin-right: 5px;
+    border-radius: 50px;
+    font-size: 12px;
+    padding: 5px 10px;
+    white-space: nowrap;
+}
+
+.event-ind-pill.red {
+    background: var(--primary-dark);
+    color: #fff;
+}
+
+.event-ind-pill.blue {
+    background: var(--primary-color-sub);
+    color: #fff;
+}
+
+.event-ind-pill.orange {
+    background: var(--secondary-color);
+    color: var(--dark-text);
+}
+
+.event-details-bottom > .event-skills {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.event-details-bottom > .event-skills span{
+    padding: 7px 10px;
+    font-size: 14px;
+    line-height: initial;
+}
+
+
+.event-card-buttons > .view-attendees-btn {
+    background: var(--bg-grad-color);
+    color: var(--dark-text);
+}
+
+.event-card-buttons > .remove-reg-btn {
+    background: var(--primary-color-grad);
+}
+
+.event-card-buttons > .register-btn {
+    background: var(--accent-color-grad);
+    color: var(--dark-text);
+}
+
+/* Attendee list modal */
+.pending-requests-to-me {
+    display: flex;
+    flex-direction: column;
+}
+
+.attendee-item-item {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--light-line);
+}
+
+.attendee-item-item:last-of-type {
+    border-bottom: none;
+}
+
+.attendee-item-item > div {
+    max-width: 100%;
+}
+
+.attendee-item-item > div > .new-req-details {
+    margin: auto ;
+    padding: 5px 10px;
+    display: flex;
+    max-width: 100%;
+    min-width: 80%;
+}
+
+.new-req-details p:first-of-type {
+    font-weight: 500;
+    font-size: 16px;
+}
+
+.new-req-details p:nth-of-type(2) {
+    font-weight: 200;
+    font-size: 14px;
+}
+
+.attendee-item-item > .action-btns {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 10px auto;
+    min-width: max-content;
+}
+
+.action-btns .attendee-action-btn {
+    margin: auto 5px;
+    height: 40px;
+    width: 40px;
+    position: relative;
+}
+
+.attendee-action-btn:hover {
+    color: inherit!important;
+    z-index: 99;
+}
+
+.attendee-action-btn:hover .tooltip-top {
+    animation: fade-in 0.3s ease-in-out;
+    display: flex;
+    z-index: 99;
+}
+
+.attendee-action-btn.view-conn-btn {
+    background: var(--bg-grad-color);
+    color: var(--dark-text);
+}
+
+.attendee-action-btn.decline-conn-btn {
+    background: var(--primary-color-grad);
+}
+
+.attendee-action-btn.accept-conn-btn {
+    background: var(--accent-color-grad);
+    color: var(--dark-text);
+}
+
+
+.modal.event-view > .modal-dialog {
+    height: 100%;
+    margin: 0px auto;
+}
+
+.modal-dialog > .modal-content {
+    height: max-content;
+    margin: auto;
+}
+
+.modal-body > .event-card {
+    max-width: 100%!important;
+}
+
+.modal-body > span > i {
+    margin-left: auto;
+    cursor: pointer;
+}
+
+.modal-footer button {
+    flex: 1 1 48%;
+}
+
+.page-results {
+    display: flex;
+    justify-content: center;
+    margin: 0px -10px;
+}
+
+
+
+
 /* Searchbar */
 .search-box-card {
     padding: 20px;

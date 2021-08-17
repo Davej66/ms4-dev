@@ -18,11 +18,11 @@ class Event(models.Model):
     title = models.CharField(max_length=100, blank=False, default="")
     description = models.TextField(max_length=1000, blank=False, default="")
     header_image = models.ImageField(upload_to=get_header_image_filepath, null=True, blank=True, default=get_default_header_image)
-    industry = models.CharField(max_length=255, blank=True, default="")
-    location = models.CharField(max_length=100, blank=True)
+    industry = models.CharField(max_length=255, blank=False, default="")
+    location = models.CharField(max_length=100, blank=False, default="Online")
     start_datetime = models.DateTimeField(verbose_name='start_date', blank=False, default="")
     end_datetime = models.DateTimeField(verbose_name='end_date', blank=False, default="")
     registrants = models.ManyToManyField(MyAccount, related_name='attendees')
-    
+
     def __str__(self):
         return self.title
