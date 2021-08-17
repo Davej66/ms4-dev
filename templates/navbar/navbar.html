@@ -11,7 +11,7 @@
           <a class="nav-link" href="{% url 'packages' %}">Subscriptions</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" aria-label="Home" href="/">Meetups</a>
+          <a class="nav-link" aria-label="Home" href="{% url 'event_listings' %}">Meetups</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" aria-label="Home" href="{% url 'all_users' %}">Freelancers</a>
@@ -35,9 +35,13 @@
             </li>
           </ul>
         </li>
-        
-          <li class="nav-item d-md-block d-lg-none">
+        <hr class="dropdown-menu-hr">
+        <li class="nav-item d-md-block d-lg-none">
+            
             <a class="nav-link" href="{% url 'account_dashboard' %}">My Dashboard</a>
+          </li>
+          <li class="nav-item d-md-block d-lg-none">
+            <a class="nav-link" href="{% url 'edit_profile' %}">Edit Profile</a>
           </li>
           <li class="nav-item d-md-block d-lg-none">
             <a class="nav-link" href="{% url 'account_logout' %}">Logout</a>

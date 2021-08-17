@@ -181,6 +181,7 @@
 
 .modal.user-view > .modal-dialog {
     height: 100%;
+    margin: 0px auto;
 }
 
 .modal-dialog > .modal-content {
@@ -302,6 +303,7 @@ label.table-item-label {
     margin: 0px 5px 5px 0px;
     display: flex;
     height: max-content;
+    white-space: normal;
 }
 
 .skill-pill i {

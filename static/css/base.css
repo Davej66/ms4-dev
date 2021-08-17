@@ -92,6 +92,7 @@ h1 {
 p {
     font-weight: 300;
     font-size: 1rem;
+    white-space: pre-line;
 }
 
 p.large {
@@ -575,11 +576,14 @@ ul {
     padding: 50px;
 }
 
+.modal {
+    overflow-y: hidden;
+}
+
 .modal-content {
     border: none;
     box-shadow: 1px 1px 15px -5px var(--dark-shadow);
     border-radius: 10px;
-
 }
 
 .modal-dialog {
@@ -744,6 +748,14 @@ nav > div {
     width: 175px;
     height: 100%;
     margin-right: 50px;
+}
+
+hr.dropdown-menu-hr {
+    height: 2px;
+    color: var(--primary-color);
+    width: 50%;
+    margin: 5px 0px 5px auto;
+    opacity: 0.75;
 }
 
 .dropdown-menu {

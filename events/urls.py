@@ -1,8 +1,10 @@
 from django.contrib import admin
 from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
 from events import views
 
 
 urlpatterns = [
-    path('', views.event_listings, name="event_listings"),
-]
+    path('meetups/', views.event_listings, name="event_listings"),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

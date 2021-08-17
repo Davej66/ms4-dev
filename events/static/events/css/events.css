@@ -1,0 +1,87 @@
+/* Searchbar */
+.search-box-card {
+    padding: 20px;
+    z-index: 2;
+}
+
+#industry_search > div {
+    max-width: 100%;
+}
+
+#industry_search > #ind-select > .vscomp-wrapper {
+    position: relative;
+    display: block;
+    bottom: 0;
+    width: 100%;
+    max-width: 100%;
+}
+
+#industry_search > div > div > .vscomp-toggle-button {
+    display: block;
+    min-height: 33px;
+    height: 33px;
+    transition: 0.3s ease-in-out;
+}
+
+#industry_search > div > div.focused > .vscomp-toggle-button {
+    display: block;
+    min-height: 33px;
+    height: auto;
+}
+
+.search-button-wrapper {
+    height: max-content;
+    min-height: 50px;
+    margin-top: 10px;
+    display: flex;
+}
+
+.search-button-wrapper button,
+.search-button-wrapper a {
+    margin: auto;
+    margin-top: 10px;
+    padding: 10px 20px;
+    min-width: max-content;
+}
+.search-button-wrapper button {
+    min-width: 70%;
+}
+
+.search-button-wrapper a {
+    min-width: 25%;
+    padding: 10px 20px!important;
+    height: max-content;
+}
+
+h3.results-count {
+    height: max-content;
+    width: max-content;
+    text-align: center;
+    margin: auto;
+    margin-bottom: 40px;
+    position: relative;
+    z-index: 1;
+}
+
+.results-count::after {
+    content: "";
+    position: absolute;
+    border-bottom: 5px solid var(--primary-color);
+    width: 100%;
+    z-index: -1;
+    bottom: -10px;
+    right: 0;
+}
+
+.no-results {
+    width: 100%;
+    max-width: 100%;
+}
+
+.no-results > div > div > i {
+    font-size: 100px;
+    text-align: center;
+    width: 100%;
+    padding: 20px;
+    color: var(--light-grey);
+}
