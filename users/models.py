@@ -6,6 +6,7 @@ from django.contrib.auth.models import (
     PermissionsMixin,
     AbstractUser)
 from django.utils import timezone
+from timezone_field import TimeZoneField
 from django_resized import ResizedImageField
 import uuid
 
@@ -69,6 +70,7 @@ class MyAccount(AbstractBaseUser, PermissionsMixin):
     package_tier = models.IntegerField(blank=False, default=1)
     package_name = models.CharField(max_length=50, blank=False, default="Free Account")
     date_joined = models.DateTimeField(verbose_name='date joined', auto_now_add=True)
+    timezone = TimeZoneField(choices_display='WITH_GMT_OFFSET', default='Europe/London')
     last_login = models.DateTimeField(verbose_name='last login', auto_now=True)
     profile_completed = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
