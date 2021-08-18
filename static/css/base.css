@@ -332,6 +332,28 @@ a:hover, .anchor-link:hover {
     cursor: pointer;
 }
 
+.caught-up-notifications {
+    text-align: center;
+    width: 100%;
+    padding: 20px 20px 0px 20px;
+}
+
+.caught-up-notifications > i{
+    color: var(--light-grey);
+}
+
+.caught-up-notifications > *{
+    margin-bottom: 10px;
+}
+
+.tooltip-parent {
+    position: relative!important;
+}
+
+.tooltip-parent:hover>.tooltip-top {
+    display: block;
+}
+
 .tooltip-top {
     position: absolute;
     display: none;

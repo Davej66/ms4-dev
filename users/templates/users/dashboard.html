@@ -53,7 +53,7 @@
                                 </div>
                                 <div class="d-flex flex-wrap card-row-two">
                                     <div class="mb-3 card muted z-2">
-                                        <h3 class="edit-profile-section-header mb-5">Pending Connections</h3>
+                                        <h3 class="edit-profile-section-header mb-3">Pending Connections</h3>
 
                                         <!-- List pending requests sent to the user -->
                                         <div class="pending-requests-to-me">
@@ -68,13 +68,12 @@
                                                             alt="{{new_connection.first_name}} {{new_connection.last_name}}'s' profile image"
                                                             onload="specImageOrientation(this);">
                                                     </div>
-                                                    <div class="new-req-details d-flex flex-column text-xl-start 
+                                                    <div class="new-item-details d-flex flex-column text-xl-start 
                                                         text-lg-start text-sm-start text-center">
                                                         <p>{{new_connection.first_name}} {{new_connection.last_name}}
                                                         </p>
                                                         <p>{{new_connection.job_role}}
-                                                            <span
-                                                                class="ind-pill">{{new_connection.industry}}</span>
+                                                            <span class="ind-pill">{{new_connection.industry}}</span>
                                                         </p>
                                                     </div>
                                                 </div>
@@ -102,13 +101,64 @@
                                                         <span class="tooltip-top">Decline the request</span>
                                                     </button>
                                                 </div>
-
                                             </div>
-
                                             {% endfor %}
+                                            {% if not pending_friend_reqs %}
+                                            {% include "users/includes/no_pending_reqs.html" %}
+                                            {% endif %}
                                         </div>
                                     </div>
-                                    <div class="mb-3 card muted">card-content</div>
+                                    <div class="mb-3 card muted z-2">
+                                        <h3 class="edit-profile-section-header mb-3">Upcoming Events</h3>
+
+                                        <!-- List user's registered events -->
+                                        <div class="pending-requests-to-me">
+                                            {% for event in user_events %}
+                                            <div class="upcoming-event-item flex-wrap d-flex" value="{{event.pk}}">
+                                                <div class="img-and-details-mast d-flex">
+                                                    <div class="upcoming-event-details d-flex flex-wrap text-xl-start 
+                                                    text-lg-start text-sm-start text-center w-100">
+                                                        <p class="my-auto"><strong class="fs-5">{{event.title}}</strong> ({{event.location}})
+                                                        <span class="ind-pill my-auto">{{event.industry}}</span>
+                                                        </p>
+                                                        <p class="event-datetime d-block my-1">
+                                                            <strong>{{event.start_datetime|date:"f a"}}</strong> on
+                                                            <strong>{{event.start_datetime|date:"d M"}}</strong>
+                                                        
+                                                        {% if event.timezone != this_user.timezone%}
+                                                        <span class="timezone-warning tooltip-parent"><i class="fas fa-clock fs-6"></i>
+                                                            <span class="tooltip-top">This event doesn't occur in your <br>
+                                                                chosen timezone!</span>
+                                                        </span>
+                                                        {% endif %}
+                                                    </p>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Action buttons -->
+                                                <div class="action-btns">
+                                                    <button class="view-conn-btn btn primary-btn conn-response-btn"
+                                                        data-bs-toggle="modal" data-bs-target="#view_event_{{event.pk}}"
+                                                        value="{{event.pk}}">
+                                                        <i class="fas fa-eye"></i>
+                                                        <span class="tooltip-top">View Details</span>
+                                                    </button>
+                                                    <button
+                                                        class="decline-conn-btn btn primary-btn conn-response-btn warning"
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#verify_cancel_event_{{event.pk}}"
+                                                        value="{{event.pk}}">
+                                                        <i class="fas fa-times"></i>
+                                                        <span class="tooltip-top">Cancel Registration</span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            {% endfor %}
+                                            {% if not user_events %}
+                                            {% include "users/includes/no_upcoming_events.html" %}
+                                            {% endif %}
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="container-rounded-light">card-content</div>
                             </div>
@@ -145,7 +195,7 @@
                     </div>
                     <hr>
                     <div class="user-details-bottom">
-                        
+
                         <p class="user-skills">
                             {{ new_connection.skills }}
                         </p>
@@ -172,6 +222,88 @@
 </div>
 {% endfor %}
 <!-- View User Modal END -->
+
+<!-- View Event Modal START -->
+{%for event in user_events%}
+<div class="modal event-view fade" id="view_event_{{event.pk}}" tabindex="-1" role="dialog"
+    aria-labelledby="view_event_{{event.pk}}" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body p-0">
+                <span class="d-flex" data-bs-dismiss="modal" aria-label="Close"><i
+                        class="fas fa-times ml-auto "></i></span>
+                <div class="event-card muted m-0 pt-0">
+                    <div class="event-header-img">
+                        <img class="" src="/media/{{event.header_image}}" alt="{{event.title}} - header image"
+                            onload="specImageOrientation(this);">
+                        <span class="card-title-overlay"></span>
+                        <h3 class="event-card-title">{{event.title}}</h3>
+                    </div>
+                    <div class="event-details-bottom">
+                        <!-- Event Details -->
+                        <div class="d-flex flex-wrap">
+                            <!-- TODO remove default testing input -->
+                            <div class="event-details-mast p-0 m-auto text-center">
+                                <span class="ind-pill">{{event.industry}}</span>
+                                <p class="d-inline">{{event.location}}</p>
+                                <p class="event-datetime d-block mt-2 text-center">
+                                    <strong>{{event.start_datetime|date:"f a"}}</strong> on
+                                    <strong>{{event.start_datetime|date:"d M Y"}}</strong>
+                                    ({{event.timezone}})
+                                </p>
+                                {% if event.timezone != this_user.timezone%}
+                                <span class="timezone-warning"><em>This event doesn't occur in your chosen
+                                        timezone!</em></span>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="event-details-bottom">
+                            <p class="event-skills white-space">{{event.description}}</p>
+                        </div>
+                        <hr>
+                        <div class="event-card-buttons d-flex">
+                            <button class="remove-reg-btn muted btn primary-btn-outline-color px-3 py-2 m-auto"
+                                onclick="event_cancel('{{event.pk}}')" value="{{event.pk}}"><i
+                                    class="fas fa-times mx-2"></i>Cancel Registration</button>
+                        </div>
+                    </div>
+                    <div class="action-btns d-flex">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- View Event Modal END -->
+
+<!-- Verification Modal - CANCEL REGISTRATION START -->
+<div class="modal event-view fade" id="verify_cancel_event_{{event.pk}}" tabindex="-1" role="dialog"
+    aria-labelledby="verify_cancel_event_{{event.pk}}" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body p-0">
+                <div class="event-card muted m-0">
+                    <p>
+                        Are you sure you want to cancel your registration to <strong>{{event.title}}</strong>
+                    </p>
+                    <hr>
+                    <div class="event-card-buttons d-flex">
+                        <button class="remove-reg-btn muted btn primary-btn-outline-color px-3 py-2 m-auto w-45"
+                            data-bs-dismiss="modal" aria-label="Close"><i class="fas fa-user mx-2"></i>No, I'll
+                            Attend</button>
+                        <button class="remove-reg-btn btn primary-btn-outline-color px-3 py-2 m-auto w-45"
+                            onclick="event_cancel('{{event.pk}}')" value="{{event.pk}}"><i
+                                class="fas fa-times mx-2"></i>Cancel Registration</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+{% endfor %}
+<!-- Verification Modal - CANCEL REGISTRATION END -->
 
 <input type="hidden" id="csrf" value="{{csrf_token}}">
 {% block post_JS %}

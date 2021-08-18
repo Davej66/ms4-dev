@@ -10,6 +10,7 @@ from allauth.account.views import SignupView
 from allauth.account.utils import send_email_confirmation, user_pk_to_url_str
 from users.forms import RegistrationForm, EditProfileForm
 from packages.models import Package
+from events.models import Event
 from friendship.models import Friend, FriendshipRequest
 from users.models import MyAccount
 from datetime import datetime
@@ -41,8 +42,9 @@ def account_dashboard(request):
     full_name = user.first_name + " " + user.last_name
     user_package = user.package_name
     profile_complete = user.profile_completed
-    pending_reqs_to_user = Friend.objects.unrejected_requests(user=request.user)
-    
+    pending_reqs_to_user = Friend.objects.unrejected_requests(user=request.user)    
+    user_events = request.user.attendees.all()
+
     requested_users = []
     
     for int in pending_reqs_to_user:
@@ -52,7 +54,8 @@ def account_dashboard(request):
     context = {
         'full_name': full_name.title(),
         'package': user_package,
-        'pending_friend_reqs': requested_users
+        'pending_friend_reqs': requested_users,
+        'user_events': user_events,
     }
     
     if not profile_complete:

@@ -39,7 +39,7 @@ function event_register(event_id) {
     })
 };
 
-// Decline pending request
+// Cancel event registration
 function event_cancel(event_id) {
     var event_int = parseInt(event_id)
     $.ajax({

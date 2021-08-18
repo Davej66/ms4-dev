@@ -289,6 +289,21 @@ function changeButtonUI(buttonId, type) {
     } else if (type == "accept" || type == "decline"){
         $(`.conn-request-item[value="${buttonId}"]`).fadeOut("fast", "linear") 
     }
+};
 
-
+// Cancel event registration
+function event_cancel(event_id) {
+    var event_int = parseInt(event_id)
+    $.ajax({
+        type: 'GET',
+        url: `/meetups/ajax/event_cancel/${event_int}`,
+        timeout: 10000,
+        success: function (data) {
+            console.log("User successfully cancelled")
+            location.reload()
+        },
+        error: function (data) {
+            console.log("There has been an error")
+        }
+    })
 };
