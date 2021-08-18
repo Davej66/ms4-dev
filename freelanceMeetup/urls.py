@@ -26,7 +26,6 @@ urlpatterns = [
     path('profile/', include('users.urls')),
     path('packages/', include('packages.urls')),
     path('checkout/', include('checkout.urls')),
-    path('', include('users.urls')),
     path('', include('events.urls')),
     path('', include('home.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
