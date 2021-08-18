@@ -74,3 +74,63 @@
     font-weight: 500;
     z-index: 1;
 }
+
+
+/* PAYMENT FORM */
+.order-confirmation {
+    
+}
+
+.order-confirmation >  {
+
+}
+
+.card-section-header {
+    position: relative;
+    width: max-content;
+    max-width: 100%;
+    z-index: 1;
+    font-size: 1.5rem;
+}
+
+.card-section-header::after {
+    content: "";
+    position: absolute;
+    border-bottom: 5px solid var(--primary-color);
+    width: 100%;
+    bottom: -25%;
+    right: 0;
+    z-index: -1;
+}
+
+.stripe-cc-input {
+    margin: 10px;
+}
+
+#card_errors {
+    color: var(--error);
+    margin-left: 10px;
+}
+
+.order-details-summary{
+    margin-top: 40px;
+    padding: 20px;
+    background: var(--bg-grad-grey);
+}
+
+.order-details-summary p{
+    font-size: 20px;
+    font-weight: 400;
+}
+
+ul.order-details-features {
+    font-size: 16px;    
+    font-weight: 200;    
+    padding: 0;
+    color: var(--light-text);
+}
+
+.total-due p {
+    font-size: 20px;
+    font-weight: 400;
+}

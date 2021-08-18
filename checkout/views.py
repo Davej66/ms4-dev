@@ -40,7 +40,6 @@ def store_selection(request):
         # Get the package id from the ajax request
         package = request.POST['package_id']
         request.session['package_selection'] = package
-
         return redirect('summary')
 
     return JsonResponse({'response': "Something went wrong, please try again",
@@ -117,14 +116,18 @@ def confirm_order(request):
 
     package_selection = int(request.session['package_selection'])
     package_item = Package.objects.get(tier=package_selection)
+    print("in session", package_selection)
+    
+    if not stripe_pk:
+        messages.warning(request, "No public key found for Stripe")
 
     # If user attempting to purchase the same subscription, send them to their orders
     if user.package_tier is package_selection:
+        print("in session", package_selection)
         messages.error(request, "You are already subscribed to this package!")
         return redirect('get_my_orders')
-
-    if not stripe_pk:
-        messages.warning(request, "No public key found for Stripe")
+    # elif user.package_tier:
+    #     return redirect('update_subscription')
 
     # Create a new stripe customer if none exists for this site user
     if not user.stripe_customer_id:
@@ -147,8 +150,6 @@ def confirm_order(request):
     # Check for existing stripe sub ID and create if not found
     if not user.stripe_subscription_id:
 
-        print("package:", package_item.stripe_price_id)
-
         try:
             subscription = stripe.Subscription.create(
                 customer=user.stripe_customer_id,
@@ -164,22 +165,24 @@ def confirm_order(request):
             pass
 
         except Exception as e:
-            print("didnt work")
-            return JsonResponse({'message': "e.user_message"}), 400
+            return JsonResponse({'message': e.user_message}), 400
     else:
         subscription = stripe.Subscription.retrieve(
             user.stripe_subscription_id,
             expand=['latest_invoice.payment_intent'])
-        print("sub key", subscription.latest_invoice.payment_intent.client_secret)
 
     if request.method == 'POST':
 
+        print(type(package_item.tier),type(package_item.name), user)
         user.package_tier = package_item.tier
         user.package_name = package_item.name
         user.save()
 
-        order_exists = Order.objects.get(
-            stripe_invoice_id=subscription.latest_invoice.id)
+        try:
+            order_exists = Order.objects.get(
+                stripe_invoice_id=subscription.latest_invoice.id)
+        except:
+            order_exists = False
 
         if not order_exists:
             order_form_data = {
@@ -194,9 +197,13 @@ def confirm_order(request):
                 order_form.save()
 
             else:
-                print("errors order in the view:", order_form.errors)
                 messages.error(request, "There was an error in your form")
-
+            
+            return redirect(reverse, 'get_my_orders')
+        else:
+            
+            return redirect('get_my_orders')
+            
     context = {
         "stripe_public_key": stripe_pk,
         'subId': subscription.id,

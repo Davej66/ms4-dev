@@ -57,7 +57,6 @@ class StripeWH_Handler:
                 SUCCESS: Order in database', status=200)
         
         else:
-            order = None
             try:
                 order_form_data = {
                 "buyer_name": name,
@@ -68,7 +67,7 @@ class StripeWH_Handler:
                 }
                 order_form = OrderForm(order_form_data)
                 if order_form.is_valid():
-                    order = order_form.save()
+                    order_form.save()
                 return HttpResponse(content=f'Webhook received: {event["type"]} | \
                 ORDER CREATED: No order found in database', status=200)
             except Exception as e:

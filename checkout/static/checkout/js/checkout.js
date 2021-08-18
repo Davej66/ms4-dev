@@ -27,6 +27,7 @@ var stripePublicKey = $('#id_stripe_public_key').text().slice(1, -1);
 var stripeClientSecret = $('#id_stripe_client_secret').text().slice(1, -1);
 var stripe = Stripe(stripePublicKey);
 var elements = stripe.elements();
+var csrftoken = Cookies.get('csrftoken');
 
 let card = elements.create('card');
 card.mount('#card_element');
@@ -49,36 +50,49 @@ card.addEventListener('change', function (event) {
 })
 
 // Handle form submit
-$('#payment_form').on('submit', function (event) {
+$('#payment_form').on('submit', (event) => {
     event.preventDefault();
+
     card.update({ 'disabled': true })
     $('#submit_button').attr('disabled', true);
-    stripe.confirmCardPayment(stripeClientSecret, {
-        payment_method: {
-            card: card,
-            billing_details: {
-                name: "bradley",
-            }
-        },
-    }).then(function (result) {
-        var errorDiv = $('#card_errors')
-        console.log(result)
-        if (event.error) {
-            var html = `
-        <span class="icon" role="alert">
+    $('#submit_button').addClass('disabled');
+
+    var url = window.location.href
+    var postData = {
+        'csrfmiddlewaretoken': csrftoken,
+    }
+
+    $.post(url, postData).done(function () {
+        stripe.confirmCardPayment(stripeClientSecret, {
+            payment_method: {
+                card: card,
+                billing_details: {
+                    name: "bradley",
+                }
+            },
+        }).then(function (result) {
+            var errorDiv = $('#card_errors')
+            if (result.error) {
+                var html = `
+            <span class="icon" role="alert">
             <i class="fas fa-times"></i>
-        </span>
-        <span>${event.error.message}</span>
-        `
-            errorDiv.html(html);
-            card.update({ 'disabled': false })
-            $('#submit_button').attr('disabled', false);
-        } else {
-            errorDiv.text = ""
-            if (result.paymentIntent.status === 'succeeded') {
-                console.log("this worked")
-                $('#payment_form').submit()
+            </span>
+            <span>${result.error.message}</span>
+            `
+                card.update({ 'disabled': false });
+                errorDiv.html(html);
+                $('#submit_button').attr('disabled', false);
+                $('#submit_button').removeClass('disabled');
+            } else {
+                errorDiv.text = ""
+                if (result.paymentIntent.status === 'succeeded') {
+                    console.log("this worked")
+                    $('#payment_form').submit()
+                }
             }
-        }
+        })
+        }).fail(function(){
+            console.log("failed")
+            location.reload()
     })
 });

@@ -25,6 +25,7 @@
     --light-line: #dcdcdc;
 
     --bg-grad-color: linear-gradient(129deg, #cbcbcba6 0%, rgb(219 219 219 / 60%) 36%, #25daff24 100%);
+    --bg-grad-grey: linear-gradient(129deg, #f2f2f2 0%, rgb(234 234 234 / 69%) 36%, #e2e2e2 100%);
     --bg-backup: #25daff24;
     --container-bg-color: #fff;
     
@@ -409,6 +410,12 @@ a:hover, .anchor-link:hover {
     z-index: 2;
 }
 
+.vert-rule {
+    padding-right: 20px;
+    margin-right: 20px;
+    border-right: 1px solid var(--light-line);
+}
+
 /* Forms */
 
 label {
@@ -425,7 +432,8 @@ textarea.no-padding-on-focus:focus {
     padding: 5px 10px!important;
 }
 
-input, textarea, .vscomp-toggle-button {
+input, textarea, .vscomp-toggle-button,
+.stripe-cc-input {
     border: none!important;
     border-bottom: 2px solid var(--light-line)!important;
     padding: 5px 10px!important;
@@ -439,13 +447,14 @@ input, textarea, .vscomp-toggle-button {
 }
 
 input:focus, input:active, input:focus-visible, 
-textarea:focus, .vscomp-wrapper.opened > .vscomp-toggle-button {
+textarea:focus, .vscomp-wrapper.opened > .vscomp-toggle-button,
+.StripeElement--focus {
     border-bottom: 2px solid var(--primary-color)!important;
     padding: 10px 10px 10px 15px!important;
     box-shadow: none!important;
 }
 
-input:invalid:focus {
+input:invalid:focus, .stripe-cc-input:invalid:focus {
     border-bottom: 2px solid var(--error-highlight);
     padding: 10px 10px 10px 15px;
 }

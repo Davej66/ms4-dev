@@ -1,13 +1,11 @@
 {% extends 'includes/base.html' %}
 {% load static %}
 
-{% block content %}
-this is the summary page
-{{package.name}}
-{{package_cost}}
-{{stripe_customer}}
-{{stripe_price_id}}
+{% block post_CSS %}
+<link rel="stylesheet" href="{% static 'checkout/css/checkout.css' %}">
+{% endblock %}
 
+{% block content %}
 
 {% if messages %}
 <ul class="messages">
@@ -16,23 +14,82 @@ this is the summary page
         {% endfor %}
 </ul>
 {% endif %}
+
 <section class="light-page screen-height section-with-padding">
     <div class="nav-top-padding"></div>
-    <div class="container-fluid w-100 m-auto py-5 px-0 centered-col-large-page">
-        <h1 class="header-underline-after">Select Your Subscription</h1>
+    <div class="container-fluid m-auto py-5 px-0 centered-col-large-page">
+        <h1 class="header-underline-after">Order Summary</h1>
+    </div>
+    <div class="mb-3 card muted z-2">
+        <form id="payment_form" method="POST"> {% csrf_token %}
+            <div class="row order-confirmation">
+                <div class="container-fluid col-12 col-md-6">
+                    <h3 class="card-section-header mb-3">Complete Your Details</h3>
+                    <!-- Payment form -->
 
+                    <fieldset>
+                        <div class="input-row d-flex justify-content-between">
+                            <div class="fieldset">
+                                <label for="first_name">First Name</label>
+                                <input type="text" id="first_name" name="first_name" value="{{this_user.first_name}}"
+                                    autofocus>
+                            </div>
 
+                            <div class="fieldset">
+                                <label for="last_name">Last Name</label>
+                                <input type="text" id="last_name" name="last_name" value="{{this_user.last_name}}">
+                            </div>
+                        </div>
+                        <div class="fieldset">
+                        <label for="card_element">Card Details</label>
+                        <div class="stripe-cc-input" id="card_element"></div>
+                        <div id="card_errors"></div>
+                    </div>
+                    </fieldset>
 
-        <!-- Payment form -->
-        <form action="" id="payment_form" method="POST"> {% csrf_token %}
-            <fieldset>
-                <legend>Payment here</legend>
-                <div id="card_element"></div>
-                <div id="card_errors">
                 </div>
-                <input type="submit" name="" id="submit_button">Click me</input>
-            </fieldset>
+                <span class="vert-rule d-none d-md-flex col-1"></span>
+                <hr class="d-md-none my-4">
+                <div class="container-fluid col-12 col-md-4">
+                    <h3 class="card-section-header mb-3">Order Summary</h3>
+
+                    <!-- Package card -->
+                    <div class="order-details-summary card muted">
+                        <span class="d-flex justify-content-between">
+                            <p>Everyday Account</p>
+                            <p>£9.99<label class="fs-9">monthly</label> </p>
+                        </span>
+                        <ul class="order-details-features">
+                            <li>
+                                <i class="fas fa-check"></i> Great feature
+                            </li>
+                            <li>
+                                <i class="fas fa-check"></i> Great feature
+                            </li>
+                        </ul>
+                    </div>
+
+                    <hr class="my-4">
+                    <span class="d-flex justify-content-between">
+                        <label>Subtotal</label>
+                        <p>£9.99</p>
+                    </span>
+                    <span class="d-flex justify-content-between">
+                        <label>Tax</label>
+                        <p>£0.00</p>
+                    </span>
+                    <span class="d-flex justify-content-between total-due">
+                        <p>Total due today</p>
+                        <p>£0.00</p>
+                    </span>
+                    <hr class="my-4">
+                    <button type="submit" id="submit_button" class="btn primary-btn large w-100 py-3">Confirm Subscription</button>
+                </div>
+            </div>
         </form>
+    </div>
+
+
     </div>
 </section>
 
@@ -40,7 +97,7 @@ this is the summary page
 
     // $(document).ready(function () {
     //     const csrftoken = Cookies.get('csrftoken');
-        
+
     //     fetch('/checkout/create_subscription', {
     //         method: 'POST',
     //         headers: {

@@ -131,9 +131,6 @@ def all_users(request):
     return render(request, 'users/all_user_list.html', context)
 
 
-""" AJAX REQUESTS """
-
-# Ajax function inspiration from Coding with Mitch tutorials - https://codingwithmitch.com/
 @ verified_email_required
 def dashboard_my_orders(request):
 
@@ -142,58 +139,68 @@ def dashboard_my_orders(request):
 
     user = MyAccount.objects.get(email=request.user)
     stripe_customer_id = user.stripe_customer_id
+    
+    if stripe_customer_id:
 
-    invoices = stripe.Invoice.list(
-        limit = 3,
-        customer = stripe_customer_id)
+        invoices = stripe.Invoice.list(
+            limit = 3,
+            customer = stripe_customer_id)
 
-    upcoming_invoice=stripe.Invoice.upcoming(
-        customer = stripe_customer_id,
-        )
+        upcoming_invoice=stripe.Invoice.upcoming(
+            customer = stripe_customer_id,
+            )
 
-    up_inv_period=upcoming_invoice.lines.data[0].period
-    package_id=upcoming_invoice.lines.data[0].price.id
-    get_package_object=Package.objects.get(stripe_price_id = package_id)
+        up_inv_period=upcoming_invoice.lines.data[0].period
+        package_id=upcoming_invoice.lines.data[0].price.id
+        get_package_object=Package.objects.get(stripe_price_id = package_id)
 
-    upcoming_invoice_dict={
-        "date": datetime.fromtimestamp(
-            upcoming_invoice.created).strftime('%d %b %Y'),
-        "balance": upcoming_invoice.amount_due / 100,
-        "period_start": datetime.fromtimestamp(up_inv_period.start).strftime(
-            '%d %b %Y'),
-        "period_end": datetime.fromtimestamp(up_inv_period.end).strftime(
-            '%d %b %Y'),
-        "package": get_package_object
-    }
-
-
-    invoice_list = []
-
-    for i in invoices:
-        period = i.lines.data[0].period
-        invoice_date = datetime.fromtimestamp(i.created).strftime(
-            '%d %b %Y')
-        start_date=datetime.fromtimestamp(period.start).strftime(
-            '%d %b')
-        end_date=datetime.fromtimestamp(period.end).strftime(
-            '%d %b %Y')
-        invoice_data={
-            "invoice_date": invoice_date,
-            "date_start": start_date,
-            "date_end": end_date,
-            "amount": i.total / 100,
-            "download_url": i.invoice_pdf
+        upcoming_invoice_dict={
+            "date": datetime.fromtimestamp(
+                upcoming_invoice.created).strftime('%d %b %Y'),
+            "balance": upcoming_invoice.amount_due / 100,
+            "period_start": datetime.fromtimestamp(up_inv_period.start).strftime(
+                '%d %b %Y'),
+            "period_end": datetime.fromtimestamp(up_inv_period.end).strftime(
+                '%d %b %Y'),
+            "package": get_package_object
         }
-        invoice_list.append(invoice_data)
 
-    context = {
-        'invoices': invoice_list,
-        'upcoming_invoice': upcoming_invoice_dict
-        }
+
+        invoice_list = []
+
+        for i in invoices:
+            period = i.lines.data[0].period
+            invoice_date = datetime.fromtimestamp(i.created).strftime(
+                '%d %b %Y')
+            start_date=datetime.fromtimestamp(period.start).strftime(
+                '%d %b')
+            end_date=datetime.fromtimestamp(period.end).strftime(
+                '%d %b %Y')
+            invoice_data={
+                "invoice_date": invoice_date,
+                "date_start": start_date,
+                "date_end": end_date,
+                "amount": i.total / 100,
+                "download_url": i.invoice_pdf
+            }
+            invoice_list.append(invoice_data)
+
+        context = {
+            'invoices': invoice_list,
+            'upcoming_invoice': upcoming_invoice_dict
+            }
+        return render(request, 'users/user_orders.html', context)
+    
+    else:
+        
+        context = {
+            'invoices': None,
+            }
 
     return render(request, 'users/user_orders.html', context)
 
 
+""" AJAX REQUESTS """
 # Connection functions using AJAX
 @verified_email_required
 def add_friend(request, **kwargs):

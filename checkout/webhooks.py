@@ -27,10 +27,8 @@ def webhook(request):
         )
     except ValueError as e:
         # Invalid payload
-        print("not so Success")
         return HttpResponse(status=400)
     except Exception as e:
-        print("Failed")
         return HttpResponse(content=e, status=400)
 
     #  Init webhook handler
