@@ -1,7 +1,8 @@
 from django import http
 from django.shortcuts import (
-    render, redirect, get_object_or_404, reverse, HttpResponseRedirect)
-from django.http import JsonResponse
+    render, redirect, get_object_or_404)
+from django.http import JsonResponse, HttpResponse
+from django.template.loader import render_to_string
 from django.views.decorators.http import require_POST
 from django.conf import settings
 from django.contrib import messages
@@ -40,15 +41,13 @@ def store_selection(request):
         package = request.POST['package_id']
         request.session['package_selection'] = package
 
-        return JsonResponse({'response': "Package selection was added to user's session.",
-                         'proceed': True})
+        return redirect('summary')
 
     return JsonResponse({'response': "Something went wrong, please try again",
                          'proceed': False})
 
 
-
-# TODO - DO WE NEED THIS FUNCTION 
+# TODO - DO WE NEED THIS FUNCTION
 def package_selection(request, package_id, **kwargs):
 
     stripe_pk = settings.STRIPE_PUBLIC_KEY
@@ -103,18 +102,26 @@ def package_selection(request, package_id, **kwargs):
 
 def confirm_order(request):
 
+    # Remove all pre-existing messages on page load.
+    # Credits: SpiXel in this SO thread: https://stackoverflow.com/questions/39518310/delete-all-django-contrib-messages
+    storage = messages.get_messages(request)
+    storage.used = True
+
     stripe_pk = settings.STRIPE_PUBLIC_KEY
     stripe_sk = settings.STRIPE_SECRET_KEY
     stripe.api_key = stripe_sk
-    
+
     user_email = request.user
     user = MyAccount.objects.get(email=user_email)
     name = user.first_name + " " + user.last_name
 
     package_selection = int(request.session['package_selection'])
-    print("selected package",package_selection)
     package_item = Package.objects.get(tier=package_selection)
-    print("selected package name",package_item, package_selection)
+
+    # If user attempting to purchase the same subscription, send them to their orders
+    if user.package_tier is package_selection:
+        messages.error(request, "You are already subscribed to this package!")
+        return redirect('get_my_orders')
 
     if not stripe_pk:
         messages.warning(request, "No public key found for Stripe")
@@ -124,25 +131,24 @@ def confirm_order(request):
         try:
             customer_str_id = stripe.Customer.create(
                 email=user_email
-                )
-                
+            )
+
             user.stripe_customer_id = customer_str_id.id
             user.save()
             pass
-            
-                
+
         except Exception as e:
             error = str(e)
             print("error", e)
             return error
     else:
         print("customer found:", user.stripe_customer_id)
-            
+
     # Check for existing stripe sub ID and create if not found
-    if user.stripe_subscription_id is None:
-        
+    if not user.stripe_subscription_id:
+
         print("package:", package_item.stripe_price_id)
-            
+
         try:
             subscription = stripe.Subscription.create(
                 customer=user.stripe_customer_id,
@@ -151,51 +157,50 @@ def confirm_order(request):
                 }],
                 payment_behavior='default_incomplete',
                 expand=['latest_invoice.payment_intent'],
-                )
-                
+            )
+
             user.stripe_subscription_id = subscription.id
             user.save()
-            return JsonResponse({'subId': subscription.id, 'clientSecret': subscription.latest_invoice.payment_intent.client_secret})
+            pass
 
         except Exception as e:
             print("didnt work")
             return JsonResponse({'message': "e.user_message"}), 400
     else:
-        print("customer found:", user.stripe_customer_id) 
-
+        subscription = stripe.Subscription.retrieve(
+            user.stripe_subscription_id,
+            expand=['latest_invoice.payment_intent'])
+        print("sub key", subscription.latest_invoice.payment_intent.client_secret)
 
     if request.method == 'POST':
-        
-        
-            
-        profile_form_data = {
-            "package_tier": package_item.tier,
-            "package_name": package_item,
-            'stripe_customer_id': "stripe_customer"
-        }
-        order_form_data = {
-            "buyer_name": name.title(),
-            "buyer_email": user_email,
-            "package_purchased": package_item.name,
-            "order_total": package_item.price,
-            "stripe_invoice_id": "subscription.latest_invoice"
-        }
-        profile_form = UpdateUserPackage(
-            profile_form_data, instance=request.user)
-        order_form = OrderForm(order_form_data)
-        if order_form.is_valid() and profile_form.is_valid():
-            order = order_form.save()
-            profile_form.save()
-            return redirect(reverse('order_confirmation', args=[order.order_id]))
-        else:
-            print("errors order in the view:",
-                  profile_form.errors, order_form.errors)
-            messages.error(request, "There was an error in your form")
+
+        user.package_tier = package_item.tier
+        user.package_name = package_item.name
+        user.save()
+
+        order_exists = Order.objects.get(
+            stripe_invoice_id=subscription.latest_invoice.id)
+
+        if not order_exists:
+            order_form_data = {
+                "buyer_name": name.title(),
+                "buyer_email": user_email,
+                "package_purchased": package_item,
+                "order_total": package_item.price,
+                "stripe_invoice_id": subscription.latest_invoice.id
+            }
+            order_form = OrderForm(order_form_data)
+            if order_form.is_valid():
+                order_form.save()
+
+            else:
+                print("errors order in the view:", order_form.errors)
+                messages.error(request, "There was an error in your form")
 
     context = {
         "stripe_public_key": stripe_pk,
-        "stripe_price_id": "stripe_price_id",
-        "stripe_customer": "stripe_customer",
+        'subId': subscription.id,
+        'stripe_client_secret': subscription.latest_invoice.payment_intent.client_secret
     }
 
     return render(request, 'checkout/confirm_order.html', context)
@@ -205,9 +210,9 @@ def checkout(request):
 
     return render(request, 'checkout/checkout.html')
 
-
+# TODO - could delete below function
 # Create a stripe subscription when package selected
-def create_stripe_subscription(request):
+# def create_stripe_subscription(request):
     stripe_sk = settings.STRIPE_SECRET_KEY
     stripe.api_key = stripe_sk
 

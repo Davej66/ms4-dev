@@ -191,10 +191,7 @@ def dashboard_my_orders(request):
         'upcoming_invoice': upcoming_invoice_dict
         }
 
-
-
-    payload = render_to_string('users/includes/dashboard_orders.html', context)
-    return HttpResponse(json.dumps(payload), content_type="application/json")
+    return render(request, 'users/user_orders.html', context)
 
 
 # Connection functions using AJAX
