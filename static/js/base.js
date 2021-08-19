@@ -7,7 +7,12 @@ $(document).scroll(function () {
     }
 });
 
+// Remove loading spinner from page
+window.addEventListener('load', () => {
+    $('.page-load-spinner').fadeOut();
+});
 
+// Load the below when page in a 'ready' state
 $(document).ready(function () {
 
     var dropdownId = $('.dropdown-toggle').attr('id');
