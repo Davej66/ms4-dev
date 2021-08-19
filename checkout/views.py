@@ -117,13 +117,12 @@ def confirm_order(request):
     package_selection = int(request.session['package_selection'])
     package_item = Package.objects.get(tier=package_selection)
     print("in session", package_selection)
-    
+
     if not stripe_pk:
         messages.warning(request, "No public key found for Stripe")
 
     # If user attempting to purchase the same subscription, send them to their orders
     if user.package_tier is package_selection:
-        print("in session", package_selection)
         messages.error(request, "You are already subscribed to this package!")
         return redirect('get_my_orders')
     # elif user.package_tier:
@@ -133,7 +132,8 @@ def confirm_order(request):
     if not user.stripe_customer_id:
         try:
             customer_str_id = stripe.Customer.create(
-                email=user_email
+                email=user_email,
+                name=name
             )
 
             user.stripe_customer_id = customer_str_id.id
@@ -144,8 +144,6 @@ def confirm_order(request):
             error = str(e)
             print("error", e)
             return error
-    else:
-        print("customer found:", user.stripe_customer_id)
 
     # Check for existing stripe sub ID and create if not found
     if not user.stripe_subscription_id:
@@ -171,11 +169,29 @@ def confirm_order(request):
             user.stripe_subscription_id,
             expand=['latest_invoice.payment_intent'])
 
+    customer = stripe.Customer.retrieve(
+        user.stripe_customer_id)
+
     if request.method == 'POST':
 
         user.package_tier = package_item.tier
         user.package_name = package_item.name
+        user.first_name = request.POST.get('first_name')
+        user.last_name = request.POST.get('last_name')
+        user.email = request.POST.get('email')
         user.save()
+
+        # If user updates their details on form, update their account
+        user_email = request.POST.get('email')
+        name = request.POST.get('first_name') + " " + \
+            request.POST.get('last_name')
+
+        # Update the stripe customer with name and email
+        stripe.Customer.modify(
+            user.stripe_customer_id,
+            email=user_email,
+            name=name,
+        )
 
         try:
             order_exists = Order.objects.get(
@@ -198,18 +214,19 @@ def confirm_order(request):
             else:
                 messages.error(request, "There was an error in your form")
 
-            messages.success(request, "Thank you for signing up," +  
+            messages.success(request, "Thank you for signing up," +
                              "you can see all previous orders in the 'My Orders' section below!")
             return redirect('get_my_orders')
         else:
-            messages.success(request, "Looks like you already have a bill for this order." +  
+            messages.success(request, "Looks like you already have a bill for this order." +
                              "You can see all previous orders in the 'My Orders' section below!")
             return redirect('get_my_orders')
-            
+
     context = {
         "stripe_public_key": stripe_pk,
         'subId': subscription.id,
-        'stripe_client_secret': subscription.latest_invoice.payment_intent.client_secret
+        'stripe_client_secret': subscription.latest_invoice.payment_intent.client_secret,
+        'package_selected': package_item
     }
 
     return render(request, 'checkout/confirm_order.html', context)
@@ -222,43 +239,43 @@ def checkout(request):
 # TODO - could delete below function
 # Create a stripe subscription when package selected
 # def create_stripe_subscription(request):
-    stripe_sk = settings.STRIPE_SECRET_KEY
-    stripe.api_key = stripe_sk
+    # stripe_sk = settings.STRIPE_SECRET_KEY
+    # stripe.api_key = stripe_sk
 
-    user = MyAccount.objects.get(email=request.user)
-    data = request.body
-    customer = data['customerId']
-    price_id = data['priceId']
+    # user = MyAccount.objects.get(email=request.user)
+    # data = request.body
+    # customer = data['customerId']
+    # price_id = data['priceId']
 
-    if not user.stripe_subscription_id:
-        try:
-            subscription = stripe.Subscription.create(
-                customer=customer,
-                items=[{
-                    'price': price_id
-                }],
-                payment_behavior='default_incomplete',
-                expand=['latest_invoice.payment_intent'],
-            )
+    # if not user.stripe_subscription_id:
+    #     try:
+    #         subscription = stripe.Subscription.create(
+    #             customer=customer,
+    #             items=[{
+    #                 'price': price_id
+    #             }],
+    #             payment_behavior='default_incomplete',
+    #             expand=['latest_invoice.payment_intent'],
+    #         )
 
-            add_sub_form_data = {
-                "stripe_subscription_id": subscription.id
-            }
+    #         add_sub_form_data = {
+    #             "stripe_subscription_id": subscription.id
+    #         }
 
-            profile_form = AddUserSubscription(
-                add_sub_form_data, instance=request.user)
-            print("prf", profile_form.errors)
-            if profile_form.is_valid():
-                profile_form.save()
-            else:
-                messages.error(
-                    request, "There has been an error updating your subscription. Please reload the page to try again.")
+    #         profile_form = AddUserSubscription(
+    #             add_sub_form_data, instance=request.user)
+    #         print("prf", profile_form.errors)
+    #         if profile_form.is_valid():
+    #             profile_form.save()
+    #         else:
+    #             messages.error(
+    #                 request, "There has been an error updating your subscription. Please reload the page to try again.")
 
-            return JsonResponse({'subId': subscription.id, 'clientSecret': subscription.latest_invoice.payment_intent.client_secret})
+    #         return JsonResponse({'subId': subscription.id, 'clientSecret': subscription.latest_invoice.payment_intent.client_secret})
 
-        except Exception as e:
-            print("didnt work", e.user_message)
-            return JsonResponse({'message': e.user_message}), 400
+    #     except Exception as e:
+    #         print("didnt work", e.user_message)
+    #         return JsonResponse({'message': e.user_message}), 400
     # else:
     #     subscription = stripe.Subscription.retrieve(
     #         user.stripe_subscription_id,
@@ -320,39 +337,39 @@ def order_confirmation(request, order_id):
     return render(request, 'checkout/order_confirmation.html', context)
 
 
-def list_stripe_invoices(request):
+# def list_stripe_invoices(request):
 
-    # stripe_pk = settings.STRIPE_PUBLIC_KEY
-    stripe_sk = settings.STRIPE_SECRET_KEY
-    stripe.api_key = stripe_sk
+#     # stripe_pk = settings.STRIPE_PUBLIC_KEY
+#     stripe_sk = settings.STRIPE_SECRET_KEY
+#     stripe.api_key = stripe_sk
 
-    user = MyAccount.objects.get(email=request.user)
-    stripe_customer_id = user.stripe_customer_id
+#     user = MyAccount.objects.get(email=request.user)
+#     stripe_customer_id = user.stripe_customer_id
 
-    invoices = stripe.Invoice.list(
-        limit=10,
-        customer=stripe_customer_id)
-    print("invoices", invoices)
-    invoice_list = []
+#     invoices = stripe.Invoice.list(
+#         limit=10,
+#         customer=stripe_customer_id)
+#     print("invoices", invoices)
+#     invoice_list = []
 
-    for i in invoices:
-        invoice_date = datetime.fromtimestamp(i.created).strftime(
-            '%Y-%m-%d %H:%M:%S')
-        start_date = datetime.fromtimestamp(i.period_start).strftime(
-            '%Y-%m-%d %H:%M:%S')
-        end_date = datetime.fromtimestamp(i.period_end).strftime(
-            '%Y-%m-%d %H:%M:%S')
-        invoice_data = {
-            "invoice_date": invoice_date,
-            "date_start": start_date,
-            "date_end": end_date,
-            "amount": i.lines.data[0].amount / 100,
-            "download_url": i.invoice_pdf
-        }
-        invoice_list.append(invoice_data)
+#     for i in invoices:
+#         invoice_date = datetime.fromtimestamp(i.created).strftime(
+#             '%Y-%m-%d %H:%M:%S')
+#         start_date = datetime.fromtimestamp(i.period_start).strftime(
+#             '%Y-%m-%d %H:%M:%S')
+#         end_date = datetime.fromtimestamp(i.period_end).strftime(
+#             '%Y-%m-%d %H:%M:%S')
+#         invoice_data = {
+#             "invoice_date": invoice_date,
+#             "date_start": start_date,
+#             "date_end": end_date,
+#             "amount": i.lines.data[0].amount / 100,
+#             "download_url": i.invoice_pdf
+#         }
+#         invoice_list.append(invoice_data)
 
-    print(invoice_list)
-    context = {
-        'invoices': invoice_list
-    }
-    return render(request, 'checkout/invoices.html', context)
+#     print(invoice_list)
+#     context = {
+#         'invoices': invoice_list
+#     }
+#     return render(request, 'checkout/invoices.html', context)

@@ -52,17 +52,13 @@ card.addEventListener('change', function (event) {
 })
 
 // Handle form submit
-$('#payment_form').on('click', async (event) => {
+$('#submit_button').on('click', async (event) => {
     event.preventDefault();
 
     card.update({ 'disabled': true })
+    $('.processing-spinner').css('display', 'flex').hide().fadeIn();
     $('#submit_button').attr('disabled', true);
     $('#submit_button').addClass('disabled');
-
-    var url = window.location.href
-    var postData = {
-        'csrfmiddlewaretoken': csrftoken,
-    }
 
     stripe.confirmCardPayment(stripeClientSecret, {
         payment_method: {
@@ -82,6 +78,7 @@ $('#payment_form').on('click', async (event) => {
             `
             card.update({ 'disabled': false });
             errorDiv.html(html);
+            $('.processing-spinner').fadeOut();
             $('#submit_button').attr('disabled', false);
             $('#submit_button').removeClass('disabled');
         } else {

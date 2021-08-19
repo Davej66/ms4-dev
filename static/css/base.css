@@ -414,6 +414,7 @@ a:hover, .anchor-link:hover {
     padding-right: 20px;
     margin-right: 20px;
     border-right: 1px solid var(--light-line);
+    width: 0px;
 }
 
 /* Forms */

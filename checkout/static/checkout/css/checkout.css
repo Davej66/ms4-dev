@@ -78,11 +78,29 @@
 
 /* PAYMENT FORM */
 .order-confirmation {
-    
+    position: relative;
 }
 
-.order-confirmation >  {
+.processing-spinner  {
+    position: absolute;
+    display: none;
+    height: 100%;
+    width: 100%;
+    background: #f0f0f07a;
+    top: 0;
+    left: 0;
+    border-radius: 20px;
+    z-index: 99;
+}
 
+.processing-spinner > .spinner {
+    height: 60px;
+    width: 60px;
+    margin: auto;
+    border-radius: 50px;
+    border: 10px solid var(--primary-color);
+    border-right: 10px solid var(--accent-color);
+    animation: spinner 1.0s infinite linear;
 }
 
 .card-section-header {
@@ -101,10 +119,6 @@
     bottom: -25%;
     right: 0;
     z-index: -1;
-}
-
-.stripe-cc-input {
-    margin: 10px;
 }
 
 #card_errors {
@@ -133,4 +147,22 @@ ul.order-details-features {
 .total-due p {
     font-size: 20px;
     font-weight: 400;
+}
+
+#payment_disclaimer {
+    font-size: 12px;
+    margin: 0px 10px;
+}
+
+/* ANIMATIONS */
+
+@keyframes spinner {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
 }

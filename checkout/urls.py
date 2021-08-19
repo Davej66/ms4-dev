@@ -10,6 +10,6 @@ urlpatterns = [
     # path('confirm_order/', views.confirm_order, name="confirm_order"),
     # path('create_subscription', views.create_stripe_subscription, name="create_subcription"),
     path('update_subscription', views.update_stripe_subscription, name="update_subscription"),
-    path('invoices', views.list_stripe_invoices, name="my_invoices"),
+    # path('invoices/', views.list_stripe_invoices, name="my_invoices"),
     path('wh/', webhook, name="webhook")
 ]

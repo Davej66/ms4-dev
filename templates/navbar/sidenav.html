@@ -4,8 +4,8 @@
         {% with request.resolver_match.url_name as url_name %}
         <div class="sidebar-profile-details">
             <div class="sidenav-image-container prf-img-preview-wrapper mx-auto mb-4">
-                <img class="prf-img-preview" src="{{profile_image}}" 
-                alt="{{full_name}}'s profile image" onload="specImageOrientation(this);">
+                <img class="prf-img-preview" src="{{profile_image}}" alt="{{full_name}}'s profile image"
+                    onload="specImageOrientation(this);">
             </div>
             <div class="sidenav-detail-text">
                 <h2>{{full_name}}</h2>
@@ -21,9 +21,11 @@
                     class="fas fa-address-book sidebar-icon-item "></i>
                 <span class="sidebar-text-item">My Projects</span>
             </li>
-            <li onclick="get_ajax_data(`{% url 'get_my_orders' %}`)"><i
-                    class="fas fa-address-book sidebar-icon-item "></i>
-                <span class="sidebar-text-item">My Orders</span>
+            <li>
+               <a href="{% url 'get_my_orders' %}" class="sidebar-text-item">
+                    <i class="fas fa-address-book sidebar-icon-item "></i>
+                    My Orders
+                </a>
             </li>
             <li><i class="fas fa-address-book sidebar-icon-item "></i>
                 <span class="sidebar-text-item">Signout</span>

@@ -5,6 +5,8 @@
 <link rel="stylesheet" href="{% static 'checkout/css/checkout.css' %}">
 {% endblock %}
 
+{% block head_title %}Confirm Order{% endblock %}
+
 {% block content %}
 
 {% if messages %}
@@ -20,32 +22,47 @@
     <div class="container-fluid m-auto py-5 px-0 centered-col-large-page">
         <h1 class="header-underline-after">Order Summary</h1>
     </div>
-    <div class="mb-3 card muted z-2">
+    <div class="m-auto mb-3 card muted z-2 centered-col-large-page order-confirmation">
+        <div class="processing-spinner">
+            <span class="spinner"></span>
+        </div>
         <form id="payment_form" method="POST"> {% csrf_token %}
-            <div class="row order-confirmation">
+            <div class="row">
                 <div class="container-fluid col-12 col-md-6">
-                    <h3 class="card-section-header mb-3">Complete Your Details</h3>
+                    <h3 class="card-section-header mb-3">Complete Your Payment</h3>
                     <!-- Payment form -->
 
-                    <fieldset>
+                    <fieldset class="mt-5">
                         <div class="input-row d-flex justify-content-between">
                             <div class="fieldset">
                                 <label for="first_name">First Name</label>
                                 <input type="text" id="first_name" name="first_name" value="{{this_user.first_name}}"
-                                    autofocus>
+                                    pattern="[A-Za-z]" min-length="2" max-length="50" required>
                             </div>
 
                             <div class="fieldset">
                                 <label for="last_name">Last Name</label>
-                                <input type="text" id="last_name" name="last_name" value="{{this_user.last_name}}">
+                                <input type="text" id="last_name" name="last_name" value="{{this_user.last_name}}"
+                                    pattern="[A-Za-z]" min-length="2" max-length="50" required>
+                            </div>
+                        </div>
+                        <div class="input-row d-flex justify-content-between">
+                            <div class="fieldset">
+                                <label for="email">Email</label>
+                                <input type="email" id="email" name="email" value="{{this_user.email}}" required>
                             </div>
                         </div>
                         <div class="fieldset">
-                        <label for="card_element">Card Details</label>
-                        <div class="stripe-cc-input" id="card_element"></div>
-                        <div id="card_errors"></div>
-                    </div>
+                            <label for="card_element">Card Details</label>
+                            <div class="stripe-cc-input" id="card_element"></div>
+                            <div id="card_errors"></div>
+                        </div>
                     </fieldset>
+                    <label id="payment_disclaimer">Your card details are processed and stored as the default payment
+                        method within our third party payment provider <a href="https://stripe.com"
+                            target="_blank">Stripe</a>, who will attempt to charge this card on a monthly basis until
+                        you cancel.<br><br>Our site does not store these details, and we do not have access
+                        to them through the Stripe interface.</label>
 
                 </div>
                 <span class="vert-rule d-none d-md-flex col-1"></span>
@@ -56,8 +73,8 @@
                     <!-- Package card -->
                     <div class="order-details-summary card muted">
                         <span class="d-flex justify-content-between">
-                            <p>Everyday Account</p>
-                            <p>£9.99<label class="fs-9">monthly</label> </p>
+                            <p>{{package_selected.name}}</p>
+                            <p>£{{package_selected.price}} <label class="fs-9"> monthly</label> </p>
                         </span>
                         <ul class="order-details-features">
                             <li>
@@ -66,24 +83,31 @@
                             <li>
                                 <i class="fas fa-check"></i> Great feature
                             </li>
+                            {% if package_selected.tier is 2 %}
+                            <li>
+                                <i class="fas fa-check"></i> Great feature
+                            </li>
+                            {% elif package_selected.tier is 3 %}
+                            <li>
+                                <i class="fas fa-check"></i> Great feature
+                            </li>
+                            {% endif %}
                         </ul>
                     </div>
 
                     <hr class="my-4">
                     <span class="d-flex justify-content-between">
                         <label>Subtotal</label>
-                        <p>£9.99</p>
-                    </span>
-                    <span class="d-flex justify-content-between">
-                        <label>Tax</label>
-                        <p>£0.00</p>
+                        <p>£{{package_selected.price}}</p>
                     </span>
                     <span class="d-flex justify-content-between total-due">
                         <p>Total due today</p>
-                        <p>£0.00</p>
+                        <p>£{{package_selected.price}}</p>
                     </span>
+                    <label class="w-100 text-end">billed monthly</label>
                     <hr class="my-4">
-                    <button type="submit" id="submit_button" class="btn primary-btn large w-100 py-3">Confirm Subscription</button>
+                    <button type="submit" id="submit_button" class="btn primary-btn large w-100 py-3">Confirm
+                        Subscription</button>
                 </div>
             </div>
         </form>
@@ -92,34 +116,6 @@
 
     </div>
 </section>
-
-<script>
-
-    // $(document).ready(function () {
-    //     const csrftoken = Cookies.get('csrftoken');
-
-    //     fetch('/checkout/create_subscription', {
-    //         method: 'POST',
-    //         headers: {
-    //             'Content-Type': 'application/json',
-    //             'X-CSRFToken': csrftoken,
-    //         },
-    //         body: {
-    //             'priceId': ("{{stripe_price_id}}"),
-    //             'customerId': "{{stripe_customer}}",
-    //         },
-    //     })
-    //         .then(response => {
-    //             // console.log(response.json())
-    //             return response.json() //Convert response to JSON
-    //         })
-    //         .then(data => {
-    //             console.log("receiving", data.clientSecret)
-    //             submitCard(data.clientSecret)
-    //             //Perform actions with the response data from the view
-    //         })
-    // })
-</script>
 
 {% endblock %}
 
