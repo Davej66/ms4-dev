@@ -6,7 +6,7 @@
 <link rel="stylesheet" href="{% static 'users/css/users.css' %}">
 {% endblock %}
 
-{% block head_title %}Dashboard{% endblock %}
+{% block head_title %}My Orders{% endblock %}
 {% block content %}
 
 {% if messages %}
@@ -27,8 +27,11 @@
 
             <!-- MAIN PAGE CONTENT -->
             <div class="container nav-top-padding">
-                <section id="ajax_content" class="pg-section py-5 min-vh section-with-padding">
-                    
+                <section class="pg-section py-5 min-vh section-with-padding">
+                    <div class="container-box-header pb-4">
+                        <h1 class="header-underline-after">My Orders</h1>
+                    </div>
+
 
                     <!-- TOP SECTION CARDS -->
                     <div class="container w-100 d-flex justify-content-center align-items-stretch mb-4 fade-in">
@@ -56,42 +59,49 @@
                         <div class="d-flex justify-content-between row w-100">
                             <!-- Start the Ajax Content Section -->
                             <div id="main_ajax_content" class="content col-12">
-                                <div class="container-box-header pb-4">
-                                    <h1>My Subscription</h1>
-                                </div>
-                                <div class="container-rounded-light mb-3">
-                                    <h3>Upcoming Order</h3>
-
-                                    {{upcoming_invoice}}
+                               <div class="card muted z-2">
+                                    <h3 class="edit-profile-section-header mb-3">Upcoming Order</h3>
                                     <div
-                                        class="my-orders-item no-b-line d-flex flex-lg-row flex-column flex-md-column  mb-5">
-                                        <div class="order-detail col-lg-2 col-12">
+                                        class="my-orders-item no-b-line d-flex flex-column flex-md-row mb-5 text-centertext-md-start">
+                                        <div class="order-detail">
+                                            <label class="table-item-label">Order #</label>
+                                            <p>
+                                                -
+                                            </p>
+                                        </div>
+                                        <div class="order-detail ">
                                             <label class="table-item-label">Billing Date</label>
                                             <p>
                                                 {{upcoming_invoice.date}}
                                             </p>
                                         </div>
-                                        <div class="order-detail col-lg-3 col-12">
+                                        <div class="order-detail">
                                             <label class="table-item-label">Invoice Period</label>
                                             <p>
                                                 {{upcoming_invoice.period_start}} - {{upcoming_invoice.period_end}}
                                             </p>
                                         </div>
-                                        <div class="order-detail col-lg-2 col-12">
+                                        <div class="order-detail">
                                             <label class="table-item-label">Amount Due</label>
                                             <p>
-                                                £{{upcoming_invoice.balance}}
+                                                £{{upcoming_invoice.balance|floatformat:2}}
                                             </p>
                                         </div>
-                                        <div class="order-detail col-lg-3 col-12">
-                                            <a type="button" class="btn primary-btn-outline m-auto"
+                                        <div class="order-detail">
+                                            <a type="button" class="btn secondary-btn m-auto"
                                                 href="{% url 'update_subscription' %}">Update Subscription</a>
                                         </div>
                                     </div>
-                                    <h3>Previous Orders</h3>
+                                    <h3 class="edit-profile-section-header mb-3">Previous Orders</h3>
                                     {% for invoice in invoices %}
 
                                     <div class="my-orders-item d-flex">
+                                        <div class="order-detail">
+                                            <label class="table-item-label">Order #</label>
+                                            <p>
+                                                -
+                                            </p>
+                                        </div>
                                         <div class="order-detail">
                                             <label class="table-item-label">Invoice Date</label>
                                             <p>
@@ -111,7 +121,7 @@
                                             </p>
                                         </div>
                                         <div class="order-detail">
-                                            <a class="btn primary-btn m-auto" href="{{invoice.download_url}}">Download
+                                            <a class="btn primary-btn-outline-color py-1 px-2 m-auto" href="{{invoice.download_url}}"><i class="fas fa-download px-1"></i> Download
                                                 Invoice</a>
                                         </div>
                                     </div>
@@ -174,11 +184,11 @@
                 </button>
             </div>
             <div class="modal-body">
-                
-                    <button onclick="update_subscription(1)">Free</button>
-                    <button onclick="update_subscription(2)">Everyday</button>
-                    <button onclick="update_subscription(3)">Pro</button>
-                
+
+                <button onclick="update_subscription(1)">Free</button>
+                <button onclick="update_subscription(2)">Everyday</button>
+                <button onclick="update_subscription(3)">Pro</button>
+
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

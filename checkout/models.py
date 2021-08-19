@@ -2,13 +2,14 @@ from django.db import models
 from django.db.models import Sum
 from django.conf import settings
 from packages.models import Package
+from users.models import MyAccount
 
 import uuid
 
-# Create your models here.
 
 class Order(models.Model):
-    order_id = models.CharField(max_length=50, blank=False, editable=False)
+    order_id = models.CharField(max_length=50, blank=False, editable=False, unique=True)
+    customer = models.ForeignKey(MyAccount, blank=False, null=True, on_delete=models.SET_NULL)
     buyer_name = models.CharField(max_length=50, blank=False, null=False)
     buyer_email = models.EmailField(max_length=155, blank=False, null=False)
     package_purchased = models.ForeignKey(Package, null=False, blank=False, default=1, on_delete=models.CASCADE)
@@ -18,7 +19,7 @@ class Order(models.Model):
 
     def _create_order_number(self):
         """Generate randomised order number using UUID"""
-        return uuid.uuid4().hex.upper()
+        return str(uuid.uuid4().int)[:6]
 
     def save(self, *args, **kwargs):
         """Set order ID if not already set"""
@@ -29,18 +30,3 @@ class Order(models.Model):
 
     def __str__(self):
         return self.order_id
-
-
-class OrderItem(models.Model):
-    order = models.ForeignKey(Order, null=False, blank=False, on_delete=models.CASCADE, related_name='order_item')
-    package = models.ForeignKey(Package, null=False, blank=False, on_delete=models.CASCADE)
-    quantity = models.IntegerField(null=False, blank=False, default=0)
-    item_total = models.DecimalField(max_digits=6, decimal_places=2, null=False, blank=False, editable=False)
-
-    def save(self):
-
-        self.item_total = self.package.price * self.quantity
-        super().save(*args, **kwargs)
-    
-    def __str__(self):
-        return f'Package: {self.package.name}, Order: {self.order.order_id}'

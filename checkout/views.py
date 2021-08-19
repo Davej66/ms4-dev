@@ -170,7 +170,7 @@ def confirm_order(request):
 
         latest_bill_paid = subscription.latest_invoice.payment_intent.amount_received
         sub_price_id = subscription.plan.id
-
+    print(subscription.latest_invoice)
     # If user attempting to purchase the same subscription, send them to their orders
     if sub_price_id == package_stripe_id:
         messages.error(request, "You are already subscribed to this package!")

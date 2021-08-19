@@ -8,7 +8,6 @@ from django.contrib.auth.models import (
 from django.utils import timezone
 from timezone_field import TimeZoneField
 from django_resized import ResizedImageField
-from checkout.models import Order
 import uuid
 
 # User extension classes built with guidance from Sarthak Kumar: 

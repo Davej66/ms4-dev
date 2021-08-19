@@ -228,9 +228,11 @@ a:hover, .anchor-link:hover {
 }
 
 .secondary-btn {
-    background: var(--secondary-color);
+    background: var(--primary-color-grad);
+    background-color: var(--primary-color);
     color: #fff;
     border: none;
+    transition: 0.3s ease-in-out;
 }
 
 .secondary-btn.large {
@@ -239,9 +241,10 @@ a:hover, .anchor-link:hover {
 
 .secondary-btn:hover {
     box-shadow: 1px 2px 8px -2px var(--dark-shadow);
-    background: var(--accent-color);
+    background: var(--accent-color)!important;
     color: #fff;
     transform: translateY(-3px);
+    border: none;
 }
 
 .center-half-btn-cta {
