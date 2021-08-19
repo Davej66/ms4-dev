@@ -38,7 +38,10 @@
                         </ul>
                         <div class="btn-wrap">
 
-                            <button type="submit" class="package-cta btn primary-btn-outline-color"
+                            <button type="submit" class="package-cta btn 
+                            {% if users_package == 1%}featured primary-btn
+                            {% else %} primary-btn-outline-color
+                            {% endif%}"
                                 onclick="select_package(1);">
                                 {% if users_package == 1%}
                                 Your Current Package

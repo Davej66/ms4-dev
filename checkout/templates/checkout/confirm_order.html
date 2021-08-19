@@ -27,6 +27,7 @@
             <span class="spinner"></span>
         </div>
         <form id="payment_form" method="POST"> {% csrf_token %}
+            <input type="hidden" id="is_upgrade" value="{{upgrade}}">
             <div class="row">
                 <div class="container-fluid col-12 col-md-6">
                     <h3 class="card-section-header mb-3">Complete Your Payment</h3>
@@ -37,13 +38,13 @@
                             <div class="fieldset">
                                 <label for="first_name">First Name</label>
                                 <input type="text" id="first_name" name="first_name" value="{{this_user.first_name}}"
-                                    pattern="[A-Za-z]" min-length="2" max-length="50" required>
+                                    min-length="2" max-length="50" required>
                             </div>
 
                             <div class="fieldset">
                                 <label for="last_name">Last Name</label>
                                 <input type="text" id="last_name" name="last_name" value="{{this_user.last_name}}"
-                                    pattern="[A-Za-z]" min-length="2" max-length="50" required>
+                                    min-length="2" max-length="50" required>
                             </div>
                         </div>
                         <div class="input-row d-flex justify-content-between">
@@ -52,11 +53,13 @@
                                 <input type="email" id="email" name="email" value="{{this_user.email}}" required>
                             </div>
                         </div>
+                        {% if upgrade is False %}
                         <div class="fieldset">
                             <label for="card_element">Card Details</label>
                             <div class="stripe-cc-input" id="card_element"></div>
                             <div id="card_errors"></div>
                         </div>
+                        {% endif %}
                     </fieldset>
                     <label id="payment_disclaimer">Your card details are processed and stored as the default payment
                         method within our third party payment provider <a href="https://stripe.com"

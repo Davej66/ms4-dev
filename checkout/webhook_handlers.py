@@ -28,9 +28,28 @@ class StripeWH_Handler:
 
     def handle_subscription_update_event(self, event):
         """ Handle webhook event when Stripe subscription is updated"""
-        print("Sub updated")
-        return HttpResponse(content=f'Webhook received: {event["type"]}', status=200)
+        print("sub change", event.data.object)
+
+        subscription = event.data.object
+        price_id = subscription['items']['data'][0].plan.id
+        stripe_customer = subscription.customer
+        user = MyAccount.objects.get(stripe_customer_id=stripe_customer)
+        # package = Package.objects.get(price=price_id)
+
+        print(user.package_tier, price_id. type(price_id))
+
+        # if user.package_tier != package.tier:
+        #     user.package_tier = package.tier
+        #     user.save()
         
+        return HttpResponse(content=f'Webhook received: {event["type"]}', status=200)
+    
+
+    def handle_subscription_deleted_event(self, event):
+        """ Handle webhook event when Stripe subscription is deleted"""
+        print("Sub deleted")
+        return HttpResponse(content=f'Webhook received: {event["type"]}', status=200)
+
 
     def handle_payment_succeeded_event(self, event):
         """ Handle webhook event when Stripe payment succeeds"""

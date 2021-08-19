@@ -114,19 +114,32 @@ def confirm_order(request):
     user = MyAccount.objects.get(email=user_email)
     name = user.first_name + " " + user.last_name
 
+    # Determine if the subscription is an upgrade or new account 
+    sub_is_upgrade = False
+
     package_selection = int(request.session['package_selection'])
     package_item = Package.objects.get(tier=package_selection)
-    print("in session", package_selection)
+    package_stripe_id = package_item.stripe_price_id
+
+    if user.stripe_subscription_id:
+        sub_price_id = stripe.Subscription.retrieve(
+            user.stripe_subscription_id
+        ).plan.id
+    print(sub_price_id, package_stripe_id)
 
     if not stripe_pk:
         messages.warning(request, "No public key found for Stripe")
 
     # If user attempting to purchase the same subscription, send them to their orders
-    if user.package_tier is package_selection:
+    if sub_price_id is package_stripe_id:
         messages.error(request, "You are already subscribed to this package!")
         return redirect('get_my_orders')
-    # elif user.package_tier:
-    #     return redirect('update_subscription')
+    elif sub_price_id:
+        sub_is_upgrade = True
+    else:
+        sub_is_upgrade = False
+
+    print('sub_is_upgrade', sub_is_upgrade)
 
     # Create a new stripe customer if none exists for this site user
     if not user.stripe_customer_id:
@@ -169,9 +182,6 @@ def confirm_order(request):
             user.stripe_subscription_id,
             expand=['latest_invoice.payment_intent'])
 
-    customer = stripe.Customer.retrieve(
-        user.stripe_customer_id)
-
     if request.method == 'POST':
 
         user.package_tier = package_item.tier
@@ -193,19 +203,32 @@ def confirm_order(request):
             name=name,
         )
 
+        # Check if updated sub based on new package required and update if yes
+        if sub_is_upgrade:
+            subscription = stripe.Subscription.retrieve(user.stripe_subscription_id)
+            stripe.Subscription.modify(
+                subscription.id,
+                cancel_at_period_end=False,
+                proration_behavior='create_prorations',
+                items=[{
+                    'id': subscription['items']['data'][0].id,
+                    'price': package_item.stripe_price_id,
+                }]
+            )
+
         try:
             order_exists = Order.objects.get(
                 stripe_invoice_id=subscription.latest_invoice.id)
         except:
             order_exists = False
-
+        print(subscription.latest_invoice)
         if not order_exists:
             order_form_data = {
                 "buyer_name": name.title(),
                 "buyer_email": user_email,
                 "package_purchased": package_item,
                 "order_total": package_item.price,
-                "stripe_invoice_id": subscription.latest_invoice.id
+                "stripe_invoice_id": subscription.latest_invoice
             }
             order_form = OrderForm(order_form_data)
             if order_form.is_valid():
@@ -226,7 +249,8 @@ def confirm_order(request):
         "stripe_public_key": stripe_pk,
         'subId': subscription.id,
         'stripe_client_secret': subscription.latest_invoice.payment_intent.client_secret,
-        'package_selected': package_item
+        'package_selected': package_item,
+        'upgrade': sub_is_upgrade,
     }
 
     return render(request, 'checkout/confirm_order.html', context)
