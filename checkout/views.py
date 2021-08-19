@@ -3,7 +3,7 @@ from django.shortcuts import (
     render, redirect, get_object_or_404)
 from django.http import JsonResponse, HttpResponse
 from django.template.loader import render_to_string
-from django.views.decorators.http import require_POST
+from django.views.decorators.http import last_modified, require_POST
 from django.conf import settings
 from django.contrib import messages
 from allauth.account.decorators import verified_email_required
@@ -120,26 +120,11 @@ def confirm_order(request):
     package_selection = int(request.session['package_selection'])
     package_item = Package.objects.get(tier=package_selection)
     package_stripe_id = package_item.stripe_price_id
-
-    if user.stripe_subscription_id:
-        sub_price_id = stripe.Subscription.retrieve(
-            user.stripe_subscription_id
-        ).plan.id
-    print(sub_price_id, package_stripe_id)
+    sub_price_id = None
+    latest_bill_paid = 0
 
     if not stripe_pk:
         messages.warning(request, "No public key found for Stripe")
-
-    # If user attempting to purchase the same subscription, send them to their orders
-    if sub_price_id is package_stripe_id:
-        messages.error(request, "You are already subscribed to this package!")
-        return redirect('get_my_orders')
-    elif sub_price_id:
-        sub_is_upgrade = True
-    else:
-        sub_is_upgrade = False
-
-    print('sub_is_upgrade', sub_is_upgrade)
 
     # Create a new stripe customer if none exists for this site user
     if not user.stripe_customer_id:
@@ -173,6 +158,7 @@ def confirm_order(request):
 
             user.stripe_subscription_id = subscription.id
             user.save()
+        
             pass
 
         except Exception as e:
@@ -182,25 +168,36 @@ def confirm_order(request):
             user.stripe_subscription_id,
             expand=['latest_invoice.payment_intent'])
 
+        latest_bill_paid = subscription.latest_invoice.payment_intent.amount_received
+        sub_price_id = subscription.plan.id
+        
+        print(sub_price_id, package_stripe_id)
+
+    # If user attempting to purchase the same subscription, send them to their orders
+    if sub_price_id is package_stripe_id:
+        messages.error(request, "You are already subscribed to this package!")
+        return redirect('get_my_orders')
+    elif latest_bill_paid != 0:
+        sub_is_upgrade = True
+        
+
     if request.method == 'POST':
 
+        print('sub_is_upgrade', sub_is_upgrade)
+        # If user updates their details on form, update their account
         user.package_tier = package_item.tier
         user.package_name = package_item.name
-        user.first_name = request.POST.get('first_name')
-        user.last_name = request.POST.get('last_name')
-        user.email = request.POST.get('email')
+        print("update sub")
+        user.first_name = request.POST.get('first_name', user.first_name)
+        user.last_name = request.POST.get('last_name', user.last_name)
+        user.email = request.POST.get('email', user.email)
         user.save()
-
-        # If user updates their details on form, update their account
-        user_email = request.POST.get('email')
-        name = request.POST.get('first_name') + " " + \
-            request.POST.get('last_name')
-
+        
         # Update the stripe customer with name and email
         stripe.Customer.modify(
             user.stripe_customer_id,
-            email=user_email,
-            name=name,
+            email=user.email,
+            name= user.first_name + " " + user.last_name,
         )
 
         # Check if updated sub based on new package required and update if yes
@@ -209,7 +206,7 @@ def confirm_order(request):
             stripe.Subscription.modify(
                 subscription.id,
                 cancel_at_period_end=False,
-                proration_behavior='create_prorations',
+                proration_behavior='none',
                 items=[{
                     'id': subscription['items']['data'][0].id,
                     'price': package_item.stripe_price_id,
@@ -252,7 +249,7 @@ def confirm_order(request):
         'package_selected': package_item,
         'upgrade': sub_is_upgrade,
     }
-
+    
     return render(request, 'checkout/confirm_order.html', context)
 
 

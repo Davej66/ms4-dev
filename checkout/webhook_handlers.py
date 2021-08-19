@@ -47,7 +47,16 @@ class StripeWH_Handler:
 
     def handle_subscription_deleted_event(self, event):
         """ Handle webhook event when Stripe subscription is deleted"""
-        print("Sub deleted")
+        
+        subscription = event.data.object
+        stripe_customer = subscription.customer
+        print("Sub deleted", stripe_customer)
+        user = MyAccount.objects.get(stripe_customer_id=stripe_customer)
+        
+        user.stripe_subscription_id = ""
+        user.save()
+        
+        
         return HttpResponse(content=f'Webhook received: {event["type"]}', status=200)
 
 

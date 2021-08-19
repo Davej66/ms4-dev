@@ -20,7 +20,12 @@
 <section class="light-page screen-height section-with-padding">
     <div class="nav-top-padding"></div>
     <div class="container-fluid m-auto py-5 px-0 centered-col-large-page">
-        <h1 class="header-underline-after">Order Summary</h1>
+        <h1 class="header-underline-after">
+            {%if upgrade %}
+            Upgrade Your Account
+            {% else %}
+            Order Summary
+            {% endif %}</h1>
     </div>
     <div class="m-auto mb-3 card muted z-2 centered-col-large-page order-confirmation">
         <div class="processing-spinner">
@@ -32,7 +37,7 @@
                 <div class="container-fluid col-12 col-md-6">
                     <h3 class="card-section-header mb-3">Complete Your Payment</h3>
                     <!-- Payment form -->
-
+                    {% if upgrade == False %}
                     <fieldset class="mt-5">
                         <div class="input-row d-flex justify-content-between">
                             <div class="fieldset">
@@ -53,20 +58,24 @@
                                 <input type="email" id="email" name="email" value="{{this_user.email}}" required>
                             </div>
                         </div>
-                        {% if upgrade is False %}
+                        
                         <div class="fieldset">
                             <label for="card_element">Card Details</label>
                             <div class="stripe-cc-input" id="card_element"></div>
                             <div id="card_errors"></div>
                         </div>
-                        {% endif %}
                     </fieldset>
                     <label id="payment_disclaimer">Your card details are processed and stored as the default payment
                         method within our third party payment provider <a href="https://stripe.com"
                             target="_blank">Stripe</a>, who will attempt to charge this card on a monthly basis until
                         you cancel.<br><br>Our site does not store these details, and we do not have access
                         to them through the Stripe interface.</label>
-
+                    {% else %}
+                    <p>Looking to amend your account? No problem!
+                        <br><br>Since we've already processed this months payment, your new subscription option will
+                        begin from ssss when this period expires.
+                    </p>
+                    {% endif %}
                 </div>
                 <span class="vert-rule d-none d-md-flex col-1"></span>
                 <hr class="d-md-none my-4">
