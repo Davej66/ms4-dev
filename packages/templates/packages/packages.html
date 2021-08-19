@@ -1,6 +1,12 @@
 {% extends 'includes/base.html' %}
 {% load static %}
 
+{% block post_CSS %}
+<link rel="stylesheet" href="{% static 'packages/css/packages.css' %}">
+{% endblock %}
+
+{% block head_title %}Select Your Package{% endblock %}
+
 {% block content %}
 <section class="light-page screen-height section-with-padding">
     <div class="nav-top-padding"></div>
@@ -8,51 +14,85 @@
         <h1 class="header-underline-after">Select Your Subscription</h1>
 
         <div class="col-lg-12 homepage-packages-section">
-            <h2>Select Your Membership Type</h2>
-            <p class="m-auto w-lg-50 large">Find and join Freelance Meetups in your industry with a subsription that
+            <p class="m-auto w-lg-50 large py-3">Find and join Freelance Meetups in your industry with a subscription that
                 suits your needs.</p>
-            <div class="homepage-package-cards d-flex flex-wrap justify-content-between">
+            <div class="row package-selection-page d-flex justify-content-between">
                 <!-- Free Package -->
-                <div class="card package-card p-5">
-                    <h3>{{packages.0.name}}</h3>
-                    <i class="fas fa-social"></i>
-                    <p class="package-cost"><span>£</span>{{packages.0.price}}</p>
-                    <span class="small-text">per month</span>
-                    <hr>
-                    <ul class="package-feature-list">
-                        <li><i class="fas fa-check"></i> Great feature</li>
-                    </ul>
-                    <button type="submit" class="package-cta btn primary-btn-outline-color px-3 py-2 my-2"
-                        onclick="select_package(1);">Select This Package</button>
+                <div class="package-card-wrap col-12 col-md-4">
+                    <div class="card package-card muted p-4">
+                        <h3>{{packages.0.name}}</h3>
+                        <i class="fas fa-social"></i>
+                        <p class="package-cost"><span>£</span>{{packages.0.price}}</p>
+                        <span class="small-text">per month</span>
+                        <hr>
+                        <ul class="package-feature-list">
+                            <li><i class="fas fa-check"></i>
+                                <span>Connect with unlimited Freelancers in your industry</span>
+                            </li>
+                            <li><i class="fas fa-check"></i>
+                                <span>Attend 1 free event a month</span>
+                            </li>
+                            <li><i class="fas fa-check"></i>
+                                <span>Community news & updates via monthly newsletter</span>
+                            </li>
+                        </ul>
+                        <div class="btn-wrap">
+                            <button type="submit" class="package-cta btn primary-btn-outline-color px-3 py-2"
+                                onclick="select_package(1);">Select This Package</button>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Everyday Package -->
-                <div class="card package-card p-5 featured">
-                    <h3>{{packages.1.name}}</h3>
-                    <i class="fas fa-social"></i>
-                    <p class="package-cost"><span>£</span>{{packages.1.price}}</p>
-                    <span class="small-text">per month</span>
-                    <hr>
-                    <ul class="package-feature-list">
-                        <li>Great feature</li>
-                    </ul>
-                    <button type="submit" class="package-cta btn primary-btn py-3 px-5"
-                        onclick="select_package(2);">Select This Package</button>
+                <div class="package-card-wrap col-12 col-md-4">
+                    <div class="card package-card muted p-4 featured">
+                        <h3>{{packages.1.name}}</h3>
+                        <i class="fas fa-social"></i>
+                        <p class="package-cost"><span>£</span>{{packages.1.price}}</p>
+                        <span class="small-text">per month</span>
+                        <hr>
+                        <ul class="package-feature-list">
+                            <li><i class="fas fa-check"></i>
+                                <span>All free tier features</span>
+                            </li>
+                            <li><i class="fas fa-check"></i>
+                                <span>View and connect with freelancers in other industries</span>
+                            </li>
+                            <li><i class="fas fa-check"></i>
+                                <span>Attend 5 free events a month</span>
+                            </li>
+                        </ul>
+                        <div class="btn-wrap">
+                            <button type="submit" class="package-cta btn primary-btn py-3 px-5"
+                                onclick="select_package(2);">Recommended Package</button>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Pro Package -->
-                <div class="card package-card p-5">
-
-                    <h3>{{packages.2.name}}</h3>
-                    <i class="fas fa-social"></i>
-                    <p class="package-cost"><span>£</span>{{packages.2.price}}</p>
-                    <span class="small-text">per month</span>
-                    <hr>
-                    <ul class="package-feature-list">
-                        <li>Great feature</li>
-                    </ul>
-                    <button type="submit" class="package-cta btn primary-btn-outline-color px-3 py-2 my-2"
-                        onclick="select_package(3);">Select This Package</button>
+                <div class="package-card-wrap col-12 col-md-4">
+                    <div class="card package-card muted p-4">
+                        <h3>{{packages.2.name}}</h3>
+                        <i class="fas fa-social"></i>
+                        <p class="package-cost"><span>£</span>{{packages.2.price}}</p>
+                        <span class="small-text">per month</span>
+                        <hr>
+                        <ul class="package-feature-list">
+                            <li><i class="fas fa-check"></i>
+                                <span>All Everyday tier features</span>
+                            </li>
+                            <li><i class="fas fa-check"></i>
+                                <span>Attend 10 free events a month</span>
+                            </li>
+                            <li><i class="fas fa-check"></i>
+                                <span>Add your own FreelanceMeetups</span>
+                            </li>
+                        </ul>
+                        <div class="btn-wrap">
+                            <button type="submit" class="package-cta btn primary-btn-outline-color px-3 py-2"
+                                onclick="select_package(3);">Select This Package</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
