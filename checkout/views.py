@@ -47,56 +47,56 @@ def store_selection(request):
 
 
 # TODO - DO WE NEED THIS FUNCTION
-def package_selection(request, package_id, **kwargs):
+# def package_selection(request, package_id, **kwargs):
 
-    stripe_pk = settings.STRIPE_PUBLIC_KEY
-    stripe_sk = settings.STRIPE_SECRET_KEY
-    stripe.api_key = stripe_sk
+#     stripe_pk = settings.STRIPE_PUBLIC_KEY
+#     stripe_sk = settings.STRIPE_SECRET_KEY
+#     stripe.api_key = stripe_sk
 
-    context = {}
-    user_email = request.user
-    # package_selection = request.session.get('package_selection', {})
-    package_id = kwargs.get('package_id')
-    print(package_id)
+#     context = {}
+#     user_email = request.user
+#     # package_selection = request.session.get('package_selection', {})
+#     package_id = kwargs.get('package_id')
+#     print(package_id)
 
-    # package_selection['package_id'] = package_id
-    package_object = Package.objects.get(pk=package_id)
-    request.session['package_selection'] = package_id
-    context['p_selected'] = request.session
+#     # package_selection['package_id'] = package_id
+#     package_object = Package.objects.get(pk=package_id)
+#     request.session['package_selection'] = package_id
+#     context['p_selected'] = request.session
 
-    current_user = MyAccount.objects.get(email=user_email)
-    user_stripe_cus_id = current_user.stripe_customer_id
-    print("I am a stripe user", user_stripe_cus_id)
+#     current_user = MyAccount.objects.get(email=user_email)
+#     user_stripe_cus_id = current_user.stripe_customer_id
+#     print("I am a stripe user", user_stripe_cus_id)
 
-    if user_stripe_cus_id is None:
-        try:
-            # Create a new customer object
-            customer = stripe.Customer.create(
-                email=user_email
-            )
-            package_selection['stripe_cus'] = customer.id
-            package_selection['stripe_price_id'] = package_object.stripe_price_id
-            return redirect(order_summary)
+#     if user_stripe_cus_id is None:
+#         try:
+#             # Create a new customer object
+#             customer = stripe.Customer.create(
+#                 email=user_email
+#             )
+#             package_selection['stripe_cus'] = customer.id
+#             package_selection['stripe_price_id'] = package_object.stripe_price_id
+#             return redirect(order_summary)
 
-        except Exception as e:
-            error = str(e)
-            print("error", e)
-            return error
-    else:
-        try:
-            package_selection['stripe_cus'] = user_stripe_cus_id
-            package_selection['stripe_price_id'] = package_object.stripe_price_id
-            return redirect(order_summary)
+#         except Exception as e:
+#             error = str(e)
+#             print("error", e)
+#             return error
+#     else:
+#         try:
+#             package_selection['stripe_cus'] = user_stripe_cus_id
+#             package_selection['stripe_price_id'] = package_object.stripe_price_id
+#             return redirect(order_summary)
 
-        except Exception as e:
-            error = str(e)
-            print("error", e)
-            return error
+#         except Exception as e:
+#             error = str(e)
+#             print("error", e)
+#             return error
 
-    print(context['p_selected'], "session: ",
-          request.session['package_selection'])
+#     print(context['p_selected'], "session: ",
+#           request.session['package_selection'])
 
-    return redirect(order_summary)
+#     return redirect(order_summary)
 
 
 def confirm_order(request):
@@ -173,7 +173,6 @@ def confirm_order(request):
 
     if request.method == 'POST':
 
-        print(type(package_item.tier),type(package_item.name), user)
         user.package_tier = package_item.tier
         user.package_name = package_item.name
         user.save()
@@ -198,10 +197,13 @@ def confirm_order(request):
 
             else:
                 messages.error(request, "There was an error in your form")
-            
-            return redirect(reverse, 'get_my_orders')
+
+            messages.success(request, "Thank you for signing up," +  
+                             "you can see all previous orders in the 'My Orders' section below!")
+            return redirect('get_my_orders')
         else:
-            
+            messages.success(request, "Looks like you already have a bill for this order." +  
+                             "You can see all previous orders in the 'My Orders' section below!")
             return redirect('get_my_orders')
             
     context = {

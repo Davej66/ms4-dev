@@ -19,17 +19,21 @@ class StripeWH_Handler:
         """ Handle webhook event and return response with information"""
         return HttpResponse(content=f'Unhandled webhook received: {event["type"]}', status=200)
         
+
     def handle_subscription_create_event(self, event):
         """ Handle webhook event when Stripe subscription is created"""
+        print("Sub created")
         return HttpResponse(content=f'Webhook received: {event["type"]}', status=200)
     
+
     def handle_subscription_update_event(self, event):
         """ Handle webhook event when Stripe subscription is updated"""
+        print("Sub updated")
         return HttpResponse(content=f'Webhook received: {event["type"]}', status=200)
         
+
     def handle_payment_succeeded_event(self, event):
         """ Handle webhook event when Stripe payment succeeds"""
-        
 
         intent = event.data.object
         invoice_id = intent.invoice
@@ -68,12 +72,15 @@ class StripeWH_Handler:
                 order_form = OrderForm(order_form_data)
                 if order_form.is_valid():
                     order_form.save()
+
                 return HttpResponse(content=f'Webhook received: {event["type"]} | \
                 ORDER CREATED: No order found in database', status=200)
-            except Exception as e:
+            except:
                 pass
         return HttpResponse(content=f'Webhook received: {event["type"]}', status=200)
     
+
     def handle_payment_failed_event(self, event):
         """ Handle webhook event when Stripe payment fails"""
+        print("Failed payment")
         return HttpResponse(content=f'Webhook received: {event["type"]}', status=200) 
