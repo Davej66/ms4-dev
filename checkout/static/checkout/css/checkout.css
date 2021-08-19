@@ -138,10 +138,22 @@
 }
 
 ul.order-details-features {
-    font-size: 16px;    
+    font-size: 14px;    
     font-weight: 200;    
     padding: 0;
     color: var(--light-text);
+    margin-top: 10px;
+}
+
+ul.order-details-features li {
+    display: flex;
+    margin-bottom: 10px;
+}
+
+ul.order-details-features li i {
+    padding-right: 5px;
+    margin-top: 3px;
+    color: var(--primary-color);
 }
 
 .total-due p {

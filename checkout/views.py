@@ -14,6 +14,7 @@ from users.forms import UpdateUserPackage, AddUserSubscription
 from users.models import MyAccount
 from packages.models import Package
 from datetime import datetime
+from dateutil.relativedelta import relativedelta
 
 import stripe
 import json
@@ -114,7 +115,7 @@ def confirm_order(request):
     user = MyAccount.objects.get(email=user_email)
     name = user.first_name + " " + user.last_name
 
-    # Determine if the subscription is an upgrade or new account 
+    # Determine if the subscription is an upgrade or new account
     sub_is_upgrade = False
 
     package_selection = int(request.session['package_selection'])
@@ -158,7 +159,6 @@ def confirm_order(request):
 
             user.stripe_subscription_id = subscription.id
             user.save()
-        
             pass
 
         except Exception as e:
@@ -170,39 +170,35 @@ def confirm_order(request):
 
         latest_bill_paid = subscription.latest_invoice.payment_intent.amount_received
         sub_price_id = subscription.plan.id
-        
-        print(sub_price_id, package_stripe_id)
 
     # If user attempting to purchase the same subscription, send them to their orders
-    if sub_price_id is package_stripe_id:
+    if sub_price_id == package_stripe_id:
         messages.error(request, "You are already subscribed to this package!")
         return redirect('get_my_orders')
     elif latest_bill_paid != 0:
         sub_is_upgrade = True
-        
 
     if request.method == 'POST':
 
-        print('sub_is_upgrade', sub_is_upgrade)
         # If user updates their details on form, update their account
         user.package_tier = package_item.tier
         user.package_name = package_item.name
-        print("update sub")
         user.first_name = request.POST.get('first_name', user.first_name)
         user.last_name = request.POST.get('last_name', user.last_name)
         user.email = request.POST.get('email', user.email)
         user.save()
-        
+
         # Update the stripe customer with name and email
         stripe.Customer.modify(
             user.stripe_customer_id,
             email=user.email,
-            name= user.first_name + " " + user.last_name,
+            name=user.first_name + " " + user.last_name,
         )
 
         # Check if updated sub based on new package required and update if yes
         if sub_is_upgrade:
-            subscription = stripe.Subscription.retrieve(user.stripe_subscription_id)
+            subscription = stripe.Subscription.retrieve(
+                user.stripe_subscription_id)
             stripe.Subscription.modify(
                 subscription.id,
                 cancel_at_period_end=False,
@@ -234,7 +230,7 @@ def confirm_order(request):
             else:
                 messages.error(request, "There was an error in your form")
 
-            messages.success(request, "Thank you for signing up," +
+            messages.success(request, "Thank you for signing up, " +
                              "you can see all previous orders in the 'My Orders' section below!")
             return redirect('get_my_orders')
         else:
@@ -242,12 +238,24 @@ def confirm_order(request):
                              "You can see all previous orders in the 'My Orders' section below!")
             return redirect('get_my_orders')
 
+    # Send end of current period to context
+    if subscription:
+        upcoming_inv = stripe.Invoice.upcoming(
+            customer=user.stripe_customer_id,
+            )
+        end_current_period = datetime.fromtimestamp(subscription.latest_invoice.lines.data[0].period.end).strftime(
+            '%d %b %y')
+        next_period_start = datetime.fromtimestamp(upcoming_inv.next_payment_attempt).strftime(
+            '%d %b %y')
+        
     context = {
         "stripe_public_key": stripe_pk,
         'subId': subscription.id,
         'stripe_client_secret': subscription.latest_invoice.payment_intent.client_secret,
         'package_selected': package_item,
         'upgrade': sub_is_upgrade,
+        'period_end': end_current_period,
+        'next_period_start': next_period_start,
     }
     
     return render(request, 'checkout/confirm_order.html', context)
