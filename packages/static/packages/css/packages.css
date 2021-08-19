@@ -21,6 +21,12 @@
 
 .package-card .btn-wrap button{
     margin: auto;
+    padding: 10px 15px;
+}
+
+.package-card .btn-wrap button.featured{
+    margin: auto;
+    padding: 20px 30px;
 }
 
 .package-card h3 {

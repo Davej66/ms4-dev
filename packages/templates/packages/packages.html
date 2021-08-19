@@ -12,9 +12,9 @@
     <div class="nav-top-padding"></div>
     <div class="container-fluid w-100 m-auto py-5 px-0 centered-col-large-page">
         <h1 class="header-underline-after">Select Your Subscription</h1>
-
         <div class="col-lg-12 homepage-packages-section">
-            <p class="m-auto w-lg-50 large py-3">Find and join Freelance Meetups in your industry with a subscription that
+            <p class="m-auto w-lg-50 large py-3">Find and join Freelance Meetups in your industry with a subscription
+                that
                 suits your needs.</p>
             <div class="row package-selection-page d-flex justify-content-between">
                 <!-- Free Package -->
@@ -37,8 +37,17 @@
                             </li>
                         </ul>
                         <div class="btn-wrap">
-                            <button type="submit" class="package-cta btn primary-btn-outline-color px-3 py-2"
-                                onclick="select_package(1);">Select This Package</button>
+
+                            <button type="submit" class="package-cta btn primary-btn-outline-color"
+                                onclick="select_package(1);">
+                                {% if users_package == 1%}
+                                Your Current Package
+                                {% elif users_package %}
+                                Upgrade to this Package
+                                {% else %}
+                                Select This Package
+                                {%endif%}
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -63,8 +72,19 @@
                             </li>
                         </ul>
                         <div class="btn-wrap">
-                            <button type="submit" class="package-cta btn primary-btn py-3 px-5"
-                                onclick="select_package(2);">Recommended Package</button>
+                            <button type="submit" class="package-cta btn
+                            {% if users_package == 1 or users_package == 3%}primary-btn-outline-color
+                            {% else  %} featured primary-btn
+                            {% endif%}"
+                                onclick="select_package(2);">
+                                {% if users_package == 2 %}
+                                Your Current Package
+                                {% elif users_package %}
+                                Upgrade to this Package
+                                {% else %}
+                                Recommended Package
+                                {%endif%}
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -89,8 +109,19 @@
                             </li>
                         </ul>
                         <div class="btn-wrap">
-                            <button type="submit" class="package-cta btn primary-btn-outline-color px-3 py-2"
-                                onclick="select_package(3);">Select This Package</button>
+                            <button type="submit" class="package-cta btn 
+                            {% if users_package == 3%}featured primary-btn
+                            {% else %} primary-btn-outline-color
+                            {% endif%}"
+                                onclick="select_package(3);">
+                                {% if users_package == 3%}
+                                Your Current Package
+                                {% elif users_package %}
+                                Upgrade to this Package
+                                {% else %}
+                                Select This Package
+                                {%endif%}
+                            </button>
                         </div>
                     </div>
                 </div>
