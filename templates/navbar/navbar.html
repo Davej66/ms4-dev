@@ -10,13 +10,13 @@
         <li class="nav-item">
           <a class="nav-link" href="{% url 'packages' %}">Subscriptions</a>
         </li>
+        {% if user.is_authenticated %}
         <li class="nav-item">
           <a class="nav-link" aria-label="Home" href="{% url 'event_listings' %}">Meetups</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" aria-label="Home" href="{% url 'all_users' %}">Freelancers</a>
         </li>
-        {% if user.is_authenticated %}
         <li class="nav-item dropdown d-none d-lg-block">
           <a class="nav-link dropdown-toggle nav-img-wrapper" href="#" id="navbarDropdown" role="button"
             data-bs-toggle="dropdown" aria-expanded="false">
@@ -37,16 +37,16 @@
         </li>
         <hr class="dropdown-menu-hr">
         <li class="nav-item d-md-block d-lg-none">
-            
-            <a class="nav-link" href="{% url 'account_dashboard' %}">My Dashboard</a>
-          </li>
-          <li class="nav-item d-md-block d-lg-none">
-            <a class="nav-link" href="{% url 'edit_profile' %}">Edit Profile</a>
-          </li>
-          <li class="nav-item d-md-block d-lg-none">
-            <a class="nav-link" href="{% url 'account_logout' %}">Logout</a>
-          </li>
-        
+
+          <a class="nav-link" href="{% url 'account_dashboard' %}">My Dashboard</a>
+        </li>
+        <li class="nav-item d-md-block d-lg-none">
+          <a class="nav-link" href="{% url 'edit_profile' %}">Edit Profile</a>
+        </li>
+        <li class="nav-item d-md-block d-lg-none">
+          <a class="nav-link" href="{% url 'account_logout' %}">Logout</a>
+        </li>
+
         {% else %}
 
         <li class="nav-item d-md-block d-lg-none">
@@ -60,14 +60,10 @@
           <a class="nav-link btn primary-btn no-active-highlight" href="{% url 'account_signup' %}">Register</a>
         </li>
         <li class="nav-item d-none d-lg-flex">
-          <a class="nav-link btn primary-btn-outline-color no-active-highlight" href="{% url 'account_login' %}">Login</a>
+          <a class="nav-link btn primary-btn-outline-color no-active-highlight"
+            href="{% url 'account_login' %}">Login</a>
         </li>
-
-
-
         {% endif %}
-
-
       </ul>
     </div>
   </div>

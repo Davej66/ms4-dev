@@ -45,7 +45,6 @@ $(document).ready(function () {
         $(currPageNavLink).addClass('active');
     }
 
-
     // Open navbar dropdown on hover
     $('.dropdown-toggle').hover(
         function () {
@@ -87,6 +86,14 @@ $(document).ready(function () {
             $(toggler).addClass('fa-bars')
         }
     })
+
+    // Centralise text if same width as parent - for use with flex-wrap
+    var centraliseParent = $('.centralise-on-wrap').parent()
+    var centraliseChild = $('.centralise-on-wrap')
+    if ($(centraliseParent).width() > $(centraliseChild).width()) {
+        console.log($(centraliseParent).width(), $(centraliseChild).width())
+        $(centraliseChild).css('text-align', 'left-align!important')
+    }
 });
 
 

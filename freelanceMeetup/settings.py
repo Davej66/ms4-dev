@@ -100,7 +100,6 @@ LOGIN_REDIRECT_URL = '/profile/dashboard/'
 ACCOUNT_LOGOUT_REDIRECT_URL = '/'
 # ACCOUNT_FORMS = {'signup': 'users.forms.RegistrationForm'}
 
-
 ROOT_URLCONF = 'freelanceMeetup.urls'
 
 TEMPLATES = [

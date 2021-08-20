@@ -127,15 +127,19 @@ $('input#profile_image').on('change', function () {
 
 /* All user page - determine whether user header details 
 are wrapped and apply 'text-center' class if so */
-(() => {
-    var userHeaders = $('.user-details-mast')
-    var width = $(userHeaders[0]).width() + 80
-    var parent = $(userHeaders[0]).parent().width()
-    if ((parent - width) < 30) {
-        $(userHeaders).addClass('text-center')
-        $(userHeaders).addClass('px-5')
-    }
-})();
+
+    $('.user-details-mast').each(function(){
+        
+        console.log($(this).width())
+        var width = parseInt($(this).width())
+        var parent = parseInt($(this).parent().width() -110)
+        console.log(parseInt(width), parent)
+        if (parent <= width){
+            console.log("yes")
+            $(this).addClass('text-center')
+            // $(userHeaders).addClass('px-5')
+        }
+    })
 
 
 /***

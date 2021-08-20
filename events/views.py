@@ -12,7 +12,7 @@ from users.models import MyAccount
 
 import json
 
-
+@verified_email_required
 def event_listings(request):
     
     all_events = Event.objects.all()
