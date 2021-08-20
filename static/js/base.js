@@ -1,3 +1,6 @@
+// Init on page load
+const screenWidth = $(window).width();
+
 // Add 'scrolled' to navbar
 $(document).scroll(function () {
     if ($(document).scrollTop() >= 50) {
@@ -14,7 +17,6 @@ window.addEventListener('load', () => {
 
 // Load the below when page in a 'ready' state
 $(document).ready(function () {
-
     var dropdownId = $('.dropdown-toggle').attr('id');
     var dropdownMenu = $(`ul[aria-labelledby=${dropdownId}]`);
     var messages = $('.message-wrap')

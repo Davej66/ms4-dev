@@ -1,7 +1,4 @@
 // Initialize on page load
-const screenWidth = $(window).width()
-const csrftoken = Cookies.get('csrftoken');
-
 $(document).ready(function () {
     // Check screen width and remove active from sidenav if mobile
     if (screenWidth > 991.98) {
