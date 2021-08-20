@@ -31,6 +31,17 @@ var stripe = Stripe(stripePublicKey);
 var elements = stripe.elements();
 var csrftoken = Cookies.get('csrftoken');
 
+
+$(document).ready(() => {
+    // If user abandons the page, destroy the subscription created
+    $(window).on('unload', function () {
+        data = new FormData()
+        data.append('csrfmiddlewaretoken', csrftoken)
+        navigator.sendBeacon("../destroy_sub/", data);
+    });
+})
+
+
 if (is_upgrade === "False") {
     let card = elements.create('card');
     card.mount('#card_element');

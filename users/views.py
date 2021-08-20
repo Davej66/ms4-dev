@@ -169,22 +169,24 @@ def dashboard_my_orders(request):
         invoice_list = []
 
         for i in invoices:
-            period = i.lines.data[0].period
-            invoice_date = datetime.fromtimestamp(i.created).strftime(
-                '%d %b %y')
-            start_date=datetime.fromtimestamp(period.start).strftime(
-                '%d %b %y')
-            end_date=datetime.fromtimestamp(period.end).strftime(
-                '%d %b %y')
-            invoice_data={
-                "order_id": i.metadata,
-                "invoice_date": invoice_date,
-                "date_start": start_date,
-                "date_end": end_date,
-                "amount": i.total / 100,
-                "download_url": i.invoice_pdf
-            }
-            invoice_list.append(invoice_data)
+            
+            if i.paid != False:
+                period = i.lines.data[0].period
+                invoice_date = datetime.fromtimestamp(i.created).strftime(
+                    '%d %b %y')
+                start_date=datetime.fromtimestamp(period.start).strftime(
+                    '%d %b %y')
+                end_date=datetime.fromtimestamp(period.end).strftime(
+                    '%d %b %y')
+                invoice_data={
+                    "order_id": i.metadata,
+                    "invoice_date": invoice_date,
+                    "date_start": start_date,
+                    "date_end": end_date,
+                    "amount": i.total / 100,
+                    "download_url": i.invoice_pdf
+                }
+                invoice_list.append(invoice_data)
 
         context = {
             'invoices': invoice_list,

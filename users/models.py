@@ -85,6 +85,7 @@ class MyAccount(AbstractBaseUser, PermissionsMixin):
     skills = models.CharField(max_length=1000, blank=True)
     hide_email = models.BooleanField(default=True)
     location = models.CharField(max_length=100, blank=True)
+    events_remaining_in_package = models.IntegerField(blank=False, default=1)
 
     objects = AccountManager()
 

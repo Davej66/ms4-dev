@@ -166,3 +166,4 @@ Connect Django to AWS
 - [Exclude objects from Django QuerySet using .exclude()](https://chartio.com/resources/tutorials/how-to-filter-for-empty-or-null-values-in-a-django-queryset/)
 - [Getting the index of an element in a forEach function JS](https://masteringjs.io/tutorials/fundamentals/foreach-index)
 - How to set floats to two decimal places with Django template tag - answer by Alasdair in [this Stack Overflow thread](https://stackoverflow.com/questions/12903686/how-can-i-get-a-decimal-field-to-show-more-decimal-places-in-a-template).
+- [Send a Beacon to server on tab close](https://www.schtech.co.uk/trigger-django-functions-with-javascript-sendbeacon/) - used to create a 'destroy subscription' function if user abandons cart.

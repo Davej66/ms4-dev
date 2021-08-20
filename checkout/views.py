@@ -267,6 +267,33 @@ def confirm_order(request):
     return render(request, 'checkout/confirm_order.html', context)
 
 
+def cancel_abandoned_subscription(request):
+    """ Call this function when user leaves page to destroy the subscription created """
+    
+    if request.method == "POST":
+        stripe_pk = settings.STRIPE_PUBLIC_KEY
+        stripe_sk = settings.STRIPE_SECRET_KEY
+        stripe.api_key = stripe_sk
+        
+        user = request.user
+        print(user)
+        subscription = stripe.Subscription.retrieve(
+            user.stripe_subscription_id
+        )
+        
+        latest_invoice = stripe.Invoice.retrieve(
+            subscription.latest_invoice
+        )
+        
+        if subscription and latest_invoice.status == 'open':
+            stripe.Customer.delete(
+            user.stripe_customer_id
+            )
+        return HttpResponse(content="Subscription has been removed", status=200)
+    
+    return HttpResponse(content="No further action required", status=200)
+    
+
 def checkout(request):
 
     return render(request, 'checkout/checkout.html')
@@ -319,32 +346,32 @@ def checkout(request):
     #     return HttpResponse(content="Subscription already exists for this user.", status=200)
 
 
-@verified_email_required
-def update_stripe_subscription(request):
+# @verified_email_required
+# def update_stripe_subscription(request):
 
-    user = request.user
-    stripe_sk = settings.STRIPE_SECRET_KEY
-    stripe.api_key = stripe_sk
+#     user = request.user
+#     stripe_sk = settings.STRIPE_SECRET_KEY
+#     stripe.api_key = stripe_sk
 
-    user = MyAccount.objects.get(email=request.user)
-    user_stripe_sub = user.stripe_subscription_id
+#     user = MyAccount.objects.get(email=request.user)
+#     user_stripe_sub = user.stripe_subscription_id
 
-    # if request.method is "POST":
+#     # if request.method is "POST":
 
-    # new_price_id = Package.objects.get(tier=new_package).stripe_price_id
+#     # new_price_id = Package.objects.get(tier=new_package).stripe_price_id
 
-    # subscription = stripe.Subscription.modify(
-    #     user_stripe_sub,
-    #     )
+#     # subscription = stripe.Subscription.modify(
+#     #     user_stripe_sub,
+#     #     )
 
-    # get_subscription_item = subscription.items.data[0].id
-    # print(get_subscription_item)
-    # stripe.SubscriptionItem.modify(
-    #     get_subscription_item,
-    #     price={"id": new_price_id}
-    #     )
+#     # get_subscription_item = subscription.items.data[0].id
+#     # print(get_subscription_item)
+#     # stripe.SubscriptionItem.modify(
+#     #     get_subscription_item,
+#     #     price={"id": new_price_id}
+#     #     )
 
-    return render(request, 'checkout/update_subscription.html')
+#     return render(request, 'checkout/update_subscription.html')
 
 # TODO function not needed?
 # def order_confirmation(request, order_id):
