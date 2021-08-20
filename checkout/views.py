@@ -114,15 +114,16 @@ def confirm_order(request):
     user_email = request.user
     user = MyAccount.objects.get(email=user_email)
     name = user.first_name + " " + user.last_name
+    free_package_id = Package.objects.get(tier=1).stripe_price_id
 
     # Determine if the subscription is an upgrade or new account
-    sub_is_upgrade = False
+    sub_is_change = False
 
     package_selection = int(request.session['package_selection'])
     package_item = Package.objects.get(tier=package_selection)
     package_stripe_id = package_item.stripe_price_id
     sub_price_id = None
-    latest_bill_paid = 0
+    latest_bill_paid = "open"
 
     if not stripe_pk:
         messages.warning(request, "No public key found for Stripe")
@@ -172,18 +173,23 @@ def confirm_order(request):
         sub_price_id = subscription.plan.id
     print(subscription.latest_invoice.status)
     # If user attempting to purchase the same subscription, send them to their orders
-    if sub_price_id == package_stripe_id:
+    if sub_price_id == package_stripe_id and latest_bill_paid == "paid":
         messages.error(request, "You are already subscribed to this package!")
+        print('sub_price_id', sub_price_id, 'free_package_id', free_package_id)
+        
         return redirect('get_my_orders')
-    elif latest_bill_paid != 'open':
+    
+    elif latest_bill_paid != 'open' and sub_price_id != free_package_id:
+        print(package_stripe_id)
         print("invoice closed")
-        sub_is_upgrade = True
+        sub_is_change = True
 
     if request.method == 'POST':
 
         # If user updates their details on form, update their account
         user.package_tier = package_item.tier
         user.package_name = package_item.name
+        print(user.package_name, package_item.name)
         user.first_name = request.POST.get('first_name', user.first_name)
         user.last_name = request.POST.get('last_name', user.last_name)
         user.email = request.POST.get('email', user.email)
@@ -197,10 +203,9 @@ def confirm_order(request):
         )
 
         # Check if updated sub based on new package required and update if yes
-        if sub_is_upgrade:
-            subscription = stripe.Subscription.retrieve(
-                user.stripe_subscription_id)
-            stripe.Subscription.modify(
+        subscription = stripe.Subscription.retrieve(
+            user.stripe_subscription_id)
+        stripe.Subscription.modify(
                 subscription.id,
                 cancel_at_period_end=False,
                 proration_behavior='none',
@@ -237,15 +242,16 @@ def confirm_order(request):
         # else:
         #     messages.success(request, "Looks like you already have a bill for this order." +
         #                      "You can see all previous orders in the 'My Orders' section below!")
-        #     return redirect('get_my_orders')
+        request.session['package_selection'] = ""
+        return redirect('get_my_orders')
 
     # Send end of current period to context
     if subscription:
         upcoming_inv = stripe.Invoice.upcoming(
             customer=user.stripe_customer_id,
             )
-        end_current_period = datetime.fromtimestamp(subscription.latest_invoice.lines.data[0].period.end).strftime(
-            '%d %b %y')
+        # end_current_period = datetime.fromtimestamp(subscription.latest_invoice.lines.data[0].period.end).strftime(
+        #     '%d %b %y')
         next_period_start = datetime.fromtimestamp(upcoming_inv.next_payment_attempt).strftime(
             '%d %b %y')
         
@@ -254,8 +260,7 @@ def confirm_order(request):
         'subId': subscription.id,
         'stripe_client_secret': subscription.latest_invoice.payment_intent.client_secret,
         'package_selected': package_item,
-        'upgrade': sub_is_upgrade,
-        'period_end': end_current_period,
+        'upgrade': sub_is_change,
         'next_period_start': next_period_start,
     }
     

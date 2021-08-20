@@ -12,7 +12,7 @@
 {% if messages %}
 <ul class="messages">
     {% for message in messages %}
-    <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+    <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
         {% endfor %}
 </ul>
 {% endif %}
@@ -79,7 +79,7 @@
                     {% else %}
                     <p class="pt-5">Looking to amend your account? No problem!<br><br>
                         Since we've already processed this months payment, your new subscription option will begin from
-                        <span class="p-text-underline"><strong>{{period_end}}</strong></span> when this period expires.
+                        <span class="p-text-underline"><strong>{{next_period_start}}</strong></span> when this period expires.
                         <br><br>You can continue to use the existing features of your current subscription until this
                         date.
                     </p>

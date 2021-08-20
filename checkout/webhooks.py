@@ -41,6 +41,7 @@ def webhook(request):
         'customer.subscription.created': handler.handle_subscription_create_event,
         'customer.subscription.updated': handler.handle_subscription_update_event,
         'customer.subscription.deleted': handler.handle_subscription_deleted_event,
+        'customer.deleted': handler.handle_customer_deleted_event,
         'charge.failed': handler.handle_payment_failed_event
     }
 
