@@ -3,11 +3,11 @@ from .models import Order
 
 # Register your models here.
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ('order_id','buyer_email', 'buyer_name', 'package_purchased', 'date')
-    search_fields = ('order_id', 'buyer_email', 'package_purchased', 'date')
+    list_display = ('order_id','customer', 'package_purchased', 'date')
+    search_fields = ('order_id', 'customer', 'package_purchased', 'date')
     readonly_fields = (
         'order_id',
-        'buyer_email', 
+        'customer',
         'buyer_name', 
         'package_purchased', 
         'date', 

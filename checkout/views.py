@@ -168,14 +168,15 @@ def confirm_order(request):
             user.stripe_subscription_id,
             expand=['latest_invoice.payment_intent'])
 
-        latest_bill_paid = subscription.latest_invoice.payment_intent.amount_received
+        latest_bill_paid = subscription.latest_invoice.status
         sub_price_id = subscription.plan.id
-    print(subscription.latest_invoice)
+    print(subscription.latest_invoice.status)
     # If user attempting to purchase the same subscription, send them to their orders
     if sub_price_id == package_stripe_id:
         messages.error(request, "You are already subscribed to this package!")
         return redirect('get_my_orders')
-    elif latest_bill_paid != 0:
+    elif latest_bill_paid != 'open':
+        print("invoice closed")
         sub_is_upgrade = True
 
     if request.method == 'POST':
@@ -215,28 +216,28 @@ def confirm_order(request):
         except:
             order_exists = False
         print(subscription.latest_invoice)
-        if not order_exists:
-            order_form_data = {
-                "buyer_name": name.title(),
-                "buyer_email": user_email,
-                "package_purchased": package_item,
-                "order_total": package_item.price,
-                "stripe_invoice_id": subscription.latest_invoice
-            }
-            order_form = OrderForm(order_form_data)
-            if order_form.is_valid():
-                order_form.save()
+        # if not order_exists:
+        #     order_form_data = {
+        #         "buyer_name": name.title(),
+        #         "customer": user,
+        #         "package_purchased": package_item,
+        #         "order_total": package_item.price,
+        #         "stripe_invoice_id": subscription.latest_invoice
+        #     }
+        #     order_form = OrderForm(order_form_data)
+        #     if order_form.is_valid():
+        #         order_form.save()
 
-            else:
-                messages.error(request, "There was an error in your form")
+        #     else:
+        #         messages.error(request, "There was an error in your form")
 
-            messages.success(request, "Thank you for signing up, " +
-                             "you can see all previous orders in the 'My Orders' section below!")
-            return redirect('get_my_orders')
-        else:
-            messages.success(request, "Looks like you already have a bill for this order." +
-                             "You can see all previous orders in the 'My Orders' section below!")
-            return redirect('get_my_orders')
+        #     messages.success(request, "Thank you for signing up, " +
+        #                      "you can see all previous orders in the 'My Orders' section below!")
+        #     return redirect('get_my_orders')
+        # else:
+        #     messages.success(request, "Looks like you already have a bill for this order." +
+        #                      "You can see all previous orders in the 'My Orders' section below!")
+        #     return redirect('get_my_orders')
 
     # Send end of current period to context
     if subscription:
