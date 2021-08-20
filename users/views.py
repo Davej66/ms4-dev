@@ -1,5 +1,6 @@
 from django.db.models.query_utils import PathInfo
-from django.shortcuts import render, HttpResponse, get_object_or_404
+from django.shortcuts import (
+    render, HttpResponse, get_object_or_404, redirect)
 from django.http import JsonResponse, response
 from django.conf import settings
 from django.contrib import messages
@@ -42,11 +43,12 @@ def account_dashboard(request):
     full_name = user.first_name + " " + user.last_name
     user_package = user.package_name
     profile_complete = user.profile_completed
-    pending_reqs_to_user = Friend.objects.unrejected_requests(user=request.user)    
+    pending_reqs_to_user = Friend.objects.unrejected_requests(
+        user=request.user)
     user_events = request.user.attendees.all()
 
     requested_users = []
-    
+
     for int in pending_reqs_to_user:
         get_requestor = get_object_or_404(MyAccount, email=int.from_user)
         requested_users.append(get_requestor)
@@ -57,11 +59,11 @@ def account_dashboard(request):
         'pending_friend_reqs': requested_users,
         'user_events': user_events,
     }
-    
+
     if not profile_complete:
         messages.success(request, "Welcome! You will need to complete \
                          your profile information before you're visible to other users!")
-        return render(request, 'users/edit_profile.html')    
+        return render(request, 'users/edit_profile.html')
 
     return render(request, 'users/dashboard.html', context)
 
@@ -75,8 +77,10 @@ def edit_profile(request):
         if form.is_valid():
             form.save()
             messages.success(request, "Your changes have been saved!")
+            return redirect('account_dashboard')
         else:
-            messages.error(request, "Form could not be submitted, please try again!")
+            messages.error(
+                request, "Form could not be submitted, please try again!")
 
     return render(request, 'users/edit_profile.html')
 
@@ -98,36 +102,39 @@ def all_users(request):
     """
     Return all users to the page and search if there is an ajax search request.
     """
-    all_users = MyAccount.objects.all().exclude(pk=request.user.pk).exclude(show_profile=False)
+    all_users = MyAccount.objects.all().exclude(
+        pk=request.user.pk).exclude(show_profile=False)
     free_account = request.user.package_tier is 1
-    
+
     # For free account tier, locked by industry only
     if free_account:
-        all_users = MyAccount.objects.filter(industry=request.user.industry).exclude(pk=request.user.pk)
-    
+        all_users = MyAccount.objects.filter(
+            industry=request.user.industry).exclude(pk=request.user.pk)
+
     user_friend_requests = Friend.objects.sent_requests(user=request.user)
 
     if request.is_ajax and request.method == "POST":
-        query = request.POST['user_search'] 
+        query = request.POST['user_search']
         if not free_account:
             industry_query = request.POST['industry']
-        
+
         if query != "":
             queries = Q(first_name__icontains=query) | Q(last_name__icontains=query) | Q(
                 description__icontains=query) | Q(location__icontains=query) | Q(
                 job_role__icontains=query) | Q(skills__icontains=query)
-        elif not free_account: 
+        elif not free_account:
             queries = Q(industry=industry_query)
-        
+
         results = MyAccount.objects.filter(queries)
-        
+
         context = {
             'search_results': results
         }
-        payload = render_to_string('users/includes/ajax_user_search_results.html', context)
+        payload = render_to_string(
+            'users/includes/ajax_user_search_results.html', context)
         return HttpResponse(json.dumps(payload), content_type="application/json")
 
-    context={
+    context = {
         'users': all_users,
         'pending_friend_reqs': user_friend_requests,
         'free_account': free_account
@@ -144,22 +151,22 @@ def dashboard_my_orders(request):
 
     user = MyAccount.objects.get(email=request.user)
     stripe_customer_id = user.stripe_customer_id
-    
+
     if stripe_customer_id:
 
         invoices = stripe.Invoice.list(
-            limit = 10,
-            customer = stripe_customer_id)
+            limit=10,
+            customer=stripe_customer_id)
 
-        upcoming_invoice=stripe.Invoice.upcoming(
-            customer = stripe_customer_id,
-            )
+        upcoming_invoice = stripe.Invoice.upcoming(
+            customer=stripe_customer_id,
+        )
 
-        up_inv_period=upcoming_invoice.lines.data[0].period
-        package_id=upcoming_invoice.lines.data[0].price.id
-        get_package_object=Package.objects.get(stripe_price_id = package_id)
+        up_inv_period = upcoming_invoice.lines.data[0].period
+        package_id = upcoming_invoice.lines.data[0].price.id
+        get_package_object = Package.objects.get(stripe_price_id=package_id)
 
-        upcoming_invoice_dict={
+        upcoming_invoice_dict = {
             "date": datetime.fromtimestamp(
                 upcoming_invoice.created).strftime('%d %b %y'),
             "balance": upcoming_invoice.amount_due / 100,
@@ -170,20 +177,19 @@ def dashboard_my_orders(request):
             "package": get_package_object
         }
 
-
         invoice_list = []
 
         for i in invoices:
-            
+
             if i.paid != False:
                 period = i.lines.data[0].period
                 invoice_date = datetime.fromtimestamp(i.created).strftime(
                     '%d %b %y')
-                start_date=datetime.fromtimestamp(period.start).strftime(
+                start_date = datetime.fromtimestamp(period.start).strftime(
                     '%d %b %y')
-                end_date=datetime.fromtimestamp(period.end).strftime(
+                end_date = datetime.fromtimestamp(period.end).strftime(
                     '%d %b %y')
-                invoice_data={
+                invoice_data = {
                     "order_id": i.metadata,
                     "invoice_date": invoice_date,
                     "date_start": start_date,
@@ -196,20 +202,22 @@ def dashboard_my_orders(request):
         context = {
             'invoices': invoice_list,
             'upcoming_invoice': upcoming_invoice_dict
-            }
+        }
         return render(request, 'users/user_orders.html', context)
-    
+
     else:
-        
+
         context = {
             'invoices': None,
-            }
+        }
 
     return render(request, 'users/user_orders.html', context)
 
 
 """ AJAX REQUESTS """
 # Connection functions using AJAX
+
+
 @verified_email_required
 def add_friend(request, **kwargs):
     """ Add a friend to this user's friend list with Ajax """
@@ -217,7 +225,7 @@ def add_friend(request, **kwargs):
         other_user = kwargs.get('other_user')
         other_user_pk = MyAccount.objects.get(pk=other_user)
         Friend.objects.add_friend(request.user, other_user_pk)
-        return JsonResponse({"response":"Connection Requested Successfully", 
+        return JsonResponse({"response": "Connection Requested Successfully",
                              "buttonId": other_user,
                              "type": "add"})
 
@@ -228,11 +236,11 @@ def cancel_friend(request, **kwargs):
     if request.is_ajax and request.method == "GET":
         other_user = kwargs.get('other_user')
         other_user_pk = MyAccount.objects.get(pk=other_user)
-        
+
         # Cancel the request
         FriendshipRequest.objects.get(to_user=other_user_pk).cancel()
-        
-        return JsonResponse({"response":"Connection Cancelled Successfully", 
+
+        return JsonResponse({"response": "Connection Cancelled Successfully",
                              "buttonId": other_user,
                             "type": "cancel"})
 
@@ -242,18 +250,19 @@ def accept_friend(request, **kwargs):
     """ Accept an incoming pending request to this user """
     if request.is_ajax and request.method == "GET":
         other_user = kwargs.get('other_user')
-        
+
         # Accept the request
         try:
-            FriendshipRequest.objects.get(to_user=request.user, from_user=other_user).accept()
+            FriendshipRequest.objects.get(
+                to_user=request.user, from_user=other_user).accept()
         except:
-            messages.error(request, 
+            messages.error(request,
                            "We could no longer find this request. Please refresh the page and try again")
-        
-        return JsonResponse({"response":"Connection Accepted Successfully", 
+
+        return JsonResponse({"response": "Connection Accepted Successfully",
                              "buttonId": other_user,
                             "type": "accept"})
-        
+
 
 @verified_email_required
 def decline_friend(request, **kwargs):
@@ -261,15 +270,16 @@ def decline_friend(request, **kwargs):
     if request.is_ajax and request.method == "GET":
         other_user = kwargs.get('other_user')
         other_user_pk = MyAccount.objects.get(pk=other_user)
-        
+
         # Decline the request
         try:
-            FriendshipRequest.objects.get(to_user=request.user, from_user=other_user).reject()
+            FriendshipRequest.objects.get(
+                to_user=request.user, from_user=other_user).reject()
         except:
-            messages.error(request, 
+            messages.error(request,
                            "We could no longer find this request. Please refresh the page and try again")
-        
-        return JsonResponse({"response":"Connection Declined Successfully", 
+
+        return JsonResponse({"response": "Connection Declined Successfully",
                              "buttonId": other_user,
                             "type": "decline"})
 
@@ -280,11 +290,14 @@ def remove_friend(request, **kwargs):
     if request.is_ajax and request.method == "GET":
         other_user = kwargs.get('other_user')
         other_user_pk = MyAccount.objects.get(pk=other_user)
-        
+
         # Get both initial and reverse of friendship
-        get_connection_primary = Friend.objects.filter(to_user=request.user).filter(from_user=other_user_pk)[0]
-        get_connection_secondary = Friend.objects.filter(to_user=other_user_pk).filter(from_user=request.user)[0]
-        print("first",get_connection_primary,"second",get_connection_secondary)
+        get_connection_primary = Friend.objects.filter(
+            to_user=request.user).filter(from_user=other_user_pk)[0]
+        get_connection_secondary = Friend.objects.filter(
+            to_user=other_user_pk).filter(from_user=request.user)[0]
+        print("first", get_connection_primary,
+              "second", get_connection_secondary)
         # Remove the friend objects
         try:
             # Friend.objects.remove_friend(request.user, other_user_pk)
@@ -292,9 +305,9 @@ def remove_friend(request, **kwargs):
             get_connection_secondary.delete()
         except Exception as e:
             print("this error:", e)
-            messages.error(request, 
+            messages.error(request,
                            "We could no longer find this request. Please refresh the page and try again")
-        
-        return JsonResponse({"response":"Connection Removed Successfully", 
+
+        return JsonResponse({"response": "Connection Removed Successfully",
                              "buttonId": other_user,
                             "type": "remove"})

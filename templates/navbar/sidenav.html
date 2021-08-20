@@ -9,28 +9,37 @@
             </div>
             <div class="sidenav-detail-text">
                 <h2>{{full_name}}</h2>
-                {% if url_name != "edit_profile" %}
-                <a href="{% url 'edit_profile' %}" class="btn secondary-btn">Edit Profile</a>
-                {% endif %}
                 <p class="text-white m-auto p-text-underline">{{this_user.job_role}}</p>
+                {% if url_name != "edit_profile" %}
+                <a href="{% url 'edit_profile' %}" class="btn primary-btn-outline text-white py-2 px-3 mt-3">Edit
+                    Profile</a>
+                {% endif %}
             </div>
         </div>
-
-        <ul id="account_sidebar_ul">
-            <li class="{% if url_name == 'account_dashboard' %}active{% endif %}"><i
-                    class="fas fa-address-book sidebar-icon-item "></i>
-                <span class="sidebar-text-item">My Projects</span>
-            </li>
-            <li>
-               <a href="{% url 'get_my_orders' %}" class="sidebar-text-item">
-                    <i class="fas fa-address-book sidebar-icon-item "></i>
-                    My Orders
-                </a>
-            </li>
-            <li><i class="fas fa-address-book sidebar-icon-item "></i>
-                <span class="sidebar-text-item">Signout</span>
-            </li>
-        </ul>
+        <div class="sidenav-menu-wrap">
+            <span class="gutter"></span>
+            <ul id="account_sidebar_ul">
+                <li>
+                    <a href="{% url 'get_my_orders' %}" class="sidebar-text-item">
+                        <i class="fas fa-clipboard sidebar-icon-item "></i>
+                        <span>My Orders</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'get_my_orders' %}" class="sidebar-text-item">
+                        <i class="fas fa-clipboard sidebar-icon-item "></i>
+                        <span>My Orders</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'account_logout' %}" class="sidebar-text-item">
+                        <i class="fas fa-sign-out-alt sidebar-icon-item "></i>
+                        <span>Logout</span>
+                    </a>
+                </li>
+            </ul>
+            <span class="gutter"></span>
+        </div>
         {% endwith %}
     </div>
 </div>

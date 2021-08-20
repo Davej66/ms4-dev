@@ -75,6 +75,9 @@
 #account_sidebar_ul {
     color: #fff;
     font-weight: 200;
+    width: max-content;
+    margin: auto;
+    padding: 0px;
 }
 
 #account_sidebar_ul li {
@@ -85,12 +88,55 @@
 .sidebar-icon-item {
     font-size: 30px;
     margin: auto 0px;
+    width: 30px;
 }
+
+.sidenav-link-wrap {
+    white-space: nowrap;
+}
+
+.sidenav-menu-wrap {
+    display: flex;
+    justify-content: space-between;
+}
+
+span.gutter {
+    padding: 0px 19px;
+}
+
+.sidebar-text-item-closed {
+    display: none;
+}
+
 .sidebar-text-item  {
+    display: flex;
     margin: auto 0px;
-    padding-left: 15px;
     color: #fff;
     text-decoration: none;
+    position: relative;
+    padding-bottom: 15px;
+}
+
+.sidebar-text-item::after  {
+    content: "";
+    position: absolute;
+    width: 0;
+    border-bottom: 5px solid var(--accent-color-light);
+    bottom: 0;
+    transition: 0.3s ease-in-out;
+}
+
+.sidebar-text-item:hover::after  {
+    width: 100%;
+}
+
+.sidebar-text-item i {
+    width: 30px;
+}
+
+.sidebar-text-item span {
+    padding-left: 15px;
+    margin: auto;
 }
 
 .sidebar-text-item:hover {

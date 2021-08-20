@@ -1,0 +1,51 @@
+<div id="sidebar_wrap" class="nav-top-padding">
+    <div id="account_sidebar" class="d-flex flex-column">
+        <span onclick="triggerSidebar()" id="sidebar_trigger"><i class="fas fa-arrow-right"></i></span>
+        {% with request.resolver_match.url_name as url_name %}
+        <div class="sidebar-profile-details">
+            <div class="sidenav-image-container prf-img-preview-wrapper mx-auto mb-4">
+                <img class="prf-img-preview" src="{{profile_image}}" alt="{{full_name}}'s profile image"
+                    onload="specImageOrientation(this);">
+            </div>
+            <div class="sidenav-detail-text">
+                <h2>{{full_name}}</h2>
+                <p class="text-white m-auto p-text-underline">{{this_user.job_role}}</p>
+                {% if url_name != "edit_profile" %}
+                <a href="{% url 'edit_profile' %}" class="btn primary-btn-outline text-white py-2 px-3 mt-3">Edit
+                    Profile</a>
+                {% endif %}
+            </div>
+        </div>
+<div class="sidenav-menu-wrap">
+        <span class="gutter"></span>
+        <ul id="account_sidebar_ul">
+            <li class="{% if url_name == 'account_dashboard' %}active{% endif %}">
+                <span class="sidenav-link-wrap">
+                    <i class="fas fa-address-book sidebar-icon-item "></i>
+                    <span class="sidebar-text-item">My Projects</span>
+                </span>
+            </li>
+            <li>
+                <span class="sidenav-link-wrap">
+                    <a href="{% url 'get_my_orders' %}" class="sidebar-text-item-open">
+                    <i class="fas fa-clipboard sidebar-icon-item "></i>
+                        My Orders
+                    </a>
+                    <a href="{% url 'get_my_orders' %}" class="sidebar-text-item-closed">
+                    <i class="fas fa-clipboard sidebar-icon-item "></i>
+                    </a>
+                </span>
+            </li>
+            <span class="sidenav-link-wrap">
+                <a href="{% url 'account_logout' %}" class="sidebar-text-item">
+                        <li><i class="fas fa-sign-out-alt sidebar-icon-item "></i>
+                        Logout
+                    </a>
+                </span>
+            </li>
+        </ul>
+        <span class="gutter"></span>
+    </div>
+        {% endwith %}
+    </div>
+</div>
