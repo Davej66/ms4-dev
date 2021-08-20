@@ -346,30 +346,30 @@ def update_stripe_subscription(request):
 
     return render(request, 'checkout/update_subscription.html')
 
+# TODO function not needed?
+# def order_confirmation(request, order_id):
+#     # stripe_pk = settings.STRIPE_PUBLIC_KEY
+#     stripe_sk = settings.STRIPE_SECRET_KEY
+#     stripe.api_key = stripe_sk
 
-def order_confirmation(request, order_id):
-    # stripe_pk = settings.STRIPE_PUBLIC_KEY
-    stripe_sk = settings.STRIPE_SECRET_KEY
-    stripe.api_key = stripe_sk
+#     user = MyAccount.objects.get(email=request.user)
+#     stripe_customer_id = user.stripe_customer_id
+#     order = get_object_or_404(Order, order_id=order_id)
+#     print('cus id', stripe_customer_id)
+#     messages.success(request, "Order confirmed")
 
-    user = MyAccount.objects.get(email=request.user)
-    stripe_customer_id = user.stripe_customer_id
-    order = get_object_or_404(Order, order_id=order_id)
-    print('cus id', stripe_customer_id)
-    messages.success(request, "Order confirmed")
+#     invoices = stripe.Invoice.list(
+#         limit=10,
+#         customer=stripe_customer_id)
+#     print("invoices", invoices)
 
-    invoices = stripe.Invoice.list(
-        limit=10,
-        customer=stripe_customer_id)
-    print("invoices", invoices)
+#     context = {
+#         'order': order,
+#         'package': order.package_purchased,
+#         'customer': stripe_customer_id
+#     }
 
-    context = {
-        'order': order,
-        'package': order.package_purchased,
-        'customer': stripe_customer_id
-    }
-
-    return render(request, 'checkout/order_confirmation.html', context)
+#     return render(request, 'checkout/order_confirmation.html', context)
 
 
 # def list_stripe_invoices(request):

@@ -143,7 +143,7 @@ def dashboard_my_orders(request):
     if stripe_customer_id:
 
         invoices = stripe.Invoice.list(
-            limit = 3,
+            limit = 10,
             customer = stripe_customer_id)
 
         upcoming_invoice=stripe.Invoice.upcoming(
@@ -156,12 +156,12 @@ def dashboard_my_orders(request):
 
         upcoming_invoice_dict={
             "date": datetime.fromtimestamp(
-                upcoming_invoice.created).strftime('%d %b %Y'),
+                upcoming_invoice.created).strftime('%d %b %y'),
             "balance": upcoming_invoice.amount_due / 100,
             "period_start": datetime.fromtimestamp(up_inv_period.start).strftime(
-                '%d %b %Y'),
+                '%d %b %y'),
             "period_end": datetime.fromtimestamp(up_inv_period.end).strftime(
-                '%d %b %Y'),
+                '%d %b %y'),
             "package": get_package_object
         }
 
@@ -171,12 +171,13 @@ def dashboard_my_orders(request):
         for i in invoices:
             period = i.lines.data[0].period
             invoice_date = datetime.fromtimestamp(i.created).strftime(
-                '%d %b %Y')
+                '%d %b %y')
             start_date=datetime.fromtimestamp(period.start).strftime(
-                '%d %b')
+                '%d %b %y')
             end_date=datetime.fromtimestamp(period.end).strftime(
-                '%d %b %Y')
+                '%d %b %y')
             invoice_data={
+                "order_id": i.metadata,
                 "invoice_date": invoice_date,
                 "date_start": start_date,
                 "date_end": end_date,

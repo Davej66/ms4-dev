@@ -59,74 +59,120 @@
                         <div class="d-flex justify-content-between row w-100">
                             <!-- Start the Ajax Content Section -->
                             <div id="main_ajax_content" class="content col-12">
-                               <div class="card muted z-2">
+                                <div class="card muted z-2">
                                     <h3 class="edit-profile-section-header mb-3">Upcoming Order</h3>
                                     <div
                                         class="my-orders-item no-b-line d-flex flex-column flex-md-row mb-5 text-centertext-md-start">
-                                        <div class="order-detail">
-                                            <label class="table-item-label">Order #</label>
-                                            <p>
-                                                -
-                                            </p>
-                                        </div>
-                                        <div class="order-detail ">
-                                            <label class="table-item-label">Billing Date</label>
-                                            <p>
-                                                {{upcoming_invoice.date}}
-                                            </p>
-                                        </div>
-                                        <div class="order-detail">
-                                            <label class="table-item-label">Invoice Period</label>
-                                            <p>
-                                                {{upcoming_invoice.period_start}} - {{upcoming_invoice.period_end}}
-                                            </p>
-                                        </div>
-                                        <div class="order-detail">
-                                            <label class="table-item-label">Amount Due</label>
-                                            <p>
-                                                £{{upcoming_invoice.balance|floatformat:2}}
-                                            </p>
-                                        </div>
-                                        <div class="order-detail">
-                                            <a type="button" class="btn secondary-btn m-auto"
-                                                href="{% url 'update_subscription' %}">Update Subscription</a>
-                                        </div>
+                                        <table class="w-100 orders">
+                                            <tbody>
+                                                <tr>
+                                                    <td><label class="table-item-label-header">Order #</label></td>
+                                                    <td><label class="table-item-label-header">Invoice Date</label></td>
+                                                    <td><label class="table-item-label-header">Invoice Period</label>
+                                                    </td>
+                                                    <td><label class="table-item-label-header">Amount Charged</label>
+                                                    </td>
+                                                    <td><label class="table-item-label-header"></label></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                <div class="order-detail">
+                                                    <label class="table-item-label">Order #</label>
+                                                    <p>
+                                                        -
+                                                    </p>
+                                                </div>
+                                            </td><td>
+                                                <div class="order-detail ">
+                                                    <label class="table-item-label">Billing Date</label>
+                                                    <p>
+                                                        {{upcoming_invoice.date}}
+                                                    </p>
+                                                </div>
+                                            </td><td>
+                                                <div class="order-detail">
+                                                    <label class="table-item-label">Invoice Period</label>
+                                                    <p>
+                                                        {{upcoming_invoice.period_start}} -
+                                                        {{upcoming_invoice.period_end}}
+                                                    </p>
+                                                </div>
+                                            </td><td>
+                                                <div class="order-detail">
+                                                    <label class="table-item-label">Amount Due</label>
+                                                    <p>
+                                                        £{{upcoming_invoice.balance|floatformat:2}}
+                                                    </p>
+                                                </div>
+                                            </td><td>
+                                                <div class="order-detail">
+                                                    <a type="button" class="btn secondary-btn m-auto"
+                                                        href="{% url 'packages' %}">Update Subscription</a>
+                                                </div>
+                                            </td>
+                                                </tr>   
+                                            </tbody>
+                                        </table>
                                     </div>
                                     <h3 class="edit-profile-section-header mb-3">Previous Orders</h3>
-                                    {% for invoice in invoices %}
+                                    <table class="w-100 orders">
+                                        <tbody>
+                                            <tr>
+                                                <td><label class="table-item-label-header">Order #</label></td>
+                                                <td><label class="table-item-label-header">Invoice Date</label></td>
+                                                <td><label class="table-item-label-header">Invoice Period</label></td>
+                                                <td><label class="table-item-label-header">Amount Charged</label></td>
+                                                <td><label class="table-item-label-header"></label></td>
+                                            </tr>
 
-                                    <div class="my-orders-item d-flex">
-                                        <div class="order-detail">
-                                            <label class="table-item-label">Order #</label>
-                                            <p>
-                                                -
-                                            </p>
-                                        </div>
-                                        <div class="order-detail">
-                                            <label class="table-item-label">Invoice Date</label>
-                                            <p>
-                                                {{invoice.invoice_date}}
-                                            </p>
-                                        </div>
-                                        <div class="order-detail">
-                                            <label class="table-item-label">Invoice Period</label>
-                                            <p>
-                                                {{invoice.date_start}} - {{invoice.date_end}}
-                                            </p>
-                                        </div>
-                                        <div class="order-detail">
-                                            <label class="table-item-label">Amount Charged</label>
-                                            <p>
-                                                £{{invoice.amount}}
-                                            </p>
-                                        </div>
-                                        <div class="order-detail">
-                                            <a class="btn primary-btn-outline-color py-1 px-2 m-auto" href="{{invoice.download_url}}"><i class="fas fa-download px-1"></i> Download
-                                                Invoice</a>
-                                        </div>
-                                    </div>
 
-                                    {% endfor %}
+                                            {% for invoice in invoices %}
+                                            <tr>
+                                                <!-- <div class="my-orders-item d-flex"> -->
+                                                <td>
+                                                    <div class="order-detail">
+                                                        <label class="table-item-label">Order #</label>
+                                                        <p>
+                                                            {{invoice.order_id.order_id|default:"-"}}
+                                                        </p>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="order-detail">
+                                                        <label class="table-item-label">Invoice Date</label>
+                                                        <p>
+                                                            {{invoice.invoice_date}}
+                                                        </p>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="order-detail">
+                                                        <label class="table-item-label">Invoice Period</label>
+                                                        <p>
+                                                            {{invoice.date_start}} - {{invoice.date_end}}
+                                                        </p>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="order-detail">
+                                                        <label class="table-item-label">Amount Charged</label>
+                                                        <p>
+                                                            £{{invoice.amount|floatformat:2}}
+                                                        </p>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="order-detail">
+                                                        <a class="btn primary-btn-outline-color py-1 px-2 m-auto"
+                                                            href="{{invoice.download_url}}">
+                                                            <i class="fas fa-download px-1 m-auto"></i>
+                                                            Download Invoice</a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
                                 </div>
                                 <div class="container-rounded-light">card-content</div>
                             </div>

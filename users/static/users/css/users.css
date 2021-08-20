@@ -372,6 +372,14 @@
     border-bottom: none;
 }
 
+.table-item-label-header {
+    display: flex;
+}
+
+.table-item-label {
+    display: none;
+}
+
 .order-detail {
     display: flex;
     flex-direction: column;
@@ -771,6 +779,38 @@ h3.results-count {
         margin-bottom: 10px!important;
     }
 }
+
+
+@media (max-width: 767.98px) { 
+    table.orders > tbody tr{
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    table.orders > tbody tr td {
+        flex: 1 1 49%;
+        min-width: 209px;
+    }
+
+    table.orders > tbody tr td:last-of-type {
+        margin-bottom: 10px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid var(--light-line);
+    }
+
+    table.orders > tbody tr td:last-of-type > div > a{
+        width: max-content;
+        margin-left: 0px!important;
+    }
+    
+    .table-item-label-header {
+        display: none;
+    }
+    .table-item-label {
+        display: flex;
+    }
+}
+
 
 @media (max-width: 991.98px) { 
     #sidebar_wrap {
