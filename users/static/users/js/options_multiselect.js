@@ -6,14 +6,15 @@ const userSkills = getUserSkills ? JSON.parse(document.getElementById('user_skil
 const getUserInd = document.getElementById('user_ind')
 const userInd = getUserInd ? JSON.parse(document.getElementById('user_ind').textContent) : "";
 const getRoles = document.getElementById('all_roles')
-const roles = getUserInd ? JSON.parse(document.getElementById('all_roles').textContent) : "";
+const roles = getRoles ? JSON.parse(document.getElementById('all_roles').textContent) : "";
 const getUserRole = document.getElementById('user_role')
 const userRole = getUserRole ? JSON.parse(document.getElementById('user_role').textContent) : "";
+const getAccount = document.getElementById('free_account')
+const freeAccount = getAccount ? JSON.parse(document.getElementById('free_account').textContent) : "";
 const skillsDisplay = $('#skills_display');
 
-
 /* Init on page load */
-$(document).ready(function(){
+$(document).ready(function () {
     /** 
     * Multiselect library by 'sa-si-dev': https://sa-si-dev.github.io/virtual-select/
     **/
@@ -126,37 +127,46 @@ $(document).ready(function(){
 
     // Industry Select - options from below, not from DB
     (function () {
-        var industry = VirtualSelect.init({
-            ele: '#ind_select_profile_edit',
-            selectedValue: userInd,
-            hideClearButton: true,
-            options: [{
-                'label': 'Photography',
-                'value': 'Photography',
-            },
-            {
-                'label': 'Events Management',
-                'value': 'Events Management',
-            },
-            {
-                'label': 'Music',
-                'value': 'Music',
-            },
-            {
-                'label': 'Film & TV',
-                'value': 'Film & TV',
-            },
-            {
-                'label': 'Theatre',
-                'value': 'Theatre',
-            },
-            ],
-            multiple: false,
-            name: 'industry',
-            additionalClasses: 'select-edit-profile'
-        });
+        if (freeAccount) {
+            $('#ind_select_profile_edit').replaceWith(`
+            <input type="text" disabled style="pointer-events:none; background: transparent;" value="${userInd}">
+            </input>`)
+            $('#industry_search').addClass('tooltip-parent').append(`
+                <span class="tooltip-top">Upgrade your account to view other industries!</span>
+            `)
+        } else {
+            var industry = VirtualSelect.init({
+                ele: '#ind_select_profile_edit',
+                selectedValue: userInd,
+                hideClearButton: true,
+                options: [{
+                    'label': 'Photography',
+                    'value': 'Photography',
+                },
+                {
+                    'label': 'Events Management',
+                    'value': 'Events Management',
+                },
+                {
+                    'label': 'Music',
+                    'value': 'Music',
+                },
+                {
+                    'label': 'Film & TV',
+                    'value': 'Film & TV',
+                },
+                {
+                    'label': 'Theatre',
+                    'value': 'Theatre',
+                },
+                ],
+                multiple: false,
+                name: 'industry',
+                additionalClasses: 'select-edit-profile'
+            });
+        }
     })();
-    
+
 
     // Job Role Select - options from DB
     (function () {

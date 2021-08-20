@@ -13,6 +13,7 @@ def user_context(request):
         this_user = MyAccount.objects.get(email=request.user)
         full_name = this_user.first_name + " " + this_user.last_name
         full_name_title = full_name.title()
+        free_account = this_user.package_tier is 1
         
         # Return all skills and user skills
         skills = Skills.objects.all().order_by('skill_name')
@@ -42,6 +43,7 @@ def user_context(request):
             'user_ind': this_user.industry,
             'all_roles': role_names,
             'user_role': this_user.job_role,
+            'free_account': free_account,
         }
         return context
     except Exception as e:

@@ -110,7 +110,7 @@
 
                             <!-- List registered attendees -->
                             <div class="pending-requests-to-me">
-                                
+
                                 {% for reg in event.registrants.all %}
                                 <div class="attendee-item flex-row flex-wrap" value="{{new_connection.pk}}">
                                     <div
@@ -140,13 +140,13 @@
                                             Sent</button>
                                         {% elif conn_req.to_user == this_user %}
                                         <button class="accept-conn-btn btn primary-btn conn-response-btn"
-                                            onclick="accept_friend('{{reg.pk}}')" value="{{reg.pk}}" data-toggle="tooltip">
+                                            onclick="accept_friend('{{reg.pk}}')" value="{{reg.pk}}"
+                                            data-toggle="tooltip">
                                             <i class="fas fa-check"></i>
                                             <span class="tooltip-top">Accept the request</span>
                                         </button>
                                         <button class="decline-conn-btn btn primary-btn conn-response-btn warning"
-                                            onclick="decline_friend('{{reg.pk}}')"
-                                            value="{{reg.pk}}">
+                                            onclick="decline_friend('{{reg.pk}}')" value="{{reg.pk}}">
                                             <i class="fas fa-times"></i>
                                             <span class="tooltip-top">Decline the request</span>
                                         </button>
@@ -154,7 +154,8 @@
                                         {% endfor %}
                                         {% elif reg in current_connections %}
                                         <button class="remove-connection-btn btn primary-btn px-3 py-1 m-1"
-                                            onclick="remove_friend('{{reg.pk}}')" value="{{reg.pk}}"><i class="fas fa-user"></i>Already Connected</button>
+                                            onclick="remove_friend('{{reg.pk}}')" value="{{reg.pk}}"><i
+                                                class="fas fa-user"></i>Already Connected</button>
                                         {% else %}
 
                                         <button class="send-connection-btn btn primary-btn px-3 py-1 m-1"
@@ -180,6 +181,30 @@
     </div>
     {% endfor %}
     <!-- View Event Modal END -->
+
+    <!-- User must register before proceeding modal START -->
+    <div class="modal fade" id="limit_reached" tabindex="-1" role="dialog" aria-labelledby="limit_reached"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body p-0">
+                    <div class="card event-limit muted m-0">
+                        <p class="event-limit">{{event_limit}} <span> / </span> {{event_limit}}</p>
+                        <h3 class="header-underline">Limit Reached!</h3>
+                        <p class="text-center mb-2">
+                            Looks like you've registered for all of the events you can under this subscription. You'll
+                            need to upgrade to register for more!
+                        </p>
+                        <div class="event-card-buttons d-flex">
+                            <a href="{% url 'packages' %}" class="btn secondary-btn large m-auto py-3 px-4 w-45 my-4">
+                                Upgrade Subscription</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- User must register before proceeding modal END -->
 
 </section>
 

@@ -98,20 +98,25 @@ def all_users(request):
     """
     Return all users to the page and search if there is an ajax search request.
     """
-    all_users = MyAccount.objects.all().exclude(
-        first_name__exact='').exclude(last_name__exact='')
+    all_users = MyAccount.objects.all().exclude(pk=request.user.pk)
+    free_account = request.user.package_tier is 1
+    
+    # For free account tier, locked by industry only
+    if free_account:
+        all_users = MyAccount.objects.filter(industry=request.user.industry).exclude(pk=request.user.pk)
     
     user_friend_requests = Friend.objects.sent_requests(user=request.user)
 
     if request.is_ajax and request.method == "POST":
         query = request.POST['user_search'] 
-        industry_query = request.POST['industry']
+        if not free_account:
+            industry_query = request.POST['industry']
         
         if query != "":
             queries = Q(first_name__icontains=query) | Q(last_name__icontains=query) | Q(
                 description__icontains=query) | Q(location__icontains=query) | Q(
                 job_role__icontains=query) | Q(skills__icontains=query)
-        else: 
+        elif not free_account: 
             queries = Q(industry=industry_query)
         
         results = MyAccount.objects.filter(queries)
@@ -119,13 +124,13 @@ def all_users(request):
         context = {
             'search_results': results
         }
-        print(query, industry_query)
         payload = render_to_string('users/includes/ajax_user_search_results.html', context)
         return HttpResponse(json.dumps(payload), content_type="application/json")
 
     context={
         'users': all_users,
-        'pending_friend_reqs': user_friend_requests
+        'pending_friend_reqs': user_friend_requests,
+        'free_account': free_account
     }
 
     return render(request, 'users/all_user_list.html', context)

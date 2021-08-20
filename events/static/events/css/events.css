@@ -116,6 +116,7 @@
     border-color: var(--accent-color);
 }
 
+
 /* Attendee list modal */
 .pending-requests-to-me {
     display: flex;
@@ -227,8 +228,6 @@
 }
 
 
-
-
 /* Searchbar */
 .search-box-card {
     padding: 20px;
@@ -315,4 +314,32 @@ h3.results-count {
     width: 100%;
     padding: 20px;
     color: var(--light-grey);
+}
+
+
+/* Event Limit Reached Modal */
+#limit_reached > div > div {
+    border-radius: 20px;
+}
+
+.card.event-limit h3 {
+    width: max-content;
+    margin: auto;
+    margin-bottom: 20px;
+}
+
+p.event-limit {
+    font-size: 100px;
+    text-align: center;
+    font-weight: 600;
+    display: flex;
+    margin: auto;
+}
+
+p.event-limit span {
+    font-size: 50px;
+    margin: auto;
+    padding: 0px 25px;
+    margin-bottom: 35px;
+    color: var(--accent-color);
 }

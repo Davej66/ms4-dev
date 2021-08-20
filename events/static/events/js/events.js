@@ -30,8 +30,15 @@ function event_register(event_id) {
         url: `/meetups/ajax/event_register/${event_int}`,
         timeout: 10000,
         success: function (data) {
-            console.log("User successfully registered")
-            changeButtonUI(data.buttonId, data.type);
+            if (data.type == "limit_reached") {
+                var limitReachedModal = new bootstrap.Modal(
+                    document.getElementById('limit_reached'), {
+                    keyboard: false
+                })
+                limitReachedModal.show()
+            } else {
+                changeButtonUI(data.buttonId, data.type);
+            }
         },
         error: function (data) {
             console.log("There has been an error")
