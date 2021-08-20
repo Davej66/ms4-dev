@@ -36,12 +36,20 @@ def store_selection(request):
     """ Get package selection from packages page and store in session 
         for remainder of checkout process """
 
-    if request.is_ajax():
-
+    if request.is_ajax() and request.method == "POST":
         # Get the package id from the ajax request
+        
+        user_auth = request.user
+        user_str = str(user_auth)
         package = request.POST['package_id']
         request.session['package_selection'] = package
-        return redirect('summary')
+        print(user_str, type(user_auth))
+        
+        if user_str == 'AnonymousUser':
+            send_to_reg = True
+            return JsonResponse({'response': "Success", 'registration': True})
+            
+        return JsonResponse({'response': "Success", 'proceed': True})
 
     return JsonResponse({'response': "Something went wrong, please try again",
                          'proceed': False})

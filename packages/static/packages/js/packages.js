@@ -15,8 +15,11 @@ function select_package(packageId){
         url: '../checkout/package_select/ajax/store_selection/',
         timeout: 10000,
         success: function (data) {
-            window.location.replace('../checkout/confirm_order/')
-            console.log("This Worked", data.proceed)
+            if (data.registration != true) {
+                window.location.replace('../checkout/confirm_order/')
+            } else {
+                window.location.replace('../account/signup/')
+            }
         },
         error: function (data) {
             console.log("There has been an error")
