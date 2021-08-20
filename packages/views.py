@@ -21,7 +21,8 @@ def package_index(request):
                 'packages': packages
             }
             return render(request, 'packages/packages.html', context)    
-
+    else: 
+        context['account_required'] = True    
     context['packages'] = packages
 
     return render(request, 'packages/packages.html', context)

@@ -93,3 +93,21 @@
     padding-right: 10px;
     padding-top: 4px;
 }
+
+/* User must register modal */
+#must_register h3 {
+    width: max-content;
+    margin: auto;
+    margin-bottom: 20px;
+}
+
+#must_register > div {
+    display: flex;
+    height: 100%;
+}
+
+#must_register > div > div {
+    margin: auto;
+    height: max-content;
+    border-radius: 20px;
+}

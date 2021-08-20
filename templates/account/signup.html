@@ -15,8 +15,8 @@
       <div class="d-flex justify-content-center p-0">
         <div class="register-login-card card muted m-2 col-lg-6 fade-in">
           <h1 class="text-center">Register for your Free Account</h1>
-          <p class="py-3 text-center">We'll automatically enroll you in our Free Account subscription, but for additional event registration and peer to peer networking, upgrade your account
-            after signup, or <a href="{% url 'packages' %}">select a new package now</a>!
+          <p class="py-3 text-center w-75 m-auto">We'll automatically enroll you in our Free Account subscription, but for additional event registration and peer to peer networking, upgrade your account
+            after signup to unlock the full set of features!
           </p>
           <form class="account-form signup py-4 d-flex flex-wrap" id="signup_form" method="post" action="{% url 'account_signup' %}">
             {% csrf_token %}

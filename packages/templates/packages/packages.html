@@ -137,6 +137,32 @@
 
         </div>
     </div>
+
+
+<div class="modal fade" id="must_register" tabindex="-1" role="dialog"
+    aria-labelledby="must_register" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body p-0">
+                <div class="card muted m-0">
+                    <h3 class="header-underline">Register Now!</h3>
+                    <p>
+                        You'll need to create a free account before you can upgrade to a higher tier! 
+                        <br><br> Once registered, you'll be able to take advantage of our Free Account features!
+                    </p>
+                    <hr>
+                    <div class="event-card-buttons d-flex">
+                        <a href="{% url 'account_signup' %}" class="btn secondary-btn large m-auto py-3 px-4 w-45">
+                        Register Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 </section>
+
+{{ account_required|json_script:"id_account_required" }}
 <script src="{% static 'packages/js/packages.js' %}" type="text/javascript"></script>
 {% endblock %}

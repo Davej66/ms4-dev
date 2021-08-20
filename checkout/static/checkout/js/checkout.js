@@ -26,7 +26,6 @@ $('.update-package-card').on('click', function () {
 var stripePublicKey = $('#id_stripe_public_key').text().slice(1, -1);
 var stripeClientSecret = $('#id_stripe_client_secret').text().slice(1, -1);
 var is_upgrade = $('#is_upgrade').val();
-console.log(is_upgrade, typeof (is_upgrade))
 var stripe = Stripe(stripePublicKey);
 var elements = stripe.elements();
 var csrftoken = Cookies.get('csrftoken');
