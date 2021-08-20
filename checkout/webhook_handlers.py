@@ -107,6 +107,10 @@ class StripeWH_Handler:
             if order_form.is_valid():
                 order_form.save()
             
+            print("user", user.events_remaining_in_package, package.event_limit)
+            user.events_remaining_in_package = package.event_limit
+            user.save()
+            
             # Get the order number and add to the Stripe invoice
             order = Order.objects.get(stripe_invoice_id=invoice_id)
                 
