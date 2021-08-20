@@ -19,8 +19,8 @@
 {% endfor %}
 {% endif %}
 
-<div class="container-fluid w-100 m-0 p-0 light-page">
-    <div class="row w-100 m-0">
+<div class="container-fluid d-flex w-100 m-0 p-0 light-page">
+    <div class="row flex-if-short w-100 m-0">
         <div class="d-flex justify-content p-0 relative">
             <!-- SIDENAV -->
             {% include "navbar/sidenav.html" %}
@@ -112,7 +112,7 @@
                                         <h3 class="edit-profile-section-header mb-3">Upcoming Events</h3>
 
                                         <!-- List user's registered events -->
-                                        <div class="pending-requests-to-me">
+                                        <div class="pending-requests-to-me pt-3">
                                             {% for event in user_events %}
                                             <div class="upcoming-event-item flex-wrap d-flex" value="{{event.pk}}">
                                                 <div class="img-and-details-mast d-flex">

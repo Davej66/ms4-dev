@@ -4,7 +4,7 @@
 Credits:
 - Render to string with JsonResponse - BeryCZ https://stackoverflow.com/questions/64688157/django-render-json-response-html
 
-
+# ADD GIFS!!
 
 ## Tools
 - [Django Secret Key Generator](https://miniwebtool.com/django-secret-key-generator/) for generating Django secret key to store in environment variables in Gitpod and Heroku

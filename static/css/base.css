@@ -51,8 +51,9 @@ body {
     animation: fade-in 0.3s ease-in-out;
 }
 
-footer {
-    margin-top: auto;
+.container-fluid,
+.flex-if-short {
+    flex: 1 1 auto;
 }
 
 .container-with-grad-bg {
@@ -963,6 +964,53 @@ a.nav-img-wrapper img {
 }
 
 /*=============================================
+=                   FOOTER                    =
+=============================================*/
+footer {
+    display: flex;
+    margin-top: auto;
+    min-height: 50px;
+    background: #f8f8f8;
+    box-shadow: 1px -1px 10px -5px var(--dark-shadow);
+}
+
+.footer-links {
+    display: flex;
+    justify-content: space-between;
+    margin: auto;
+    margin-right: 0px;
+    padding: 30px 50px;
+    width: 100%;
+}
+
+.footer-links ul {
+    display: flex;
+    flex-direction: row;
+}
+
+.footer-links ul li {
+    padding: 0px 20px;
+}
+
+.footer-links ul li a{
+    color: var(--dark-text);
+    transition: 0.3s ease-out;
+    padding: 10px 0px;
+    font-weight: 100;
+}
+
+.footer-links ul li a:hover{
+    border-bottom: 3px solid var(--primary-color);
+}
+
+.footer-links ul li:last-of-type {
+    padding-right: 0px;
+}
+
+
+
+
+/*=============================================
 =              MEDIA QUERIES                  =
 =============================================*/
 
@@ -982,6 +1030,31 @@ a.nav-img-wrapper img {
 
     .flex-sm-column {
         flex-direction: column!important;
+    }
+
+    .footer-links {
+        margin: auto!important;
+        width: 100%;
+        padding: 20px;
+        flex-direction: column-reverse;
+        text-align: center;
+    }
+
+    .footer-links ul {
+        display: flex;
+        margin: auto;
+        padding: 0px;
+        text-align: center;
+        width: max-content;
+        margin-bottom: 10px;
+    }
+
+    .footer-links ul li {
+        padding: 0px 20px;
+    }
+
+    .footer-links ul li:last-of-type {
+        padding-right: 20px;
     }
  }
 
