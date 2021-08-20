@@ -98,7 +98,7 @@ def all_users(request):
     """
     Return all users to the page and search if there is an ajax search request.
     """
-    all_users = MyAccount.objects.all().exclude(pk=request.user.pk)
+    all_users = MyAccount.objects.all().exclude(pk=request.user.pk).exclude(show_profile=False)
     free_account = request.user.package_tier is 1
     
     # For free account tier, locked by industry only
