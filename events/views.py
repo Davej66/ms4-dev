@@ -107,8 +107,7 @@ def event_cancel(request, **kwargs):
         elif user.package_tier == 2:
             user_event_limit = 5
         else:
-            user_event_limit = 10
-        
+            user_event_limit = 10     
             
         try:
             event_instance.registrants.remove(request.user)

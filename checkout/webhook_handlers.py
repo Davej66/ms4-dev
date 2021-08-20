@@ -70,6 +70,7 @@ class StripeWH_Handler:
         
         user.stripe_customer_id = ""
         user.stripe_subscription_id = ""
+        user.events_remaining_in_package = 1
         user.package_tier = 1
         user.package_name = "Free Account"
         user.save()
