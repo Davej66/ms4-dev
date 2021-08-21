@@ -132,6 +132,7 @@ def confirm_order(request):
     package_stripe_id = package_item.stripe_price_id
     sub_price_id = None
     latest_bill_paid = "open"
+    
 
     if not stripe_pk:
         messages.warning(request, "No public key found for Stripe")
@@ -229,13 +230,15 @@ def confirm_order(request):
         request.session['package_selection'] = ""
         return redirect('get_my_orders')
 
+    
     # Send end of current period to context
-    if subscription and latest_bill_paid != 'void':
+    if subscription and subscription.plan.id is not free_package_id:
+        print(subscription.latest_invoice)
         upcoming_inv = stripe.Invoice.upcoming(
             customer=user.stripe_customer_id,
         )
         next_period_start = datetime.fromtimestamp(upcoming_inv.next_payment_attempt).strftime(
-            '%d %b %y')
+            '%d %b %y') 
         current_end = datetime.fromtimestamp(subscription.current_period_end).strftime(
             '%d %b %y')
     else:
