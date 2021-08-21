@@ -105,6 +105,7 @@ def all_users(request):
     all_users = MyAccount.objects.all().exclude(
         pk=request.user.pk).exclude(show_profile=False)
     free_account = request.user.package_tier is 1
+    profile_complete = request.user.profile_complete
 
     # For free account tier, locked by industry only
     if free_account:
@@ -137,7 +138,8 @@ def all_users(request):
     context = {
         'users': all_users,
         'pending_friend_reqs': user_friend_requests,
-        'free_account': free_account
+        'free_account': free_account,
+        'profile_complete': profile_complete
     }
 
     return render(request, 'users/all_user_list.html', context)

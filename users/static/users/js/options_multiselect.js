@@ -11,6 +11,8 @@ const getUserRole = document.getElementById('user_role')
 const userRole = getUserRole ? JSON.parse(document.getElementById('user_role').textContent) : "";
 const getAccount = document.getElementById('free_account')
 const freeAccount = getAccount ? JSON.parse(document.getElementById('free_account').textContent) : "";
+const prfComplete = document.getElementById('profile_completed')
+const isPrfComplete = prfComplete ? JSON.parse(document.getElementById('profile_completed').textContent) : "";
 const skillsDisplay = $('#skills_display');
 
 /* Init on page load */
@@ -127,7 +129,8 @@ $(document).ready(function () {
 
     // Industry Select - options from below, not from DB
     (function () {
-        if (freeAccount) {
+        if (freeAccount && isPrfComplete) {
+            console.log("Profile completed")
             $('#ind_select_profile_edit').replaceWith(`
             <input type="text" disabled style="pointer-events:none; background: transparent;" value="${userInd}">
             </input>`)

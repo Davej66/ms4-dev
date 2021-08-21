@@ -78,10 +78,19 @@
                         to them through the Stripe interface.</label>
                     {% else %}
                     <p class="pt-5">Looking to amend your account? No problem!<br><br>
+                        {% if next_period_start != '' %}
                         Since we've already processed this months payment, your new subscription option will begin from
-                        <span class="p-text-underline"><strong>{{next_period_start}}</strong></span> when this period expires.
+                        <span class="p-text-underline"><strong>
+                            {{next_period_start}}</strong></span> when this period expires.
                         <br><br>You can continue to use the existing features of your current subscription until this
                         date.
+                        {% else %}
+                        {{next_period_start}}
+                        Since we've already processed this months payment, your downgrade will commence the end of this billing period on
+                        <span class="p-text-underline"><strong>
+                            {{current_period_end}}</strong></span> when this period expires.
+                        <br><br>You can continue to use the existing features of your current subscription until this date.
+                        {% endif %}
                     </p>
                     {% endif %}
                 </div>
