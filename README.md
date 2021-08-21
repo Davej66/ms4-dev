@@ -1,17 +1,102 @@
-# MS4-FreelanceMeetups
+# FreelanceMeetups
+> Site images 
+
+[You can view the live site here](https://bc-freelance-meetups.herokuapp.com)
+
+This site is intended to enable Freelancers from a number of industries to connect, and join their peers in Freelance Meetups online and in locations local to them.
+
+By facilitating Freelancer connections and Meetups, the site aims to assist them in expanding their networks, to share advice and ideas, as well as well discover more work opportunities available to them.
+___
+
+## Contents
+### User Stories
+### User Experience Design
+- Brand and Colours
+- UI Design
+### Technology & Tools
+### Testing
+- User Stories
+- Technical Testing
+    - Code Validators
+    - Responsive Design 
+    - Compatability (Browser & Device)
+    - Bugs & Known Issues
+### Local & Production Deployment
+- Github
+- Deploying to Heroku
+- Connecting Production Environment to AWS
+### Credits
+- Tutorials & Support
+- Images & Attribution
+- Acknowledgements
+
+<br>
+
+___
+<br>
 
 
-Credits:
-- Render to string with JsonResponse - BeryCZ https://stackoverflow.com/questions/64688157/django-render-json-response-html
+## User Stories
+
+<br>
+
+___
+<br>
+
+## User Experience Design
+
+### Brand
+>aaa
+### Colours & Typography
+>a
+### UI Design
+>a
+
+
+<br>
+
+___
+<br>
 
 # ADD GIFS!!
 
-## Tools
+## Technology & Tools
+
+### Technology
+- HTML5
+- CSS
+- Javascript - vanilla and jQuery
+- Python3
+- Django 3.2
+- Stripe API
+
+### Libraries
+- [Multiselect JS Library by sa-si-dev](https://github.com/sa-si-dev/virtual-select). Used to created multi and single select dropdowns with customised UI on forms.
+- [Javascript Cookie Library by 'js-cookie' on GitHub](https://cdn.jsdelivr.net/npm/js-cookie@3.0.0/dist/js.cookie.min.js), used to simplify the retrieval of cookies when sending ajax requests (i.e setting the CSRF token as a variable within JS file).
+
+### Additional Tools
 - [Django Secret Key Generator](https://miniwebtool.com/django-secret-key-generator/) for generating Django secret key to store in environment variables in Gitpod and Heroku
 - [temp-email.org](https://temp-mail.org/) used for generating temporary emails for demo user accounts.
 - [JSON Generator](https://www.json-generator.com/) to create randomised user data for demo user testing.
 - [Randomuser.me](https://randomuser.me/) to create randomised user profile images for demo user testing.
-- [Javascript Cookie Library by 'js-cookie' on GitHub](https://cdn.jsdelivr.net/npm/js-cookie@3.0.0/dist/js.cookie.min.js), used to simplify the retrieval of cookies when sending ajax requests.
+
+<br>
+
+___
+<br>
+
+## Testing
+- User Stories
+- Technical Testing
+    - Code Validators
+    - Responsive Design 
+    - Compatability (Browser & Device)
+    - Bugs & Known Issues
+
+<br>
+
+___
+<br>
 
 ## Deployment
 
@@ -131,11 +216,27 @@ Connect Django to AWS
 3. Create a new Stripe webhook endpoint pointing to the new Heroku app URL. Once created, copy the webhook 'Signing Secret' from Stripe and add to the Heroku Config Vars using `STRIPE_WH_SECRET` as the key.
 4. Test the new webhook connection in the Stripe webhook dashboard. Select 'Send Test Webhook' in the topbar options and select from the dropdown. 
 
+<br>
 
-### Libraries
-- Multiselect JS Library by [sa-si-dev](https://github.com/sa-si-dev/virtual-select)
+___
+<br>
 
 ## Credits
+
+### Tutorials and Support
+- [Markdown cheatsheet](https://www.markdownguide.org/basic-syntax/)
+- [How to get a footer to stick to the bottom of the page](https://dev.to/nehalahmadkhan/how-to-make-footer-stick-to-bottom-of-web-page-3i14)
+- [How to set nav link to active based on url - Siddharth Pant's answer in this StackOverflow thread](https://stackoverflow.com/questions/46617375/how-do-i-show-an-active-link-in-a-django-navigation-bar-dropdown-list)
+- [How to preview image before upload using jQuery - answer from Suresh Pattu in this StackOverflow thread](https://stackoverflow.com/questions/18694437/how-to-preview-image-before-uploading-in-jquery/19649483)
+- [Syntax to center any image to the center of it's parent div - Answer provided by 'hyounis' in this StackOverflow thread](https://stackoverflow.com/questions/14562457/center-oversized-image-in-div)
+- [Syntax support to serialize Django QuerySet to JSON for use in template, answer provided by 'Yannic Hamann' in this StackOverflow thread](https://stackoverflow.com/questions/47204188/is-there-any-way-convert-django-model-queryset-to-json-or-json-string-in-templat)
+- [How to load fonts without render blocking on page load guide by CSS-Tricks](https://css-tricks.com/how-to-load-fonts-in-a-way-that-fights-fout-and-makes-lighthouse-happy/)
+- Dropdown menu on hover guided by StackOverflow answer by Aram Mkrchtyan in [this thread](https://stackoverflow.com/questions/8775860/jquery-drop-down-hover-menu)
+- [Exclude objects from Django QuerySet using .exclude()](https://chartio.com/resources/tutorials/how-to-filter-for-empty-or-null-values-in-a-django-queryset/)
+- [Getting the index of an element in a forEach function JS](https://masteringjs.io/tutorials/fundamentals/foreach-index)
+- How to set floats to two decimal places with Django template tag - answer by Alasdair in [this Stack Overflow thread](https://stackoverflow.com/questions/12903686/how-can-i-get-a-decimal-field-to-show-more-decimal-places-in-a-template).
+- [Send a Beacon to server on tab close](https://www.schtech.co.uk/trigger-django-functions-with-javascript-sendbeacon/) - used to create a 'destroy subscription' function if user abandons cart.
+- Render to string with JsonResponse, response by BeryCZ in [this Stack Overflow thread](https://stackoverflow.com/questions/64688157/django-render-json-response-html)
 
 ### Images
 - Photography Example Event Image by [ATC Comm Photo](https://www.pexels.com/@atccommphoto?utm_content=attributionCopyText&utm_medium=referral&utm_source=pexels) from Pexels
@@ -154,16 +255,3 @@ Connect Django to AWS
 - Demo event header image of Madrid by [Gotta Be Worth It](https://www.pexels.com/@myersmc16?utm_content=attributionCopyText&utm_medium=referral&utm_source=pexels) from Pexels
 
 
-### Tutorials and Guides
-- [Markdown cheatsheet](https://www.markdownguide.org/basic-syntax/)
-- [How to get a footer to stick to the bottom of the page](https://dev.to/nehalahmadkhan/how-to-make-footer-stick-to-bottom-of-web-page-3i14)
-- [How to set nav link to active based on url - Siddharth Pant's answer in this StackOverflow thread](https://stackoverflow.com/questions/46617375/how-do-i-show-an-active-link-in-a-django-navigation-bar-dropdown-list)
-- [How to preview image before upload using jQuery - answer from Suresh Pattu in this StackOverflow thread](https://stackoverflow.com/questions/18694437/how-to-preview-image-before-uploading-in-jquery/19649483)
-- [Syntax to center any image to the center of it's parent div - Answer provided by 'hyounis' in this StackOverflow thread](https://stackoverflow.com/questions/14562457/center-oversized-image-in-div)
-- [Syntax support to serialize Django QuerySet to JSON for use in template, answer provided by 'Yannic Hamann' in this StackOverflow thread](https://stackoverflow.com/questions/47204188/is-there-any-way-convert-django-model-queryset-to-json-or-json-string-in-templat)
-- [How to load fonts without render blocking on page load guide by CSS-Tricks](https://css-tricks.com/how-to-load-fonts-in-a-way-that-fights-fout-and-makes-lighthouse-happy/)
-- Dropdown menu on hover guided by StackOverflow answer by Aram Mkrchtyan in [this thread](https://stackoverflow.com/questions/8775860/jquery-drop-down-hover-menu)
-- [Exclude objects from Django QuerySet using .exclude()](https://chartio.com/resources/tutorials/how-to-filter-for-empty-or-null-values-in-a-django-queryset/)
-- [Getting the index of an element in a forEach function JS](https://masteringjs.io/tutorials/fundamentals/foreach-index)
-- How to set floats to two decimal places with Django template tag - answer by Alasdair in [this Stack Overflow thread](https://stackoverflow.com/questions/12903686/how-can-i-get-a-decimal-field-to-show-more-decimal-places-in-a-template).
-- [Send a Beacon to server on tab close](https://www.schtech.co.uk/trigger-django-functions-with-javascript-sendbeacon/) - used to create a 'destroy subscription' function if user abandons cart.
