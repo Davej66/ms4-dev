@@ -182,21 +182,20 @@ def confirm_order(request):
         latest_bill_paid = subscription.latest_invoice.status
         sub_price_id = subscription.plan.id
     
-    print(latest_bill_paid, sub_price_id, free_package_id)
-    # If user attempting to purchase the same subscription, send them to their orders
-    if sub_price_id == package_stripe_id and latest_bill_paid == "paid":
-        messages.error(request, "You are already subscribed to this package!")
+    
+    # Update customer default payment method for future changes
+    customer_has_pm = stripe.Customer.retrieve(
+            user.stripe_customer_id
+        )
 
-        return redirect('get_my_orders')
+    if not customer_has_pm.invoice_settings.default_payment_method:
+            stripe.Customer.modify(
+                user.stripe_customer_id,
+                invoice_settings={'default_payment_method': 
+                    subscription.latest_invoice.payment_intent.payment_method}
+            )
 
-    elif latest_bill_paid == 'paid':
-        sub_is_change = True
-        print("Sub is change?")
-    else: 
-        sub_is_change = False
-        print("Sub is new")
-        
-        
+
     if request.method == 'POST':
 
         # If user updates their details on form, update their account
@@ -227,18 +226,8 @@ def confirm_order(request):
             }]
         )
         
-        # Update customer default payment method for future changes
-        customer_has_pm = stripe.Customer.retrieve(
-            user.stripe_customer_id
-        ).payment_method
         
         
-        if not customer_has_pm:
-            stripe.Customer.modify(
-                user.stripe_customer_id,
-                invoice_settings={'default_payment_method': 
-                    subscription.latest_invoice.payment_intent.payment_method}
-            )
 
         # TODO: remove?
         # try:
@@ -248,6 +237,9 @@ def confirm_order(request):
         #     order_exists = False
     
         request.session['package_selection'] = ""
+        storage = messages.get_messages(request)
+        storage.used = True
+        messages.success(request, "You have successfully subscribed!")
         return redirect('get_my_orders')
 
     
@@ -265,6 +257,17 @@ def confirm_order(request):
         next_period_start = ""
         current_end = datetime.fromtimestamp(subscription.current_period_end).strftime(
             '%d %b %y')
+
+    # If user attempting to purchase the same subscription, send them to their orders
+    if sub_price_id == package_stripe_id and latest_bill_paid == "paid":
+        messages.error(request, "You are already subscribed to this package!")
+        return redirect('get_my_orders')
+    elif latest_bill_paid == 'paid':
+        sub_is_change = True
+        print("Sub is change?")
+    else: 
+        sub_is_change = False
+        print("Sub is new")
 
     context = {
         "stripe_public_key": stripe_pk,

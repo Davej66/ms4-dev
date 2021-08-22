@@ -115,7 +115,7 @@ class StripeWH_Handler:
             # Get the order number and add to the Stripe invoice
             order = Order.objects.get(stripe_invoice_id=invoice_id)
                 
-            current_inv = stripe.Invoice.modify(
+            stripe.Invoice.modify(
                 invoice_id,
                 metadata={"order_id": order.order_id}
                 )
