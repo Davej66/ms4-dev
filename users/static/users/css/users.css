@@ -148,6 +148,22 @@ span.gutter {
 }
 
 /* Main body section of dashboard */
+p.event-limit {
+    font-size: 70px;
+    text-align: center;
+    font-weight: 600;
+    display: flex;
+    margin: auto;
+    line-height: initial;
+}
+
+p.event-limit span {
+    font-size: 50px;
+    margin: auto;
+    padding: 0px 15px;
+    color: var(--accent-color);
+}
+
 .page-content-with-sidebar {
     width: 100%;
     margin: 0px;

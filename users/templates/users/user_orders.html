@@ -19,8 +19,8 @@
 {% endfor %}
 {% endif %}
 
-<div class="container-fluid w-100 m-0 p-0 light-page">
-    <div class="row w-100 m-0">
+<div class="container-fluid w-100 m-0 p-0 light-page d-flex">
+    <div class="row flex-if-short w-100 m-0">
         <div class="d-flex justify-content p-0 relative">
             <!-- SIDENAV -->
             {% include "navbar/sidenav.html" %}
@@ -31,28 +31,6 @@
                     <div class="container-box-header pb-4">
                         <h1 class="header-underline-after">My Orders</h1>
                     </div>
-
-
-                    <!-- TOP SECTION CARDS -->
-                    <div class="container w-100 d-flex justify-content-center align-items-stretch mb-4 fade-in">
-                        <div class="d-flex justify-content-between row w-100">
-                            <div class="py-2 col-lg-4">
-                                <div class="container-rounded-light color-on-hover">
-                                    <h4>{{upcoming_invoice.package.name}}</h4>
-                                </div>
-                            </div>
-                            <div class="py-2 col-lg-4">
-                                <div class="container-rounded-light color-on-hover">
-                                    <h4>5 <span class="small-text">of</span> 5</h4>
-                                    <p>Events Remaining</p>
-                                </div>
-                            </div>
-                            <div class="py-2 col-lg-4">
-                                <div class="container-rounded-light">card-content</div>
-                            </div>
-                        </div>
-                    </div>
-
 
                     <!-- MAIN BODY CARD -->
                     <div class="container w-100 d-flex flex-row justify-content-center align-items-stretch">
@@ -174,7 +152,6 @@
                                         </tbody>
                                     </table>
                                 </div>
-                                <div class="container-rounded-light">card-content</div>
                             </div>
                         </div>
                     </div>

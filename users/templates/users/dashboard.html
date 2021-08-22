@@ -28,18 +28,23 @@
             <!-- MAIN PAGE CONTENT -->
             <div class="container nav-top-padding">
                 <section id="ajax_content" class="pg-section py-5 min-vh section-with-padding">
+                    <div class="container-box-header pb-4">
+                        <h1 class="header-underline-after">My Dashboard</h1>
+                    </div>
                     <!-- TOP SECTION CARDS -->
-                    <div class="container w-100 d-flex justify-content-center align-items-stretch mb-4">
-                        <div class="d-flex justify-content-between row w-100">
-                            <div class="py-2 col-lg-4">
-                                <div class="container-rounded-light">card-content</div>
+                    <div class="d-flex flex-wrap card-row-two">
+                        
+                            <div class="py-2">
+                                <div class="card event-limit muted m-0">
+                                    <p class="event-limit">{{user_friends}}</p>
+                                    <h3 class="text-center">Connection{%if user_friends != 1 %}s{%endif%}</h3>
+                                </div>
                             </div>
-                            <div class="py-2 col-lg-4">
-                                <div class="container-rounded-light">card-content</div>
-                            </div>
-                            <div class="py-2 col-lg-4">
-                                <div class="container-rounded-light">card-content</div>
-                            </div>
+                            <div class="py-2">
+                                <div class="card event-limit muted m-0">
+                                    <p class="event-limit">{{this_user.events_remaining_in_package}} <span> / </span> {{user_package.event_limit}}</p>
+                                    <h3 class="text-center">Events Remaining</h3>
+                                </div>
                         </div>
                     </div>
 
@@ -48,9 +53,7 @@
                         <div class="d-flex justify-content-between row w-100">
                             <!-- Start the Ajax Content Section -->
                             <div class="content col-12">
-                                <div class="container-box-header pb-4">
-                                    <h1 class="header-underline-after">My Dashboard</h1>
-                                </div>
+                                
                                 <div class="d-flex flex-wrap card-row-two">
                                     <div class="mb-3 card muted z-2">
                                         <h3 class="edit-profile-section-header mb-3">Pending Connections</h3>
@@ -160,9 +163,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="container-rounded-light">card-content</div>
                             </div>
-                            <!-- End of Ajax content section -->
                         </div>
                     </div>
                 </section>

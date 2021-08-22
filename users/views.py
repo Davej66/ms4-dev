@@ -46,6 +46,8 @@ def account_dashboard(request):
     pending_reqs_to_user = Friend.objects.unrejected_requests(
         user=request.user)
     user_events = request.user.attendees.all()
+    user_friends_count = len(Friend.objects.friends(request.user))
+    
 
     requested_users = []
 
@@ -58,6 +60,7 @@ def account_dashboard(request):
         'package': user_package,
         'pending_friend_reqs': requested_users,
         'user_events': user_events,
+        'user_friends': user_friends_count,
     }
 
     if not profile_complete:
@@ -103,9 +106,8 @@ def all_users(request):
     Return all users to the page and search if there is an ajax search request.
     """
     all_users = MyAccount.objects.all().exclude(
-        pk=request.user.pk).exclude(show_profile=False)
-    free_account = request.user.package_tier is 1
-    profile_complete = request.user.profile_complete
+        pk=request.user.pk)
+    free_account = request.user.package_tier == 1
 
     # For free account tier, locked by industry only
     if free_account:
@@ -118,15 +120,17 @@ def all_users(request):
         query = request.POST['user_search']
         if not free_account:
             industry_query = request.POST['industry']
+        else: 
+            industry_query = request.user.industry
 
         if query != "":
             queries = Q(first_name__icontains=query) | Q(last_name__icontains=query) | Q(
                 description__icontains=query) | Q(location__icontains=query) | Q(
                 job_role__icontains=query) | Q(skills__icontains=query)
-        elif not free_account:
+        else:
             queries = Q(industry=industry_query)
 
-        results = MyAccount.objects.filter(queries)
+        results = MyAccount.objects.filter(queries).exclude(pk=request.user.pk)
 
         context = {
             'search_results': results
@@ -139,7 +143,6 @@ def all_users(request):
         'users': all_users,
         'pending_friend_reqs': user_friend_requests,
         'free_account': free_account,
-        'profile_complete': profile_complete
     }
 
     return render(request, 'users/all_user_list.html', context)

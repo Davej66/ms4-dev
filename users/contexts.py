@@ -3,6 +3,7 @@ from django.core.serializers import serialize
 from django.contrib import messages
 from django.shortcuts import get_object_or_404
 from users.models import MyAccount, Skills, Roles
+from packages.models import Package
 
 def user_context(request):
 
@@ -11,6 +12,7 @@ def user_context(request):
 
     try:
         this_user = MyAccount.objects.get(email=request.user)
+        user_package = Package.objects.get(tier=this_user.package_tier)
         full_name = this_user.first_name + " " + this_user.last_name
         full_name_title = full_name.title()
         free_account = this_user.package_tier is 1
@@ -27,15 +29,10 @@ def user_context(request):
         roles = Roles.objects.all().order_by('role_name')
         for role in roles: 
             role_names.append(role.role_name)
-        # print("no skill", this_user.role)
-        # user_role = this_user.role
-        # if not user_role:
-        #     user_role = ""
-        #     print("no role")
-        # print("role_names", role_names, skill_names)
 
         context = {
             'this_user': this_user,
+            'user_package': user_package,
             'profile_image': this_user.profile_image.url,
             'full_name': full_name_title,
             'skills': skill_names,
