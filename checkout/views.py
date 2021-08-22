@@ -13,6 +13,7 @@ from .models import Order
 from users.forms import UpdateUserPackage, AddUserSubscription
 from users.models import MyAccount
 from packages.models import Package
+from events.models import Event
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 
@@ -181,15 +182,21 @@ def confirm_order(request):
         latest_bill_paid = subscription.latest_invoice.status
         sub_price_id = subscription.plan.id
     
+    print(latest_bill_paid, sub_price_id, free_package_id)
     # If user attempting to purchase the same subscription, send them to their orders
     if sub_price_id == package_stripe_id and latest_bill_paid == "paid":
         messages.error(request, "You are already subscribed to this package!")
 
         return redirect('get_my_orders')
 
-    elif latest_bill_paid != 'open' and sub_price_id != free_package_id:
+    elif latest_bill_paid == 'paid':
         sub_is_change = True
-
+        print("Sub is change?")
+    else: 
+        sub_is_change = False
+        print("Sub is new")
+        
+        
     if request.method == 'POST':
 
         # If user updates their details on form, update their account
@@ -219,6 +226,19 @@ def confirm_order(request):
                 'price': package_item.stripe_price_id,
             }]
         )
+        
+        # Update customer default payment method for future changes
+        customer_has_pm = stripe.Customer.retrieve(
+            user.stripe_customer_id
+        ).payment_method
+        
+        
+        if not customer_has_pm:
+            stripe.Customer.modify(
+                user.stripe_customer_id,
+                invoice_settings={'default_payment_method': 
+                    subscription.latest_invoice.payment_intent.payment_method}
+            )
 
         # TODO: remove?
         # try:
@@ -233,7 +253,7 @@ def confirm_order(request):
     
     # Send end of current period to context
     if subscription and subscription.plan.id is not free_package_id:
-        print(subscription.latest_invoice)
+        
         upcoming_inv = stripe.Invoice.upcoming(
             customer=user.stripe_customer_id,
         )
