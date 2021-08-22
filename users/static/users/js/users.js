@@ -282,6 +282,11 @@ function changeButtonUI(buttonId, type) {
         $(buttonTarget).text('Send Connection Request');
         $(buttonTarget).addClass('send-connection-btn').removeClass('req-sent-btn');
         $(buttonTarget).attr('onclick', `add_friend(${buttonId});`);
+    } else if (type == "remove"){
+        let buttonTarget = $(`.remove-connection-btn[value="${buttonId}"]`);
+        $(buttonTarget).text('Send Connection Request');
+        $(buttonTarget).addClass('send-connection-btn').removeClass('remove-connection-btn');
+        $(buttonTarget).attr('onclick', `add_friend(${buttonId});`);
     } else if (type == "accept" || type == "decline"){
         $(`.conn-request-item[value="${buttonId}"]`).fadeOut("fast", "linear") 
     }

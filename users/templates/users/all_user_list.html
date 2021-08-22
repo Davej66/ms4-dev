@@ -35,9 +35,11 @@
                 </form>
             </div>
         </div>
-
-
         <div id="search_results" class="page-results flex-wrap">
+            <div class="w-100 text-center">
+                <h3 class="results-count">We found {{users.count}}
+                    result{%if users.count > 1%}s{%endif%}!</h3>
+            </div>
             {% for user in users %}
             <div class="card user-card muted">
                 <div class="d-flex flex-wrap">
@@ -62,18 +64,20 @@
                 <div class="user-cta d-flex flex-wrap justify-content-between mt-3">
 
                     {% for req in pending_friend_reqs %}
-
                     {% if req.to_user == user %}
                     <button class="req-sent-btn btn primary-btn px-3 py-1 m-1" onclick="cancel_friend('{{user.pk}}')"
-                        value="{{user.pk}}">Connection Request Sent</button>
+                    value="{{user.pk}}">Connection Request Sent</button>
                     {% else %}
                     {% endif %}
                     {% endfor %}
-                    <button class="send-connection-btn btn primary-btn px-3 py-1 m-1"
-                        onclick="add_friend('{{user.pk}}')" value="{{user.pk}}">Send Connection Request</button>
-
-
-                    <button class="btn primary-btn-outline-color px-3 py-1 m-1">Remove Connection</button>
+                    
+                    {% if user.email in users_friends %}
+                    <button class="remove-connection-btn btn secondary-btn px-3 py-2 m-auto"
+                    onclick="remove_friend('{{user.pk}}')" value="{{user.pk}}"><i class="fas fa-user"></i> Connected</button>
+                    {% else %}
+                    <button class="send-connection-btn btn primary-btn px-3 py-2 m-auto"
+                    onclick="add_friend('{{user.pk}}')" value="{{user.pk}}">Send Connection Request</button>
+                    {% endif %}
                 </div>
             </div>
             {% endfor %}

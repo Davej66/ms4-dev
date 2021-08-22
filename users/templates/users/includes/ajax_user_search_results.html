@@ -15,16 +15,18 @@
             <h3>{{user.first_name}} {{user.last_name}}</h3>
             <p>{{user.job_role}}</p>
             <p>{{user.location}}</p>
-            <span class="user-ind-pill green">{{user.industry}}</span>
+            <span class="ind-pill">{{user.industry}}</span>
         </div>
     </div>
     <hr>
     <div class="user-details-bottom">
         <p class="user-skills">{{user.skills}}</p>
-        <p>{{user.description}}</p>
+        <p class="white-space">{{user.description}}</p>
     </div>
     <div class="user-cta d-flex flex-wrap justify-content-between mt-3">
-        <button class="btn primary-btn px-3 py-1 m-1">Send Connection Request</button>
+        {}
+        <button class="send-connection-btn btn primary-btn px-3 py-1 m-1"
+                        onclick="add_friend('{{user.pk}}')" value="{{user.pk}}">Send Connection Request</button>
         <button class="btn primary-btn-outline-color px-3 py-1 m-1">Remove Connection</button>
     </div>
 </div>

@@ -108,6 +108,13 @@ def all_users(request):
     all_users = MyAccount.objects.all().exclude(
         pk=request.user.pk)
     free_account = request.user.package_tier == 1
+    users_friends = Friend.objects.friends(request.user)
+    friends_emails = []
+    
+    # Map friends to string of emails
+    for i in users_friends:
+        friends_emails.append(i.email)
+    print(friends_emails)
 
     # For free account tier, locked by industry only
     if free_account:
@@ -143,6 +150,7 @@ def all_users(request):
         'users': all_users,
         'pending_friend_reqs': user_friend_requests,
         'free_account': free_account,
+        'users_friends': friends_emails,
     }
 
     return render(request, 'users/all_user_list.html', context)
