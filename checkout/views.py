@@ -194,6 +194,19 @@ def confirm_order(request):
                 invoice_settings={'default_payment_method': 
                     subscription.latest_invoice.payment_intent.payment_method}
             )
+    
+    customer_pm = stripe.PaymentMethod.retrieve(
+        customer_has_pm.invoice_settings.default_payment_method
+    )
+    print(customer_pm)
+    
+    customer_pm_details = {
+        "brand": customer_pm.card.brand, 
+        "last4": customer_pm.card.last4, 
+        "last4": customer_pm.card.exp_month, 
+        "last4": customer_pm.card.exp_year, 
+    }
+    
 
 
     if request.method == 'POST':
@@ -277,6 +290,7 @@ def confirm_order(request):
         'upgrade': sub_is_change,
         'next_period_start': next_period_start,
         'current_period_end': current_end,
+        'customer_pm_details': customer_pm_details,
     }
 
     return render(request, 'checkout/confirm_order.html', context)
