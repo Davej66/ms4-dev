@@ -1,4 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
+from django.core.mail import send_mail
+from django.conf import settings
+from django.contrib import messages
 
 
 def index(request):
@@ -13,4 +16,23 @@ def privacy(request):
 
 def contact(request):
     """ Render Contact Page """
+
+    if request.method == "POST":
+        # TODO add contact form!
+        
+        sender = request.POST.get('email')
+        name = request.POST.get('name')
+        subject = request.POST.get('subject')
+        message = request.POST.get('contact_message')
+        to_email = settings.DEFAULT_FROM_EMAIL
+        
+        send_mail(
+            subject, message, to_email,
+            [sender],
+            fail_silently=False,
+        )
+        
+        messages.success(request, "Your message has been sent to us, we will respond to you within 48 Hours!")
+        redirect ('account_dashboard')
+        
     return render(request, 'home/contact.html')

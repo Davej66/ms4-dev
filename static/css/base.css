@@ -442,6 +442,10 @@ a:hover, .anchor-link:hover {
     width: 0px;
 }
 
+.cursor {
+    cursor: pointer;
+}
+
 /* Forms */
 
 label {

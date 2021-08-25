@@ -2,7 +2,7 @@
 {% load static %}
 {% load friendshiptags %}
 
-{% block head_title %}Privacy{% endblock %}
+{% block head_title %}Contact Us{% endblock %}
 
 {% block post_CSS %}
 <link rel="stylesheet" href="{% static 'home/css/home.css' %}">
@@ -12,25 +12,38 @@
 <section class="light-page screen-height section-with-padding">
     <div class="nav-top-padding"></div>
     <div class="container-fluid w-100 m-auto py-5 px-0 centered-col-large-page">
-        <h1 class="header-underline-after">Discover New Freelancers</h1>
+        <h1 class="header-underline-after">Contact Us</h1>
         <div class="search-row py-5">
             <div class="card search-box-card muted">
-                <h2>Filter your search</h2>
-                <form action="{% url 'all_users' %}" id="user_search_form" method="POST">{%csrf_token%}
+                <h2>Send us a message</h2>
+                <form action="{% url 'contact' %}" id="contact_us" method="POST">{%csrf_token%}
                     <div class="input-row d-flex justify-content-between mt-3">
                         <div class="fieldset">
-                            <label for="user_search" class="mb-3">By Keyword</label>
-                            <input type="text" name="user_search" id="user_search"
-                                placeholder="Search by name, location, skill, description">
+                            <label for="name" class="mb-3">Your Name</label>
+                            <input type="text" name="name" id="name" placeholder="Enter your name" required
+                                value="{{this_user.first_name}} {{this_user.last_name}}" minlength="2" maxlength="30">
                         </div>
-                        <div class="fieldset" id="industry_search">
-                            <label for="industry" class="mb-3">By Industry</label>
-                            <div id="ind_select_profile_edit" class="disabled"></div>
+                        <div class="fieldset">
+                            <label for="email" class="mb-3">Your Name</label>
+                            <input type="email" name="email" id="email" placeholder="Enter your email" required
+                                value="{{this_user.email}}" minlength="2" maxlength="30">
                         </div>
                     </div>
-                    <div class="d-flex search-button-wrapper justify-content-between flex-wrap">
-                        <button type="submit" class="btn primary-btn large">Filter Results</button>
-                        <a href="{% url 'all_users' %}" class="btn primary-btn-outline-color">Clear Results</a>
+                    <div class="input-row d-flex justify-content-between mt-3">
+                        <div class="fieldset">
+                            <label for="subject" class="mb-3">The Subject</label>
+                            <input type="text" name="subject" id="subject" placeholder="Enter a brief subject line"
+                                required minlength="10" maxlength="80">
+                        </div>
+                    </div>
+                    <div class="input-row d-flex justify-content-between mt-3">
+                        <div class="fieldset">
+                            <label for="contact_message" class="mb-3">Your message</label>
+                                <textarea name="contact_message" id="contact_message" placeholder="Enter your message" oninput="resizeTextarea(this);" minlength="10" maxlength="3000"></textarea>
+                        </div>
+                    </div>
+                    <div class="d-flex search-button-wrapper justify-content-between flex-wrap py-4">
+                        <button type="submit" class="btn primary-btn large w-50 py-3 m-auto">Send Message</button>
                     </div>
                 </form>
             </div>

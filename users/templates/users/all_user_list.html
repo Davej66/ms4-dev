@@ -66,17 +66,21 @@
                     {% for req in pending_friend_reqs %}
                     {% if req.to_user == user %}
                     <button class="req-sent-btn btn primary-btn px-3 py-1 m-1" onclick="cancel_friend('{{user.pk}}')"
-                    value="{{user.pk}}">Connection Request Sent</button>
+                        value="{{user.pk}}">Connection Request Sent</button>
                     {% else %}
                     {% endif %}
                     {% endfor %}
-                    
+
                     {% if user.email in users_friends %}
                     <button class="remove-connection-btn btn secondary-btn px-3 py-2 m-auto"
-                    onclick="remove_friend('{{user.pk}}')" value="{{user.pk}}"><i class="fas fa-user"></i> Connected</button>
+                        onclick="remove_friend('{{user.pk}}')" value="{{user.pk}}"><i class="fas fa-user"></i>
+                        Connected</button>
+                    <button data-bs-toggle="modal" data-bs-target="#email_user_{{user.pk}}"
+                        class="remove-connection-btn btn primary-btn px-3 py-2 m-auto"><i class="fas fa-envelope"></i>
+                        Send Message</button>
                     {% else %}
                     <button class="send-connection-btn btn primary-btn px-3 py-2 m-auto"
-                    onclick="add_friend('{{user.pk}}')" value="{{user.pk}}">Send Connection Request</button>
+                        onclick="add_friend('{{user.pk}}')" value="{{user.pk}}">Send Connection Request</button>
                     {% endif %}
                 </div>
             </div>
@@ -84,6 +88,55 @@
         </div>
     </div>
     <div class="fixed-40"></div>
+
+    <!-- Send user message MODAL START -->
+    {% for user in users %}
+    <div class="modal event-view fade" id="email_user_{{user.pk}}" tabindex="-1" role="dialog"
+        aria-labelledby="view_event_{{event.pk}}" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body p-0">
+                    <div class="event-card muted m-0 p-4">
+                        <h3>Send {{user.first_name}} a message</h3>
+                        <form action="{% url 'send_user_message' %}" method="POST">{% csrf_token %}
+                            <p class="py-2">Your message will be sent directly to {{user.first_name}}. They'll reply directly to your email to continue the conversation!</p>
+                            <input type="hidden" name="receiver" id="receiver" value="{{user.pk}}">
+                            <div class="input-row d-flex justify-content-between mt-3">
+                                <div class="fieldset">
+                                    <label for="name" class="mb-3">Your Name</label>
+                                    <input type="text" name="name" id="name" placeholder="Enter your name" minlength="2"
+                                    maxlength="50" value="{{this_user.first_name}} {{this_user.last_name}}">
+                                </div>
+                            </div>
+                            <div class="input-row d-flex justify-content-between mt-3">
+                                <div class="fieldset">
+                                    <label for="email" class="mb-3">Your Email</label>
+                                    <input type="email" name="email" id="email" placeholder="Enter your Email"
+                                    minlength="2" maxlength="30" value="{{this_user.email}}">
+                                </div>
+                            </div>
+                            <div class="input-row d-flex justify-content-between mt-3">
+                                <div class="fieldset">
+                                    <label for="name" class="mb-3">Your Name</label>
+                                    <textarea type="text" name="message" id="message" placeholder="Your message"
+                                    maxlength="2000" oninput="resizeTextarea(this);"></textarea>    
+                                </div>
+                            </div>
+                            <div class="action-btns d-flex pt-3 flex-column justify-content-center">
+                                <button class="btn secondary-btn px-3 py-2 m-auto" type="submit"><i
+                                    class="fas fa-envelope mx-2"></i>Send Message</button>
+                                    <span class="cursor d-flex m-auto pt-3" data-bs-dismiss="modal" aria-label="Close"><i
+                                            class="fas fa-times m-auto mx-2"></i> Close</span>
+                                </div>
+                            </div>
+                        </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    <!-- Send user message MODAL END -->
+
 
 </section>
 

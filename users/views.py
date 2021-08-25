@@ -4,6 +4,7 @@ from django.shortcuts import (
 from django.http import JsonResponse, response
 from django.conf import settings
 from django.contrib import messages
+from django.core.mail import send_mail
 from django.db.models import Q
 from django.template.loader import render_to_string
 from allauth.account.decorators import verified_email_required
@@ -47,7 +48,6 @@ def account_dashboard(request):
         user=request.user)
     user_events = request.user.attendees.all()
     user_friends_count = len(Friend.objects.friends(request.user))
-    
 
     requested_users = []
 
@@ -110,7 +110,7 @@ def all_users(request):
     free_account = request.user.package_tier == 1
     users_friends = Friend.objects.friends(request.user)
     friends_emails = []
-    
+
     # Map friends to string of emails
     for i in users_friends:
         friends_emails.append(i.email)
@@ -127,7 +127,7 @@ def all_users(request):
         query = request.POST['user_search']
         if not free_account:
             industry_query = request.POST['industry']
-        else: 
+        else:
             industry_query = request.user.industry
 
         if query != "":
@@ -225,6 +225,30 @@ def dashboard_my_orders(request):
         }
 
     return render(request, 'users/user_orders.html', context)
+
+
+def send_user_message(request):
+
+    if request.method == "POST":
+
+        # Verify users are friends before sending the message
+        sender = request.user
+        receiver_id = int(request.POST.get('receiver'))
+        receiver_email = MyAccount.objects.get(pk=receiver_id)
+        both_users_friends = Friend.objects.are_friends(
+            request.user, receiver_email)
+
+        if both_users_friends:
+            subject = f'You have a new message from {receiver_email.first_name} {receiver_email.last_name}'
+            message = request.POST.get('message')
+
+            send_mail(
+                subject, message, receiver_email,
+                [receiver_email],
+                fail_silently=False,
+            )
+
+    return render(request, 'users/all_user_list.html')
 
 
 """ AJAX REQUESTS """
