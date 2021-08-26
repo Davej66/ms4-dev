@@ -1,3 +1,4 @@
+from django.db import connection
 from django.db.models.query_utils import PathInfo
 from django.shortcuts import (
     render, HttpResponse, get_object_or_404, redirect)
@@ -106,7 +107,7 @@ def all_users(request):
     Return all users to the page and search if there is an ajax search request.
     """
     all_users = MyAccount.objects.all().exclude(
-        pk=request.user.pk)
+        pk=request.user.pk).exclude(first_name="")
     free_account = request.user.package_tier == 1
     users_friends = Friend.objects.friends(request.user)
     friends_emails = []
@@ -114,7 +115,6 @@ def all_users(request):
     # Map friends to string of emails
     for i in users_friends:
         friends_emails.append(i.email)
-    print(friends_emails)
 
     # For free account tier, locked by industry only
     if free_account:
@@ -125,6 +125,8 @@ def all_users(request):
 
     if request.is_ajax and request.method == "POST":
         query = request.POST['user_search']
+        # TODO connections only
+        connections_only = request.POST.get('connections_only')
         if not free_account:
             industry_query = request.POST['industry']
         else:
@@ -134,11 +136,19 @@ def all_users(request):
             queries = Q(first_name__icontains=query) | Q(last_name__icontains=query) | Q(
                 description__icontains=query) | Q(location__icontains=query) | Q(
                 job_role__icontains=query) | Q(skills__icontains=query)
+        elif industry_query == "All":
+            queries = ~Q(industry=industry_query)
         else:
             queries = Q(industry=industry_query)
+        
+        query_results = MyAccount.objects.filter(queries).exclude(pk=request.user.pk).exclude(first_name="")
 
-        results = MyAccount.objects.filter(queries).exclude(pk=request.user.pk)
-
+        if connections_only:
+            results = query_results.filter(email__in=friends_emails)
+        else:
+            results = query_results
+        print(results)
+        
         context = {
             'search_results': results
         }

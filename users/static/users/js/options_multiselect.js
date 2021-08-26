@@ -145,6 +145,10 @@ $(document).ready(function () {
                 selectedValue: userInd,
                 hideClearButton: true,
                 options: [{
+                    'label': 'All',
+                    'value': 'All',
+                },
+                {
                     'label': 'Photography',
                     'value': 'Photography',
                 },

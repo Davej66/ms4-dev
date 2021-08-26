@@ -792,6 +792,13 @@ label.table-item-label {
     height: max-content;
 }
 
+.connections-only-trigger {
+    width: max-content;
+    margin: auto;
+    flex-direction: row;
+    padding: 20px;
+}
+
 h3.results-count {
     height: max-content;
     width: max-content;

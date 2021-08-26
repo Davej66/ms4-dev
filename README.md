@@ -58,8 +58,6 @@ ___
 ___
 <br>
 
-# ADD GIFS!!
-
 ## Technology & Tools
 
 ### Technology
@@ -237,6 +235,7 @@ ___
 - How to set floats to two decimal places with Django template tag - answer by Alasdair in [this Stack Overflow thread](https://stackoverflow.com/questions/12903686/how-can-i-get-a-decimal-field-to-show-more-decimal-places-in-a-template).
 - [Send a Beacon to server on tab close](https://www.schtech.co.uk/trigger-django-functions-with-javascript-sendbeacon/) - used to create a 'destroy subscription' function if user abandons cart.
 - Render to string with JsonResponse, response by BeryCZ in [this Stack Overflow thread](https://stackoverflow.com/questions/64688157/django-render-json-response-html)
+- How to negate Q query functions, answer by David Berger in [this Stack Overflow thread](https://stackoverflow.com/questions/2334698/django-queries-how-to-make-contains-or-not-contains-queries/2334784)
 
 ### Images
 - Photography Example Event Image by [ATC Comm Photo](https://www.pexels.com/@atccommphoto?utm_content=attributionCopyText&utm_medium=referral&utm_source=pexels) from Pexels

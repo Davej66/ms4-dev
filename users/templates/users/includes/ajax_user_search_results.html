@@ -4,14 +4,14 @@
         result{%if search_results.count > 1%}s{%endif%} with that search!</h3>
 </div>
 {% for user in search_results %}
-<div class="card user-card fade-in muted">
+<div class="card user-card muted">
     <div class="d-flex flex-wrap">
         <div class="prf-img-preview">
             <img class="prf-img-preview" src="/media/{{user.profile_image}}"
-                alt="{{user.first_name}} {{user.last_name}}'s profile image" onload="specImageOrientation(this);">
+                alt="{{user.first_name}} {{user.last_name}}'s profile image"
+                onload="specImageOrientation(this);">
         </div>
-        <!-- TODO remove default testing input -->
-        <div class="user-details-mast">
+        <div class="user-details-mast centralise-on-wrap">
             <h3>{{user.first_name}} {{user.last_name}}</h3>
             <p>{{user.job_role}}</p>
             <p>{{user.location}}</p>
@@ -21,13 +21,29 @@
     <hr>
     <div class="user-details-bottom">
         <p class="user-skills">{{user.skills}}</p>
-        <p class="white-space">{{user.description}}</p>
+        <p class="pt-3 white-space">{{user.description}}</p>
     </div>
     <div class="user-cta d-flex flex-wrap justify-content-between mt-3">
-        {}
-        <button class="send-connection-btn btn primary-btn px-3 py-1 m-1"
-                        onclick="add_friend('{{user.pk}}')" value="{{user.pk}}">Send Connection Request</button>
-        <button class="btn primary-btn-outline-color px-3 py-1 m-1">Remove Connection</button>
+
+        {% for req in pending_friend_reqs %}
+        {% if req.to_user == user %}
+        <button class="req-sent-btn btn primary-btn-outline-color px-3 py-2 m-auto" onclick="cancel_friend('{{user.pk}}')"
+            value="{{user.pk}}">Connection Request Sent</button>
+        {% else %}
+        {% endif %}
+        {% endfor %}
+
+        {% if user.email in users_friends %}
+        <button class="remove-connection-btn btn secondary-btn px-3 py-2 m-auto"
+            onclick="remove_friend('{{user.pk}}')" value="{{user.pk}}"><i class="fas fa-user"></i>
+            Connected</button>
+        <button data-bs-toggle="modal" data-bs-target="#email_user_{{user.pk}}"
+            class="remove-connection-btn btn primary-btn px-3 py-2 m-auto"><i class="fas fa-envelope"></i>
+            Send Message</button>
+        {% else %}
+        <button class="send-connection-btn btn primary-btn px-3 py-2 m-auto"
+            onclick="add_friend('{{user.pk}}')" value="{{user.pk}}">Send Connection Request</button>
+        {% endif %}
     </div>
 </div>
 {% endfor %}
