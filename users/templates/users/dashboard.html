@@ -61,7 +61,7 @@
                                         <!-- List pending requests sent to the user -->
                                         <div class="pending-requests-to-me">
                                             {% for new_connection in pending_friend_reqs %}
-                                            <div class="conn-request-item flex-row flex-wrap"
+                                            <div class="conn-request-item flex-row flex-wrap pt-3"
                                                 value="{{new_connection.pk}}">
                                                 <div
                                                     class="img-and-details-mast d-flex col-xl-8 col-lg-12 col-12 flex-column flex-sm-row">
@@ -124,7 +124,7 @@
                                                         <p class="my-auto"><strong class="fs-5">{{event.title}}</strong> ({{event.location}})
                                                         <span class="ind-pill my-auto">{{event.industry}}</span>
                                                         </p>
-                                                        <p class="event-datetime d-block my-1">
+                                                        <p class="event-datetime d-block my-1 mx-auto mx-sm-0">
                                                             <strong>{{event.start_datetime|date:"f a"}}</strong> on
                                                             <strong>{{event.start_datetime|date:"d M"}}</strong>
                                                         
