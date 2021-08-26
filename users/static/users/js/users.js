@@ -275,12 +275,13 @@ function changeButtonUI(buttonId, type) {
     let buttonTarget = $(`.send-connection-btn[value="${buttonId}"]`);
     $(buttonTarget).text('Connection Request Sent');
     $(buttonTarget).removeClass('send-connection-btn').addClass('req-sent-btn');
+    $(buttonTarget).removeClass('primary-btn').addClass('primary-btn-outline-color');
     $(buttonTarget).attr('onclick', `cancel_friend(${buttonId});`);
-    console.log(type)
     if (type == "cancel") {
         let buttonTarget = $(`.req-sent-btn[value="${buttonId}"]`);
         $(buttonTarget).text('Send Connection Request');
         $(buttonTarget).addClass('send-connection-btn').removeClass('req-sent-btn');
+        $(buttonTarget).addClass('primary-btn').removeClass('primary-btn-outline-color');
         $(buttonTarget).attr('onclick', `add_friend(${buttonId});`);
     } else if (type == "remove"){
         let buttonTarget = $(`.remove-connection-btn[value="${buttonId}"]`);

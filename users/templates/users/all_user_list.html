@@ -9,6 +9,17 @@
 {% endblock %}
 
 {% block content %}
+
+{% if messages %}
+{% for message in messages %}
+<div class="message-wrap">
+    <div class="message">
+        <span>{{message}}</span><i class="fas fa-times" onclick="removeMessage(this);"></i>
+    </div>
+</div>
+{% endfor %}
+{% endif %}
+
 <section class="light-page screen-height section-with-padding">
     <div class="nav-top-padding"></div>
     <div class="container-fluid w-100 m-auto py-5 px-0 centered-col-large-page">
@@ -65,7 +76,7 @@
 
                     {% for req in pending_friend_reqs %}
                     {% if req.to_user == user %}
-                    <button class="req-sent-btn btn primary-btn px-3 py-1 m-1" onclick="cancel_friend('{{user.pk}}')"
+                    <button class="req-sent-btn btn primary-btn-outline-color px-3 py-2 m-auto" onclick="cancel_friend('{{user.pk}}')"
                         value="{{user.pk}}">Connection Request Sent</button>
                     {% else %}
                     {% endif %}

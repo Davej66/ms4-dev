@@ -239,6 +239,10 @@ def send_user_message(request):
             request.user, receiver_email)
 
         if both_users_friends:
+            # Clear previous messages
+            storage = messages.get_messages(request)
+            storage.used = True
+        
             subject = f'You have a new message from {receiver_email.first_name} {receiver_email.last_name}'
             message = request.POST.get('message')
 
@@ -247,7 +251,12 @@ def send_user_message(request):
                 [receiver_email],
                 fail_silently=False,
             )
-
+            messages.success(request, "Your message has been sent successfully!")
+            return redirect('all_users')
+        else:
+            messages.error(request, "Your message could not be sent, please try again or contact us if the problem persists!")
+            return redirect('all_users')
+        
     return render(request, 'users/all_user_list.html')
 
 
