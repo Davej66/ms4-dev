@@ -42,6 +42,8 @@ def event_listings(request):
         if query != "":
             queries = Q(title__icontains=query) | Q(description__icontains=query) | Q(
                 location__icontains=query) | Q(industry__icontains=query)
+        elif industry_query == "All":
+            queries = ~Q(industry=industry_query)
         else: 
             queries = Q(industry=industry_query)
         

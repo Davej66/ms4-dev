@@ -66,7 +66,7 @@
                     <p class="event-skills white-space">{{event.description}}</p>
                 </div>
                 <hr>
-                <div class="event-card-buttons">
+                <div class="event-card-buttons mt-auto">
                     <button class="view-attendees-btn btn primary-btn px-3 py-1 m-1" data-bs-toggle="modal"
                         data-bs-target="#view_event_{{event.pk}}" value="{{event.pk}}"><i class="fas fa-eye"></i>
                         Attendees</button>
@@ -132,7 +132,7 @@
 
                                     <!-- Action buttons -->
                                     <div class="connection-action-btns col-xl-4">
-                                        {% if pending_friend_reqs %}
+                                        <!-- {% if pending_friend_reqs %}
                                         {% for conn_req in pending_friend_reqs %}
                                         {% if conn_req.to_user == reg %}
                                         <button class="req-sent-btn btn primary-btn px-3 py-1 m-1"
@@ -151,8 +151,8 @@
                                             <span class="tooltip-top">Decline the request</span>
                                         </button>
                                         {% endif %}
-                                        {% endfor %}
-                                        {% elif reg in current_connections %}
+                                        {% endfor %} -->
+                                        <!-- {% elif reg in current_connections %}
                                         <button class="remove-connection-btn btn primary-btn px-3 py-1 m-1"
                                             onclick="remove_friend('{{reg.pk}}')" value="{{reg.pk}}"><i
                                                 class="fas fa-user"></i>Already Connected</button>
@@ -161,7 +161,7 @@
                                         <button class="send-connection-btn btn primary-btn px-3 py-1 m-1"
                                             onclick="add_friend('{{reg.pk}}')" value="{{reg.pk}}">Send Connection
                                             Request</button>
-                                        {% endif %}
+                                        {% endif %} -->
                                     </div>
 
                                 </div>
@@ -169,12 +169,7 @@
                                 {% endfor %}
                             </div>
                         </div>
-                        <div class="action-btns d-flex">
-                        </div>
                     </div>
-                </div>
-                <div class="modal-footer flex-row">
-
                 </div>
             </div>
         </div>
