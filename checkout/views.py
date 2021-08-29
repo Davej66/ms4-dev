@@ -130,7 +130,11 @@ def confirm_order(request):
     # Determine if the subscription is an upgrade or new account
     sub_is_change = False
 
-    package_selection = int(request.session['package_selection'])
+    if not request.session['package_selection']:
+        return redirect('packages')
+    else:
+        package_selection = int(request.session['package_selection'])
+        
     package_item = Package.objects.get(tier=package_selection)
     package_stripe_id = package_item.stripe_price_id
     sub_price_id = None
@@ -241,16 +245,6 @@ def confirm_order(request):
                 'price': package_item.stripe_price_id,
             }]
         )
-        
-        
-        
-
-        # TODO: remove?
-        # try:
-        #     order_exists = Order.objects.get(
-        #         stripe_invoice_id=subscription.latest_invoice.id)
-        # except:
-        #     order_exists = False
     
         request.session['package_selection'] = ""
         storage = messages.get_messages(request)

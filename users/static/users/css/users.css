@@ -434,11 +434,6 @@ p.event-limit span {
     border-bottom: none;
 }
 
-table.orders {
-    margin: auto;
-    max-width: 1100px;
-}
-
 .table-item-label-header {
     display: flex;
 }

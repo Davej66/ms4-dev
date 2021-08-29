@@ -95,9 +95,6 @@ if (is_upgrade === "False") {
     });
 }
 
-console.log(formSubmitted)
-
-
 $(document).ready(() => {
     // If user abandons the page, destroy the subscription created
     $(window).on('unload', function () {

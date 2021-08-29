@@ -140,15 +140,16 @@ def all_users(request):
             queries = ~Q(industry=industry_query)
         else:
             queries = Q(industry=industry_query)
-        
-        query_results = MyAccount.objects.filter(queries).exclude(pk=request.user.pk).exclude(first_name="")
+
+        query_results = MyAccount.objects.filter(queries).exclude(
+            pk=request.user.pk).exclude(first_name="")
 
         if connections_only:
             results = query_results.filter(email__in=friends_emails)
         else:
             results = query_results
         print(results)
-        
+
         context = {
             'search_results': results
         }
@@ -174,6 +175,11 @@ def dashboard_my_orders(request):
 
     user = MyAccount.objects.get(email=request.user)
     stripe_customer_id = user.stripe_customer_id
+    if stripe_customer_id:
+        subscription = stripe.Subscription.retrieve(
+                stripe_customer_id)
+    else:
+        subscription = ""
 
     if stripe_customer_id:
 
@@ -201,7 +207,7 @@ def dashboard_my_orders(request):
         }
 
         invoice_list = []
-        print(invoice_list)
+        
         for i in invoices:
 
             if i.paid != False:
@@ -224,7 +230,8 @@ def dashboard_my_orders(request):
 
         context = {
             'invoices': invoice_list,
-            'upcoming_invoice': upcoming_invoice_dict
+            'upcoming_invoice': upcoming_invoice_dict,
+            'stripe_client_secret': subscription.latest_invoice.payment_intent.client_secret,
         }
         return render(request, 'users/user_orders.html', context)
 
@@ -252,7 +259,7 @@ def send_user_message(request):
             # Clear previous messages
             storage = messages.get_messages(request)
             storage.used = True
-        
+
             subject = f'You have a new message from {receiver_email.first_name} {receiver_email.last_name}'
             message = request.POST.get('message')
 
@@ -261,12 +268,14 @@ def send_user_message(request):
                 [receiver_email],
                 fail_silently=False,
             )
-            messages.success(request, "Your message has been sent successfully!")
+            messages.success(
+                request, "Your message has been sent successfully!")
             return redirect('all_users')
         else:
-            messages.error(request, "Your message could not be sent, please try again or contact us if the problem persists!")
+            messages.error(
+                request, "Your message could not be sent, please try again or contact us if the problem persists!")
             return redirect('all_users')
-        
+
     return render(request, 'users/all_user_list.html')
 
 
