@@ -5,11 +5,14 @@ from django.conf import settings
 from packages.models import Package
 from users.models import MyAccount
 from checkout.models import Order
+from events.models import Event
 from users.forms import UpdateUserPackage
 from checkout.forms import OrderForm
 
 import time 
 import stripe
+
+
 class StripeWH_Handler:
     """Class to handle Stripe Webhooks"""
 
@@ -33,9 +36,9 @@ class StripeWH_Handler:
         subscription = event.data.object
         price_id = subscription['items']['data'][0].plan.id
         stripe_customer = subscription.customer
+        print("stripe customer", stripe_customer)
         user = MyAccount.objects.get(stripe_customer_id=stripe_customer)
         package = Package.objects.get(stripe_price_id=price_id)
-        print("Sub change ",user.package_tier, package.tier)
 
         if user.package_tier != package.tier:
             try:
@@ -103,13 +106,11 @@ class StripeWH_Handler:
                 "stripe_invoice_id": invoice_id
                 }
             order_form = OrderForm(order_form_data)
-            
-            if order_form.is_valid():
-                order_form.save()
+            order_form.save()
             
             
             get_events_attending = Event.objects.filter(registrants=user).count()
-            print(get_events_attending)
+            print("get events attending", get_events_attending)
             
             user.events_remaining_in_package = package.event_limit - get_events_attending
             user.is_blocked = False

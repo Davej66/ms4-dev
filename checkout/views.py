@@ -321,6 +321,14 @@ def cancel_abandoned_subscription(request):
     return HttpResponse(content="Subscription has been removed", status=200)
 
 
+def update_payment_method(request):
+    
+    if request.method == "POST":
+        pass
+        
+    return HttpResponse(content="Payment method updated", status=200)
+
+
 def checkout(request):
 
     return render(request, 'checkout/checkout.html')

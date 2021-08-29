@@ -1,14 +1,12 @@
 var stripePublicKey = $('#id_stripe_public_key').text().slice(1, -1);
 var stripeClientSecret = $('#id_stripe_client_secret').text().slice(1, -1);
-var is_upgrade = $('#is_upgrade').val();
 var stripe = Stripe(stripePublicKey);
-var elements = stripe.elements();
+var paymentUpdate = stripe.elements();
 
-let card = elements.create('card');
-card.mount('#card_element');
+let paymentMethodCard = paymentUpdate.create('card');
+paymentMethodCard.mount('#card_element');
 
-
-card.addEventListener('change', function (event) {
+paymentMethodCard.addEventListener('change', function (event) {
     var errorDiv = $('#card_errors')
     if (event.error) {
         var html = `
@@ -27,16 +25,18 @@ card.addEventListener('change', function (event) {
 $('#submit_button').on('click', async (event) => {
     event.preventDefault();
 
-    card.update({ 'disabled': true })
+    paymentMethodCard.update({ 'disabled': true })
     $('.processing-spinner').css('display', 'flex').hide().fadeIn();
     $('#submit_button').attr('disabled', true);
     $('#submit_button').addClass('disabled');
+    var billingFirstName = $('#first_name').val();
+    var billingLastName = $('#last_name').val();
 
     stripe.confirmCardPayment(stripeClientSecret, {
         payment_method: {
-            card: card,
+            card: paymentMethodCard,
             billing_details: {
-                name: "bradley",
+                name: billingFirstName + billingLastName,
             }
         },
     }).then(function (result) {
@@ -56,8 +56,7 @@ $('#submit_button').on('click', async (event) => {
         } else {
             errorDiv.text = ""
             if (result.paymentIntent.status === 'succeeded') {
-                var formSubmitted = true
-                $('#payment_form').submit()
+                $('#payment_method_form').submit()
 
             }
         }

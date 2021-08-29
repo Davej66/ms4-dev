@@ -170,16 +170,20 @@ def all_users(request):
 @ verified_email_required
 def dashboard_my_orders(request):
 
+    stripe_pk = settings.STRIPE_PUBLIC_KEY
     stripe_sk = settings.STRIPE_SECRET_KEY
     stripe.api_key = stripe_sk
 
     user = MyAccount.objects.get(email=request.user)
     stripe_customer_id = user.stripe_customer_id
-    if stripe_customer_id:
+    if user.stripe_subscription_id != "":
         subscription = stripe.Subscription.retrieve(
-                stripe_customer_id)
+                user.stripe_subscription_id,
+                expand=['latest_invoice.payment_intent'],)
     else:
         subscription = ""
+        
+    print(subscription.latest_invoice)
 
     if stripe_customer_id:
 
@@ -232,6 +236,7 @@ def dashboard_my_orders(request):
             'invoices': invoice_list,
             'upcoming_invoice': upcoming_invoice_dict,
             'stripe_client_secret': subscription.latest_invoice.payment_intent.client_secret,
+            'stripe_public_key': stripe_pk,
         }
         return render(request, 'users/user_orders.html', context)
 
