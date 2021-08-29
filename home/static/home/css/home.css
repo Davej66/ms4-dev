@@ -206,13 +206,13 @@
 
 
 /* Homepage Lower Page Elements */
-
 #landing_pg_bottom {
     min-height: 100vh;
     background: rgb(10,102,194);
     background: var(--neutral-light-grad);
     display: flex;
     flex-direction: column;
+    box-shadow: -1px 1px 20px -2px var(--dark-shadow);
 }
 
 .homepage-packages-section {
@@ -233,12 +233,13 @@
 .homepage-packages-section h2::after {
     position: absolute;
     content: '';
-    border-bottom: 10px solid var(--accent-color-light);
+    border-bottom: 14px solid var(--accent-color-light);
     display: block;
-    bottom: 23px;
-    right: 5%;
+    bottom: 32px;
+    left: 0;
     z-index: -1;
-    width: 90%;
+    width: -webkit-fill-available;
+    max-width: 100vw;
 }
 
 .homepage-package-cards  {
@@ -263,12 +264,22 @@
     font-size: 12px;
 }
 
-.package-feature-list {
+.package-feature-list.homepage {
     padding: 20px 0px;
+    text-align: left;
 }
 
-.package-feature-list li i{
+.package-feature-list.homepage li {
+    display: flex;
+    margin-bottom: 15px;
+    color: var(--light-text);
+    font-weight: 200;
+}
+
+.package-feature-list.homepage li i{
     margin-right: 10px;
+    margin-top: 5px;
+    color: var(--primary-color);
 }
 
 .package-cta {

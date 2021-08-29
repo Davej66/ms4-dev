@@ -1049,8 +1049,10 @@ footer {
         margin: auto;
         padding: 0px;
         text-align: center;
-        width: max-content;
+        max-width: 100vw;
         margin-bottom: 10px;
+        flex-wrap: wrap;
+        justify-content: center;
     }
 
     .footer-links ul li {
