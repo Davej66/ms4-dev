@@ -182,8 +182,6 @@ def dashboard_my_orders(request):
                 expand=['latest_invoice.payment_intent'],)
     else:
         subscription = ""
-        
-    print(subscription.latest_invoice)
 
     if stripe_customer_id:
 
