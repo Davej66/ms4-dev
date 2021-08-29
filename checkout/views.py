@@ -44,7 +44,6 @@ def store_selection(request):
         user_str = str(user_auth)
         package = request.POST['package_id']
         request.session['package_selection'] = package
-        print(user_str, type(user_auth))
 
         if user_str == 'AnonymousUser':
             send_to_reg = True
@@ -106,7 +105,6 @@ def confirm_order(request):
 
         except Exception as e:
             error = str(e)
-            print("error", e)
             return error
 
     # Check for existing stripe sub ID and create if not found
@@ -217,10 +215,8 @@ def confirm_order(request):
         return redirect('get_my_orders')
     elif latest_bill_paid == 'paid':
         sub_is_change = True
-        print("Sub is change?")
     else:
         sub_is_change = False
-        print("Sub is new")
 
     context = {
         "stripe_public_key": stripe_pk,

@@ -170,7 +170,6 @@ def dashboard_my_orders(request):
     else:
         subscription = ""
 
-    print(subscription.latest_invoice)
     if stripe_customer_id:
 
         invoices = stripe.Invoice.list(
@@ -352,15 +351,13 @@ def remove_friend(request, **kwargs):
             to_user=request.user).filter(from_user=other_user_pk)[0]
         get_connection_secondary = Friend.objects.filter(
             to_user=other_user_pk).filter(from_user=request.user)[0]
-        print("first", get_connection_primary,
-              "second", get_connection_secondary)
+        
         # Remove the friend objects
         try:
             # Friend.objects.remove_friend(request.user, other_user_pk)
             get_connection_primary.delete()
             get_connection_secondary.delete()
         except Exception as e:
-            print("this error:", e)
             messages.error(request,
                            "We could no longer find this request. Please refresh the page and try again")
 
