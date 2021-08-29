@@ -607,6 +607,10 @@ label.table-item-label {
     border-radius: 5px;
 }
 
+.vscomp-options-list {
+    max-height: 300px;
+}
+
 .vscomp-option:last-of-type {
     border-radius: 0px 0px 5px 5px;
 }
