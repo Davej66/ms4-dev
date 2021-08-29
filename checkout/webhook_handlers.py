@@ -110,6 +110,7 @@ class StripeWH_Handler:
             
             get_events_attending = Event.objects.filter(registrants=user).count()
             user.events_remaining_in_package = package.event_limit - get_events_attending
+            user.is_blocked = False
             user.save()
             
             # Get the order number and add to the Stripe invoice
@@ -128,5 +129,13 @@ class StripeWH_Handler:
     
 
     def handle_payment_failed_event(self, event):
-        """ Handle webhook event when Stripe payment fails"""
+        """ Handle webhook event when Stripe payment fails. Block the user account until payment made successfully"""
+        
+        intent = event.data.object
+        stripe_customer = intent.customer
+        user = MyAccount.objects.get(stripe_customer_id=stripe_customer)
+        
+        user.is_blocked = True
+        user.save()
+        
         return HttpResponse(content=f'Webhook received: {event["type"]}', status=200) 

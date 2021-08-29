@@ -77,6 +77,7 @@ class MyAccount(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
+    is_blocked = models.BooleanField(default=False)
     show_profile = models.BooleanField(default=True)
     profile_image = models.ImageField(upload_to=get_profile_image_filepath, null=True, blank=True, default=get_default_profile_image)
     job_role = models.CharField(max_length=255, blank=True, default="")

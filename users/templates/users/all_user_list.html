@@ -47,14 +47,14 @@
                         <button type="submit" class="btn primary-btn large">Filter Results</button>
                         <a href="{% url 'all_users' %}" class="btn primary-btn-outline-color">Clear Results</a>
                     </div>
-                </div>
-            </form>
             </div>
-            <div id="search_results" class="page-results flex-wrap">
-                <div class="w-100 text-center">
-                    <h3 class="results-count">We found {{users.count}}
-                        result{%if users.count > 1%}s{%endif%}!</h3>
-                    </div>
+            </form>
+        </div>
+        <div id="search_results" class="page-results flex-wrap">
+            <div class="w-100 text-center">
+                <h3 class="results-count">We found {{users.count}}
+                    result{%if users.count > 1%}s{%endif%}!</h3>
+            </div>
             {% for user in users %}
             <div class="card user-card muted">
                 <div class="d-flex flex-wrap">
@@ -75,7 +75,7 @@
                     <p class="user-skills">{{user.skills}}</p>
                     <p class="py-3 white-space">{{user.description}}</p>
                 </div>
-                <div class="user-cta d-flex flex-wrap justify-content-between m-auto mx-0">
+                <div class="user-cta d-flex flex-wrap justify-content-between m-auto mx-0 mb-0">
 
                     {% for req in pending_friend_reqs %}
                     {% if req.to_user == user %}
@@ -93,8 +93,16 @@
                         class="remove-connection-btn btn primary-btn px-3 py-2 m-auto"><i class="fas fa-envelope"></i>
                         Send Message</button>
                     {% else %}
+                    {%if this_user.is_blocked %}
+                    <p class="timezone-warning text-center py-2">You can't currently send new connection requests due
+                        to a failed invoice payment.
+                        <a href="{% url 'get_my_orders' %}">Update your billing details</a>
+                        to continue.
+                    </p>
+                    {% else %}
                     <button class="send-connection-btn btn primary-btn px-3 py-2 m-auto"
                         onclick="add_friend('{{user.pk}}')" value="{{user.pk}}">Send Connection Request</button>
+                    {% endif %}
                     {% endif %}
                 </div>
             </div>
