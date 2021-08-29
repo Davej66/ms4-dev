@@ -105,7 +105,7 @@
                             class="fas fa-times ml-auto "></i></span>
                     <div class="event-card muted m-0 pt-0">
                         <div class="event-header-img">
-                            <img class="" src="/media/{{event.header_image}}" alt="{{event.title}} - header image"
+                            <img class="" src="{{event.header_image.url}}" alt="{{event.title}} - header image"
                                 onload="specImageOrientation(this);">
                             <span class="card-title-overlay"></span>
                             <h3 class="event-card-title">{{event.title}}</h3>
@@ -135,41 +135,6 @@
                                             </p>
                                         </div>
                                     </div>
-
-                                    <!-- Action buttons -->
-                                    <div class="connection-action-btns col-xl-4">
-                                        <!-- {% if pending_friend_reqs %}
-                                        {% for conn_req in pending_friend_reqs %}
-                                        {% if conn_req.to_user == reg %}
-                                        <button class="req-sent-btn btn primary-btn px-3 py-1 m-1"
-                                            onclick="cancel_friend('{{reg.pk}}')" value="{{reg.pk}}">Connection Request
-                                            Sent</button>
-                                        {% elif conn_req.to_user == this_user %}
-                                        <button class="accept-conn-btn btn primary-btn conn-response-btn"
-                                            onclick="accept_friend('{{reg.pk}}')" value="{{reg.pk}}"
-                                            data-toggle="tooltip">
-                                            <i class="fas fa-check"></i>
-                                            <span class="tooltip-top">Accept the request</span>
-                                        </button>
-                                        <button class="decline-conn-btn btn primary-btn conn-response-btn warning"
-                                            onclick="decline_friend('{{reg.pk}}')" value="{{reg.pk}}">
-                                            <i class="fas fa-times"></i>
-                                            <span class="tooltip-top">Decline the request</span>
-                                        </button>
-                                        {% endif %}
-                                        {% endfor %} -->
-                                        <!-- {% elif reg in current_connections %}
-                                        <button class="remove-connection-btn btn primary-btn px-3 py-1 m-1"
-                                            onclick="remove_friend('{{reg.pk}}')" value="{{reg.pk}}"><i
-                                                class="fas fa-user"></i>Already Connected</button>
-                                        {% else %}
-
-                                        <button class="send-connection-btn btn primary-btn px-3 py-1 m-1"
-                                            onclick="add_friend('{{reg.pk}}')" value="{{reg.pk}}">Send Connection
-                                            Request</button>
-                                        {% endif %} -->
-                                    </div>
-
                                 </div>
 
                                 {% endfor %}
