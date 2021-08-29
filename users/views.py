@@ -95,7 +95,7 @@ def all_users(request):
     Return all users to the page and search if there is an ajax search request.
     """
     all_users = MyAccount.objects.all().exclude(
-        pk=request.user.pk).exclude(first_name="")
+        pk=request.user.pk).exclude(first_name="").exclude(profile_completed=False)
     free_account = request.user.package_tier == 1
     users_friends = Friend.objects.friends(request.user)
     friends_emails = []
