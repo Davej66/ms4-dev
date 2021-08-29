@@ -110,6 +110,8 @@ def store_selection(request):
 
 
 def confirm_order(request):
+    
+    context = {}
 
     # Remove all pre-existing messages on page load.
     # Credits: SpiXel in this SO thread: https://stackoverflow.com/questions/39518310/delete-all-django-contrib-messages
@@ -194,18 +196,19 @@ def confirm_order(request):
                 invoice_settings={'default_payment_method': 
                     subscription.latest_invoice.payment_intent.payment_method}
             )
-    
-    customer_pm = stripe.PaymentMethod.retrieve(
-        customer_has_pm.invoice_settings.default_payment_method
-    )
-    print(customer_pm)
-    
-    customer_pm_details = {
-        "brand": customer_pm.card.brand, 
-        "last4": customer_pm.card.last4, 
-        "last4": customer_pm.card.exp_month, 
-        "last4": customer_pm.card.exp_year, 
-    }
+    else:
+        customer_pm = stripe.PaymentMethod.retrieve(
+            customer_has_pm.invoice_settings.default_payment_method
+        )
+        print(customer_pm)
+        
+        customer_pm_details = {
+            "brand": customer_pm.card.brand, 
+            "last4": customer_pm.card.last4, 
+            "last4": customer_pm.card.exp_month, 
+            "last4": customer_pm.card.exp_year, 
+        }
+        context['customer_pm_details'] = customer_pm_details
     
 
 
@@ -290,7 +293,6 @@ def confirm_order(request):
         'upgrade': sub_is_change,
         'next_period_start': next_period_start,
         'current_period_end': current_end,
-        'customer_pm_details': customer_pm_details,
     }
 
     return render(request, 'checkout/confirm_order.html', context)
@@ -299,27 +301,30 @@ def confirm_order(request):
 def cancel_abandoned_subscription(request):
     """ Call this function when user leaves page to destroy the subscription created """
 
-    if request.method == "POST":
-        stripe_pk = settings.STRIPE_PUBLIC_KEY
-        stripe_sk = settings.STRIPE_SECRET_KEY
-        stripe.api_key = stripe_sk
+    stripe_pk = settings.STRIPE_PUBLIC_KEY
+    stripe_sk = settings.STRIPE_SECRET_KEY
+    stripe.api_key = stripe_sk
 
-        user = request.user
-        subscription = stripe.Subscription.retrieve(
+    user = request.user
+    
+    subscription = stripe.Subscription.retrieve(
             user.stripe_subscription_id
         )
 
-        latest_invoice = stripe.Invoice.retrieve(
+    latest_invoice = stripe.Invoice.retrieve(
             subscription.latest_invoice
         )
 
-        if subscription and latest_invoice.status == 'open':
-            stripe.Customer.delete(
-                user.stripe_customer_id
+    if subscription and latest_invoice.status == 'open':
+        stripe.Customer.delete(
+            user.stripe_customer_id
             )
-        return HttpResponse(content="Subscription has been removed", status=200)
-
-    return HttpResponse(content="No further action required", status=200)
+        
+    user.stripe_subscription_id = ""
+    user.stripe_customer_id = ""
+    user.save()
+    
+    return HttpResponse(content="Subscription has been removed", status=200)
 
 
 def checkout(request):
