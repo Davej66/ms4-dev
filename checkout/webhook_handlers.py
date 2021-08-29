@@ -109,6 +109,8 @@ class StripeWH_Handler:
             
             
             get_events_attending = Event.objects.filter(registrants=user).count()
+            print(get_events_attending)
+            
             user.events_remaining_in_package = package.event_limit - get_events_attending
             user.is_blocked = False
             user.save()
