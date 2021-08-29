@@ -39,8 +39,11 @@
                             <div id="main_ajax_content" class="content col-12">
                                 <div class="card muted z-2">
                                     <h3 class="edit-profile-section-header mb-3">Upcoming Order</h3>
+                                    {% if not upcoming_invoice %}
+                                    <p class="py-2 mb-5">You're currently on a <strong>Free Account</strong> subscription, so have no upcoming invoices.</p>
+                                    {% else %}    
                                     <div
-                                        class="my-orders-item no-b-line d-flex flex-column flex-md-row mb-5 text-centertext-md-start">
+                                        class="my-orders-item no-b-line d-flex flex-column flex-md-row mb-5 text-center text-md-start">
                                         <table class="w-100 orders">
                                             <tbody>
                                                 <tr>
@@ -92,7 +95,9 @@
                                             </tbody>
                                         </table>
                                     </div>
+                                    {% endif %}
                                     <h3 class="edit-profile-section-header mb-3">Previous Orders</h3>
+                                    {% if invoices %}
                                     <table class="w-100 orders">
                                         <tbody>
                                             <tr>
@@ -151,6 +156,9 @@
                                             {% endfor %}
                                         </tbody>
                                     </table>
+                                    {% else %}
+                                    <p class="py-2">You have no previous orders. Check back later.</p>
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>
