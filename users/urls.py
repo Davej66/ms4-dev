@@ -17,4 +17,3 @@ urlpatterns = [
     path('ajax/remove_friend/<other_user>', views.remove_friend, name="remove_friend"),
     path('ajax/send_user_message/', views.send_user_message, name="send_user_message"),
 ] 
-# + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

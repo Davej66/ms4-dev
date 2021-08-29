@@ -183,6 +183,9 @@
                         aria-labelledby="update_billing_modal" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
+                                <div class="processing-spinner">
+                                    <span class="spinner"></span>
+                                </div>
                                 <div class="modal-body p-0">
                                     <div class="card event-limit muted m-0">
                                         <h2 class="header-underline w-75">Update your payment method</h2>
@@ -191,7 +194,7 @@
                                             subscription. You'll
                                             need to upgrade to register for more!
                                         </p>
-                                        <form id="payment_method_form" action="update_billing_method" method="POST"> {%csrf_token%}
+                                        <form id="payment_method_form" action="{% url 'update_pm' %}" method="POST"> {%csrf_token%}
                                             <div class="input-row d-flex justify-content-between">
                                                 <div class="fieldset">
                                                     <label for="first_name">First Name</label>
@@ -214,7 +217,7 @@
                                                 </div>
                                             </div>
                                             <div class="event-card-buttons d-flex">
-                                                <button type="submit"
+                                                <button type="submit" id="submit_button"
                                                     class="btn secondary-btn large m-auto py-3 px-4 w-45 my-4">
                                                     Update Card Details</button>
                                             </div>

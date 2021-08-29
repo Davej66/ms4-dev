@@ -170,6 +170,7 @@ def dashboard_my_orders(request):
     else:
         subscription = ""
 
+    print(subscription.latest_invoice)
     if stripe_customer_id:
 
         invoices = stripe.Invoice.list(

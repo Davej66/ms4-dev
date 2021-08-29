@@ -32,13 +32,12 @@ $('#submit_button').on('click', async (event) => {
     var billingFirstName = $('#first_name').val();
     var billingLastName = $('#last_name').val();
 
-    stripe.confirmCardPayment(stripeClientSecret, {
-        payment_method: {
+    stripe.createPaymentMethod({
+            type: 'card',
             card: paymentMethodCard,
             billing_details: {
                 name: billingFirstName + billingLastName,
-            }
-        },
+            },
     }).then(function (result) {
         var errorDiv = $('#card_errors')
         if (result.error) {
@@ -48,15 +47,17 @@ $('#submit_button').on('click', async (event) => {
             </span>
             <span>${result.error.message}</span>
             `
-            card.update({ 'disabled': false });
+            paymentMethodCard.update({ 'disabled': false });
             errorDiv.html(html);
             $('.processing-spinner').fadeOut();
             $('#submit_button').attr('disabled', false);
             $('#submit_button').removeClass('disabled');
         } else {
             errorDiv.text = ""
-            if (result.paymentIntent.status === 'succeeded') {
-                $('#payment_method_form').submit()
+            if (result.paymentMethod) {
+                $('#payment_method_form').append(`
+                <input type="hidden" name="payment_method" value="${result.paymentMethod.id}"></input>
+                `).submit();
 
             }
         }

@@ -56,61 +56,10 @@ def store_selection(request):
                          'proceed': False})
 
 
-# TODO - DO WE NEED THIS FUNCTION
-# def package_selection(request, package_id, **kwargs):
-
-#     stripe_pk = settings.STRIPE_PUBLIC_KEY
-#     stripe_sk = settings.STRIPE_SECRET_KEY
-#     stripe.api_key = stripe_sk
-
-#     context = {}
-#     user_email = request.user
-#     # package_selection = request.session.get('package_selection', {})
-#     package_id = kwargs.get('package_id')
-#     print(package_id)
-
-#     # package_selection['package_id'] = package_id
-#     package_object = Package.objects.get(pk=package_id)
-#     request.session['package_selection'] = package_id
-#     context['p_selected'] = request.session
-
-#     current_user = MyAccount.objects.get(email=user_email)
-#     user_stripe_cus_id = current_user.stripe_customer_id
-#     print("I am a stripe user", user_stripe_cus_id)
-
-#     if user_stripe_cus_id is None:
-#         try:
-#             # Create a new customer object
-#             customer = stripe.Customer.create(
-#                 email=user_email
-#             )
-#             package_selection['stripe_cus'] = customer.id
-#             package_selection['stripe_price_id'] = package_object.stripe_price_id
-#             return redirect(order_summary)
-
-#         except Exception as e:
-#             error = str(e)
-#             print("error", e)
-#             return error
-#     else:
-#         try:
-#             package_selection['stripe_cus'] = user_stripe_cus_id
-#             package_selection['stripe_price_id'] = package_object.stripe_price_id
-#             return redirect(order_summary)
-
-#         except Exception as e:
-#             error = str(e)
-#             print("error", e)
-#             return error
-
-#     print(context['p_selected'], "session: ",
-#           request.session['package_selection'])
-
-#     return redirect(order_summary)
-
-
 def confirm_order(request):
-    
+    """ Create the payment method, customer and subscription if none exist and 
+        confirm the subscription if payment method successfully provided """
+
     context = {}
 
     # Remove all pre-existing messages on page load.
@@ -134,12 +83,11 @@ def confirm_order(request):
         return redirect('packages')
     else:
         package_selection = int(request.session['package_selection'])
-        
+
     package_item = Package.objects.get(tier=package_selection)
     package_stripe_id = package_item.stripe_price_id
     sub_price_id = None
     latest_bill_paid = "open"
-    
 
     if not stripe_pk:
         messages.warning(request, "No public key found for Stripe")
@@ -187,34 +135,30 @@ def confirm_order(request):
 
         latest_bill_paid = subscription.latest_invoice.status
         sub_price_id = subscription.plan.id
-    
-    
+
     # Update customer default payment method for future changes
     customer_has_pm = stripe.Customer.retrieve(
-            user.stripe_customer_id
-        )
+        user.stripe_customer_id
+    )
 
     if not customer_has_pm.invoice_settings.default_payment_method:
-            stripe.Customer.modify(
-                user.stripe_customer_id,
-                invoice_settings={'default_payment_method': 
-                    subscription.latest_invoice.payment_intent.payment_method}
-            )
+        stripe.Customer.modify(
+            user.stripe_customer_id,
+            invoice_settings={'default_payment_method':
+                              subscription.latest_invoice.payment_intent.payment_method}
+        )
     else:
         customer_pm = stripe.PaymentMethod.retrieve(
             customer_has_pm.invoice_settings.default_payment_method
         )
-        print(customer_pm)
-        
+
         customer_pm_details = {
-            "brand": customer_pm.card.brand, 
-            "last4": customer_pm.card.last4, 
-            "last4": customer_pm.card.exp_month, 
-            "last4": customer_pm.card.exp_year, 
+            "brand": customer_pm.card.brand,
+            "last4": customer_pm.card.last4,
+            "last4": customer_pm.card.exp_month,
+            "last4": customer_pm.card.exp_year,
         }
         context['customer_pm_details'] = customer_pm_details
-    
-
 
     if request.method == 'POST':
 
@@ -245,22 +189,21 @@ def confirm_order(request):
                 'price': package_item.stripe_price_id,
             }]
         )
-    
+
         request.session['package_selection'] = ""
         storage = messages.get_messages(request)
         storage.used = True
         messages.success(request, "You have successfully subscribed!")
         return redirect('get_my_orders')
 
-    
     # Send end of current period to context
     if subscription and subscription.plan.id is not free_package_id:
-        
+
         upcoming_inv = stripe.Invoice.upcoming(
             customer=user.stripe_customer_id,
         )
         next_period_start = datetime.fromtimestamp(upcoming_inv.next_payment_attempt).strftime(
-            '%d %b %y') 
+            '%d %b %y')
         current_end = datetime.fromtimestamp(subscription.current_period_end).strftime(
             '%d %b %y')
     else:
@@ -275,7 +218,7 @@ def confirm_order(request):
     elif latest_bill_paid == 'paid':
         sub_is_change = True
         print("Sub is change?")
-    else: 
+    else:
         sub_is_change = False
         print("Sub is new")
 
@@ -300,35 +243,48 @@ def cancel_abandoned_subscription(request):
     stripe.api_key = stripe_sk
 
     user = request.user
-    
+
     subscription = stripe.Subscription.retrieve(
-            user.stripe_subscription_id
-        )
+        user.stripe_subscription_id
+    )
 
     latest_invoice = stripe.Invoice.retrieve(
-            subscription.latest_invoice
-        )
+        subscription.latest_invoice
+    )
 
     if subscription and latest_invoice.status == 'open':
         stripe.Customer.delete(
             user.stripe_customer_id
-            )
-        
+        )
+
         user.stripe_subscription_id = ""
         user.stripe_customer_id = ""
         user.save()
-    
+
     return HttpResponse(content="Subscription has been removed", status=200)
 
 
 def update_payment_method(request):
-    
+    """ Update the default payment method of user if required """
+    stripe_sk = settings.STRIPE_SECRET_KEY
+    stripe.api_key = stripe_sk
+    stripe_customer = request.user.stripe_customer_id
+
     if request.method == "POST":
-        pass
-        
-    return HttpResponse(content="Payment method updated", status=200)
+        new_payment_method = request.POST.get('payment_method')
 
+        stripe.PaymentMethod.attach(
+            new_payment_method,
+            customer=stripe_customer,
+        )
 
-def checkout(request):
+        stripe.Customer.modify(
+            stripe_customer,
+            invoice_settings={'default_payment_method':
+                              new_payment_method}
+        )
 
-    return render(request, 'checkout/checkout.html')
+        messages.success(
+            request, 'Your payment card has been added, we will attempt to bill this card shortly.')
+
+    return redirect('get_my_orders')
