@@ -41,7 +41,7 @@
             {% for event in events %}
             <div class="card event-card muted">
                 <div class="event-header-img">
-                    <img class="" src="/media/{{event.header_image}}" alt="{{event.title}} - header image"
+                    <img class="" src="{{event.header_image.url}}" alt="{{event.title}} - header image"
                         onload="specImageOrientation(this);">
                     <span class="card-title-overlay"></span>
                     <h3 class="event-card-title">{{event.title}}</h3>
@@ -122,7 +122,7 @@
                                     <div
                                         class="img-and-details-mast d-flex col-xl-8 col-lg-12 col-12 flex-column flex-sm-row">
                                         <div class="thumbnail-wrapper prf-img-preview-wrapper m-auto">
-                                            <img class="prf-img-preview" src="/media/{{reg.profile_image}}"
+                                            <img class="prf-img-preview" src="{{reg.profile_image.url}}"
                                                 alt="{{new_connection.first_name}} {{new_connection.last_name}}'s' profile image"
                                                 onload="specImageOrientation(this);">
                                         </div>
