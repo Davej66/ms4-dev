@@ -6,7 +6,7 @@
 {% for event in search_results %}
 <div class="card event-card muted">
     <div class="event-header-img">
-        <img class="" src="/media/{{event.header_image}}" alt="{{event.title}} - header image"
+        <img class="" src="{{event.header_image.url}}" alt="{{event.title}} - header image"
             onload="specImageOrientation(this);">
         <span class="card-title-overlay"></span>
         <h3 class="event-card-title">{{event.title}}</h3>
@@ -53,7 +53,6 @@
 {% else %}
 <div class="card user-card fade-in w-100 no-results muted">
     <div class="d-flex flex-wrap">
-        <!-- TODO remove default testing input -->
         <div class="user-details-mast text-center m-auto">
             <i class="far fa-frown"></i>
             <p>Looks like we couldn't find any results with that search.
