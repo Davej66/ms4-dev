@@ -15,18 +15,20 @@
       <div class="d-flex justify-content-center p-0">
         <div class="register-login-card card muted m-2 col-lg-6 fade-in">
           <h1 class="text-center">Register for your Free Account</h1>
-          <p class="py-3 text-center w-75 m-auto">We'll automatically enroll you in our Free Account subscription, but for additional event registration and peer to peer networking, upgrade your account
+          <p class="py-3 text-center w-75 m-auto">We'll automatically enroll you in our Free Account subscription, but
+            for additional event registration and peer to peer networking, upgrade your account
             after signup to unlock the full set of features!
           </p>
-          <form class="account-form signup py-4 d-flex flex-wrap" id="signup_form" method="post" action="{% url 'account_signup' %}">
+          <form class="account-form signup py-4 d-flex flex-wrap" id="signup_form" method="post"
+            action="{% url 'account_signup' %}">
             {% csrf_token %}
             {{ form.as_p }}
             {% if redirect_field_value %}
             <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
             {% endif %}
             <div class="fixed-60 w-100 d-flex">
-            <button class="btn primary-btn large center-half-btn-cta m-auto" type="submit">Register Now</button>
-          </div>
+              <button class="btn primary-btn large center-half-btn-cta m-auto" type="submit">Register Now</button>
+            </div>
           </form>
           <p class="text-center">Already have an account? <a href="{{ login_url }}">Login here</a>.</p>
         </div>
