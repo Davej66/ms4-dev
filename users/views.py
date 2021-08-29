@@ -201,7 +201,7 @@ def dashboard_my_orders(request):
         }
 
         invoice_list = []
-
+        print(invoice_list)
         for i in invoices:
 
             if i.paid != False:

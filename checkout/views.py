@@ -320,9 +320,9 @@ def cancel_abandoned_subscription(request):
             user.stripe_customer_id
             )
         
-    user.stripe_subscription_id = ""
-    user.stripe_customer_id = ""
-    user.save()
+        user.stripe_subscription_id = ""
+        user.stripe_customer_id = ""
+        user.save()
     
     return HttpResponse(content="Subscription has been removed", status=200)
 

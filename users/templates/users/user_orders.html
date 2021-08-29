@@ -39,7 +39,7 @@
                             <div id="main_ajax_content" class="content col-12">
                                 <div class="card muted z-2">
                                     <h3 class="edit-profile-section-header mb-3">Upcoming Order</h3>
-                                    {% if not upcoming_invoice %}
+                                    {% if upcoming_invoice == "" %}
                                     <p class="py-2 mb-5">You're currently on a <strong>Free Account</strong> subscription, so have no upcoming invoices.</p>
                                     {% else %}    
                                     <div
@@ -87,8 +87,14 @@
                                                 </div>
                                             </td><td>
                                                 <div class="order-detail">
+                                                    {% if this_user.is_blocked %}
+                                                    <p>You're previous payment failed! Please update your payment details.</p>
                                                     <a type="button" class="btn secondary-btn m-auto"
-                                                        href="{% url 'packages' %}">Update Subscription</a>
+                                                    href="{% url 'summary' %}">Update Payment Method</a>
+                                                    {% else %}
+                                                    <a type="button" class="btn secondary-btn m-auto"
+                                                    href="{% url 'packages' %}">Update Subscription</a>
+                                                    {% endif %}
                                                 </div>
                                             </td>
                                                 </tr>   
@@ -97,7 +103,7 @@
                                     </div>
                                     {% endif %}
                                     <h3 class="edit-profile-section-header mb-3">Previous Orders</h3>
-                                    {% if invoices %}
+                                    {% if invoices != "" %}
                                     <table class="w-100 orders">
                                         <tbody>
                                             <tr>

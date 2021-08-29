@@ -5,6 +5,7 @@ var currentPackageTier = $('#id_current_package_tier').val();
 var activePackageCard = $(`#tier_${currentPackageTier}_package`);
 var activePackageCardLabel = $(`#tier_${currentPackageTier}_package > .current_package_label`);
 var allPackageCardLabel = $(`.current_package_label`);
+var formSubmitted = false
 activePackageCard.addClass('active');
 activePackageCardLabel.text('Your current package');
 activePackageCardLabel.removeClass('hidden');
@@ -29,16 +30,6 @@ var is_upgrade = $('#is_upgrade').val();
 var stripe = Stripe(stripePublicKey);
 var elements = stripe.elements();
 var csrftoken = Cookies.get('csrftoken');
-
-
-$(document).ready(() => {
-    // If user abandons the page, destroy the subscription created
-    $(window).on('unload', function () {
-        data = new FormData()
-        data.append('csrfmiddlewaretoken', csrftoken)
-        navigator.sendBeacon("../destroy_sub/", data);
-    });
-})
 
 
 if (is_upgrade === "False") {
@@ -95,10 +86,25 @@ if (is_upgrade === "False") {
             } else {
                 errorDiv.text = ""
                 if (result.paymentIntent.status === 'succeeded') {
-                    console.log("this worked")
+                    var formSubmitted = true
                     $('#payment_form').submit()
+
                 }
             }
         });
     });
 }
+
+console.log(formSubmitted)
+
+
+$(document).ready(() => {
+    // If user abandons the page, destroy the subscription created
+    $(window).on('unload', function () {
+        if(formSubmitted == false){
+        data = new FormData()
+        data.append('csrfmiddlewaretoken', csrftoken)
+        navigator.sendBeacon("../destroy_sub/", data);
+    }
+    });
+})
