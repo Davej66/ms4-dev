@@ -15,7 +15,6 @@ from users.models import MyAccount
 from packages.models import Package
 from events.models import Event
 from datetime import datetime
-from dateutil.relativedelta import relativedelta
 
 import stripe
 import json
