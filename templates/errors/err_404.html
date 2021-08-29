@@ -12,12 +12,9 @@
     <div class="row w-100 m-0">
       <div class="d-flex justify-content-center p-0">
         <div class="register-login-card card muted m-2 col-lg-6 fade-in">
-          <h2 class="text-center">Are you sure you want to logout?</h2>
-
-          <form method="post" action="/account/logout/" class="m-auto p-3">
-            <input type="hidden" name="csrfmiddlewaretoken" value="z3ODzANseSWMtzG5jtBSgT5iZin6u98hTSF7uyGMyBSv1U1H1vOwW4RE1LgIbiXi">
-            <button type="submit" class="btn primary-btn large py-3 px-4 m-auto">Logout</button>
-          </form>
+          <h1 class="text-center header-underline m-auto mb-4 w-50">404</h1>
+          <p>Looks like you're a little lost, or this page no longer exists.</p>
+          <a class="btn primary-btn-outline-color py-2 px-3 mt-4" href="{% url 'home' %}"><i class="fas fa-home px-2"></i> Head Home instead</a>
         </div>
       </div>
     </div>

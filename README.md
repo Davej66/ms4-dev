@@ -236,6 +236,7 @@ ___
 - [Send a Beacon to server on tab close](https://www.schtech.co.uk/trigger-django-functions-with-javascript-sendbeacon/) - used to create a 'destroy subscription' function if user abandons cart.
 - Render to string with JsonResponse, response by BeryCZ in [this Stack Overflow thread](https://stackoverflow.com/questions/64688157/django-render-json-response-html)
 - How to negate Q query functions, answer by David Berger in [this Stack Overflow thread](https://stackoverflow.com/questions/2334698/django-queries-how-to-make-contains-or-not-contains-queries/2334784)
+- How to implement custom error handlers in Django, thanks to [Abdurrahim Yıldırım](https://medium.com/@yildirimabdrhm?source=post_page-----807087352bea--------------------------------) in [this Medium post](https://medium.com/@yildirimabdrhm/python-django-handling-custom-error-page-807087352bea)
 
 ### Images
 - Photography Example Event Image by [ATC Comm Photo](https://www.pexels.com/@atccommphoto?utm_content=attributionCopyText&utm_medium=referral&utm_source=pexels) from Pexels

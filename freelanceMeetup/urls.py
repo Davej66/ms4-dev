@@ -13,11 +13,12 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.conf.urls import handler404, handler500
 from django.contrib import admin
 from django.conf import settings
 from django.urls import path, include
 from django.conf.urls.static import static
-from users.views import add_friend
+from .views import err_404, err_500
 
 
 urlpatterns = [
@@ -31,4 +32,12 @@ urlpatterns = [
     path('', include('home.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-# urlpatterns += static(settings.STATIC_URL, document_root=settings.STATICFILES_DIRS)
+
+if settings.DEBUG: 
+    urlpatterns += [
+        path('404/', err_404, name='404'),
+        path('500/', err_500, name='500'),
+        ]
+
+handler404 = 'freelanceMeetup.views.err_404'
+handler500 = 'freelanceMeetup.views.err_500'

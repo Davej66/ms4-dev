@@ -1,0 +1,27 @@
+<!-- HTML Customised from Allauth existing template here 
+    https://github.com/pennersr/django-allauth/blob/master/allauth/templates/account/signup.html -->
+
+{% extends "includes/base.html" %}
+{% load static %}
+
+{% block head_title %}500 Error{% endblock %}
+
+{% block content %}
+<section class="screen-height d-flex">
+  <div class="container-fluid m-auto p-0">
+    <div class="row w-100 m-0">
+      <div class="d-flex justify-content-center p-0">
+        <div class="register-login-card card muted m-2 col-lg-6 fade-in">
+          <h1 class="text-center header-underline m-auto mb-4 w-75">Server Error (500)</h1>
+          <p>It seems we've run into a small issue back here. Please try again later, or notify us of an issue by contacting us.</p>
+          <div class="d-flex flex-wrap justify-content-center">
+          <a class="btn primary-btn-outline-color py-2 px-3 mt-4 mx-1" href="{% url 'home' %}"><i class="fas fa-home"></i> Head Home instead</a>
+          <a class="btn primary-btn-outline-color py-2 px-3 mt-4 mx-1" href="{% url 'contact' %}"><i class="fas fa-envelope"></i> Contact Us</a>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
