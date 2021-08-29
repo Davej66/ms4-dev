@@ -1,6 +1,5 @@
 {% extends 'includes/base.html' %}
 {% load static %}
-{% load friendshiptags %}
 
 {% block head_title %}Freelancers{% endblock %}
 
@@ -59,7 +58,7 @@
             <div class="card user-card muted">
                 <div class="d-flex flex-wrap">
                     <div class="prf-img-preview">
-                        <img class="prf-img-preview" src="{{user.profile_image}}"
+                        <img class="prf-img-preview" src="{{user.profile_image.url}}"
                             alt="{{user.first_name}} {{user.last_name}}'s profile image"
                             onload="specImageOrientation(this);">
                     </div>

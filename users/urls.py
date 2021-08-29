@@ -9,7 +9,6 @@ urlpatterns = [
     path('dashboard/edit_profile', views.edit_profile, name="edit_profile"),
     path('dashboard/orders/', views.dashboard_my_orders, name="get_my_orders"),
     path('all/', views.all_users, name="all_users"),
-    path('<username>/', views.view_profile, name="view_profile"),
     path('register/', views.CustomRegistrationView, name="registration"),
     path('ajax/add_friend/<other_user>', views.add_friend, name="add_friend"),
     path('ajax/cancel_friend/<other_user>', views.cancel_friend, name="cancel_friend"),

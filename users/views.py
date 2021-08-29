@@ -90,18 +90,6 @@ def edit_profile(request):
 
 
 @verified_email_required
-def view_profile(request, *args, **kwargs):
-
-    view_user = kwargs.get('username')
-
-    context = {
-        "user": view_user
-    }
-
-    return render(request, 'users/view_profile.html', context)
-
-
-@verified_email_required
 def all_users(request):
     """
     Return all users to the page and search if there is an ajax search request.
@@ -148,7 +136,6 @@ def all_users(request):
             results = query_results.filter(email__in=friends_emails)
         else:
             results = query_results
-        print(results)
 
         context = {
             'search_results': results
