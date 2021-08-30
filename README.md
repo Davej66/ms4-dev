@@ -10,6 +10,15 @@ ___
 
 ## Contents
 ### User Stories
+
+- As a **Freelancer** I want to:
+    - Create a user profile so other users can find me and connect with me.
+    - Add my skills and role to my profile to highlight to other users what my expertise is and what I may have in common with them.
+    - Add my location to profile so I can see events nearby to me vs events I would be unable to attend.
+    - Be able to hide my profile to remain anonymous to other users if I do not want to be contacted or connected with.
+
+
+
 ### User Experience Design
 - Brand and Colours
 - UI Design

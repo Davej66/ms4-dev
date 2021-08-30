@@ -1,0 +1,9 @@
+{% extends "account/email/base_message.txt" %}
+{% load account %}
+{% load i18n %}
+
+{% block content %}{% autoescape off %}
+{% user_display user as user_display %}
+You're receiving this e-mail because your email {{ user_display }} has been used to register an account on FreelanceMeetups.
+
+Activate this email here: {{ activate_url }}{% endautoescape %}{% endblock %}

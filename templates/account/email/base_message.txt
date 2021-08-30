@@ -1,0 +1,5 @@
+{% autoescape off %}Hello from FreelanceMeetups!
+{% block content %}{% endblock %}
+
+Thank you for using FreelanceMeetups!
+{% endautoescape %}
