@@ -47,7 +47,7 @@ def account_dashboard(request):
     full_name = user.first_name + " " + user.last_name
     user_package = user.package_name
     profile_complete = user.profile_completed
-    pending_reqs_to_user = Friend.objects.unrejected_requests(
+    pending_reqs_to_user = Friend.objects.unread_requests(
         user=request.user)
     user_events = request.user.attendees.all()
     user_friends_count = len(Friend.objects.friends(request.user))
@@ -103,6 +103,7 @@ def all_users(request):
     free_account = request.user.package_tier == 1
     users_friends = Friend.objects.friends(request.user)
     friends_emails = []
+    print(friends_emails, users_friends)
 
     # Map friends to string of emails
     for i in users_friends:
@@ -113,7 +114,7 @@ def all_users(request):
         all_users = MyAccount.objects.filter(
             industry=request.user.industry).exclude(pk=request.user.pk)
 
-    user_friend_requests = Friend.objects.sent_requests(user=request.user)
+    user_friend_requests = FriendshipRequest.objects.all()
 
     if request.is_ajax and request.method == "POST":
         query = request.POST['user_search']
@@ -295,6 +296,7 @@ def cancel_friend(request, **kwargs):
     if request.is_ajax and request.method == "GET":
         other_user = kwargs.get('other_user')
         other_user_pk = MyAccount.objects.get(pk=other_user)
+        print("cancelled", other_user_pk)
 
         # Cancel the request
         FriendshipRequest.objects.get(to_user=other_user_pk).cancel()
@@ -358,9 +360,10 @@ def remove_friend(request, **kwargs):
         
         # Remove the friend objects
         try:
-            # Friend.objects.remove_friend(request.user, other_user_pk)
             get_connection_primary.delete()
             get_connection_secondary.delete()
+            friend_list.remove(other_user_pk)
+            
         except Exception as e:
             messages.error(request,
                            "We could no longer find this request. Please refresh the page and try again")

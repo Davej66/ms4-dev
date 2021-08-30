@@ -284,13 +284,16 @@ function changeButtonUI(buttonId, type) {
         $(buttonTarget).addClass('send-connection-btn').removeClass('req-sent-btn');
         $(buttonTarget).addClass('primary-btn').removeClass('primary-btn-outline-color');
         $(buttonTarget).attr('onclick', `add_friend(${buttonId});`);
-    } else if (type == "remove"){
+    } else if (type == "remove") {
+        $('.send-message-btn').fadeOut();
         let buttonTarget = $(`.remove-connection-btn[value="${buttonId}"]`);
-        $(buttonTarget).text('Send Connection Request');
-        $(buttonTarget).addClass('send-connection-btn').removeClass('remove-connection-btn');
-        $(buttonTarget).attr('onclick', `add_friend(${buttonId});`);
-    } else if (type == "accept" || type == "decline"){
-        $(`.conn-request-item[value="${buttonId}"]`).fadeOut("fast", "linear") 
+        $(buttonTarget).text('Connection Removed');
+        $(buttonTarget).attr('onclick', ``);
+    } else if (type == "accept") {
+        let buttonTarget = $(`.accept-connection-btn[value="${buttonId}"]`);
+        $(buttonTarget).text('Connection Accepted ');
+    } else {
+        $(`.conn-request-item[value="${buttonId}"]`).fadeOut("fast", "linear");
     }
 };
 
