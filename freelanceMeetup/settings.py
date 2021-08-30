@@ -98,7 +98,6 @@ ACCOUNT_USER_MODEL_USERNAME_FIELD = None
 LOGIN_URL = '/account/login'
 LOGIN_REDIRECT_URL = '/profile/dashboard/'
 ACCOUNT_LOGOUT_REDIRECT_URL = '/'
-# ACCOUNT_FORMS = {'signup': 'users.forms.RegistrationForm'}
 
 ROOT_URLCONF = 'freelanceMeetup.urls'
 
@@ -183,14 +182,6 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
-# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-# STATICFILES_DIRS = [
-#     BASE_DIR /
-#     'static',
-#     'users/static/users/',
-#     'home/static/home/',
-#     'checkout/static/checkout/',
-#     ]
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

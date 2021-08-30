@@ -18,7 +18,6 @@ def contact(request):
     """ Render Contact Page """
 
     if request.method == "POST":
-        # TODO add contact form!
         
         sender = request.POST.get('email')
         name = request.POST.get('name')
@@ -27,12 +26,12 @@ def contact(request):
         to_email = settings.DEFAULT_FROM_EMAIL
         
         send_mail(
-            subject, message, to_email,
-            [sender],
+            subject, message, sender,
+            [to_email],
             fail_silently=False,
         )
         
         messages.success(request, "Your message has been sent to us, we will respond to you within 48 Hours!")
-        redirect ('account_dashboard')
+        return redirect('account_dashboard')
         
     return render(request, 'home/contact.html')
