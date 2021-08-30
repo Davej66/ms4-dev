@@ -5,7 +5,7 @@ from django.shortcuts import (
 from django.http import JsonResponse, response
 from django.conf import settings
 from django.contrib import messages
-from django.core.mail import send_mail
+from django.core.mail import send_mail, EmailMessage
 from django.db.models import Q
 from django.template.loader import render_to_string
 from allauth.account.decorators import verified_email_required
@@ -258,11 +258,15 @@ def send_user_message(request):
             subject = f'You have a new message from {receiver_email.first_name} {receiver_email.last_name}'
             message = request.POST.get('message')
 
-            send_mail(
-                subject, message, sender,
+            email = EmailMessage(
+                subject,
+                message,
+                sender,
                 [receiver_email],
-                fail_silently=False,
+                reply_to=[sender],
             )
+            email.send()
+            
             messages.success(
                 request, "Your message has been sent successfully!")
             return redirect('all_users')

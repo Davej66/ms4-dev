@@ -1,5 +1,5 @@
 from django.shortcuts import redirect, render
-from django.core.mail import send_mail
+from django.core.mail import send_mail, EmailMessage
 from django.conf import settings
 from django.contrib import messages
 
@@ -25,11 +25,14 @@ def contact(request):
         message = request.POST.get('contact_message')
         to_email = settings.DEFAULT_FROM_EMAIL
         
-        send_mail(
-            subject, message, sender,
+        email = EmailMessage(
+            subject,
+            message,
+            sender,
             [to_email],
-            fail_silently=False,
+            reply_to=[sender],
         )
+        email.send()
         
         messages.success(request, "Your message has been sent to us, we will respond to you within 48 Hours!")
         return redirect('account_dashboard')
