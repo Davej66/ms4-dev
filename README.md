@@ -62,7 +62,7 @@ ___
     - Download invoices of my past payments	and have a copy of proof of purchase for my records.
     - Register and unregister for Meetups I am interested in.
     - See who is attending events I am attending.
-    - Connect with other users attending events.
+    - Connect with other users.
     - Message other users once connected.
     - Approve or decline connection requests sent to me.
 
@@ -203,19 +203,53 @@ When a registered user clicks navigates to 'Subscriptions', they are shown the p
 
 ![](docs/screenshots/user_testing/page_snippets/packages.png)
 
+<br>
 
 If the user does not yet have a paid subscription, they are shown the card payment page, where users can securely enter their card details and confirm. This process generates a Stripe customer and subscription for the user on page load, then either attaches the package if payment is successful, otherwise destroys the Stripe customer and subscription if the page is abandoned.
 
 ![](docs/screenshots/user_testing/page_snippets/confirm_order.png)
 
+<br>
 
-    - <em>Be able to view my past transactions to see my previous usage and billing summary.</em>
-    - <em>Download invoices of my past payments	and have a copy of proof of purchase for my records.</em>
-    - <em>Register and unregister for Meetups I am interested in.</em>
-    - <em>See who is attending events I am attending.</em>
-    - <em>Connect with other users attending events.</em>
-    - <em>Message other users once connected.</em>
-    - <em>Approve or decline connection requests sent to me.</em>
+Once the user has a paid package and Stripe subscription, any further attempts to purchase a package will inform the user that they will be upgraded and billed at the end of the month using their default payment method.
+
+![](docs/screenshots/user_testing/page_snippets/default_card.png)
+
+<br>
+
+- <em>Be able to view my past transactions to see my previous usage and billing summary.</em>
+- <em>Download invoices of my past payments	and have a copy of proof of purchase for my records.</em>
+
+After successful purchase of the package, the user is directed to the 'My Orders' page, where they can see their previous orders, upcoming orders and downlowd any invoices. These orders are presented directly from Stripe, but attached to a server-side order, which links the order to the user for future admin reference.
+
+![](docs/screenshots/user_testing/full_page/my_orders.png)
+
+- <em>Register and unregister for Meetups I am interested in.</em>
+- <em>See who is attending events I am attending.</em>
+
+Users can view the Meetups available on the 'Meetups' page accessible by the navbar and footer. This page allows users to register and unregister from events by clicking the call to action buttons on the bottom of each card. A user can see who is attending an event by clicking 'Attendees' on each card.
+
+![](docs/screenshots/user_testing/full_page/meetups.png)
+<img src="docs/screenshots/user_testing/page_snippets/event_s1.png" alt="" style="width:200px; margin-left:20px"/>
+<img src="docs/screenshots/user_testing/page_snippets/event_s2.png" alt="" style="width:200px;"/>
+<img src="docs/screenshots/user_testing/page_snippets/event_s3.png" alt="" style="width:200px;"/>
+<img src="docs/screenshots/user_testing/page_snippets/attendees.png" alt="" style="width:600px; margin-left: 20px"/>
+
+
+- <em>Connect with other users.</em>
+- <em>Message other users once connected.</em>
+- <em>Approve or decline connection requests sent to me.</em>
+
+For users connecting with others, this can be done on the 'Freelancers' page. Once here, users can send a connection request to other users, accept incoming requests or if connected, send a message. To view their existing connections, users can user the filter on the Freelancers page to view these.
+
+![](docs/screenshots/user_testing/full_page/freelancers.png)
+![](docs/screenshots/user_testing/full_page/send_msg.png)
+![](docs/screenshots/user_testing/full_page/connections.png)
+
+
+Users can also use the 'My Dashboard' page to accept, reject, or view more details of an incoming connection.
+
+![](docs/screenshots/user_testing/full_page/dashboard.png)
 
 <br>
 
