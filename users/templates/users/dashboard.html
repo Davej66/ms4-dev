@@ -66,7 +66,7 @@
                                                     class="img-and-details-mast d-flex col-xl-8 col-lg-12 col-12 flex-column flex-sm-row">
                                                     <div class="thumbnail-wrapper prf-img-preview-wrapper m-auto">
                                                         <img class="prf-img-preview"
-                                                            src="/media/{{new_connection.profile_image}}"
+                                                            src="{{new_connection.profile_image.url}}"
                                                             alt="{{new_connection.first_name}} {{new_connection.last_name}}'s' profile image"
                                                             onload="specImageOrientation(this);">
                                                     </div>
@@ -183,7 +183,7 @@
                 <div class="user-card muted m-0 pt-0">
                     <div class="d-flex flex-wrap flex-column flex-sm-row">
                         <div class="prf-img-preview mx-0">
-                            <img class="prf-img-preview portrait-img" src="/media/{{new_connection.profile_image}}"
+                            <img class="prf-img-preview portrait-img" src="{{new_connection.profile_image.url}}"
                                 alt="Bradley Cooney's profile image" onload="specImageOrientation(this);">
                         </div>
                         <div class="user-details-mast-modal px-4">
@@ -234,7 +234,7 @@
                         class="fas fa-times ml-auto "></i></span>
                 <div class="event-card muted m-0 pt-0">
                     <div class="event-header-img">
-                        <img class="" src="/media/{{event.header_image}}" alt="{{event.title}} - header image"
+                        <img class="" src="{{event.header_image.url}}" alt="{{event.title}} - header image"
                             onload="specImageOrientation(this);">
                         <span class="card-title-overlay"></span>
                         <h3 class="event-card-title">{{event.title}}</h3>
