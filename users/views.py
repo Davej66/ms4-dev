@@ -114,7 +114,9 @@ def all_users(request):
         all_users = MyAccount.objects.filter(
             industry=request.user.industry).exclude(pk=request.user.pk)
 
-    user_friend_requests = FriendshipRequest.objects.all()
+    query = Q(to_user=request.user) | Q(from_user=request.user)
+    user_friend_requests = FriendshipRequest.objects.filter(query)
+    print(user_friend_requests)
 
     if request.is_ajax and request.method == "POST":
         query = request.POST['user_search']

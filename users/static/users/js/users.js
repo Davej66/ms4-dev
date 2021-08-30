@@ -269,6 +269,10 @@ function remove_friend(other_user) {
         var buttonId = $(this).val();
         $(`.send-connection-btn[value="${buttonId}"]`).remove();
     });
+    let acceptBtn = $(`.accept-connection-btn`).each(function () {
+        var buttonId = $(this).val();
+        $(`.send-connection-btn[value="${buttonId}"]`).remove();
+    });
 })();
 
 // Change the friend 'connection' button on successful add

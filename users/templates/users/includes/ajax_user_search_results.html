@@ -32,17 +32,18 @@
         {% elif req.from_user == user %}
         <button class="accept-connection-btn btn secondary-btn px-3 py-2 m-auto"
             onclick="accept_friend('{{user.pk}}')" value="{{user.pk}}">Accept Request</button>
-        {% elif this_user.is_blocked %}
+        {% endif %}
+        {% endfor %}
+        {% endif %}
+        
+
+            {% if this_user.is_blocked %}
         <p class="timezone-warning text-center py-2">You can't currently send new connection requests due
             to a failed invoice payment.
             <a href="{% url 'get_my_orders' %}">Update your billing details</a>
             to continue.
         </p>
-        {% else %}
-        <button class="send-connection-btn btn primary-btn px-3 py-2 m-auto"
-            onclick="add_friend('{{user.pk}}')" value="{{user.pk}}">Send Connection Request</button>
-        {% endif %}
-        {% endfor %}
+        
         {% elif user.email in users_friends %}
         <button class="remove-connection-btn btn secondary-btn px-3 py-2 m-auto"
             onclick="remove_friend('{{user.pk}}')" value="{{user.pk}}"><i class="fas fa-user"></i>
@@ -62,7 +63,6 @@
 {% else %}
 <div class="card user-card fade-in w-100 no-results muted">
     <div class="d-flex flex-wrap">
-        <!-- TODO remove default testing input -->
         <div class="user-details-mast text-center">
             <i class="far fa-frown"></i>
             <p>Looks like we couldn't find any results with that search.
