@@ -9,6 +9,7 @@ from django.core.mail import send_mail
 from django.db.models import Q
 from django.template.loader import render_to_string
 from allauth.account.decorators import verified_email_required
+from django.views.decorators.cache import never_cache
 from allauth.account.views import SignupView
 from allauth.account.utils import send_email_confirmation, user_pk_to_url_str
 from users.forms import RegistrationForm, EditProfileForm
@@ -39,6 +40,7 @@ register = CustomRegistrationView.as_view()
 
 
 @verified_email_required
+@never_cache
 def account_dashboard(request):
 
     user = MyAccount.objects.get(email=request.user)
@@ -90,6 +92,7 @@ def edit_profile(request):
 
 
 @verified_email_required
+@never_cache
 def all_users(request):
     """
     Return all users to the page and search if there is an ajax search request.
