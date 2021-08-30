@@ -1,5 +1,5 @@
 from django.http import HttpResponse
-from django.shortcuts import render, redirect, reverse
+from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.contrib import messages
 from django.conf import settings
 from packages.models import Package
@@ -91,7 +91,12 @@ class StripeWH_Handler:
         intent = event.data.object
         invoice_id = intent.invoice
         stripe_customer = intent.customer
-        user = MyAccount.objects.get(stripe_customer_id=stripe_customer)
+        user = get_object_or_404(MyAccount, stripe_customer_id=stripe_customer)
+        
+        if not user: 
+            return HttpResponse(content=f'Webhook received: {event["type"]} | \
+            No user found', status=200)
+            
         name = user.first_name + " " + user.last_name
         package_cost = intent.amount / 100
         package = Package.objects.get(price=package_cost)
