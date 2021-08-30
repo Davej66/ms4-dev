@@ -10,15 +10,6 @@ ___
 
 ## Contents
 ### User Stories
-
-- As a **Freelancer** I want to:
-    - Create a user profile so other users can find me and connect with me.
-    - Add my skills and role to my profile to highlight to other users what my expertise is and what I may have in common with them.
-    - Add my location to profile so I can see events nearby to me vs events I would be unable to attend.
-    - Be able to hide my profile to remain anonymous to other users if I do not want to be contacted or connected with.
-
-
-
 ### User Experience Design
 - Brand and Colours
 - UI Design
@@ -46,6 +37,43 @@ ___
 
 
 ## User Stories
+
+
+- As a **first time user** I want to:
+    - Be able to easily navigate the site and register before committing to a monthly subscription.
+    - Quickly identify the benefits of signing up for a paid membership.
+    - Evaluate the difference in subscriptions and best suited to my needs.
+
+
+<br>
+
+- As a returning **Freelancer** I want to:
+    - Create a user profile so other users can find me and connect with me.
+    - Add my skills and role to my profile to highlight to other users what my expertise is and what I may have in common with them.
+    - Add my location to my profile so I can see events nearby to me vs events I would be unable to attend.
+    - Be able to hide my profile to remain anonymous to other users if I do not want to be contacted or connected with.
+    - Be able to subscribe to a monthly subscription and have access to membership only features like events and user connections.
+    - Be able to upgrade my subscription to have access to increased feature allowances such as more event attendance.
+    - Be able to downgrade my subscription to stop any further costs being charged to my credit card.
+    - Securely submit my card details when completing an order to be confident that my credit card details are stored safely in line with security best practice.
+    - Be able to view my past transactions to see my previous usage and billing summary.
+    - Download invoices of my past payments	and have a copy of proof of purchase for my records.
+    - Register and unregister for Meetups I am interested in.
+    - See who is attending events I am attending.
+    - Connect with other users attending events.
+    - Message other users once connected.
+    - Approve or decline connection requests sent to me.
+
+<br>
+
+
+- As a **Site Owner** I want to:
+    - Manage users via an admin CMS.
+    - Manage events via an admin CMS.
+    - Access order details for customers.
+    - Enable users to contact me if there are any issues with their account.
+    - Require users to verify their email before registration is confirmed.
+    - Only show user accounts if users have completed their profiles, so only content rich information is shown to other users.
 
 <br>
 
