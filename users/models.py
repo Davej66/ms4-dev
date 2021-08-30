@@ -82,7 +82,7 @@ class MyAccount(AbstractBaseUser, PermissionsMixin):
     profile_image = models.ImageField(upload_to=get_profile_image_filepath, null=True, blank=True, default=get_default_profile_image)
     job_role = models.CharField(max_length=255, blank=True, default="")
     industry = models.CharField(max_length=255, blank=True, default="All")
-    description = models.TextField(max_length=1000, blank=True, default="")
+    description = models.TextField(max_length=1000, blank=True)
     skills = models.CharField(max_length=1000, blank=True)
     hide_email = models.BooleanField(default=True)
     location = models.CharField(max_length=100, blank=True)
