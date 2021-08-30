@@ -82,17 +82,49 @@ ___
 ___
 <br>
 
-## User Experience Design
+## **User Experience Design**
 
-### Brand
->aaa
-### Colours & Typography
->a
-### UI Design
+To encourage a positive first impression on users as they visit the site, it is important that the colours and UI design reflect those which the users are familiar with through similar sites, or provoke a strong enough emotional response for the user to be persuaded to click and spend their time on the site.
+
+<br>
+
+### **Colours & Typography**
+The colours and typography in this site were selected based on research into colour theory, and knowledge of the target user base.
+
+Using [Coloors](https://coloors.com), complimentary colours were selected that instill a feeling of creativity (oranges and pinks), excitement (reds, oranges), but also of loyalty and reliability (blues, greens).
+
+These colours are then used throughout the site, set as CSS variables in the `base.css` file, as primary, secondary, accent and neutral colours, to ensure consistency in design.
+
+An example of the final colour palette can be seen below:
+
+![](docs/screenshots/research/coloors.png)
+
+
+In addition to the colours selected, the Google font 'Poppins' has been used across the site. This sans-serif font provides a contemporary, yet bold and impactful font-face that users can easily read, whilst preventing compact blocks of text. 
+
+<br>
+
+### **UI Design**
 >a
 
-### Wireframes
-### DB Schema
+### **Wireframes**
+> Add links to these!!
+
+<br>
+
+### **Database Schema**
+The database model is designed centrally around the MyAccount 'users' model. This table is extended from [Django-Allauth](https://django-allauth.readthedocs.io/en/latest/index.html), which handles user authentication, email and password verification, as well as password reset.
+
+Extending the Allauth base model allows this site to add additional fielda on registration, such as First and Last Name.
+
+Alongside the `users` model, the `friends`, `friendship`, `orders`, `packages`, `roles`, `skills` and `events` tables are then created. As shown in the diagram below, the tables are linked through one-to-one (ForeignKey) and one-to-many relationships, identified by: 
+
+1 ----- 1 (One-to-One Relationship) <br>
+1 ----- * (One-to-Many Relationship)
+
+<br>
+
+![](docs/screenshots/db_schema/db_schema_fm.png)
 
 
 <br>
@@ -100,9 +132,9 @@ ___
 ___
 <br>
 
-## Technology & Tools
+## **Technology & Tools**
 
-### Technology
+### **Technology**
 - HTML5
 - CSS
 - Javascript - vanilla and jQuery
@@ -110,11 +142,11 @@ ___
 - Django 3.2
 - Stripe API
 
-### Libraries
+### **Libraries**
 - [Multiselect JS Library by sa-si-dev](https://github.com/sa-si-dev/virtual-select). Used to created multi and single select dropdowns with customised UI on forms.
 - [Javascript Cookie Library by 'js-cookie' on GitHub](https://cdn.jsdelivr.net/npm/js-cookie@3.0.0/dist/js.cookie.min.js), used to simplify the retrieval of cookies when sending ajax requests (i.e setting the CSRF token as a variable within JS file).
 
-### Additional Tools
+### **Additional Tools**
 - [Django Secret Key Generator](https://miniwebtool.com/django-secret-key-generator/) for generating Django secret key to store in environment variables in Gitpod and Heroku
 - [temp-email.org](https://temp-mail.org/) used for generating temporary emails for demo user accounts.
 - [JSON Generator](https://www.json-generator.com/) to create randomised user data for demo user testing.
@@ -125,7 +157,7 @@ ___
 ___
 <br>
 
-## Testing
+## **Testing**
 - User Stories
 - Technical Testing
     - Code Validators
