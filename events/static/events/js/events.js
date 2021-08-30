@@ -194,8 +194,6 @@ function remove_friend(other_user) {
 
 // Change the friend 'connection' button on successful add
 function changeConnectionButtonUI(buttonId, type) {
-    console.log(type)
-    // let buttonTarget = $(`.send-connection-btn[value="${buttonId}"]`);
     $(buttonTarget).text('Connection Request Sent');
     $(buttonTarget).removeClass('send-connection-btn').addClass('req-sent-btn');
     $(buttonTarget).attr('onclick', `cancel_friend(${buttonId});`);
@@ -207,13 +205,11 @@ function changeConnectionButtonUI(buttonId, type) {
         $(buttonTarget).attr('onclick', `add_friend(${buttonId});`);
     } else if (type == "accept" || type == "decline"){
         $(`.conn-request-item[value="${buttonId}"]`).fadeOut("fast", "linear") 
-        console.log("got you")
     } else if (type == "remove"){
         var buttonTarget = $(`.remove-connection-btn[value="${buttonId}"]`);
         $(buttonTarget).html('Connection Removed');
         $(buttonTarget).addClass('muted').removeClass('remove-connection-btn');
         $(buttonTarget).attr('onclick', ``);
-        console.log("got you")
     }
 };
 
@@ -221,10 +217,8 @@ function changeConnectionButtonUI(buttonId, type) {
 // Change connection action button on hover, advising to user what clicking button will do
 (function changeButtonTextFriend(){
     $('.connection-action-btns button').mouseenter(function(){
-        console.log("working")
         if($(this).hasClass('remove-connection-btn')){
             $(this).html('<i class="fas fa-times"></i>Remove Connection');
-            console.log("working", $(this).text())
         }
     });
     $('.connection-action-btns button').mouseleave(function(){

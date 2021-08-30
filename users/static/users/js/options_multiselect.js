@@ -144,10 +144,7 @@ $(document).ready(function () {
                 ele: '#ind_select_profile_edit',
                 selectedValue: userInd,
                 hideClearButton: true,
-                options: [{
-                    'label': 'All',
-                    'value': 'All',
-                },
+                options: [
                 {
                     'label': 'Photography',
                     'value': 'Photography',
@@ -174,6 +171,39 @@ $(document).ready(function () {
                 additionalClasses: 'select-edit-profile'
             });
         }
+        var industrySearch = VirtualSelect.init({
+            ele: '#ind_select_search',
+            selectedValue: userInd,
+            hideClearButton: true,
+            options: [{
+                'label': 'All',
+                'value': 'All',
+            },
+            {
+                'label': 'Photography',
+                'value': 'Photography',
+            },
+            {
+                'label': 'Events Management',
+                'value': 'Events Management',
+            },
+            {
+                'label': 'Music',
+                'value': 'Music',
+            },
+            {
+                'label': 'Film & TV',
+                'value': 'Film & TV',
+            },
+            {
+                'label': 'Theatre',
+                'value': 'Theatre',
+            },
+            ],
+            multiple: false,
+            name: 'industry-search',
+            additionalClasses: 'select-edit-profile'
+        });
     })();
 
 
