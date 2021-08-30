@@ -32,18 +32,19 @@
                     </div>
                     <!-- TOP SECTION CARDS -->
                     <div class="d-flex flex-wrap card-row-two">
-                        
-                            <div class="py-2">
-                                <div class="card event-limit muted m-0">
-                                    <p class="event-limit">{{user_friends}}</p>
-                                    <h3 class="text-center">Connection{%if user_friends != 1 %}s{%endif%}</h3>
-                                </div>
+
+                        <div class="py-2">
+                            <div class="card event-limit muted m-0">
+                                <p class="event-limit">{{user_friends}}</p>
+                                <h3 class="text-center">Connection{%if user_friends != 1 %}s{%endif%}</h3>
                             </div>
-                            <div class="py-2">
-                                <div class="card event-limit muted m-0">
-                                    <p class="event-limit">{{this_user.events_remaining_in_package}} <span> / </span> {{user_package.event_limit}}</p>
-                                    <h3 class="text-center">Events Remaining</h3>
-                                </div>
+                        </div>
+                        <div class="py-2">
+                            <div class="card event-limit muted m-0">
+                                <p class="event-limit">{{this_user.events_remaining_in_package}} <span> / </span>
+                                    {{user_package.event_limit}}</p>
+                                <h3 class="text-center">Events Remaining</h3>
+                            </div>
                         </div>
                     </div>
 
@@ -52,7 +53,7 @@
                         <div class="d-flex justify-content-between row w-100">
                             <!-- Start the Ajax Content Section -->
                             <div class="content col-12">
-                                
+
                                 <div class="d-flex flex-wrap card-row-two">
                                     <div class="mb-3 card muted z-2">
                                         <h3 class="edit-profile-section-header mb-3">Pending Connections</h3>
@@ -120,20 +121,23 @@
                                                 <div class="img-and-details-mast d-flex">
                                                     <div class="upcoming-event-details d-flex flex-wrap text-xl-start 
                                                     text-lg-start text-sm-start text-center w-100">
-                                                        <p class="my-auto"><strong class="fs-5">{{event.title}}</strong> ({{event.location}})
-                                                        <span class="ind-pill my-auto">{{event.industry}}</span>
+                                                        <p class="my-auto"><strong class="fs-5">{{event.title}}</strong>
+                                                            ({{event.location}})
+                                                            <span class="ind-pill my-auto">{{event.industry}}</span>
                                                         </p>
                                                         <p class="event-datetime d-block my-1 mx-auto mx-sm-0">
                                                             <strong>{{event.start_datetime|date:"f a"}}</strong> on
                                                             <strong>{{event.start_datetime|date:"d M"}}</strong>
-                                                        
-                                                        {% if event.timezone != this_user.timezone%}
-                                                        <span class="timezone-warning tooltip-parent"><i class="fas fa-clock fs-6"></i>
-                                                            <span class="tooltip-top">This event doesn't occur in your <br>
-                                                                chosen timezone!</span>
-                                                        </span>
-                                                        {% endif %}
-                                                    </p>
+
+                                                            {% if event.timezone != this_user.timezone%}
+                                                            <span class="timezone-warning tooltip-parent"><i
+                                                                    class="fas fa-clock fs-6"></i>
+                                                                <span class="tooltip-top">This event doesn't occur in
+                                                                    your <br>
+                                                                    chosen timezone!</span>
+                                                            </span>
+                                                            {% endif %}
+                                                        </p>
                                                     </div>
                                                 </div>
 
@@ -195,8 +199,7 @@
                     </div>
                     <hr>
                     <div class="user-details-bottom">
-
-                        <p class="user-skills">
+                        <p class="user-skills" onload="splitSkills()">
                             {{new_connection.skills }}
                         </p>
                         <p class="pt-3">{{new_connection.description}}</p>
@@ -242,7 +245,6 @@
                     <div class="event-details-bottom">
                         <!-- Event Details -->
                         <div class="d-flex flex-wrap">
-                            <!-- TODO remove default testing input -->
                             <div class="event-details-mast p-0 m-auto text-center">
                                 <span class="ind-pill">{{event.industry}}</span>
                                 <p class="d-inline">{{event.location}}</p>

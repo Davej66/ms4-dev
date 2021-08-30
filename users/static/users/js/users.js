@@ -13,6 +13,7 @@ function splitSkills() {
     for (i = 0; i < skillsLists.length; i++) {
         var maxSkillsShown = 5;
         var limitReached = false;
+        console.log(skillsLists)
 
         if ($(skillsLists[i]).text() != "") {
             var skillSet = $(skillsLists[i]).text().split(',');
