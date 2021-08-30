@@ -466,7 +466,7 @@ textarea.no-padding-on-focus:focus {
     padding: 5px 10px!important;
 }
 
-input, textarea, .vscomp-toggle-button,
+input, textarea, .vscomp-toggle-button, select.form-select,
 .stripe-cc-input {
     border: none!important;
     border-bottom: 2px solid var(--light-line)!important;
@@ -480,7 +480,7 @@ input, textarea, .vscomp-toggle-button,
     box-shadow: none!important;
 }
 
-input:focus, input:active, input:focus-visible, 
+input:focus, input:active, input:focus-visible, select.form-select:focus,
 textarea:focus, .vscomp-wrapper.opened > .vscomp-toggle-button,
 .StripeElement--focus {
     border-bottom: 2px solid var(--primary-color)!important;
@@ -488,7 +488,7 @@ textarea:focus, .vscomp-wrapper.opened > .vscomp-toggle-button,
     box-shadow: none!important;
 }
 
-input:invalid:focus, .stripe-cc-input:invalid:focus {
+input:invalid:focus, .stripe-cc-input:invalid:focus select.form-select,{
     border-bottom: 2px solid var(--error-highlight);
     padding: 10px 10px 10px 15px;
 }
@@ -497,6 +497,11 @@ input[type=checkbox]{
     height: 20px;
     width: 20px;
     margin: 0px 10px;
+}
+
+.datepicker {
+    width: max-content;
+    top: 116px!important;
 }
 
 .form-switch {

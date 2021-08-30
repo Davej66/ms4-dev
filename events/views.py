@@ -1,5 +1,4 @@
-from django.shortcuts import render
-from django.shortcuts import render, HttpResponse, get_object_or_404
+from django.shortcuts import (render, HttpResponse, get_object_or_404, redirect)
 from django.http import JsonResponse
 from django.conf import settings
 from django.contrib import messages
@@ -7,6 +6,7 @@ from django.db.models import Q
 from django.template.loader import render_to_string
 from allauth.account.decorators import verified_email_required
 from .models import Event
+from .forms import CreateEventForm
 from friendship.models import Friend, FriendshipRequest
 from users.models import MyAccount
 
@@ -67,18 +67,24 @@ def event_listings(request):
 
 @verified_email_required
 def create_event(request):
-    
+
     if request.method == 'POST':
+
+        get_startdate = request.POST.get('start_datetime')
+        comma_rem_start = get_startdate.replace(',', '')
+        print("start date",comma_rem_start)
+        
         form = CreateEventForm(request.POST, request.FILES)
+        
         if form.is_valid():
             form.save()
-            messages.success(request, "Your changes have been saved!")
-            return redirect('get_all_events')
+            messages.success(request, "Your event has been created!")
+            return redirect('event_listings')
         else:
             messages.error(
                 request, "Form could not be submitted, please try again!")
 
-    return render(request, 'events/all_events_lists.html')
+    return render(request, 'events/all_events_list.html')
 
 
 """ Event Registration / Cancellation Functions """

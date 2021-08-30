@@ -1,3 +1,15 @@
+
+// Remove comma from date format on input
+function stripCommas() {
+    var datefield1 = $('#start_datetime').val();
+    var stripped1 = datefield1.replace(/,/g, '');
+    var datefield2 = $('#end_datetime').val();
+    var stripped2 = datefield2.replace(/,/g, '');
+    $('#start_datetime').val(stripped1);
+    $('#end_datetime').val(stripped2);
+}
+
+
 // Submit an AJAX search form on 'all events' page
 $('#event_search_form').submit(function (e) {
     e.preventDefault();
@@ -70,7 +82,7 @@ function changeButtonUI(buttonId, type) {
         $(buttonTarget).html('<i class="fas fa-check"></i>Registered');
         $(buttonTarget).addClass('remove-reg-btn').removeClass('register-btn');
         $(buttonTarget).attr('onclick', `event_cancel(${buttonId});`);
-    } else if (type == "cancel_reg" || type == "decline"){
+    } else if (type == "cancel_reg" || type == "decline") {
         let buttonTarget = $(`.remove-reg-btn[value="${buttonId}"]`);
         $(buttonTarget).html('<i class="fas fa-clipboard"></i>Register');
         $(buttonTarget).addClass('register-btn').removeClass('remove-reg-btn');
@@ -81,17 +93,17 @@ function changeButtonUI(buttonId, type) {
 
 
 // Change event action button on hover, advising to user what clicking button will do
-(function changeButtonText(){
-    $('.event-card-buttons button').mouseenter(function(){
-        if($(this).hasClass('remove-reg-btn')){
+(function changeButtonText() {
+    $('.event-card-buttons button').mouseenter(function () {
+        if ($(this).hasClass('remove-reg-btn')) {
             $(this).html('<i class="fas fa-times"></i>Cancel');
         }
     })
-    $('.event-card-buttons button').mouseleave(function(){
-        if($(this).hasClass('remove-reg-btn')){
+    $('.event-card-buttons button').mouseleave(function () {
+        if ($(this).hasClass('remove-reg-btn')) {
             $(this).html('<i class="fas fa-check"></i>Registered');
         }
-    })  
+    })
 })();
 
 
@@ -100,7 +112,7 @@ function changeButtonUI(buttonId, type) {
  ***/
 
 
- // Add user as connection
+// Add user as connection
 function add_friend(other_user) {
     $.ajax({
         type: 'GET',
@@ -203,9 +215,9 @@ function changeConnectionButtonUI(buttonId, type) {
         $(buttonTarget).text('Send Connection Request');
         $(buttonTarget).addClass('send-connection-btn').removeClass('req-sent-btn');
         $(buttonTarget).attr('onclick', `add_friend(${buttonId});`);
-    } else if (type == "accept" || type == "decline"){
-        $(`.conn-request-item[value="${buttonId}"]`).fadeOut("fast", "linear") 
-    } else if (type == "remove"){
+    } else if (type == "accept" || type == "decline") {
+        $(`.conn-request-item[value="${buttonId}"]`).fadeOut("fast", "linear")
+    } else if (type == "remove") {
         var buttonTarget = $(`.remove-connection-btn[value="${buttonId}"]`);
         $(buttonTarget).html('Connection Removed');
         $(buttonTarget).addClass('muted').removeClass('remove-connection-btn');
@@ -215,14 +227,14 @@ function changeConnectionButtonUI(buttonId, type) {
 
 
 // Change connection action button on hover, advising to user what clicking button will do
-(function changeButtonTextFriend(){
-    $('.connection-action-btns button').mouseenter(function(){
-        if($(this).hasClass('remove-connection-btn')){
+(function changeButtonTextFriend() {
+    $('.connection-action-btns button').mouseenter(function () {
+        if ($(this).hasClass('remove-connection-btn')) {
             $(this).html('<i class="fas fa-times"></i>Remove Connection');
         }
     });
-    $('.connection-action-btns button').mouseleave(function(){
-        if($(this).hasClass('remove-connection-btn')){
+    $('.connection-action-btns button').mouseleave(function () {
+        if ($(this).hasClass('remove-connection-btn')) {
             $(this).html('<i class="fas fa-user"></i>Aleady Connected');
         }
     });
