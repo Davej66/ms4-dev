@@ -15,6 +15,7 @@ ___
 - UI Design
 - Wireframes
 - DB Schema
+### Features
 ### Technology & Tools
 ### Testing
 - User Stories
@@ -39,7 +40,6 @@ ___
 
 
 ## User Stories
-
 
 - As a **first time user** I want to:
     - Be able to easily navigate the site and register before committing to a monthly subscription.
@@ -67,7 +67,6 @@ ___
     - Approve or decline connection requests sent to me.
 
 <br>
-
 
 - As a **Site Owner** I want to:
     - Manage users via an admin CMS.
@@ -132,6 +131,12 @@ Alongside the `users` model, the `friends`, `friendship`, `orders`, `packages`, 
 ___
 <br>
 
+## **Features**
+
+>complete
+___
+<br>
+
 ## **Technology & Tools**
 
 ### **Technology**
@@ -158,7 +163,71 @@ ___
 <br>
 
 ## **Testing**
-- User Stories
+
+### **User Stories**
+The below section covers the user story testing that has taken place and evidence that the user objective has been achieved.
+
+As a **first time user** I want to:
+    
+- <em>Be able to easily navigate the site and register before committing to a monthly subscription.</em>
+- <em>Quickly identify the benefits of signing up for a paid membership.</em>
+- <em>Evaluate the difference in subscriptions and best suited to my needs.</em>
+
+
+Before authentication, the user can see what the site has to offer through the homepage, before requiring any payment. The homepage clearly outlines the purpose of the site, and the packages and features available:
+
+![](docs/screenshots/user_testing/full_page/home_top.png)
+![](docs/screenshots/user_testing/full_page/home_bottom.png)
+
+<br>
+
+As a returning **Freelancer** I want to:
+
+- <em>Create a user profile so other users can find me and connect with me.</em>
+- <em>Add my skills and role to my profile to highlight to other users what my expertise is and what I may have in common with them.</em>
+- <em>Add my location to my profile so I can see events nearby to me vs events I would be unable to attend.</em>
+- <em>Be able to hide my profile to remain anonymous to other users if I do not want to be contacted or connected with.</em>
+
+When a user registers for a free account, they are automatically taken to the 'edit profile' page, enabling them to complete their profile information. Whilst users can navigate away from this page, they must complete this form in order for them to be visible to other users. They are notified of this by a message when the page loads.
+
+![](docs/screenshots/user_testing/full_page/vis_message.png)
+![](docs/screenshots/user_testing/full_page/edit_prf.png)
+
+
+- <em>Be able to subscribe to a monthly subscription and have access to membership only features like events and user connections.</em>
+- <em>Be able to upgrade my subscription to have access to increased feature allowances such as more event attendance.</em>
+- <em>Be able to downgrade my subscription to stop any further costs being charged to my credit card.</em>
+- <em>Securely submit my card details when completing an order to be confident that my credit card details are stored safely in line with security best practice.</em>
+
+When a registered user clicks navigates to 'Subscriptions', they are shown the packages available and the features within each of these. If they have an account, they are shown their current package, and the other packages are available to select.
+
+![](docs/screenshots/user_testing/page_snippets/packages.png)
+
+
+If the user does not yet have a paid subscription, they are shown the card payment page, where users can securely enter their card details and confirm. This process generates a Stripe customer and subscription for the user on page load, then either attaches the package if payment is successful, otherwise destroys the Stripe customer and subscription if the page is abandoned.
+
+![](docs/screenshots/user_testing/page_snippets/confirm_order.png)
+
+
+    - <em>Be able to view my past transactions to see my previous usage and billing summary.</em>
+    - <em>Download invoices of my past payments	and have a copy of proof of purchase for my records.</em>
+    - <em>Register and unregister for Meetups I am interested in.</em>
+    - <em>See who is attending events I am attending.</em>
+    - <em>Connect with other users attending events.</em>
+    - <em>Message other users once connected.</em>
+    - <em>Approve or decline connection requests sent to me.</em>
+
+<br>
+
+- As a **Site Owner** I want to:
+    - Manage users via an admin CMS.
+    - Manage events via an admin CMS.
+    - Access order details for customers.
+    - Enable users to contact me if there are any issues with their account.
+    - Require users to verify their email before registration is confirmed.
+    - Only show user accounts if users have completed their profiles, so only content rich information is shown to other users.
+
+
 - Technical Testing
     - Code Validators
     - Responsive Design 
