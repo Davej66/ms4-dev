@@ -679,6 +679,11 @@ ul {
     padding: 50px;
 }
 
+.pword-reset {
+    max-width: 700px;
+    width: 100%;
+}
+
 .modal {
     overflow-y: hidden;
 }
