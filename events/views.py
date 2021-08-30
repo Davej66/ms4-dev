@@ -65,6 +65,22 @@ def event_listings(request):
     return render(request, 'events/all_events_list.html', context)
 
 
+@verified_email_required
+def create_event(request):
+    
+    if request.method == 'POST':
+        form = CreateEventForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Your changes have been saved!")
+            return redirect('get_all_events')
+        else:
+            messages.error(
+                request, "Form could not be submitted, please try again!")
+
+    return render(request, 'events/all_events_lists.html')
+
+
 """ Event Registration / Cancellation Functions """
 
 @verified_email_required

@@ -88,6 +88,9 @@
                 </div>
             </div>
             {% endfor %}
+            <button class="view-attendees-btn btn primary-btn px-3 py-1 m-1" data-bs-toggle="modal"
+                        data-bs-target="#view_event_{{event.pk}}" value="{{event.pk}}"><i class="fas fa-eye"></i>
+                        Attendees</button>
         </div>
     </div>
     <div class="fixed-40"></div>
@@ -169,6 +172,31 @@
         </div>
     </div>
     <!-- User event registration limit reached modal END -->
+
+<!-- Create event modal START -->
+<div class="modal fade" id="create_event" tabindex="-1" role="dialog" aria-labelledby="create_event"
+aria-hidden="true">
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-body p-0">
+            <div class="card event-limit muted m-0">
+                <p class="event-limit">{{event_limit}} <span> / </span> {{event_limit}}</p>
+                <h3 class="header-underline">Limit Reached!</h3>
+                <p class="text-center mb-2">
+                    Looks like you've registered for all of the events you can under this subscription. You'll
+                    need to upgrade to register for more!
+                </p>
+                <div class="event-card-buttons d-flex">
+                    <a href="{% url 'packages' %}" class="btn secondary-btn large m-auto py-3 px-4 w-45 my-4">
+                        Upgrade Subscription</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<!-- Create event modal END -->
+
 
 </section>
 
