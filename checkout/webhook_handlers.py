@@ -96,6 +96,12 @@ class StripeWH_Handler:
         package_cost = intent.amount / 100
         package = Package.objects.get(price=package_cost)
         
+        get_events_attending = Event.objects.filter(registrants=user).count()
+            
+        user.events_remaining_in_package = package.event_limit - get_events_attending
+        user.is_blocked = False
+        user.save()
+            
         try:
             # Create new order after payment
             order_form_data = {
@@ -109,12 +115,6 @@ class StripeWH_Handler:
             order_form.save()
             
             
-            get_events_attending = Event.objects.filter(registrants=user).count()
-            print("get events attending", get_events_attending)
-            
-            user.events_remaining_in_package = package.event_limit - get_events_attending
-            user.is_blocked = False
-            user.save()
             
             # Get the order number and add to the Stripe invoice
             order = Order.objects.get(stripe_invoice_id=invoice_id)
