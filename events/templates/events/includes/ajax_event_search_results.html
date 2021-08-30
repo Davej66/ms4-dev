@@ -1,9 +1,11 @@
+<!-- Show the results count -->
 {% if search_results %}
 <div class="w-100 text-center">
     <h3 class="results-count">We found {{search_results.count}}
         result{%if search_results.count > 1%}s{%endif%} with that search!</h3>
 </div>
 {% for event in search_results %}
+
 <div class="card event-card muted">
     <div class="event-header-img">
         <img class="" src="{{event.header_image.url}}" alt="{{event.title}} - header image"

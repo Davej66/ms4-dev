@@ -21,7 +21,7 @@
                         <div class="fieldset">
                             <label for="user_search" class="mb-3">By Keyword</label>
                             <input type="text" name="event_search" id="event_search"
-                                placeholder="Search by name, location, skill, description">
+                                placeholder="Search by title, location or description">
                         </div>
                         <div class="fieldset" id="industry_search">
                             <label for="industry" class="mb-3">By Industry</label>
@@ -35,7 +35,6 @@
                 </form>
             </div>
         </div>
-
 
         <div id="search_results" class="page-results flex-wrap">
             {% for event in events %}
