@@ -28,6 +28,7 @@ def contact(request):
         send_mail(
             subject, message, sender,
             [to_email],
+            reply_to=[to_email],
             fail_silently=False,
         )
         

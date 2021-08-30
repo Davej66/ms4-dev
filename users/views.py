@@ -259,8 +259,9 @@ def send_user_message(request):
             message = request.POST.get('message')
 
             send_mail(
-                subject, message, receiver_email,
+                subject, message, sender,
                 [receiver_email],
+                reply_to=[sender],
                 fail_silently=False,
             )
             messages.success(
