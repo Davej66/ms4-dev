@@ -82,8 +82,6 @@
                 <div class="user-cta d-flex flex-wrap justify-content-between m-auto mx-0 mb-0">
                     {%if pending_friend_reqs%}
                     {% for req in pending_friend_reqs %}
-                    to {{req.to_user}}
-                    from {{req.from_user}}
                     {% if req.to_user == user %}
                     <button class="req-sent-btn btn primary-btn-outline-color px-3 py-2 m-auto"
                         onclick="cancel_friend('{{user.pk}}')" value="{{user.pk}}">Connection Request Sent</button>
