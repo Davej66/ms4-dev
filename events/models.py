@@ -19,7 +19,6 @@ def get_default_header_image():
     return 'brand/logo.svg'
 
 class Event(models.Model):
-    event_id = models.BigAutoField(primary_key=True)
     title = models.CharField(max_length=100, blank=False, default="")
     description = models.TextField(max_length=1000, blank=False, default="")
     header_image = models.ImageField(upload_to=get_header_image_filepath, null=True, blank=True, default=get_default_header_image)
