@@ -15,7 +15,7 @@ import json
 @verified_email_required
 def event_listings(request):
     
-    all_events = Event.objects.all()
+    all_events = Event.objects.all().order_by('start_datetime')
     
     user = request.user
     query = Q(to_user=request.user) | Q(from_user=request.user)
