@@ -137,6 +137,7 @@ def confirm_order(request):
     customer_has_pm = stripe.Customer.retrieve(
         user.stripe_customer_id
     )
+    
 
     if not customer_has_pm.invoice_settings.default_payment_method:
         stripe.Customer.modify(
@@ -152,8 +153,8 @@ def confirm_order(request):
         customer_pm_details = {
             "brand": customer_pm.card.brand,
             "last4": customer_pm.card.last4,
-            "last4": customer_pm.card.exp_month,
-            "last4": customer_pm.card.exp_year,
+            "exp_m": customer_pm.card.exp_month,
+            "exp_y": customer_pm.card.exp_year,
         }
         context['customer_pm_details'] = customer_pm_details
 
@@ -217,6 +218,9 @@ def confirm_order(request):
     else:
         sub_is_change = False
 
+    if not customer_pm_details:
+        customer_pm_details = ""
+    
     context = {
         "stripe_public_key": stripe_pk,
         'subId': subscription.id,
@@ -225,6 +229,7 @@ def confirm_order(request):
         'upgrade': sub_is_change,
         'next_period_start': next_period_start,
         'current_period_end': current_end,
+        'customer_pm_details': customer_pm_details
     }
 
     return render(request, 'checkout/confirm_order.html', context)

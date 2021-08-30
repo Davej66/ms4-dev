@@ -13,7 +13,7 @@
 <ul class="messages">
     {% for message in messages %}
     <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
-        {% endfor %}
+    {% endfor %}
 </ul>
 {% endif %}
 
@@ -79,18 +79,29 @@
                     {% else %}
                     <p class="pt-5">Looking to amend your account? No problem!<br><br>
                         {% if package_selected.tier != 1 %}
-                        Since we've already processed your previous months payment, your new subscription option will begin from
+                        Since we've already processed your previous months payment, your new subscription option will
+                        begin from
                         <span class="p-text-underline"><strong>
-                            {{next_period_start}}</strong></span> when this period expires.
-                            <br><br>You can continue to use the existing features of your current subscription until this
-                            date.
-                            <br><br>Your previous card will be used as the default method: <br><br>
-                            Type: <strong>{{customer_pm_details.brand|upper}}</strong> <br>Ending: <strong>**********{{customer_pm_details.last4}}</strong>
-                            {% else %}
-                        Since we've already processed this months payment, your downgrade will commence the end of this billing period on
+                                {{next_period_start}}</strong></span> when this period expires.
+                        <br><br>You can continue to use the existing features of your current subscription until this
+                        date.
+                        <br><br>Your previous card will be used as the default method: <br>
+                        <br>
+                        
+                        Type: <strong>{{customer_pm_details.brand|upper}}</strong>
+                        <br>
+                        Ending: <strong>**********{{customer_pm_details.last4}}</strong>
+                        <br>
+                        Expiring: <strong>{{customer_pm_details.exp_m}} / {{customer_pm_details.exp_y}}</strong>
+                        
+                        {% else %}
+                        
+                        Since we've already processed this months payment, your downgrade will commence the end of this
+                        billing period on
                         <span class="p-text-underline"><strong>
-                            {{current_period_end}}</strong></span> when this period expires.
-                        <br><br>You can continue to use the existing features of your current subscription until this date.
+                                {{current_period_end}}</strong></span> when this period expires.
+                        <br><br>You can continue to use the existing features of your current subscription until this
+                        date.
                         {% endif %}
                     </p>
                     {% endif %}
