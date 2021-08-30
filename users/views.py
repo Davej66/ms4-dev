@@ -261,7 +261,6 @@ def send_user_message(request):
             send_mail(
                 subject, message, sender,
                 [receiver_email],
-                reply_to=[sender],
                 fail_silently=False,
             )
             messages.success(
