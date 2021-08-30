@@ -13,6 +13,8 @@ ___
 ### User Experience Design
 - Brand and Colours
 - UI Design
+- Wireframes
+- DB Schema
 ### Technology & Tools
 ### Testing
 - User Stories
@@ -88,6 +90,9 @@ ___
 >a
 ### UI Design
 >a
+
+### Wireframes
+### DB Schema
 
 
 <br>

@@ -9,6 +9,17 @@
 {% block head_title %}Login{% endblock %}
 
 {% block content %}
+
+{% if messages %}
+{% for message in messages %}
+<div class="message-wrap">
+    <div class="message">
+        <span>{{message}}</span><i class="fas fa-times" onclick="removeMessage(this);"></i>
+    </div>
+</div>
+{% endfor %}
+{% endif %}
+
 <section class="screen-height d-flex">
   <div class="container-fluid m-auto p-0">
     <div class="row w-100 m-0">
