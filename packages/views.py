@@ -8,8 +8,6 @@ def package_index(request):
     context = {}
     packages = Package.objects.all()
 
-    print(request.user)
-
     # Check if user authenticated & show current package if yes
     if request.user.is_authenticated:
         user = MyAccount.objects.get(email=request.user)

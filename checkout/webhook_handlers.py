@@ -36,7 +36,6 @@ class StripeWH_Handler:
         subscription = event.data.object
         price_id = subscription['items']['data'][0].plan.id
         stripe_customer = subscription.customer
-        print("stripe customer", stripe_customer)
         user = MyAccount.objects.get(stripe_customer_id=stripe_customer)
         package = Package.objects.get(stripe_price_id=price_id)
 

@@ -38,7 +38,6 @@ def event_listings(request):
     if request.is_ajax and request.method == "POST":
         query = request.POST['event_search'] 
         industry_query = request.POST.get('industry')
-        print("i query", industry_query)
         
         if query != "":
             queries = Q(title__icontains=query) | Q(description__icontains=query) | Q(

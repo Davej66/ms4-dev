@@ -91,7 +91,6 @@ $(document).ready(function () {
     var centraliseParent = $('.centralise-on-wrap').parent()
     var centraliseChild = $('.centralise-on-wrap')
     if ($(centraliseParent).width() > $(centraliseChild).width()) {
-        console.log($(centraliseParent).width(), $(centraliseChild).width())
         $(centraliseChild).css('text-align', 'left-align!important')
     }
 });
