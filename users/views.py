@@ -80,7 +80,6 @@ def edit_profile(request):
     if request.method == 'POST':
         form = EditProfileForm(
             request.POST, request.FILES, instance=request.user)
-        print(form.errors)
         if form.is_valid():
             form.save()
             messages.success(request, "Your changes have been saved!")
@@ -119,9 +118,9 @@ def all_users(request):
 
     if request.is_ajax and request.method == "POST":
         query = request.POST['user_search']
-        # TODO connections only
+        
         connections_only = request.POST.get('connections_only')
-        if not free_account:
+        if not free_account or request.user.is_admin:
             industry_query = request.POST['industry']
         else:
             industry_query = request.user.industry
@@ -304,7 +303,6 @@ def cancel_friend(request, **kwargs):
     if request.is_ajax and request.method == "GET":
         other_user = kwargs.get('other_user')
         other_user_pk = MyAccount.objects.get(pk=other_user)
-        print("cancelled", other_user_pk)
 
         # Cancel the request
         FriendshipRequest.objects.get(to_user=other_user_pk).cancel()

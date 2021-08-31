@@ -13,7 +13,6 @@ function splitSkills() {
     for (i = 0; i < skillsLists.length; i++) {
         var maxSkillsShown = 5;
         var limitReached = false;
-        console.log(skillsLists)
 
         if ($(skillsLists[i]).text() != "") {
             var skillSet = $(skillsLists[i]).text().split(',');
@@ -129,7 +128,6 @@ $('input#profile_image').on('change', function () {
 /* All user page - determine whether user header details 
 are wrapped and apply 'text-center' class if so */
     $('.user-details-mast').each(function(){
-        console.log($(this).width())
         var width = parseInt($(this).width())
         var parent = parseInt($(this).parent().width() -110)
         if (parent <= width){
@@ -187,7 +185,6 @@ function add_friend(other_user) {
         url: `../ajax/add_friend/${other_user}`,
         timeout: 10000,
         success: function (data) {
-            console.log("The response: ", data.response);
             changeButtonUI(data.buttonId, data.type);
         },
         error: function (data) {
@@ -221,7 +218,6 @@ function accept_friend(other_user) {
         url: `../ajax/accept_friend/${user_int}`,
         timeout: 10000,
         success: function (data) {
-            console.log("Friend accepted")
             changeButtonUI(data.buttonId, data.type);
         },
         error: function (data) {
@@ -238,7 +234,6 @@ function decline_friend(other_user) {
         url: `../ajax/decline_friend/${user_int}`,
         timeout: 10000,
         success: function (data) {
-            console.log("Friend declined")
             changeButtonUI(data.buttonId, data.type);
         },
         error: function (data) {
@@ -255,7 +250,6 @@ function remove_friend(other_user) {
         url: `../ajax/remove_friend/${user_int}`,
         timeout: 10000,
         success: function (data) {
-            console.log("Friend removed")
             changeButtonUI(data.buttonId, data.type);
         },
         error: function (data) {
@@ -318,7 +312,6 @@ function changeButtonUI(buttonId, type) {
     } else if (type == "accept") {
         let buttonTarget = $(`.accept-connection-btn[value="${buttonId}"]`);
         $(buttonTarget).text('Connection Accepted ');
-    } else {
         $(`.conn-request-item[value="${buttonId}"]`).fadeOut("fast", "linear");
     }
 };
@@ -331,7 +324,6 @@ function event_cancel(event_id) {
         url: `/meetups/ajax/event_cancel/${event_int}`,
         timeout: 10000,
         success: function (data) {
-            console.log("User successfully cancelled")
             location.reload()
         },
         error: function (data) {

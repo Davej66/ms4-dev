@@ -35,7 +35,7 @@
                         </div>
                         <div class="fieldset" id="industry_search">
                             <label for="industry" class="mb-3">By Industry</label>
-                            {% if this_user.package_tier == 1 %}
+                            {% if this_user.package_tier == 1 and not this_user.is_admin %}
                             <input type="text" id="user_search" value="{{this_user.industry}}" disabled>
                             <span class="timezone-warning">Upgrade to view more industries</span>
                             {% else %}
