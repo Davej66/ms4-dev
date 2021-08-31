@@ -84,6 +84,7 @@ def confirm_order(request):
 
     package_item = Package.objects.get(tier=package_selection)
     package_stripe_id = package_item.stripe_price_id
+    customer_pm_details = None
     sub_price_id = None
     latest_bill_paid = "open"
 
@@ -218,7 +219,7 @@ def confirm_order(request):
     else:
         sub_is_change = False
 
-    if not customer_pm_details:
+    if customer_pm_details is None:
         customer_pm_details = ""
     
     context = {

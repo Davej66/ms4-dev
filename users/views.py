@@ -80,6 +80,7 @@ def edit_profile(request):
     if request.method == 'POST':
         form = EditProfileForm(
             request.POST, request.FILES, instance=request.user)
+        print(form.errors)
         if form.is_valid():
             form.save()
             messages.success(request, "Your changes have been saved!")

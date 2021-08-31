@@ -18,8 +18,8 @@ def event_listings(request):
     all_events = Event.objects.all().order_by('start_datetime')
     
     user = request.user
-    query = Q(to_user=request.user) | Q(from_user=request.user)
-    connection_requests = FriendshipRequest.objects.filter(query)
+    friend_query = Q(to_user=request.user) | Q(from_user=request.user)
+    connection_requests = FriendshipRequest.objects.filter(friend_query)
     user_connections = Friend.objects.friends(request.user)
     user_connections_list = []
     
@@ -37,11 +37,14 @@ def event_listings(request):
     
     if request.is_ajax and request.method == "POST":
         query = request.POST['event_search'] 
-        industry_query = request.POST['industry']
+        industry_query = request.POST.get('industry')
+        print("i query", industry_query)
         
         if query != "":
             queries = Q(title__icontains=query) | Q(description__icontains=query) | Q(
-                location__icontains=query) | Q(industry__icontains=query)
+                location__icontains=query) | Q(industry__icontains=query) | Q(
+                    timezone__icontains=query) | Q(start_datetime__icontains=query) | Q(
+                        end_datetime__icontains=query)
         elif industry_query == "All":
             queries = ~Q(industry=industry_query)
         else: 
