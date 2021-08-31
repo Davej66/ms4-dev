@@ -138,7 +138,72 @@ ___
 
 ## **Features**
 
->complete
+- Sitewide 
+    - User account creation, authentication and verification through Allauth Django app.
+    - User industry select to filter other users and events by most relevance.
+    - Automated password reset through Allauth app.
+    - User profile can be updated and viewed by others.
+
+<br>
+
+- Homepage
+    - Clear call to action and information on what the site content is.
+    - Clearly identifiable action buttons encouraging users to register or login.
+    - Three distinct subscription types presented to users outlining key features of each type.
+
+<br>
+
+- My Dashboard Area
+    - Summary of number of connections made, and events outstanding in package. 
+    - Clear, actionable pending connections with ability to accept, decline or view users requests.
+    - Summary of events registered for, including ability to cancel registration, or view more information.
+    - Sidenav section for quick link access to dashboard, orders, edit profile and logout.
+
+<br>
+
+- Edit Profile
+    - Allow users to update their profile image and preview before submitting the form.
+    - Allow users to edit their information on their profile and add or remove skills.
+    - Gives the ability for users to hide their profile from others.
+
+<br>
+
+- My Orders
+    - Show users their previous orders collected through Stripe.
+    - Enable users to download their latest invoices from Stripe.
+    - Allow users quick access to upgrade their package through CTA button.
+
+<br>
+
+- Package Selection & Order Confirmation
+    - Provides users with three clear packages, outlining the features and costs of each.
+    - Offers secure Stripe element to collect card information and pass through to Stripe, without storing in site database.
+
+<br>
+
+- Freelancer and Meetups listings
+    - Users are able to search other users and meetups from the listings pages and interact with them on the page.
+    - Allow users to connect, disconnect and send messages to users on the user listings page.
+    - Allow users to filter by their connections only on the listings page.
+    - Allow users to register for events on the listings page, so long as they have the allowance.
+    - Allow users to see other attendees attending events. 
+
+<br>
+
+- Admin
+    - Ability to manage users, orders and events from the Django admin.
+    - Ability to create, edit and delete events directly from the meetups listings page.
+
+<br>
+
+### Features for future release
+- User chat function using websockets, removing need for email messaging.
+- User discussion board and activity feed.
+- Ability for users to add meetups and have them verified based on package type.
+- Provide more role types allowing users to verify and moderate others.
+
+<br>
+
 ___
 <br>
 
