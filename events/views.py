@@ -118,7 +118,7 @@ def delete_event(request):
     if request.method == 'POST' and request.user.is_admin:
         
         event_id = request.POST.get('event_id')
-        event_instance = Event.objects.get(pk=event_id).delete()
+        Event.objects.get(pk=event_id).delete()
         
         messages.success(
                 request, "The event has been deleted!")
@@ -136,6 +136,7 @@ def delete_event(request):
 @verified_email_required
 def event_register(request, **kwargs):
     """ Register for an event """
+    
     if request.is_ajax and request.method == "GET":
         event_id = kwargs.get('event_id')
         event_instance = Event.objects.get(pk=event_id)

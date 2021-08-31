@@ -1,3 +1,16 @@
+// Initiate on page load
+$(document).ready(function () {
+    new dtsel.DTS('input[name="start_datetime"]', {
+        showTime: true,
+        dateFormat: "yyyy-mm-dd",
+        timeFormat: "HH:MM:SS"
+    });
+    new dtsel.DTS('input[name="end_datetime"]', {
+        showTime: true,
+        dateFormat: "yyyy-mm-dd",
+        timeFormat: "HH:MM:SS"
+    });
+})
 
 // Remove comma from date format on input
 function stripCommas() {

@@ -17,16 +17,6 @@ window.addEventListener('load', () => {
 
 // Load the below when page in a 'ready' state
 $(document).ready(function () {
-    new dtsel.DTS('input[name="start_datetime"]', {
-        showTime: true,
-        dateFormat: "yyyy-mm-dd",
-        timeFormat: "HH:MM:SS"
-    });
-    new dtsel.DTS('input[name="end_datetime"]', {
-        showTime: true,
-        dateFormat: "yyyy-mm-dd",
-        timeFormat: "HH:MM:SS"
-    });
     var dropdownId = $('.dropdown-toggle').attr('id');
     var dropdownMenu = $(`ul[aria-labelledby=${dropdownId}]`);
     var messages = $('.message-wrap')
