@@ -167,7 +167,7 @@ ___
 ### **User Stories**
 The below section covers the user story testing that has taken place and evidence that the user objective has been achieved.
 
-As a **first time user** I want to:
+#### As a **first time user** I want to:
     
 - <em>Be able to easily navigate the site and register before committing to a monthly subscription.</em>
 - <em>Quickly identify the benefits of signing up for a paid membership.</em>
@@ -181,7 +181,7 @@ Before authentication, the user can see what the site has to offer through the h
 
 <br>
 
-As a returning **Freelancer** I want to:
+#### As a returning **Freelancer** I want to:
 
 - <em>Create a user profile so other users can find me and connect with me.</em>
 - <em>Add my skills and role to my profile to highlight to other users what my expertise is and what I may have in common with them.</em>
@@ -253,14 +253,27 @@ Users can also use the 'My Dashboard' page to accept, reject, or view more detai
 
 <br>
 
-- As a **Site Owner** I want to:
-    - Manage users via an admin CMS.
-    - Manage events via an admin CMS.
-    - Access order details for customers.
-    - Enable users to contact me if there are any issues with their account.
-    - Require users to verify their email before registration is confirmed.
-    - Only show user accounts if users have completed their profiles, so only content rich information is shown to other users.
+#### As a **Site Owner** I want to:
 
+-<em> Manage users via an admin CMS.</em>
+-<em> Access order details for customers.</em>
+-<em> Add, edit and delete events via the site frontend.</em>
+
+Using the Django Admin interface, admins are able to manage users - their core information, as well as toggle admin and profile visibility as required. Order details can also be accessed, but not edited.
+
+For events, admins can add, edit and delete events directly from the Event Listings page. If the user has an `is_admin` field of `True`, then the UI will show a 'create' button at the bottom of the page, and 'edit event' on each event card. To delete an event, the user simply clicks 'delete event' on the edit modal.
+![](docs/screenshots/user_testing/full_page/create_event.png)
+![](docs/screenshots/user_testing/full_page/edit_event.png)
+
+-<em> Enable users to contact me if there are any issues with their account.</em>
+
+Users can use the contact page on the footer to notify the site owner of any issues. This form will send a direct email, to which the owner can reply to.
+![](docs/screenshots/user_testing/full_page/contact.png)
+
+-<em> Require users to verify their email before registration is confirmed.</em>
+-<em> Only show user accounts if users have completed their profiles, so only content rich information is shown to other users.</em>
+
+As described aboved, upon registration, users must verify their email address before they are able to login. Once logged in for the first time, they are directed to 'edit profile'. This form has validation which requires completion. Only if the form is submitted successfully will the profile visibility be switched on.
 
 - Technical Testing
     - Code Validators
