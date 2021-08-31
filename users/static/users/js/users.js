@@ -278,14 +278,14 @@ setCtaBtns();
         if ($(this).hasClass('req-sent-btn')) {
             $(this).html('<i class="fas fa-times px-2"></i>Cancel Request');
         } else if ($(this).hasClass('remove-connection-btn')) {
-            $(this).html('<i class="fas fa-exit px-2"></i>Remove Connection');
+            $(this).html('Disconnect');
         }
     });
     $('.user-cta button').mouseleave(function () {
         if ($(this).hasClass('req-sent-btn')) {
             $(this).html('Connection Request Sent');
         } else if ($(this).hasClass('remove-connection-btn')) {
-            $(this).html('Connected');
+            $(this).html('<i class="fas fa-user"></i> Connected');
         }
     })
 })();

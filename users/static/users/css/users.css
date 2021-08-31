@@ -275,6 +275,15 @@ p.event-limit span {
 
 .upcoming-event-item {
     justify-content: space-between;
+    padding-bottom: 5px;
+    margin-bottom: 5px;
+    border-bottom: 1px solid var(--light-line);
+}
+
+.upcoming-event-item:last-of-type {
+    padding-bottom: 0px;
+    margin-bottom: 0px;
+    border-bottom: none;
 }
 
 .upcoming-event-item > div:first-of-type {
