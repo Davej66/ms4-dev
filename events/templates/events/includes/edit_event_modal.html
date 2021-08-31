@@ -5,7 +5,8 @@
         <div class="modal-content">
             <div class="modal-body p-0">
                 <div class="card event-limit muted m-0">
-                    <h3 class="header-underline">Create an Event</h3>
+                    <h3 class="header-underline">Edit this Event</h3>
+                    <p class="text-center w-75 m-auto">As this event has been published, you are unable to edit the time or industry for this event.</p>
                     <form action="{% url 'edit_event' %}" method="POST" enctype="multipart/form-data">
                         {%csrf_token%}
                         <input type="hidden" value="{{event.pk}}" name="event_id">
@@ -52,15 +53,15 @@
                         <div class="input-row d-flex justify-content-between mt-3">
                             <div class="fieldset">
                                 <label for="industry" class="mb-3">Industry</label>
-                                <select class="form-select" aria-label="Industry" name="industry" id="industry"
-                                    disabled value="{{event.industry}}">
+                                <select class="form-select" aria-label="Industry" name="industry" id="industry" disabled
+                                    value="{{event.industry}}">
                                     <option value="{{event.industry}}" selected>{{event.industry}}</option>
                                 </select>
                             </div>
                             <div class="fieldset">
                                 <label for="timezone" class="mb-3">Timezone</label>
-                                <select class="form-select" name="timezone" id="timezone" aria-label="timezone"
-                                    disabled value="{{event.timezone}}">
+                                <select class="form-select" name="timezone" id="timezone" aria-label="timezone" disabled
+                                    value="{{event.timezone}}">
                                     <option value="{{event.timezone}}" selected>{{event.timezone}}</option>
                                 </select>
 
@@ -71,12 +72,21 @@
                                 <label for="header_image" class="mb-3">Header Image</label>
                                 <input class="custom-file-input" type="file" accept="image/*" id="header_image"
                                     name="header_image" value="{{event.header_image}}">
-                                    <p>Current file: <span class="p-text-underline">{{event.header_image}}</span></p>
+                                <p>Current file: <span class="p-text-underline">{{event.header_image}}</span></p>
                             </div>
                         </div>
+                        <div class="event-card-buttons d-flex mt-3">
+                            <button type="submit" class="btn secondary-btn large m-auto py-2 px-4 mb-2">
+                                Update Event</button>
+                        </div>
+                    </form>
+                    <form action="{% url 'delete_event' %}" method="POST" enctype="multipart/form-data">
+                        {%csrf_token%}
+                        <input type="hidden" value="{{event.pk}}" name="event_id">
                         <div class="event-card-buttons d-flex">
-                            <button type="submit" class="btn secondary-btn large m-auto py-3 px-4 w-45 my-4">
-                                Create Event</button>
+                            <button type="submit" class="btn primary-btn-outline-color large m-auto py-2 px-4 mb-2">
+                                <i class="fas fa-trash"></i>
+                                Delete Event</button>
                         </div>
                     </form>
                 </div>

@@ -68,7 +68,7 @@ def event_listings(request):
 @verified_email_required
 def create_event(request):
 
-    if request.method == 'POST':
+    if request.method == 'POST' and request.user.is_admin:
         
         form = CreateEventForm(request.POST, request.FILES)
         
@@ -79,6 +79,10 @@ def create_event(request):
         else:
             messages.error(
                 request, "Form could not be submitted, please try again!")
+    else: 
+        messages.error(
+                request, "You are not allowed to create events!")
+        return redirect('event_listings')
 
     return render(request, 'events/all_events_list.html')
 
@@ -86,7 +90,7 @@ def create_event(request):
 @verified_email_required
 def edit_event(request):
     
-    if request.method == 'POST':
+    if request.method == 'POST' and request.user.is_admin:
         
         event_id = request.POST.get('event_id')
         event_instance = Event.objects.get(pk=event_id)
@@ -99,7 +103,31 @@ def edit_event(request):
         else:
             messages.error(
                 request, "Form could not be submitted, please try again!")
+    else: 
+        messages.error(
+                request, "You are not allowed to edit this event!")
+        return redirect('event_listings')
+    
+    return redirect('event_listings')
 
+
+@verified_email_required
+def delete_event(request):
+    """ Allow admin to delete the event """
+    
+    if request.method == 'POST' and request.user.is_admin:
+        
+        event_id = request.POST.get('event_id')
+        event_instance = Event.objects.get(pk=event_id).delete()
+        
+        messages.success(
+                request, "The event has been deleted!")
+        return redirect('event_listings')
+    else: 
+        messages.error(
+                request, "You are not allowed to delete this event!")
+        return redirect('event_listings')
+        
     return redirect('event_listings')
 
 
