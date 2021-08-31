@@ -1,6 +1,6 @@
 /* Dashboard Sidenav */
 #sidebar_wrap {
-    background: var(--primary-color);
+    background: var(--primary-color-sub);
     width: 9%;
     min-width: 8%;
     transition: 0.3s ease-in-out;

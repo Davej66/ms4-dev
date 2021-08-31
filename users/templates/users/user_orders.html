@@ -53,7 +53,7 @@
                                                 <td><label class="table-item-label-header">Amount to be
                                                         Billed</label>
                                                 </td>
-                                                <td class="w-25"><label class="table-item-label-header"></label></td>
+                                                <td class="w-25"><label class="table-item-label-header">Adjust Subscription</label></td>
                                             </tr>
                                             <tr>
                                                 <td>
@@ -94,8 +94,6 @@
                                                         {% if this_user.is_blocked %}
                                                         <p class="error text-center p-2">You're previous payment
                                                             failed! Please update your payment details.</p>
-                                                        <!-- <a class="btn secondary-btn m-auto"
-                                                             href="{% url 'summary' %}">Try Another Card</a> -->
                                                         <button class="btn secondary-btn m-auto" data-bs-toggle="modal"
                                                             data-bs-target="#update_billing_modal">Try Another
                                                             Card</button>
@@ -118,7 +116,7 @@
                                                 <td><label class="table-item-label-header">Invoice Date</label></td>
                                                 <td><label class="table-item-label-header">Invoice Period</label></td>
                                                 <td><label class="table-item-label-header">Amount Charged</label></td>
-                                                <td class="w-25"><label class="table-item-label-header"></label></td>
+                                                <td class="w-25"><label class="table-item-label-header">Download Invoice</label></td>
                                             </tr>
 
 
@@ -176,7 +174,6 @@
                         </div>
                     </div>
 
-                    <!-- TODO - do we need this -->
                     <!-- Update Billing Modal -->
                     <!-- Modal syntax from Bootstrap https://getbootstrap.com/docs/4.0/components/modal/ -->
                     <div class="modal fade" id="update_billing_modal" tabindex="-1" role="dialog"

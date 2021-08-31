@@ -31,7 +31,7 @@
                 <form action="{% url 'event_listings' %}" id="event_search_form" method="POST">{%csrf_token%}
                     <div class="input-row d-flex justify-content-between mt-3">
                         <div class="fieldset">
-                            <label for="user_search" class="mb-3">By Keyword</label>
+                            <label for="event_search" class="mb-3">By Keyword</label>
                             <input type="text" name="event_search" id="event_search"
                                 placeholder="Search by title, location or description">
                         </div>
@@ -211,7 +211,7 @@
                             </div>
                             <div class="input-row d-flex justify-content-between mt-3">
                                 <div class="fieldset">
-                                    <label for="title" class="mb-3">Description</label>
+                                    <label for="description" class="mb-3">Description</label>
                                     <textarea id="description" class="no-padding-on-focus" name="description"
                                         onfocus="resizeTextarea(this);" oninput="resizeTextarea(this);"
                                         placeholder="Tell others what the event is about."></textarea>

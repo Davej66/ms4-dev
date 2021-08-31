@@ -432,7 +432,7 @@ a:hover, .anchor-link:hover {
 
 .timezone-warning {
     font-size: 12px;
-    color: var(--error);
+    color: #AD0000;
 }
 
 .z-2 {

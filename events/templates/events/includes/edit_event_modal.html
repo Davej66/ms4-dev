@@ -19,48 +19,48 @@
                         </div>
                         <div class="input-row d-flex justify-content-between mt-3">
                             <div class="fieldset">
-                                <label for="title" class="mb-3">Description</label>
-                                <textarea id="description" class="no-padding-on-focus" name="description"
+                                <label for="description_{{event.pk}}_ed" class="mb-3">Description</label>
+                                <textarea id="description_{{event.pk}}_ed" class="no-padding-on-focus" name="description"
                                     onfocus="resizeTextarea(this);" oninput="resizeTextarea(this);"
                                     placeholder="Tell others what the event is about.">{{event.description}}</textarea>
                             </div>
                         </div>
                         <div class="input-row d-flex justify-content-between mt-3">
                             <div class="fieldset">
-                                <label for="max_reg" class="mb-3">Maximum Registrants</label>
-                                <input class="form-control fixed-40" name="max_reg" id="max_reg"
+                                <label for="max_reg_{{event.pk}}_ed" class="mb-3">Maximum Registrants</label>
+                                <input class="form-control fixed-40" name="max_reg" id="max_reg_{{event.pk}}_ed"
                                     placeholder="Enter the maximum registrations" pattern="[0-9]+" type="text" required
                                     value="{{event.max_reg}}" />
                             </div>
                             <div class="fieldset">
-                                <label for="location" class="mb-3">Location</label>
-                                <input class="form-control fixed-40" name="location" id="location"
+                                <label for="location_{{event.pk}}_ed" class="mb-3">Location</label>
+                                <input class="form-control fixed-40" name="location" id="location_{{event.pk}}_ed"
                                     placeholder="Enter a location" type="text" required value="{{event.location}}" />
                             </div>
                         </div>
                         <div class="input-row d-flex justify-content-between mt-3">
                             <div class="fieldset">
-                                <label for="start_datetime" class="mb-3">Start Date & Time</label>
-                                <input class="form-control fixed-40" disabled type="text"
+                                <label for="start_datetime_{{event.pk}}_ed" class="mb-3">Start Date & Time</label>
+                                <input class="form-control fixed-40" id="start_datetime_{{event.pk}}_ed" disabled type="text"
                                     value="{{event.start_datetime}}" />
                             </div>
                             <div class="fieldset">
-                                <label for="end_datetime" class="mb-3">End Date & Time</label>
-                                <input class="form-control fixed-40" type="text" disabled
+                                <label for="end_datetime_{{event.pk}}_ed" class="mb-3">End Date & Time</label>
+                                <input class="form-control fixed-40" id="end_datetime_{{event.pk}}_ed" type="text" disabled
                                     value="{{event.end_datetime}}" />
                             </div>
                         </div>
                         <div class="input-row d-flex justify-content-between mt-3">
                             <div class="fieldset">
-                                <label for="industry" class="mb-3">Industry</label>
-                                <select class="form-select" aria-label="Industry" name="industry" id="industry" disabled
+                                <label for="industry_{{event.pk}}_ed" class="mb-3">Industry</label>
+                                <select class="form-select" aria-label="Industry" name="industry" id="industry_{{event.pk}}_ed" disabled
                                     value="{{event.industry}}">
                                     <option value="{{event.industry}}" selected>{{event.industry}}</option>
                                 </select>
                             </div>
                             <div class="fieldset">
-                                <label for="timezone" class="mb-3">Timezone</label>
-                                <select class="form-select" name="timezone" id="timezone" aria-label="timezone" disabled
+                                <label for="timezone_{{event.pk}}_ed" class="mb-3">Timezone</label>
+                                <select class="form-select" name="timezone" id="timezone_{{event.pk}}_ed" aria-label="timezone" disabled
                                     value="{{event.timezone}}">
                                     <option value="{{event.timezone}}" selected>{{event.timezone}}</option>
                                 </select>
@@ -69,8 +69,8 @@
                         </div>
                         <div class="input-row d-flex justify-content-between mt-3">
                             <div class="fieldset">
-                                <label for="header_image" class="mb-3">Header Image</label>
-                                <input class="custom-file-input" type="file" accept="image/*" id="header_image"
+                                <label for="header_image_{{event.pk}}_ed" class="mb-3">Header Image</label>
+                                <input class="custom-file-input" type="file" accept="image/*" id="header_image_{{event.pk}}_ed"
                                     name="header_image" value="{{event.header_image}}">
                                 <p>Current file: <span class="p-text-underline">{{event.header_image}}</span></p>
                             </div>
