@@ -12,25 +12,25 @@ ___
 
 ## Contents
 ### [User Stories](#user-stories)
-### [User Experience Design](#user-experience-design)
+### [User Experience Design](#user-experience-design-1)
 - Brand and Colours
 - UI Design
 - Wireframes
 - DB Schema
-### [Features](#features)
-### [Technology & Tools](#technology--tools)
-### [Testing](docs/testing.md) (opens new link)
+### [Features](#features-1)
+### [Technology & Tools](#technology--tools-1)
+### [Testing](docs/testing.md) (separate page)
 - User Stories
 - Technical Testing
     - Code Validators
     - Responsive Design 
     - Compatability (Browser & Device)
     - Bugs & Known Issues
-### Local & Production Deployment
+### [Local & Production Deployment](#deployment)
 - Github
 - Deploying to Heroku
 - Connecting Production Environment to AWS
-### Credits`
+### [Credits](#credits-1)
 - Tutorials & Support
 - Images & Attribution
 - Acknowledgements
