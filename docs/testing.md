@@ -86,9 +86,9 @@ After successful purchase of the package, the user is directed to the 'My Orders
 Users can view the Meetups available on the 'Meetups' page accessible by the navbar and footer. This page allows users to register and unregister from events by clicking the call to action buttons on the bottom of each card. A user can see who is attending an event by clicking 'Attendees' on each card.
 
 ![](screenshots/user_testing/full_page/meetups.png)
-<img src="screenshots/user_testing/page_snippets/event_s1.png" alt="" style="width:30%; margin-left:20px"/>
-<img src="screenshots/user_testing/page_snippets/event_s2.png" alt="" style="width:30%;"/>
-<img src="screenshots/user_testing/page_snippets/event_s3.png" alt="" style="width:30%;"/>
+<img src="screenshots/user_testing/page_snippets/event_s1.png" alt="" style="width:50px; margin-left:20px"/>
+<img src="screenshots/user_testing/page_snippets/event_s2.png" alt="" style="width:50px;"/>
+<img src="screenshots/user_testing/page_snippets/event_s3.png" alt="" style="width:50px;"/>
 <img src="screenshots/user_testing/page_snippets/attendees.png" alt="" style="width:600px; margin-left: 20px"/>
 
 
