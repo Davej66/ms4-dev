@@ -1,5 +1,7 @@
+![](docs/screenshots/responsive.png)
+
 # FreelanceMeetups
-> Site images 
+
 
 [You can view the live site here](https://bc-freelance-meetups.herokuapp.com)
 
@@ -16,7 +18,7 @@ ___
 - Wireframes
 - DB Schema
 ### [Features](#features)
-### [Technology & Tools](#technology-&-tools)
+### [Technology & Tools](#technology--tools)
 ### [Testing](docs/testing.md) (opens new link)
 - User Stories
 - Technical Testing
@@ -103,11 +105,14 @@ In addition to the colours selected, the Google font 'Poppins' has been used acr
 
 <br>
 
-### **UI Design**
->a
 
 ### **Wireframes**
-> Add links to these!!
+
+Click below to view the wireframes created during the design phase of this project.
+
+- [Click here for the desktop wireframe](docs/wireframes/Desktop.png)
+- [Click here for the tablet wireframe](docs/wireframes/Tablet.png)
+- [Click here for the mobile wireframe](docs/wireframes/Mobile.png)
 
 <br>
 
@@ -144,8 +149,8 @@ ___
 - CSS
 - Javascript - vanilla and jQuery
 - Python3
-- Django 3.2
-- Stripe API
+- [Django 3.2](https://docs.djangoproject.com/en/3.2/)
+- [Stripe API](https://stripe.com/docs)
 
 ### **Libraries**
 - [Multiselect JS Library by sa-si-dev](https://github.com/sa-si-dev/virtual-select). Used to created multi and single select dropdowns with customised UI on forms.
@@ -156,6 +161,7 @@ ___
 - [temp-email.org](https://temp-mail.org/) used for generating temporary emails for demo user accounts.
 - [JSON Generator](https://www.json-generator.com/) to create randomised user data for demo user testing.
 - [Randomuser.me](https://randomuser.me/) to create randomised user profile images for demo user testing.
+- [AMI Responsive](http://ami.responsivedesign.is/) used to get screenshot across browsers.
 
 <br>
 
@@ -164,15 +170,23 @@ ___
 
 ## **Testing**
 
+The testing documentation is housed on a separate page. [Click here to access](docs/testing.md).
 
 <br>
 
 ___
 <br>
 
-## Deployment
+## **Deployment**
+
+FreelanceMeetups is developed using VSCode, with version control in GitHub and deployed to Heroku and AWS for production.
 
 ### Github
+To fork the repo, click the 'code' dropdown in the top right corner above the commit history on this page.
+Copy and paste the HTTPS URL into a new CLI, once navigated to the folder you wish to clone the repo into.
+Run `git clone [COPIED URL]`
+This command will have saved the repository in the folder path you selected, enabling you to run a local server and launch the app.
+
 ### Deploy to Production environment in Heroku
 1. Navigate to Heroku dashboard and click 'create new app' from the dropdown option.
 #### Provision a new Postgres database in production
