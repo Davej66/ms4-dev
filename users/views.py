@@ -104,7 +104,6 @@ def all_users(request):
     free_account = request.user.package_tier == 1
     users_friends = Friend.objects.friends(request.user)
     friends_emails = []
-    print(friends_emails, users_friends)
 
     # Map friends to string of emails
     for i in users_friends:
@@ -117,7 +116,6 @@ def all_users(request):
 
     query = Q(to_user=request.user) | Q(from_user=request.user)
     user_friend_requests = FriendshipRequest.objects.filter(query)
-    print(user_friend_requests)
 
     if request.is_ajax and request.method == "POST":
         query = request.POST['user_search']
@@ -146,7 +144,10 @@ def all_users(request):
             results = query_results
 
         context = {
-            'search_results': results
+            'search_results': results,
+            'pending_friend_reqs': user_friend_requests,
+            'free_account': free_account,
+            'users_friends': friends_emails,
         }
         payload = render_to_string(
             'users/includes/ajax_user_search_results.html', context)
@@ -173,8 +174,8 @@ def dashboard_my_orders(request):
     stripe_customer_id = user.stripe_customer_id
     if user.stripe_subscription_id != "":
         subscription = stripe.Subscription.retrieve(
-                user.stripe_subscription_id,
-                expand=['latest_invoice.payment_intent'],)
+            user.stripe_subscription_id,
+            expand=['latest_invoice.payment_intent'],)
     else:
         subscription = ""
 
@@ -204,7 +205,7 @@ def dashboard_my_orders(request):
         }
 
         invoice_list = []
-        
+
         for i in invoices:
 
             if i.paid != False:
@@ -269,7 +270,7 @@ def send_user_message(request):
                 reply_to=[sender],
             )
             email.send()
-            
+
             messages.success(
                 request, "Your message has been sent successfully!")
             return redirect('all_users')
@@ -364,13 +365,13 @@ def remove_friend(request, **kwargs):
             to_user=request.user).filter(from_user=other_user_pk)[0]
         get_connection_secondary = Friend.objects.filter(
             to_user=other_user_pk).filter(from_user=request.user)[0]
-        
+
         # Remove the friend objects
         try:
             get_connection_primary.delete()
             get_connection_secondary.delete()
             friend_list.remove(other_user_pk)
-            
+
         except Exception as e:
             messages.error(request,
                            "We could no longer find this request. Please refresh the page and try again")

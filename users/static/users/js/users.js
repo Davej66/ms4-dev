@@ -170,6 +170,7 @@ $('#user_search_form').submit(function (e) {
         timeout: 10000,
         success: function (data) {
             $('#search_results').html(data);
+            setCtaBtns();
             splitSkills();
         },
         error: function (data) {
@@ -264,7 +265,7 @@ function remove_friend(other_user) {
 };
 
 // Set friendship buttons on each card on page load
-(() => {
+function setCtaBtns() {
     $(`.req-sent-btn`).each(function () {
         var buttonId = $(this).val();
         $(`.send-connection-btn[value="${buttonId}"]`).remove();
@@ -273,7 +274,28 @@ function remove_friend(other_user) {
         var buttonId = $(this).val();
         $(`.send-connection-btn[value="${buttonId}"]`).remove();
     });
+}
+setCtaBtns();
+
+
+// Change connection action button on hover, advising to user what clicking button will do
+(function changeButtonText() {
+    $('.user-cta button').mouseenter(function () {
+        if ($(this).hasClass('req-sent-btn')) {
+            $(this).html('<i class="fas fa-times px-2"></i>Cancel Request');
+        } else if ($(this).hasClass('remove-connection-btn')) {
+            $(this).html('<i class="fas fa-exit px-2"></i>Remove Connection');
+        }
+    });
+    $('.user-cta button').mouseleave(function () {
+        if ($(this).hasClass('req-sent-btn')) {
+            $(this).html('Connection Request Sent');
+        } else if ($(this).hasClass('remove-connection-btn')) {
+            $(this).html('Connected');
+        }
+    })
 })();
+
 
 // Change the friend 'connection' button on successful add
 function changeButtonUI(buttonId, type) {

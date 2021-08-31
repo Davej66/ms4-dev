@@ -4,60 +4,60 @@
         result{%if search_results.count > 1%}s{%endif%} with that search!</h3>
 </div>
 {% for user in search_results %}
-<div class="card user-card muted">
-    <div class="d-flex flex-wrap">
-        <div class="prf-img-preview">
-            <img class="prf-img-preview" src="{{user.profile_image.url}}"
-                alt="{{user.first_name}} {{user.last_name}}'s profile image"
-                onload="specImageOrientation(this);">
-        </div>
-        <div class="user-details-mast centralise-on-wrap">
-            <h3>{{user.first_name}} {{user.last_name}}</h3>
-            <p>{{user.job_role}}</p>
-            <p>{{user.location}}</p>
-            <span class="ind-pill">{{user.industry}}</span>
-        </div>
-    </div>
-    <hr>
-    <div class="user-details-bottom">
-        <p class="user-skills">{{user.skills}}</p>
-        <p class="pt-3 white-space">{{user.description}}</p>
-    </div>
-    <div class="user-cta d-flex flex-wrap justify-content-between m-auto mx-0 mb-0">
-        {%if pending_friend_reqs%}
-        {% for req in pending_friend_reqs %}
-        {% if req.to_user == user %}
-        <button class="req-sent-btn btn primary-btn-outline-color px-3 py-2 m-auto"
-            onclick="cancel_friend('{{user.pk}}')" value="{{user.pk}}">Connection Request Sent</button>
-        {% elif req.from_user == user %}
-        <button class="accept-connection-btn btn secondary-btn px-3 py-2 m-auto"
-            onclick="accept_friend('{{user.pk}}')" value="{{user.pk}}">Accept Request</button>
-        {% endif %}
-        {% endfor %}
-        {% endif %}
-        
+            <div class="card user-card muted">
+                <div class="d-flex flex-wrap">
+                    <div class="prf-img-preview">
+                        <img class="prf-img-preview" src="{{user.profile_image.url}}"
+                            alt="{{user.first_name}} {{user.last_name}}'s profile image"
+                            onload="specImageOrientation(this);">
+                    </div>
+                    <div class="user-details-mast centralise-on-wrap">
+                        <h3>{{user.first_name}} {{user.last_name}}</h3>
+                        <p>{{user.job_role}}</p>
+                        <p>{{user.location}}</p>
+                        <span class="ind-pill">{{user.industry}}</span>
+                    </div>
+                </div>
+                <hr>
+                <div class="user-details-bottom">
+                    <p class="user-skills">{{user.skills}}</p>
+                    <p class="py-3 white-space">{{user.description}}</p>
+                </div>
+                <div class="user-cta d-flex flex-wrap justify-content-between m-auto mx-0 mb-0">
+                    {%if pending_friend_reqs%}
+                    {% for req in pending_friend_reqs %}
+                    {% if req.to_user == user %}
+                    <button class="req-sent-btn btn primary-btn-outline-color px-3 py-2 m-auto"
+                        onclick="cancel_friend('{{user.pk}}')" value="{{user.pk}}">Connection Request Sent</button>
+                    {% elif req.from_user == user %}
+                    <button class="accept-connection-btn btn secondary-btn px-3 py-2 m-auto"
+                        onclick="accept_friend('{{user.pk}}')" value="{{user.pk}}">Accept Request</button>
+                    {% endif %}
+                    {% endfor %}
+                    {% endif %}
+                    
 
-            {% if this_user.is_blocked %}
-        <p class="timezone-warning text-center py-2">You can't currently send new connection requests due
-            to a failed invoice payment.
-            <a href="{% url 'get_my_orders' %}">Update your billing details</a>
-            to continue.
-        </p>
-        
-        {% elif user.email in users_friends %}
-        <button class="remove-connection-btn btn secondary-btn px-3 py-2 m-auto"
-            onclick="remove_friend('{{user.pk}}')" value="{{user.pk}}"><i class="fas fa-user"></i>
-            Connected</button>
-        <button data-bs-toggle="modal" data-bs-target="#email_user_{{user.pk}}"
-            class="send-message-btn btn primary-btn px-3 py-2 m-auto"><i class="fas fa-envelope"></i>
-            Send Message</button>
-            {% else %}
-        <button class="send-connection-btn btn primary-btn px-3 py-2 m-auto"
-            onclick="add_friend('{{user.pk}}')" value="{{user.pk}}">Send Connection Request</button>
-        {% endif %}
-    </div>
-</div>
-{% endfor %}
+                        {% if this_user.is_blocked %}
+                    <p class="timezone-warning text-center py-2">You can't currently send new connection requests due
+                        to a failed invoice payment.
+                        <a href="{% url 'get_my_orders' %}">Update your billing details</a>
+                        to continue.
+                    </p>
+                    
+                    {% elif user.email in users_friends %}
+                    <button class="remove-connection-btn btn secondary-btn px-3 py-2 m-auto"
+                        onclick="remove_friend('{{user.pk}}')" value="{{user.pk}}"><i class="fas fa-user"></i>
+                        Connected</button>
+                    <button data-bs-toggle="modal" data-bs-target="#email_user_{{user.pk}}"
+                        class="send-message-btn btn primary-btn px-3 py-2 m-auto"><i class="fas fa-envelope"></i>
+                        Send Message</button>
+                        {% else %}
+                    <button class="send-connection-btn btn primary-btn px-3 py-2 m-auto"
+                        onclick="add_friend('{{user.pk}}')" value="{{user.pk}}">Send Connection Request</button>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
 
 <!-- If no results show no results card to user -->
 {% else %}
