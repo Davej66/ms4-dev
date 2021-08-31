@@ -7,8 +7,8 @@
     - [Code Validators](#code-validation)
     - [Responsive Testing](#responsive-testing)
     - [Compatability Testing](#compatibility-testing)
-    - [Accessibility Testing](#Accessibility-testing)
-    - [Lighthouse Testing](#Lighthouse-testing)
+    - [Accessibility Testing](#accessibility-testing)
+    - [Lighthouse Testing](#lighthouse-testing)
     - [Bugs & Known Issues](#bugs-&-known-issues)
 
 
@@ -137,9 +137,6 @@ As described aboved, upon registration, users must verify their email address be
 
 ### Responsive Testing
 
-
-### Compatability Testing
-
 Since physical devices are not available to test on at this stage, the desktop app [Responsively](https://responsively.app/download) has been used to test compatability accross mobile and tablet devices. As you can see from the screenshots below, the site is fully responsive. 
 
 ![](screenshots/user_testing/responsive/rs_login.png)
@@ -158,6 +155,31 @@ Since physical devices are not available to test on at this stage, the desktop a
 
 <br>
 
+### **Compatability Testing**
+
+The site has been tested across Chrome, Safari and Firefox with no difference in functionality or UI design across all pages. Since the Chrome screenshots are provided elsewhere in this documentation, the below shows the Safari and Firefox screens.
+
+<br>
+
+#### **Safari**
+
+![](screenshots/user_testing/compat/saf_dashboard.png)
+![](screenshots/user_testing/compat/saf_freelancers.png)
+![](screenshots/user_testing/compat/saf_home.png)
+![](screenshots/user_testing/compat/saf_meetups.png)
+
+<br>
+
+#### **Firefox**
+
+![](screenshots/user_testing/compat/ff_edit.png)
+![](screenshots/user_testing/compat/ff_login.png)
+![](screenshots/user_testing/compat/ff_meetups.png)
+![](screenshots/user_testing/compat/ff_meetups2.png)
+![](screenshots/user_testing/compat/ff_orders.png)
+
+<br>
+
 ### **Accessibility Testing**
 
 The site has been tested against the [WAVE WEB AIM Accessibility Tool](https://wave.webaim.org/), specifically, using the Chrome browser extension.
@@ -166,7 +188,6 @@ With the exception of a few known contrast issues or warnings, where WAVE recogn
 
 ![](screenshots/user_testing/wave_testing/wv_dashboard.png)
 ![](screenshots/user_testing/wave_testing/wv_home.png)
-![](screenshots/user_testing/wave_testing/wv_freelancers.png)
 ![](screenshots/user_testing/wave_testing/wv_meetups.png)
 ![](screenshots/user_testing/wave_testing/wv_subscription.png)
 ![](screenshots/user_testing/wave_testing/wv_orders.png)
@@ -175,13 +196,23 @@ With the exception of a few known contrast issues or warnings, where WAVE recogn
 
 ### **Lighthouse Testing**
 
+Since the site is relatively lightweight, the Lighthouse tests on the most resource intensive pages (freelancer and meetups, dashboard etc) return a positive result, averaging above 90% for desktop and ranging between 60% and 90% on mobile.
 
-### Bugs & Known Issues
+An example of these results can be seen below: 
+
+![](screenshots/user_testing/lighthouse/lh_dash.png)
+![](screenshots/user_testing/lighthouse/lh_dash_mb.png)
+![](screenshots/user_testing/lighthouse/lh_freelancers.png)
+![](screenshots/user_testing/lighthouse/lh_freelancers_mb.png)
+![](screenshots/user_testing/lighthouse/lh_meetups.png)
+![](screenshots/user_testing/lighthouse/lh_meetups_mb.png)
 
 
-- [Code Validators](#code-validation)
-    - [Responsive Testing](#responsive-testing)
-    - [Compatability Testing](#compatibility-testing)
-    - [Accessibility Testing](#Accessibility-testing)
-    - [Lighthouse Testing](#Lighthouse-testing)
-    - [Bugs & Known Issues](#bugs-&-known-issues)
+### **Bugs & Known Issues**
+
+For the most part, the majority of bugs have been fixed, however a few remain:
+- Friends App caches friends list. This causes the freelancers page to generate a error when the connection button is updated after user input, but the Database either can no longer find the other user as a friend, or believes they still exist, so will not allow the user to send them a new request for a period after. It is hoped that a fix for this will be found in future releases, or the logic refactored to allow for the caching time required.
+- Currently there is no way for a user to generate a new 'verify' email link without contacting the site owner. This will cause issues if the user base grows, but for now will remain a feature for future releases.
+- The site is reliant on Stripe successfully sending webhooks back to the site in order to confirm a user has paid, or if a subscription is updated and the user event count should increase. 
+
+
