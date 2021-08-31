@@ -17,7 +17,7 @@ ___
 - DB Schema
 ### [Features](#features)
 ### [Technology & Tools](#technology-&-tools)
-### [Testing](#testing)
+### [Testing](docs/testing.md) (opens new link)
 - User Stories
 - Technical Testing
     - Code Validators

@@ -131,8 +131,57 @@ Users can use the contact page on the footer to notify the site owner of any iss
 
 As described aboved, upon registration, users must verify their email address before they are able to login. Once logged in for the first time, they are directed to 'edit profile'. This form has validation which requires completion. Only if the form is submitted successfully will the profile visibility be switched on.
 
-- Technical Testing
-    - Code Validators
-    - Responsive Design 
-    - Compatability (Browser & Device)
-    - Bugs & Known Issues
+
+### Code Validation
+
+
+### Responsive Testing
+
+
+### Compatability Testing
+
+Since physical devices are not available to test on at this stage, the desktop app [Responsively](https://responsively.app/download) has been used to test compatability accross mobile and tablet devices. As you can see from the screenshots below, the site is fully responsive. 
+
+![](screenshots/user_testing/responsive/rs_login.png)
+![](screenshots/user_testing/responsive/rs_confirm.png)
+![](screenshots/user_testing/responsive/rs_subs.png)
+![](screenshots/user_testing/responsive/rs_dashboard.png)
+![](screenshots/user_testing/responsive/rs_edit_prf.png)
+![](screenshots/user_testing/responsive/rs_dropdown.png)
+![](screenshots/user_testing/responsive/rs_modal.png)
+![](screenshots/user_testing/responsive/rs_modal2.png)
+![](screenshots/user_testing/responsive/rs_meetups.png)
+![](screenshots/user_testing/responsive/rs_orders.png)
+![](screenshots/user_testing/responsive/rs_navbar.png)
+![](screenshots/user_testing/responsive/rs_sidenav.png)
+![](screenshots/user_testing/responsive/rs_subs.png)
+
+<br>
+
+### **Accessibility Testing**
+
+The site has been tested against the [WAVE WEB AIM Accessibility Tool](https://wave.webaim.org/), specifically, using the Chrome browser extension.
+
+With the exception of a few known contrast issues or warnings, where WAVE recognises elements using the `::after` psuedo as a font, resulting in a colour contrast warning, the pages successfully pass accessibility testing, as shown below: 
+
+![](screenshots/user_testing/wave_testing/wv_dashboard.png)
+![](screenshots/user_testing/wave_testing/wv_home.png)
+![](screenshots/user_testing/wave_testing/wv_freelancers.png)
+![](screenshots/user_testing/wave_testing/wv_meetups.png)
+![](screenshots/user_testing/wave_testing/wv_subscription.png)
+![](screenshots/user_testing/wave_testing/wv_orders.png)
+
+<br>
+
+### **Lighthouse Testing**
+
+
+### Bugs & Known Issues
+
+
+- [Code Validators](#code-validation)
+    - [Responsive Testing](#responsive-testing)
+    - [Compatability Testing](#compatibility-testing)
+    - [Accessibility Testing](#Accessibility-testing)
+    - [Lighthouse Testing](#Lighthouse-testing)
+    - [Bugs & Known Issues](#bugs-&-known-issues)
