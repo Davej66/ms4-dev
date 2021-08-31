@@ -83,7 +83,6 @@ h1, h2, h3, h4, h5, h6,
 a, p, ul, li {
     font-family: 'Poppins', sans-serif;
     margin: 0;
-    font-display: optional!important;
 }
 
 h1 {
@@ -488,7 +487,7 @@ textarea:focus, .vscomp-wrapper.opened > .vscomp-toggle-button,
     box-shadow: none!important;
 }
 
-input:invalid:focus, .stripe-cc-input:invalid:focus select.form-select,{
+input:invalid:focus, .stripe-cc-input:invalid:focus, select.form-select {
     border-bottom: 2px solid var(--error-highlight);
     padding: 10px 10px 10px 15px;
 }

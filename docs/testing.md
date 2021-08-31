@@ -140,6 +140,14 @@ The code for FreelanceMeetups has been validated through [HTML Validator](https:
     - Javascript files have been validated through JS hint. A few warnings remain, predominantly regarding the use of 'let' and it's compatibility with ES6 and Mozilla.
     - In addition, since JS Hint cannot find Jquery, '$' is flagged as undefined
 
+- W3C Jigsaw 
+    - As with Javascript and HTML validation, CSS validation throws only warnings from third party links such as Bootstrap and FontAwesome.
+    - There are approximately 13 Errors from the Bootstrap.min.css such as `Value Error : margin-right Parse Error .5)` and `Unknown pseudo-element or  pseudo-class ::file-selector-button [file-selector-button]`. Since these are third party applications, it is not possible to rectify these.
+
+- Python Validation
+    - Using Gitpod extensions **Python, Python Indent** and **Magic Python**, the python scripts within this site have been formatted and corrected as linting errors have occured.
+    - Despite fixing the majority of issues, occasionally a linting error occurs on model classes, suggesting there is no object of that model. However, I believe this is due to the lack of context as the syntax is required for the functionality to work.
+    
 
 ### Responsive Testing
 
