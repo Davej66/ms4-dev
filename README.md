@@ -28,7 +28,7 @@ ___
 - Github
 - Deploying to Heroku
 - Connecting Production Environment to AWS
-### Credits
+### Credits`
 - Tutorials & Support
 - Images & Attribution
 - Acknowledgements

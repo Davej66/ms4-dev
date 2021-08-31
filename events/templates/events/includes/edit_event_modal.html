@@ -12,8 +12,8 @@
                         <input type="hidden" value="{{event.pk}}" name="event_id">
                         <div class="input-row d-flex justify-content-between mt-3">
                             <div class="fieldset">
-                                <label for="title" class="mb-3">Event Title</label>
-                                <input type="text" class="fixed-40" name="title" id="title" placeholder="Enter a title"
+                                <label for="title_{{event.pk}}_ed" class="mb-3">Event Title</label>
+                                <input type="text" class="fixed-40" name="title" id="title_{{event.pk}}_ed" placeholder="Enter a title"
                                     required value="{{event.title}}">
                             </div>
                         </div>
