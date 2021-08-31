@@ -10,6 +10,17 @@
 {% endblock %}
 
 {% block content %}
+
+{% if messages %}
+{% for message in messages %}
+<div class="message-wrap">
+    <div class="message">
+        <span>{{message}}</span><i class="fas fa-times" onclick="removeMessage(this);"></i>
+    </div>
+</div>
+{% endfor %}
+{% endif %}
+
 <section class="light-page screen-height section-with-padding">
     <div class="nav-top-padding"></div>
     <div class="container-fluid w-100 m-auto py-5 px-0 centered-col-large-page">
@@ -76,11 +87,15 @@
                         continue.</p>
                     {% else %}
                     {%if this_user in event.registrants.all %}
-                    <button class="remove-reg-btn btn primary-btn-outline-color px-3 py-1 m-1 w-45"
+                    <button class="remove-reg-btn btn primary-btn-outline-color px-3 py-1 m-1"
                         onclick="event_cancel('{{event.pk}}')" value="{{event.pk}}"><i
                             class="fas fa-check"></i>Registered</button>
+                    {% elif this_user.is_admin %}
+                    <button class="register-btn btn primary-btn-outline-color px-3 py-1 m-1" data-bs-toggle="modal"
+            data-bs-target="#edit_event_{{event.pk}}"><i class="fas fa-pencil-alt"></i>
+            Edit Event</button>
                     {% else %}
-                    <button class="register-btn btn primary-btn-outline-color px-3 py-1 m-1 w-45"
+                    <button class="register-btn btn primary-btn-outline-color px-3 py-1 m-1"
                         onclick="event_register('{{event.pk}}')" value="{{event.pk}}"><i
                             class="fas fa-clipboard"></i>Register</button>
                     {% endif %}
@@ -89,10 +104,12 @@
                 </div>
             </div>
             {% endfor %}
-            <button class="view-attendees-btn btn primary-btn px-3 py-1 m-1" data-bs-toggle="modal"
-                data-bs-target="#create_event" value="{{event.pk}}"><i class="fas fa-eye"></i>
-                Attendees</button>
         </div>
+        {% if this_user.is_admin %}
+        <button class="create-event-btn btn primary-btn mt-3" data-bs-toggle="modal"
+            data-bs-target="#create_event"><i class="fas fa-plus"></i>
+            Create Event</button>
+        {% endif %}
     </div>
     <div class="fixed-40"></div>
 
@@ -147,6 +164,7 @@
             </div>
         </div>
     </div>
+    {% include 'events/includes/edit_event_modal.html' %}
     {% endfor %}
     <!-- View Event Modal END -->
 
@@ -187,59 +205,64 @@
                             <div class="input-row d-flex justify-content-between mt-3">
                                 <div class="fieldset">
                                     <label for="title" class="mb-3">Event Title</label>
-                                    <input type="text" class="fixed-40" name="title" id="title" placeholder="Enter a title" required>
+                                    <input type="text" class="fixed-40" name="title" id="title"
+                                        placeholder="Enter a title" required>
                                 </div>
                             </div>
                             <div class="input-row d-flex justify-content-between mt-3">
                                 <div class="fieldset">
                                     <label for="title" class="mb-3">Description</label>
                                     <textarea id="description" class="no-padding-on-focus" name="description"
-                                            onfocus="resizeTextarea(this);" oninput="resizeTextarea(this);"
-                                            placeholder="Tell others what the event is about."></textarea>
+                                        onfocus="resizeTextarea(this);" oninput="resizeTextarea(this);"
+                                        placeholder="Tell others what the event is about."></textarea>
                                 </div>
                             </div>
                             <div class="input-row d-flex justify-content-between mt-3">
                                 <div class="fieldset">
                                     <label for="max_reg" class="mb-3">Maximum Registrants</label>
-                                        <input class="form-control fixed-40" name="max_reg"
-                                            id="max_reg" placeholder="Enter the maximum registrations" pattern="[0-9]+" type="text" required/>
+                                    <input class="form-control fixed-40" name="max_reg" id="max_reg"
+                                        placeholder="Enter the maximum registrations" pattern="[0-9]+" type="text"
+                                        required />
                                 </div>
                                 <div class="fieldset">
                                     <label for="location" class="mb-3">Location</label>
-                                        <input class="form-control fixed-40" name="location"
-                                            id="location" placeholder="Enter a location" type="text" required/>
+                                    <input class="form-control fixed-40" name="location" id="location"
+                                        placeholder="Enter a location" type="text" required />
                                 </div>
                             </div>
                             <div class="input-row d-flex justify-content-between mt-3">
                                 <div class="fieldset">
                                     <label for="start_datetime" class="mb-3">Start Date & Time</label>
-                                        <input class="form-control fixed-40" name="start_datetime" onfocusout="stripCommas();"
-                                            id="start_datetime" placeholder="YYYY-MM-DD" type="text" required/>
+                                    <input class="form-control fixed-40" name="start_datetime"
+                                        onfocusout="stripCommas();" id="start_datetime" placeholder="YYYY-MM-DD"
+                                        type="text" required />
                                 </div>
                                 <div class="fieldset">
                                     <label for="end_datetime" class="mb-3">End Date & Time</label>
-                                        <input class="form-control fixed-40" name="end_datetime" onfocusout="stripCommas();"
-                                            id="end_datetime" placeholder="YYYY-MM-DD" type="text" required/>
+                                    <input class="form-control fixed-40" name="end_datetime" onfocusout="stripCommas();"
+                                        id="end_datetime" placeholder="YYYY-MM-DD" type="text" required />
                                 </div>
                             </div>
                             <div class="input-row d-flex justify-content-between mt-3">
                                 <div class="fieldset">
                                     <label for="industry" class="mb-3">Industry</label>
-                                    <select class="form-select" aria-label="Industry" name="industry" id="industry" required>
-                                        <option selected>Photography</option>
-                                        <option>Events Management</option>
-                                        <option>Film & TV</option>
-                                        <option>Music</option>
-                                        <option>Theatre</option>
-                                      </select>
+                                    <select class="form-select" aria-label="Industry" name="industry" id="industry"
+                                        required>
+                                        <option value="Photography" selected>Photography</option>
+                                        <option value="Events Management">Events Management</option>
+                                        <option value="Film & TV">Film & TV</option>
+                                        <option value="Music">Music</option>
+                                        <option value="Theatre">Theatre</option>
+                                    </select>
                                 </div>
                                 <div class="fieldset">
                                     <label for="timezone" class="mb-3">Timezone</label>
-                                    <select class="form-select" name="timezone" id="timezone" aria-label="timezone" required>
+                                    <select class="form-select" name="timezone" id="timezone" aria-label="timezone"
+                                        required>
                                         <option value="Europe/London" selected>GMT+01:00 Europe/London</option>
                                         <option value="GMT">GMT+00:00 GMT</option>
                                         <option value="US/Pacific">GMT-07:00 US/Pacific</option>
-                                      </select>
+                                    </select>
                                 </div>
                             </div>
                             <div class="input-row d-flex justify-content-between mt-3">
@@ -249,11 +272,11 @@
                                         name="header_image">
                                 </div>
                             </div>
-                        <div class="event-card-buttons d-flex">
-                            <button type="submit" class="btn secondary-btn large m-auto py-3 px-4 w-45 my-4">
-                                Create Event</button>
-                        </div>
-                    </form>
+                            <div class="event-card-buttons d-flex">
+                                <button type="submit" class="btn secondary-btn large m-auto py-3 px-4 w-45 my-4">
+                                    Create Event</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>

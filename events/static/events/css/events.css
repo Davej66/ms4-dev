@@ -81,6 +81,7 @@
 
 .event-card-buttons button {
     width: 47%;
+    min-width: max-content;
 }
 
 .event-card-buttons button i{
@@ -114,6 +115,14 @@
     background: var(--accent-color);
     color: var(--dark-text);
     border-color: var(--accent-color);
+}
+
+.create-event-btn {
+    background: var(--accent-color-grad);
+    color: var(--dark-text);
+    width: 100%;
+    padding: 20px 40px;
+    font-size: 18px;
 }
 
 

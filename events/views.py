@@ -6,7 +6,7 @@ from django.db.models import Q
 from django.template.loader import render_to_string
 from allauth.account.decorators import verified_email_required
 from .models import Event
-from .forms import CreateEventForm
+from .forms import CreateEventForm, EditEventForm
 from friendship.models import Friend, FriendshipRequest
 from users.models import MyAccount
 
@@ -69,10 +69,6 @@ def event_listings(request):
 def create_event(request):
 
     if request.method == 'POST':
-
-        get_startdate = request.POST.get('start_datetime')
-        comma_rem_start = get_startdate.replace(',', '')
-        print("start date",comma_rem_start)
         
         form = CreateEventForm(request.POST, request.FILES)
         
@@ -85,6 +81,26 @@ def create_event(request):
                 request, "Form could not be submitted, please try again!")
 
     return render(request, 'events/all_events_list.html')
+
+
+@verified_email_required
+def edit_event(request):
+    
+    if request.method == 'POST':
+        
+        event_id = request.POST.get('event_id')
+        event_instance = Event.objects.get(pk=event_id)
+        
+        form = EditEventForm(request.POST, request.FILES, instance=event_instance)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Your event has been updated!")
+            return redirect('event_listings')
+        else:
+            messages.error(
+                request, "Form could not be submitted, please try again!")
+
+    return redirect('event_listings')
 
 
 """ Event Registration / Cancellation Functions """

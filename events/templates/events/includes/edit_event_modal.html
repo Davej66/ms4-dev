@@ -1,0 +1,87 @@
+<!-- Create event modal START -->
+<div class="modal fade" id="edit_event_{{event.pk}}" tabindex="-1" role="dialog" aria-labelledby="create_event"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body p-0">
+                <div class="card event-limit muted m-0">
+                    <h3 class="header-underline">Create an Event</h3>
+                    <form action="{% url 'edit_event' %}" method="POST" enctype="multipart/form-data">
+                        {%csrf_token%}
+                        <input type="hidden" value="{{event.pk}}" name="event_id">
+                        <div class="input-row d-flex justify-content-between mt-3">
+                            <div class="fieldset">
+                                <label for="title" class="mb-3">Event Title</label>
+                                <input type="text" class="fixed-40" name="title" id="title" placeholder="Enter a title"
+                                    required value="{{event.title}}">
+                            </div>
+                        </div>
+                        <div class="input-row d-flex justify-content-between mt-3">
+                            <div class="fieldset">
+                                <label for="title" class="mb-3">Description</label>
+                                <textarea id="description" class="no-padding-on-focus" name="description"
+                                    onfocus="resizeTextarea(this);" oninput="resizeTextarea(this);"
+                                    placeholder="Tell others what the event is about.">{{event.description}}</textarea>
+                            </div>
+                        </div>
+                        <div class="input-row d-flex justify-content-between mt-3">
+                            <div class="fieldset">
+                                <label for="max_reg" class="mb-3">Maximum Registrants</label>
+                                <input class="form-control fixed-40" name="max_reg" id="max_reg"
+                                    placeholder="Enter the maximum registrations" pattern="[0-9]+" type="text" required
+                                    value="{{event.max_reg}}" />
+                            </div>
+                            <div class="fieldset">
+                                <label for="location" class="mb-3">Location</label>
+                                <input class="form-control fixed-40" name="location" id="location"
+                                    placeholder="Enter a location" type="text" required value="{{event.location}}" />
+                            </div>
+                        </div>
+                        <div class="input-row d-flex justify-content-between mt-3">
+                            <div class="fieldset">
+                                <label for="start_datetime" class="mb-3">Start Date & Time</label>
+                                <input class="form-control fixed-40" disabled type="text"
+                                    value="{{event.start_datetime}}" />
+                            </div>
+                            <div class="fieldset">
+                                <label for="end_datetime" class="mb-3">End Date & Time</label>
+                                <input class="form-control fixed-40" type="text" disabled
+                                    value="{{event.end_datetime}}" />
+                            </div>
+                        </div>
+                        <div class="input-row d-flex justify-content-between mt-3">
+                            <div class="fieldset">
+                                <label for="industry" class="mb-3">Industry</label>
+                                <select class="form-select" aria-label="Industry" name="industry" id="industry"
+                                    disabled value="{{event.industry}}">
+                                    <option value="{{event.industry}}" selected>{{event.industry}}</option>
+                                </select>
+                            </div>
+                            <div class="fieldset">
+                                <label for="timezone" class="mb-3">Timezone</label>
+                                <select class="form-select" name="timezone" id="timezone" aria-label="timezone"
+                                    disabled value="{{event.timezone}}">
+                                    <option value="{{event.timezone}}" selected>{{event.timezone}}</option>
+                                </select>
+
+                            </div>
+                        </div>
+                        <div class="input-row d-flex justify-content-between mt-3">
+                            <div class="fieldset">
+                                <label for="header_image" class="mb-3">Header Image</label>
+                                <input class="custom-file-input" type="file" accept="image/*" id="header_image"
+                                    name="header_image" value="{{event.header_image}}">
+                                    <p>Current file: <span class="p-text-underline">{{event.header_image}}</span></p>
+                            </div>
+                        </div>
+                        <div class="event-card-buttons d-flex">
+                            <button type="submit" class="btn secondary-btn large m-auto py-3 px-4 w-45 my-4">
+                                Create Event</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Create event modal END -->
