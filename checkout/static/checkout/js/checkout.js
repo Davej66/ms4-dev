@@ -5,19 +5,19 @@ var currentPackageTier = $('#id_current_package_tier').val();
 var activePackageCard = $(`#tier_${currentPackageTier}_package`);
 var activePackageCardLabel = $(`#tier_${currentPackageTier}_package > .current_package_label`);
 var allPackageCardLabel = $(`.current_package_label`);
-var formSubmitted = false
+var formSubmitted = false;
 activePackageCard.addClass('active');
 activePackageCardLabel.text('Your current package');
 activePackageCardLabel.removeClass('hidden');
 
 $('.update-package-card').on('click', function () {
-    $(this).find('span:first').removeClass('hidden')
+    $(this).find('span:first').removeClass('hidden');
     if (this != activePackageCard) {
         activePackageCard.addClass('hlf-trans');
         $(activePackageCard).find('.update-package-card-overlay').css('opacity', '0.75');
         $(activePackageCard).css('color', 'var(--dark-text)');
     }
-})
+});
 
 
 /* STRIPE ELEMENTS */
@@ -33,31 +33,31 @@ var csrftoken = Cookies.get('csrftoken');
 
 
 if (is_upgrade === "False") {
-    let card = elements.create('card');
+;
     card.mount('#card_element');
 
     // Add errors to card handler
 
     card.addEventListener('change', function (event) {
-        var errorDiv = $('#card_errors')
+        var errorDiv = $('#card_errors');
         if (event.error) {
             var html = `
         <span class="icon" role="alert">
             <i class="fas fa-times"></i>
         </span>
         <span>${event.error.message}</span>
-        `
+        `;
             errorDiv.html(html);
         } else {
-            errorDiv.text = ""
+            errorDiv.text = "";
         }
-    })
+    });
 
     // Handle form submit
     $('#submit_button').on('click', async (event) => {
         event.preventDefault();
 
-        card.update({ 'disabled': true })
+        card.update({ 'disabled': true });
         $('.processing-spinner').css('display', 'flex').hide().fadeIn();
         $('#submit_button').attr('disabled', true);
         $('#submit_button').addClass('disabled');
@@ -70,24 +70,24 @@ if (is_upgrade === "False") {
                 }
             },
         }).then(function (result) {
-            var errorDiv = $('#card_errors')
+            var errorDiv = $('#card_errors');
             if (result.error) {
                 var html = `
             <span class="icon" role="alert">
             <i class="fas fa-times"></i>
             </span>
             <span>${result.error.message}</span>
-            `
+            `;
                 card.update({ 'disabled': false });
                 errorDiv.html(html);
                 $('.processing-spinner').fadeOut();
                 $('#submit_button').attr('disabled', false);
                 $('#submit_button').removeClass('disabled');
             } else {
-                errorDiv.text = ""
+                errorDiv.text = "";
                 if (result.paymentIntent.status === 'succeeded') {
-                    var formSubmitted = true
-                    $('#payment_form').submit()
+                    var formSubmitted = true;
+                    $('#payment_form').submit();
 
                 }
             }
@@ -99,9 +99,9 @@ $(document).ready(() => {
     // If user abandons the page, destroy the subscription created
     $(window).on('unload', function () {
         if(formSubmitted == false){
-        data = new FormData()
-        data.append('csrfmiddlewaretoken', csrftoken)
+        data = new FormData();
+        data.append('csrfmiddlewaretoken', csrftoken);
         navigator.sendBeacon("../destroy_sub/", data);
     }
     });
-})
+});

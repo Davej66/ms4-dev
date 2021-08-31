@@ -10,13 +10,13 @@ function select_package(packageId) {
         var registerModal = new bootstrap.Modal(
             document.getElementById('must_register'), {
             keyboard: false
-        })
-        registerModal.show()
+        });
+        registerModal.show();
     } else {
         payload = {
             'csrfmiddlewaretoken': csrftoken,
             'package_id': packageId
-        }
+        };
         $.ajax({
             type: 'POST',
             datatype: 'json',
@@ -25,14 +25,14 @@ function select_package(packageId) {
             timeout: 10000,
             success: function (data) {
                 if (data.registration != true) {
-                    window.location.replace('../checkout/confirm_order/')
+                    window.location.replace('../checkout/confirm_order/');
                 } else {
-                    window.location.replace('../checkout/account_required/')
+                    window.location.replace('../checkout/account_required/');
                 }
             },
             error: function (data) {
-                console.log("There has been an error")
+                console.log("There has been an error");
             }
         });
     }
-};
+}

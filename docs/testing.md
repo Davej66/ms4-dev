@@ -9,15 +9,10 @@
     - [Compatability Testing](#compatibility-testing)
     - [Accessibility Testing](#accessibility-testing)
     - [Lighthouse Testing](#lighthouse-testing)
-    - [Bugs & Known Issues](#bugs-&-known-issues)
+    - [Bugs & Known Issues](#bugs--known-issues)
 
 
-- Technical Testing
-    - Code Validators
-    - Responsive Design 
-    - Compatability (Browser & Device)
-    - Bugs & Known Issues
-
+___
 
 
 ### **User Stories**
@@ -86,10 +81,10 @@ After successful purchase of the package, the user is directed to the 'My Orders
 Users can view the Meetups available on the 'Meetups' page accessible by the navbar and footer. This page allows users to register and unregister from events by clicking the call to action buttons on the bottom of each card. A user can see who is attending an event by clicking 'Attendees' on each card.
 
 ![](screenshots/user_testing/full_page/meetups.png)
-<img src="screenshots/user_testing/page_snippets/event_s1.png" alt="" style="width:50px; margin-left:20px"/>
-<img src="screenshots/user_testing/page_snippets/event_s2.png" alt="" style="width:50px;"/>
-<img src="screenshots/user_testing/page_snippets/event_s3.png" alt="" style="width:50px;"/>
-<img src="screenshots/user_testing/page_snippets/attendees.png" alt="" style="width:600px; margin-left: 20px"/>
+<img src="screenshots/user_testing/page_snippets/event_s1.png" alt="" width="100"/>
+<img src="screenshots/user_testing/page_snippets/event_s2.png" alt="" width="100"/>
+<img src="screenshots/user_testing/page_snippets/event_s3.png" alt="" width="100"/>
+<img src="screenshots/user_testing/page_snippets/attendees.png" alt="" width="500"/>
 
 
 - <em>Connect with other users.</em>
@@ -133,6 +128,17 @@ As described aboved, upon registration, users must verify their email address be
 
 
 ### Code Validation
+
+The code for FreelanceMeetups has been validated through [HTML Validator](https://chrome.google.com/webstore/detail/html-validator/mpbelhhnfhfjnaehkcnnaknldmnocglk/related), [jshint](https://jshint.com/) and [Jigsaw W3 CSS Validator](https://jigsaw.w3.org/css-validator/)
+
+- HTML Validation
+    - HTML has been validated through the Chrome extension to ensure HTML includes from Django are included, and to ensure authenticated pages can be checked. 
+    - The majority of errors have now been fixed and included referrer and integrity attributes in linked CSS or scripts which are not required.
+    - A few warnings remain, however these are flagged when using empty icon tags when using font-awesome icons. The validator expects there to be content, but contextually this does not make sense. The same is true for modal trigger buttons where the content is an icon (the navbar). These are however aria-labelled.
+
+- JS Hint
+    - Javascript files have been validated through JS hint. A few warnings remain, predominantly regarding the use of 'let' and it's compatibility with ES6 and Mozilla.
+    - In addition, since JS Hint cannot find Jquery, '$' is flagged as undefined
 
 
 ### Responsive Testing

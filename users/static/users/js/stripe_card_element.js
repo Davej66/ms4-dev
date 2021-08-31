@@ -14,18 +14,18 @@ paymentMethodCard.addEventListener('change', function (event) {
             <i class="fas fa-times"></i>
         </span>
         <span>${event.error.message}</span>
-        `
+        `;
         errorDiv.html(html);
     } else {
-        errorDiv.text = ""
+        errorDiv.text = "";
     }
-})
+});
 
 // Handle form submit
 $('#submit_button').on('click', async (event) => {
     event.preventDefault();
 
-    paymentMethodCard.update({ 'disabled': true })
+    paymentMethodCard.update({ 'disabled': true });
     $('.processing-spinner').css('display', 'flex').hide().fadeIn();
     $('#submit_button').attr('disabled', true);
     $('#submit_button').addClass('disabled');
@@ -46,14 +46,14 @@ $('#submit_button').on('click', async (event) => {
             <i class="fas fa-times"></i>
             </span>
             <span>${result.error.message}</span>
-            `
+            `;
             paymentMethodCard.update({ 'disabled': false });
             errorDiv.html(html);
             $('.processing-spinner').fadeOut();
             $('#submit_button').attr('disabled', false);
             $('#submit_button').removeClass('disabled');
         } else {
-            errorDiv.text = ""
+            errorDiv.text = "";
             if (result.paymentMethod) {
                 $('#payment_method_form').append(`
                 <input type="hidden" name="payment_method" value="${result.paymentMethod.id}"></input>

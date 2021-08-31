@@ -19,7 +19,7 @@ window.addEventListener('load', () => {
 $(document).ready(function () {
     var dropdownId = $('.dropdown-toggle').attr('id');
     var dropdownMenu = $(`ul[aria-labelledby=${dropdownId}]`);
-    var messages = $('.message-wrap')
+    var messages = $('.message-wrap');
 
     // Hide messages after 10 seconds
     setTimeout(() => {
@@ -28,7 +28,7 @@ $(document).ready(function () {
 
     // Determine which navbar to show
     var titleArr = ['Home | FreelanceMeetups', 'Register | FreelanceMeetups',
-        'Login | FreelanceMeetups']
+        'Login | FreelanceMeetups'];
     var title = document.title;
     var titleConfirmed = titleArr.includes(title);
     if (titleConfirmed == true) {
@@ -75,23 +75,23 @@ $(document).ready(function () {
     // Switch navbar-toggler to cross when selected
     $('.navbar-toggler').click(function () {
         var open = $('.navbar-toggler > i').hasClass('fa-bars');
-        var toggler = $(this).children()
+        var toggler = $(this).children();
         if (open == true) {
-            $(toggler).removeClass('fa-bars')
-            $(toggler).addClass('fade-in')
-            $(toggler).addClass('fa-times')
+            $(toggler).removeClass('fa-bars');
+            $(toggler).addClass('fade-in');
+            $(toggler).addClass('fa-times');
         } else {
-            $(toggler).removeClass('fa-times')
-            $(toggler).removeClass('fade-in')
-            $(toggler).addClass('fa-bars')
+            $(toggler).removeClass('fa-times');
+            $(toggler).removeClass('fade-in');
+            $(toggler).addClass('fa-bars');
         }
-    })
+    });
 
     // Centralise text if same width as parent - for use with flex-wrap
-    var centraliseParent = $('.centralise-on-wrap').parent()
-    var centraliseChild = $('.centralise-on-wrap')
+    var centraliseParent = $('.centralise-on-wrap').parent();
+    var centraliseChild = $('.centralise-on-wrap');
     if ($(centraliseParent).width() > $(centraliseChild).width()) {
-        $(centraliseChild).css('text-align', 'left-align!important')
+        $(centraliseChild).css('text-align', 'left-align!important');
     }
 });
 
@@ -157,7 +157,7 @@ function verifyForm(firstButton) {
 // Set the industry pill colour on page load
 $(document).ready(function () {
     $('span.ind-pill').each(function (e) {
-        var industry = $(this).text()
+        var industry = $(this).text();
         if (industry == "Film & TV") {
             $(this).addClass('red');
             $(this).removeClass('purple orange blue');
@@ -171,6 +171,6 @@ $(document).ready(function () {
             $(this).addClass('purple');
             $(this).removeClass('red orange blue');
         }
-    })
+    });
 });
 

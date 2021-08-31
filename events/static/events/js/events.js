@@ -37,7 +37,7 @@ $('#event_search_form').submit(function (e) {
             $('#search_results').html(data);
         },
         error: function (data) {
-            console.log("There has been an error")
+            console.log("There has been an error");
         }
     })
 });
@@ -59,34 +59,33 @@ function event_register(event_id) {
                 var limitReachedModal = new bootstrap.Modal(
                     document.getElementById('limit_reached'), {
                     keyboard: false
-                })
-                limitReachedModal.show()
+                });
+                limitReachedModal.show();
             } else {
                 changeButtonUI(data.buttonId, data.type);
             }
         },
         error: function (data) {
-            console.log("There has been an error")
+            console.log("There has been an error");
         }
-    })
-};
+    });
+}
 
 // Cancel event registration
 function event_cancel(event_id) {
-    var event_int = parseInt(event_id)
+    var event_int = parseInt(event_id);
     $.ajax({
         type: 'GET',
         url: `/meetups/ajax/event_cancel/${event_int}`,
         timeout: 10000,
         success: function (data) {
-            console.log("User successfully cancelled")
             changeButtonUI(data.buttonId, data.type);
         },
         error: function (data) {
-            console.log("There has been an error")
+            console.log("There has been an error");
         }
-    })
-};
+    });
+}
 
 // Change the registered / unregister button on event card
 function changeButtonUI(buttonId, type) {
@@ -102,7 +101,7 @@ function changeButtonUI(buttonId, type) {
         $(buttonTarget).attr('onclick', `event_register(${buttonId});`);
         $(buttonTarget).mouseleave();
     }
-};
+}
 
 
 // Change event action button on hover, advising to user what clicking button will do
@@ -111,12 +110,12 @@ function changeButtonUI(buttonId, type) {
         if ($(this).hasClass('remove-reg-btn')) {
             $(this).html('<i class="fas fa-times"></i>Cancel');
         }
-    })
+    });
     $('.event-card-buttons button').mouseleave(function () {
         if ($(this).hasClass('remove-reg-btn')) {
             $(this).html('<i class="fas fa-check"></i>Registered');
         }
-    })
+    });
 })();
 
 
@@ -132,14 +131,13 @@ function add_friend(other_user) {
         url: `../ajax/add_friend/${other_user}`,
         timeout: 10000,
         success: function (data) {
-            console.log("The response: ", data.response);
             changeConnectionButtonUI(data.buttonId, data.type);
         },
         error: function (data) {
-            console.log("There has been an error")
+            console.log("There has been an error");
         }
-    })
-};
+    });
+}
 
 // Cancel pending request
 function cancel_friend(other_user) {
@@ -152,62 +150,59 @@ function cancel_friend(other_user) {
             changeConnectionButtonUI(data.buttonId, data.type);
         },
         error: function (data) {
-            console.log("There has been an error")
+            console.log("There has been an error");
         }
-    })
-};
+    });
+}
 
 
 // Accept pending request
 function accept_friend(other_user) {
-    var user_int = parseInt(other_user)
+    var user_int = parseInt(other_user);
     $.ajax({
         type: 'GET',
         url: `../ajax/accept_friend/${user_int}`,
         timeout: 10000,
         success: function (data) {
-            console.log("Friend accepted")
             changeConnectionButtonUI(data.buttonId, data.type);
         },
         error: function (data) {
-            console.log("There has been an error")
+            console.log("There has been an error");
         }
-    })
-};
+    });
+}
 
 // Decline pending request
 function decline_friend(other_user) {
-    var user_int = parseInt(other_user)
+    var user_int = parseInt(other_user);
     $.ajax({
         type: 'GET',
         url: `../ajax/decline_friend/${user_int}`,
         timeout: 10000,
         success: function (data) {
-            console.log("Friend declined")
             changeConnectionButtonUI(data.buttonId, data.type);
         },
         error: function (data) {
-            console.log("There has been an error")
+            console.log("There has been an error");
         }
-    })
-};
+    });
+}
 
 // Remove existing connection
 function remove_friend(other_user) {
-    var user_int = parseInt(other_user)
+    var user_int = parseInt(other_user);
     $.ajax({
         type: 'GET',
         url: `../ajax/remove_friend/${user_int}`,
         timeout: 10000,
         success: function (data) {
-            console.log("Friend removed")
             changeConnectionButtonUI(data.buttonId, data.type);
         },
         error: function (data) {
-            console.log("There has been an error")
+            console.log("There has been an error");
         }
-    })
-};
+    });
+}
 
 // Set friendship buttons on each card on page load
 (() => {
@@ -229,14 +224,14 @@ function changeConnectionButtonUI(buttonId, type) {
         $(buttonTarget).addClass('send-connection-btn').removeClass('req-sent-btn');
         $(buttonTarget).attr('onclick', `add_friend(${buttonId});`);
     } else if (type == "accept" || type == "decline") {
-        $(`.conn-request-item[value="${buttonId}"]`).fadeOut("fast", "linear")
+        $(`.conn-request-item[value="${buttonId}"]`).fadeOut("fast", "linear");
     } else if (type == "remove") {
         var buttonTarget = $(`.remove-connection-btn[value="${buttonId}"]`);
         $(buttonTarget).html('Connection Removed');
         $(buttonTarget).addClass('muted').removeClass('remove-connection-btn');
         $(buttonTarget).attr('onclick', ``);
     }
-};
+}
 
 
 // Change connection action button on hover, advising to user what clicking button will do

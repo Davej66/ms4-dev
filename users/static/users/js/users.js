@@ -2,14 +2,14 @@
 $(document).ready(function () {
     // Check screen width and remove active from sidenav if mobile
     if (screenWidth > 991.98) {
-        $('#sidebar_wrap').addClass('active')
-    };
+        $('#sidebar_wrap').addClass('active');
+    }
 });
 
 
 // Split user skills into pills on all user page
 function splitSkills() {
-    var skillsLists = $('.user-skills')
+    var skillsLists = $('.user-skills');
     for (i = 0; i < skillsLists.length; i++) {
         var maxSkillsShown = 5;
         var limitReached = false;
@@ -23,7 +23,7 @@ function splitSkills() {
             <span class="skill-pill">${element}</span>
             `);
                 } else if (limitReached != true) {
-                    var skillsHidden = skillSet.length - maxSkillsShown
+                    var skillsHidden = skillSet.length - maxSkillsShown;
                     $(skillsLists[i]).append(`
                     <span class="skill-pill">+${skillsHidden}</span>
                     `);
@@ -31,37 +31,37 @@ function splitSkills() {
                 } else {
                     return false;
                 }
-            })
+            });
         }
     }
-};
+}
 splitSkills();
 
 
 /* Custom skill pill add and remove, to interact with 
 hidden dropdown when user clicks custom button */
 function addSkill() {
-    $('#skills-select').find('.vscomp-toggle-button').click()
+    $('#skills-select').find('.vscomp-toggle-button').click();
 }
 function removeSkill(skill) {
-    var skill_name = $(skill).attr('value')
-    var skillSelect = $(`.vscomp-option[data-value="${skill_name}"]`)
+    var skill_name = $(skill).attr('value');
+    var skillSelect = $(`.vscomp-option[data-value="${skill_name}"]`);
     if ($(skillSelect).hasClass('selected')) {
-        skillSelect.click()
-        $(this).parent().remove()
+        skillSelect.click();
+        $(this).parent().remove();
     }
 }
 
 
 // Sidebar Nav Expand / Collapse
 function triggerSidebar() {
-    let sidebar = $('#sidebar_wrap')
+    let sidebar = $('#sidebar_wrap');
     if (sidebar.hasClass('active')) {
         $('#sidebar_wrap').removeClass('active');
         $('.sidebar-profile-details').addClass('closed');
-        $('#account_sidebar > ul').addClass('closed')
+        $('#account_sidebar > ul').addClass('closed');
         $('.sidenav-detail-text').fadeOut('fast');
-        $('.sidebar-text-item > span').fadeOut()
+        $('.sidebar-text-item > span').fadeOut();
         if (screenWidth <= 991.98) {
             $('body').css('overflow-y', 'auto');
         }
@@ -70,12 +70,12 @@ function triggerSidebar() {
         $('.sidebar-profile-details').removeClass('closed');
         $('#account_sidebar > ul').removeClass('closed');
         $('.sidenav-detail-text').delay('100').fadeIn();
-        $('.sidebar-text-item > span').fadeIn('fast')
+        $('.sidebar-text-item > span').fadeIn('fast');
         if (screenWidth <= 991.98) {
             $('body').css('overflow-y', 'hidden');
         }
     }
-};
+}
 
 
 // Click the hidden file input 
@@ -100,7 +100,7 @@ function previewImage(input) {
             var imgFile = new Image();
             imgFile.src = e.target.result;
             imgFile.onload = function () {
-                specImageOrientation(imgFile)
+                specImageOrientation(imgFile);
                 var height = imgFile.height;
                 var width = imgFile.width;
                 var size = uploadedImg.size;
@@ -112,28 +112,26 @@ function previewImage(input) {
                         </li>
                         </ul>`).insertAfter(input);
                 }
-
-            }
-
-        }
+            };
+        };
         image.readAsDataURL(uploadedImg);
     }
 }
 
 $('input#profile_image').on('change', function () {
-    previewImage(this)
+    previewImage(this);
 });
 
 
 /* All user page - determine whether user header details 
 are wrapped and apply 'text-center' class if so */
     $('.user-details-mast').each(function(){
-        var width = parseInt($(this).width())
-        var parent = parseInt($(this).parent().width() -110)
+        var width = parseInt($(this).width());
+        var parent = parseInt($(this).parent().width() -110);
         if (parent <= width){
-            $(this).addClass('text-center')
+            $(this).addClass('text-center');
         }
-    })
+    });
 
 
 /***
@@ -147,12 +145,12 @@ function get_ajax_data(url) {
         url: url,
         timeout: 10000,
         success: function (data) {
-            $('#ajax_content').html(data)
+            $('#ajax_content').html(data);
         },
         error: function (data) {
-            console.log("There has been an error")
+            console.log("There has been an error");
         }
-    })
+    });
 }
 
 
@@ -172,9 +170,9 @@ $('#user_search_form').submit(function (e) {
             splitSkills();
         },
         error: function (data) {
-            console.log("There has been an error")
+            console.log("There has been an error");
         }
-    })
+    });
 });
 
 
@@ -188,14 +186,14 @@ function add_friend(other_user) {
             changeButtonUI(data.buttonId, data.type);
         },
         error: function (data) {
-            console.log("There has been an error")
+            console.log("There has been an error");
         }
-    })
-};
+    });
+}
 
 // Cancel pending request
 function cancel_friend(other_user) {
-    var user_int = parseInt(other_user)
+    var user_int = parseInt(other_user);
     $.ajax({
         type: 'GET',
         url: `../ajax/cancel_friend/${user_int}`,
@@ -204,15 +202,15 @@ function cancel_friend(other_user) {
             changeButtonUI(data.buttonId, data.type);
         },
         error: function (data) {
-            console.log("There has been an error")
+            console.log("There has been an error");
         }
-    })
-};
+    });
+}
 
 
 // Accept pending request
 function accept_friend(other_user) {
-    var user_int = parseInt(other_user)
+    var user_int = parseInt(other_user);
     $.ajax({
         type: 'GET',
         url: `../ajax/accept_friend/${user_int}`,
@@ -221,14 +219,14 @@ function accept_friend(other_user) {
             changeButtonUI(data.buttonId, data.type);
         },
         error: function (data) {
-            console.log("There has been an error")
+            console.log("There has been an error");
         }
-    })
-};
+    });
+}
 
 // Decline pending request
 function decline_friend(other_user) {
-    var user_int = parseInt(other_user)
+    var user_int = parseInt(other_user);
     $.ajax({
         type: 'GET',
         url: `../ajax/decline_friend/${user_int}`,
@@ -237,10 +235,10 @@ function decline_friend(other_user) {
             changeButtonUI(data.buttonId, data.type);
         },
         error: function (data) {
-            console.log("There has been an error")
+            console.log("There has been an error");
         }
-    })
-};
+    });
+}
 
 // Remove existing connection
 function remove_friend(other_user) {
@@ -253,10 +251,10 @@ function remove_friend(other_user) {
             changeButtonUI(data.buttonId, data.type);
         },
         error: function (data) {
-            console.log("There has been an error")
+            console.log("There has been an error");
         }
-    })
-};
+    });
+}
 
 // Set friendship buttons on each card on page load
 function setCtaBtns() {
@@ -287,7 +285,7 @@ setCtaBtns();
         } else if ($(this).hasClass('remove-connection-btn')) {
             $(this).html('<i class="fas fa-user"></i> Connected');
         }
-    })
+    });
 })();
 
 
@@ -314,7 +312,7 @@ function changeButtonUI(buttonId, type) {
         $(buttonTarget).text('Connection Accepted ');
         $(`.conn-request-item[value="${buttonId}"]`).fadeOut("fast", "linear");
     }
-};
+}
 
 // Cancel event registration
 function event_cancel(event_id) {
@@ -324,10 +322,10 @@ function event_cancel(event_id) {
         url: `/meetups/ajax/event_cancel/${event_int}`,
         timeout: 10000,
         success: function (data) {
-            location.reload()
+            location.reload();
         },
         error: function (data) {
-            console.log("There has been an error")
+            console.log("There has been an error");
         }
-    })
-};
+    });
+}
