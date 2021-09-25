@@ -29,11 +29,10 @@ var stripeClientSecret = $('#id_stripe_client_secret').text().slice(1, -1);
 var is_upgrade = $('#is_upgrade').val();
 var stripe = Stripe(stripePublicKey);
 var elements = stripe.elements();
+var card = elements.create('card');
 var csrftoken = Cookies.get('csrftoken');
 
-
 if (is_upgrade === "False") {
-;
     card.mount('#card_element');
 
     // Add errors to card handler

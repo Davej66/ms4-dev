@@ -171,12 +171,6 @@ def dashboard_my_orders(request):
 
     user = MyAccount.objects.get(email=request.user)
     stripe_customer_id = user.stripe_customer_id
-    if user.stripe_subscription_id != "":
-        subscription = stripe.Subscription.retrieve(
-            user.stripe_subscription_id,
-            expand=['latest_invoice.payment_intent'],)
-    else:
-        subscription = ""
 
     if stripe_customer_id:
 
@@ -224,11 +218,11 @@ def dashboard_my_orders(request):
                     "download_url": i.invoice_pdf
                 }
                 invoice_list.append(invoice_data)
-
+    
+        
         context = {
             'invoices': invoice_list,
             'upcoming_invoice': upcoming_invoice_dict,
-            'stripe_client_secret': subscription.latest_invoice.payment_intent.client_secret,
             'stripe_public_key': stripe_pk,
         }
         return render(request, 'users/user_orders.html', context)

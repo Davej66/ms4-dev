@@ -108,7 +108,7 @@ def confirm_order(request):
             return error
 
     # Check for existing stripe sub ID and create if not found
-    if not user.stripe_subscription_id:
+    if not user.stripe_subscription_id and package_item.tier != 1:
 
         try:
             subscription = stripe.Subscription.create(
@@ -126,25 +126,33 @@ def confirm_order(request):
 
         except Exception as e:
             return JsonResponse({'message': e.user_message}), 400
-    else:
+    elif package_item.tier != 1:
         subscription = stripe.Subscription.retrieve(
             user.stripe_subscription_id,
             expand=['latest_invoice.payment_intent'])
 
         latest_bill_paid = subscription.latest_invoice.status
         sub_price_id = subscription.plan.id
-
+    else:
+        subscription = ""
+    
     # Update customer default payment method for future changes
     customer_has_pm = stripe.Customer.retrieve(
         user.stripe_customer_id
     )
     
 
-    if not customer_has_pm.invoice_settings.default_payment_method:
+    try:
+        sub_payment_method = subscription.latest_invoice.payment_intent.charges.data[0].payment_method
+    except:
+        sub_payment_method = None
+
+    
+    if customer_has_pm.invoice_settings.default_payment_method == None:
+        print("No payment method")
         stripe.Customer.modify(
             user.stripe_customer_id,
-            invoice_settings={'default_payment_method':
-                              subscription.latest_invoice.payment_intent.payment_method}
+            invoice_settings={'default_payment_method': sub_payment_method}
         )
     else:
         customer_pm = stripe.PaymentMethod.retrieve(
@@ -158,7 +166,8 @@ def confirm_order(request):
             "exp_y": customer_pm.card.exp_year,
         }
         context['customer_pm_details'] = customer_pm_details
-
+    
+        
     if request.method == 'POST':
 
         # If user updates their details on form, update their account
@@ -188,6 +197,15 @@ def confirm_order(request):
                 'price': package_item.stripe_price_id,
             }]
         )
+    
+        
+        new_payment_method = request.POST.get('payment_method')
+
+        stripe.Customer.modify(
+            user.stripe_customer_id,
+            invoice_settings={'default_payment_method':
+                              new_payment_method}
+        )
 
         request.session['package_selection'] = ""
         storage = messages.get_messages(request)
@@ -196,7 +214,7 @@ def confirm_order(request):
         return redirect('get_my_orders')
 
     # Send end of current period to context
-    if subscription and subscription.plan.id is not free_package_id:
+    if subscription != "" and subscription.plan.id is not free_package_id:
 
         upcoming_inv = stripe.Invoice.upcoming(
             customer=user.stripe_customer_id,
@@ -205,16 +223,25 @@ def confirm_order(request):
             '%d %b %y')
         current_end = datetime.fromtimestamp(subscription.current_period_end).strftime(
             '%d %b %y')
-    else:
+        stripe_client_secret = subscription.latest_invoice.payment_intent
+    elif subscription != "":
         next_period_start = ""
         current_end = datetime.fromtimestamp(subscription.current_period_end).strftime(
             '%d %b %y')
+    else:
+        next_period_start = ""
+        current_end = ""
+        stripe_client_secret = ""
 
     # If user attempting to purchase the same subscription, send them to their orders
     if sub_price_id == package_stripe_id and latest_bill_paid == "paid":
         messages.error(request, "You are already subscribed to this package!")
         return redirect('get_my_orders')
-    elif latest_bill_paid == 'paid':
+    elif latest_bill_paid == 'paid' and customer_has_pm.invoice_settings.default_payment_method:
+        print("upgrade")
+        sub_is_change = True
+    elif customer_has_pm.invoice_settings.default_payment_method and package_selection == 1:
+        # User is downgrading to free account
         sub_is_change = True
     else:
         sub_is_change = False
@@ -222,10 +249,19 @@ def confirm_order(request):
     if customer_pm_details is None:
         customer_pm_details = ""
     
+    
+    
+    print("stripe_client_secret", subscription)
+    
+    if stripe_client_secret != "":
+            stripe_client_secret = subscription.latest_invoice.payment_intent.client_secret
+    else: 
+        stripe_client_secret = None
+    
     context = {
         "stripe_public_key": stripe_pk,
-        'subId': subscription.id,
-        'stripe_client_secret': subscription.latest_invoice.payment_intent.client_secret,
+        # 'subId': subscription.id or None,
+        'stripe_client_secret': stripe_client_secret,
         'package_selected': package_item,
         'upgrade': sub_is_change,
         'next_period_start': next_period_start,
