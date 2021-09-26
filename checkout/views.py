@@ -212,22 +212,27 @@ def confirm_order(request):
         except:
             pass
         
-        stripe.Customer.modify(
-            user.stripe_customer_id,
-            invoice_settings={'default_payment_method':
-                              new_payment_method}
-        )
-
-        # Check if updated sub based on new package required and update if yes
-        stripe.Subscription.modify(
-            subscription.id,
-            cancel_at_period_end=False,
-            proration_behavior='none',
-            items=[{
-                'id': subscription['items']['data'][0].id,
-                'price': package_item.stripe_price_id,
-            }]
-        )
+        try:
+            stripe.Customer.modify(
+                user.stripe_customer_id,
+                invoice_settings={'default_payment_method':
+                                new_payment_method}
+            )
+        
+            # Check if updated sub based on new package required and update if yes
+            stripe.Subscription.modify(
+                subscription.id,
+                cancel_at_period_end=False,
+                proration_behavior='none',
+                items=[{
+                    'id': subscription['items']['data'][0].id,
+                    'price': package_item.stripe_price_id,
+                }]
+            )
+        
+        except Exception as e:
+            messages.success(request, f"Your payment was declined. Please try an alternate card.")
+            return redirect('summary')
     
         
         request.session['package_selection'] = ""
