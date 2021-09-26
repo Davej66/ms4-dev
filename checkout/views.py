@@ -176,17 +176,6 @@ def confirm_order(request):
                 expand=['latest_invoice.payment_intent'],
         )
         
-        # stripe.Subscription.modify(
-        #         subscription.id,
-        #         proration_behavior='none',
-        #         expand=['latest_invoice.payment_intent'],
-        #         status='incomplete',
-        #         items=[{
-        #             'id': subscription['items']['data'][0].id,
-        #             'price': package_item.stripe_price_id,
-        #         }]
-        #     )
-        
     except Exception as e:
         print("The following error occured: ", e)
         subscription = None
@@ -209,11 +198,14 @@ def confirm_order(request):
         
         new_payment_method = request.POST.get('payment_method')
 
-        stripe.PaymentMethod.attach(
-            new_payment_method,
-            customer=user.stripe_customer_id,
-        )
-
+        try:
+            stripe.PaymentMethod.attach(
+                new_payment_method,
+                customer=user.stripe_customer_id,
+            )
+        except:
+            pass
+        
         stripe.Customer.modify(
             user.stripe_customer_id,
             invoice_settings={'default_payment_method':
@@ -271,7 +263,7 @@ def confirm_order(request):
     elif customer_has_dpm and package_selection == 1:
         # User is downgrading to free account
         sub_is_change = True
-    elif customer_has_dpm is None and package_selection == 2 or package_selection == 3:
+    elif customer_has_dpm is None:
         # User is downgrading to free account
         customer_needs_dpm = True
         sub_is_change = True

@@ -31,7 +31,8 @@
         <div class="processing-spinner">
             <span class="spinner"></span>
         </div>
-        {% if needs_dpm %}
+        
+        {% if needs_dpm and package_selected.tier != 1 %}
         <form id="payment_method_form" action="{% url 'summary' %}" method="POST">
             {% else %}
         <form id="payment_form" method="POST"> 
@@ -41,9 +42,6 @@
             <div class="row">
                 <div class="container-fluid col-12 col-md-6">
                     <h3 class="card-section-header mb-3">
-                        {% if needs_dpm %}
-                        Needs dpm
-                        {% endif %}
                         {% if upgrade == False %}
                         Complete Your Payment
                         {% else %}
@@ -84,7 +82,7 @@
                             target="_blank">Stripe</a>, who will attempt to charge this card on a monthly basis until
                         you cancel.<br><br>Our site does not store these details, and we do not have access
                         to them through the Stripe interface.</label>
-                    {% elif upgrade == True and needs_dpm == False %}
+                    {% elif upgrade == True and needs_dpm == False or package_selected.tier == 1 %}
                     <p class="pt-5">Looking to amend your account? No problem!<br><br>
                         {% if package_selected.tier != 1 %}
                         Since we've already processed your previous months payment, your new subscription option will
@@ -114,6 +112,7 @@
                     </p>
 
                     {% else %}
+                    <p class="pt-5">It looks like we don't have a default payment method for you. Please add one below, allowing us to process your next invoice!<br><br>
                         <input type="hidden" id="needs_dpm" value="{{needs_dpm}}">
                         <div class="input-row d-flex justify-content-between">
                             <div class="fieldset">

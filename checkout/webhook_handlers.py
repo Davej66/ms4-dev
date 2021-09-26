@@ -80,7 +80,10 @@ class StripeWH_Handler:
         stripe.api_key = stripe_sk
     
         intent = event.data.object
-        invoice_id = intent.invoice
+        try: 
+            invoice_id = intent.invoice
+        except:
+            invoice_id = "null"
         stripe_customer = intent.customer
         user = get_object_or_404(MyAccount, stripe_customer_id=stripe_customer)
         
@@ -98,7 +101,16 @@ class StripeWH_Handler:
         name = user.first_name + " " + user.last_name
         
         get_events_attending = Event.objects.filter(registrants=user).count()
-            
+        user_events_remaining = package.event_limit - get_events_attending
+
+        if user_events_remaining < 0:
+            user_events_allowance = 0
+        else:
+            user_events_allowance = user_events_remaining
+        
+        user.events_remaining_in_package = user_events_allowance
+        user.package_tier = package.tier
+        user.package_name = package.name
         user.is_blocked = False
         user.save()
             
@@ -118,11 +130,14 @@ class StripeWH_Handler:
             
             # Get the order number and add to the Stripe invoice
             order = Order.objects.get(stripe_invoice_id=invoice_id)
-                
-            stripe.Invoice.modify(
-                invoice_id,
-                metadata={"order_id": order.order_id}
-                )
+            
+            try:
+                stripe.Invoice.modify(
+                    invoice_id,
+                    metadata={"order_id": order.order_id}
+                    )
+            except:
+                pass
 
             return HttpResponse(content=f'Webhook received: {event["type"]} | \
             Order created successfully', status=200)
@@ -160,7 +175,7 @@ class StripeWH_Handler:
             user_events_allowance = 0
         else:
             user_events_allowance = user_events_remaining
-            
+        
         user.events_remaining_in_package = user_events_allowance
         user.is_blocked = False
         user.package_tier = package.tier
@@ -174,7 +189,6 @@ class StripeWH_Handler:
         """ Handle webhook event when Stripe invoice paid"""
         
         intent = event.data.object
-        cancel_reason = intent.cancellation_reason
         stripe_customer = intent.customer
         user = MyAccount.objects.get(stripe_customer_id=stripe_customer)
          
@@ -186,7 +200,6 @@ class StripeWH_Handler:
     
     def handle_payment_cancelled_event(self, event):
         """ Handle webhook event when Stripe payment intent cancels due to failed invoice"""
-        print("this one")
         intent = event.data.object
         cancel_reason = intent.cancellation_reason
         stripe_customer = intent.customer
