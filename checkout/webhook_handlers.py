@@ -91,7 +91,6 @@ class StripeWH_Handler:
         invoice_id = intent.invoice
         stripe_customer = intent.customer
         user = get_object_or_404(MyAccount, stripe_customer_id=stripe_customer)
-        print("intent", intent.customer)
         
         subscription = stripe.Subscription.retrieve(
             user.stripe_subscription_id

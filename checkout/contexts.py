@@ -8,7 +8,6 @@ from packages.models import Package
 def order_summary_context(request):
 
     context = {}
-    
 
     if 'package_selected' in request.session:
         package_selected = request.session['package_selection']
@@ -20,7 +19,5 @@ def order_summary_context(request):
             'package_cost': package_cost,
             'package': package
         }
-
-    print("session context", context)
     
     return context
