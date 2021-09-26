@@ -74,7 +74,7 @@
                                             <div class="input-row d-flex justify-content-between">
                                                 <div class="fieldset industry">
                                                     <label for="industry">Industry</label>
-                                                    <div id="ind_select_profile_edit" class="no-outline-on-focus"
+                                                    <div id="ind_select_profile_edit" class="no-outline-on-focus ind_field_required"
                                                         tabindex="0"></div>
                                                 </div>
                                                 <div class="fieldset">
@@ -179,6 +179,5 @@
 {{ this_user.profile_completed|json_script:"profile_complete" }}
 <script src="{% static 'users/js/users.js' %}" type="text/javascript"></script>
 <script src="{% static 'users/js/options_multiselect.js' %}" type="text/javascript"></script>
-
 
 {% endblock %}

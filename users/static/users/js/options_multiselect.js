@@ -145,26 +145,26 @@ $(document).ready(function () {
                 selectedValue: userInd,
                 hideClearButton: true,
                 options: [
-                {
-                    'label': 'Photography',
-                    'value': 'Photography',
-                },
-                {
-                    'label': 'Events Management',
-                    'value': 'Events Management',
-                },
-                {
-                    'label': 'Music',
-                    'value': 'Music',
-                },
-                {
-                    'label': 'Film & TV',
-                    'value': 'Film & TV',
-                },
-                {
-                    'label': 'Theatre',
-                    'value': 'Theatre',
-                },
+                    {
+                        'label': 'Photography',
+                        'value': 'Photography',
+                    },
+                    {
+                        'label': 'Events Management',
+                        'value': 'Events Management',
+                    },
+                    {
+                        'label': 'Music',
+                        'value': 'Music',
+                    },
+                    {
+                        'label': 'Film & TV',
+                        'value': 'Film & TV',
+                    },
+                    {
+                        'label': 'Theatre',
+                        'value': 'Theatre',
+                    },
                 ],
                 multiple: false,
                 name: 'industry',
@@ -173,6 +173,13 @@ $(document).ready(function () {
         }
     })();
 
+
+    /* Add required attr to industry field (JS used to avoid conflict with search functions 
+    if set in options_multiselect.js)*/
+    (() => {
+        var industry_field = $('.ind_field_required > div > input.vscomp-hidden-input')
+        $(industry_field).attr('required', true)
+    })();
 
     // Job Role Select - options from DB
     (function () {

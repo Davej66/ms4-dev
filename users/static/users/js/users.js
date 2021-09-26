@@ -125,13 +125,13 @@ $('input#profile_image').on('change', function () {
 
 /* All user page - determine whether user header details 
 are wrapped and apply 'text-center' class if so */
-    $('.user-details-mast').each(function(){
-        var width = parseInt($(this).width());
-        var parent = parseInt($(this).parent().width() -110);
-        if (parent <= width){
-            $(this).addClass('text-center');
-        }
-    });
+$('.user-details-mast').each(function () {
+    var width = parseInt($(this).width());
+    var parent = parseInt($(this).parent().width() - 110);
+    if (parent <= width) {
+        $(this).addClass('text-center');
+    }
+});
 
 
 /***
