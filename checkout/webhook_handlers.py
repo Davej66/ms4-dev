@@ -162,8 +162,14 @@ class StripeWH_Handler:
             No user found', status=200)
             
         get_events_attending = Event.objects.filter(registrants=user).count()
+        user_events_remaining = package.event_limit - get_events_attending
+
+        if user_events_remaining < 0:
+            user_events_allowance = 0
+        else:
+            user_events_allowance = user_events_remaining
             
-        user.events_remaining_in_package = package.event_limit - get_events_attending
+        user.events_remaining_in_package = user_events_allowance
         user.is_blocked = False
         user.package_tier = package.tier
         user.package_name = package.name
