@@ -100,7 +100,6 @@ if (is_upgrade === "False") {
 // Update card details if none found
 
 if (needs_dpm === "True") {
-    console.log("True")
     card.mount('#card_element_update');
 
     card.addEventListener('change', function (event) {
@@ -136,10 +135,8 @@ if (needs_dpm === "True") {
                 name: billingFirstName + billingLastName,
             },
         }).then(function (result) {
-            console.log("it worked")
             var errorDiv = $('#card_errors')
             if (result.error) {
-                console.log("broken")
                 var html = `
                 <span class="icon" role="alert">
                 <i class="fas fa-times"></i>
@@ -152,10 +149,8 @@ if (needs_dpm === "True") {
                 $('#submit_button').attr('disabled', false);
                 $('#submit_button').removeClass('disabled');
             } else {
-                console.log("not broken")
                 errorDiv.text = "";
                 if (result.paymentMethod) {
-                    console.log("how about this")
                     $('#payment_method_form').append(`
                 <input type="hidden" name="payment_method" value="${result.paymentMethod.id}"></input>
                 `).submit();

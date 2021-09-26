@@ -31,7 +31,6 @@
         <div class="processing-spinner">
             <span class="spinner"></span>
         </div>
-        
         {% if needs_dpm and package_selected.tier != 1 %}
         <form id="payment_method_form" action="{% url 'summary' %}" method="POST">
             {% else %}

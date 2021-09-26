@@ -141,15 +141,21 @@ def confirm_order(request):
         user.stripe_customer_id
     )
     
+    customer_dpm = get_customer_pm.invoice_settings.default_payment_method
+    
 
     try:
         sub_payment_method = subscription.latest_invoice.payment_intent.charges.data[0].payment_method
     except:
         sub_payment_method = "null"
-
-    if get_customer_pm.invoice_settings.default_payment_method == None:
+    
+    
+    if customer_dpm == None:
         
-        customer_needs_dpm = True
+        if subscription.status == "incomplete":
+            customer_needs_dpm = False
+        else:
+            customer_needs_dpm = True
         try:
             stripe.Customer.modify(
                 user.stripe_customer_id,
@@ -159,7 +165,7 @@ def confirm_order(request):
             pass
     else:
         customer_pm = stripe.PaymentMethod.retrieve(
-            get_customer_pm.invoice_settings.default_payment_method
+            customer_dpm
         )
 
         customer_pm_details = {
@@ -263,7 +269,7 @@ def confirm_order(request):
     elif customer_has_dpm and package_selection == 1:
         # User is downgrading to free account
         sub_is_change = True
-    elif customer_has_dpm is None:
+    elif customer_has_dpm is None and subscription.status != "incomplete":
         # User is downgrading to free account
         customer_needs_dpm = True
         sub_is_change = True
@@ -289,7 +295,7 @@ def confirm_order(request):
         'current_period_end': current_end,
         'customer_pm_details': customer_pm_details
     }
-
+    
     return render(request, 'checkout/confirm_order.html', context)
 
 
