@@ -97,9 +97,13 @@ def all_users(request):
     """
     Return all users to the page and search if there is an ajax search request.
     """
+    
+    inds_to_exclude = ["None selected - please complete your profile", "All"]
+    
     all_users = MyAccount.objects.all().exclude(
         pk=request.user.pk).exclude(first_name="").exclude(
-            profile_completed=False).exclude(show_profile=False)
+            profile_completed=False).exclude(show_profile=False).exclude(
+                industry__in=inds_to_exclude)
     free_account = request.user.package_tier == 1
     users_friends = Friend.objects.friends(request.user)
     friends_emails = []
@@ -111,7 +115,8 @@ def all_users(request):
     # For free account tier, locked by industry only
     if free_account:
         all_users = MyAccount.objects.filter(
-            industry=request.user.industry).exclude(pk=request.user.pk)
+            industry=request.user.industry).exclude(pk=request.user.pk).exclude(
+                industry__in=inds_to_exclude)
 
     query = Q(to_user=request.user) | Q(from_user=request.user)
     user_friend_requests = FriendshipRequest.objects.filter(query)
@@ -134,8 +139,14 @@ def all_users(request):
         else:
             queries = Q(industry=industry_query)
 
-        query_results = MyAccount.objects.filter(queries).exclude(
-            pk=request.user.pk).exclude(first_name="")
+        if free_account:
+            query_results = MyAccount.objects.filter(
+                industry=request.user.industry).exclude(pk=request.user.pk).exclude(
+                    industry__in=inds_to_exclude)
+        else:
+            query_results = MyAccount.objects.filter(queries).exclude(
+                pk=request.user.pk).exclude(first_name="").exclude(
+                    industry__in=inds_to_exclude)
 
         if connections_only:
             results = query_results.filter(email__in=friends_emails)
