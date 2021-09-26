@@ -45,7 +45,9 @@ def webhook(request):
         'customer.subscription.deleted': handler.handle_subscription_deleted_event,
         'customer.deleted': handler.handle_customer_deleted_event,
         'charge.failed': handler.handle_payment_failed_event,
-        'invoice.payment_succeeded': handler.handle_invoice_payment_succeeded_event
+        'invoice.payment_succeeded': handler.handle_invoice_payment_succeeded_event,
+        'invoice.payment_succeeded': handler.handle_payment_succeeded_event,
+        'invoice.paid': handler.handle_invoice_paid_event
     }
 
     # Get webhook event from Stripe

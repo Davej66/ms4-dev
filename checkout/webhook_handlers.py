@@ -39,14 +39,6 @@ class StripeWH_Handler:
         user = MyAccount.objects.get(stripe_customer_id=stripe_customer)
         package = Package.objects.get(stripe_price_id=price_id)
 
-        # if user.package_tier != package.tier:
-        #     try:
-        #         user.package_tier = package.tier
-        #         user.package_name = package.name
-        #         user.save()
-        #     except Exception as e:
-        #         return HttpResponse(content=f'Webhook received: {event["type"]}, \
-        #                             but could not update user: {e}', status=500)
         return HttpResponse(content=f'Webhook received: {event["type"]}', status=200)
     
 
@@ -178,9 +170,23 @@ class StripeWH_Handler:
         return HttpResponse(content=f'Webhook received: {event["type"]}', status=200) 
     
     
+    def handle_invoice_paid_event(self, event):
+        """ Handle webhook event when Stripe invoice paid"""
+        
+        intent = event.data.object
+        cancel_reason = intent.cancellation_reason
+        stripe_customer = intent.customer
+        user = MyAccount.objects.get(stripe_customer_id=stripe_customer)
+         
+        user.is_blocked = False
+        user.save()
+        
+        return HttpResponse(content=f'Webhook received: {event["type"]}', status=200) 
+    
+    
     def handle_payment_cancelled_event(self, event):
         """ Handle webhook event when Stripe payment intent cancels due to failed invoice"""
-        
+        print("this one")
         intent = event.data.object
         cancel_reason = intent.cancellation_reason
         stripe_customer = intent.customer

@@ -24,7 +24,6 @@ import json
 
 @require_POST
 def checkout_cache(request):
-    # TODO Extend this out
     pid = request.POST.get('client_secret').split('_secret')[0]
     stripe.api_key = settings.STRIPE_SECRET_KEY
     stripe.Subscription.modify(pid, metadata={
@@ -73,6 +72,7 @@ def confirm_order(request):
     user = MyAccount.objects.get(email=user_email)
     name = user.first_name + " " + user.last_name
     free_package_id = Package.objects.get(tier=1).stripe_price_id
+    customer_needs_dpm = False
 
     # Determine if the subscription is an upgrade or new account
     sub_is_change = False
@@ -137,7 +137,7 @@ def confirm_order(request):
         subscription = ""
     
     # Update customer default payment method for future changes
-    customer_has_pm = stripe.Customer.retrieve(
+    get_customer_pm = stripe.Customer.retrieve(
         user.stripe_customer_id
     )
     
@@ -145,17 +145,21 @@ def confirm_order(request):
     try:
         sub_payment_method = subscription.latest_invoice.payment_intent.charges.data[0].payment_method
     except:
-        sub_payment_method = None
+        sub_payment_method = "null"
 
-    
-    if customer_has_pm.invoice_settings.default_payment_method == None:
-        stripe.Customer.modify(
-            user.stripe_customer_id,
-            invoice_settings={'default_payment_method': sub_payment_method}
-        )
+    if get_customer_pm.invoice_settings.default_payment_method == None:
+        
+        customer_needs_dpm = True
+        try:
+            stripe.Customer.modify(
+                user.stripe_customer_id,
+                invoice_settings={'default_payment_method': sub_payment_method}
+            )
+        except:
+            pass
     else:
         customer_pm = stripe.PaymentMethod.retrieve(
-            customer_has_pm.invoice_settings.default_payment_method
+            get_customer_pm.invoice_settings.default_payment_method
         )
 
         customer_pm_details = {
@@ -165,6 +169,27 @@ def confirm_order(request):
             "exp_y": customer_pm.card.exp_year,
         }
         context['customer_pm_details'] = customer_pm_details
+    
+    try:
+        subscription = stripe.Subscription.retrieve(
+                user.stripe_subscription_id,
+                expand=['latest_invoice.payment_intent'],
+        )
+        
+        # stripe.Subscription.modify(
+        #         subscription.id,
+        #         proration_behavior='none',
+        #         expand=['latest_invoice.payment_intent'],
+        #         status='incomplete',
+        #         items=[{
+        #             'id': subscription['items']['data'][0].id,
+        #             'price': package_item.stripe_price_id,
+        #         }]
+        #     )
+        
+    except Exception as e:
+        print("The following error occured: ", e)
+        subscription = None
     
         
     if request.method == 'POST':
@@ -181,10 +206,21 @@ def confirm_order(request):
             email=user.email,
             name=user.first_name + " " + user.last_name,
         )
+        
+        new_payment_method = request.POST.get('payment_method')
+
+        stripe.PaymentMethod.attach(
+            new_payment_method,
+            customer=user.stripe_customer_id,
+        )
+
+        stripe.Customer.modify(
+            user.stripe_customer_id,
+            invoice_settings={'default_payment_method':
+                              new_payment_method}
+        )
 
         # Check if updated sub based on new package required and update if yes
-        subscription = stripe.Subscription.retrieve(
-            user.stripe_subscription_id)
         stripe.Subscription.modify(
             subscription.id,
             cancel_at_period_end=False,
@@ -196,19 +232,12 @@ def confirm_order(request):
         )
     
         
-        new_payment_method = request.POST.get('payment_method')
-
-        stripe.Customer.modify(
-            user.stripe_customer_id,
-            invoice_settings={'default_payment_method':
-                              new_payment_method}
-        )
-
         request.session['package_selection'] = ""
         storage = messages.get_messages(request)
         storage.used = True
         messages.success(request, "You have successfully subscribed!")
         return redirect('get_my_orders')
+    
     
     # Send end of current period to context
     if subscription != "" and subscription.plan.id is not free_package_id:
@@ -231,14 +260,20 @@ def confirm_order(request):
         current_end = ""
         stripe_client_secret = ""
 
+    customer_has_dpm = get_customer_pm.invoice_settings.default_payment_method
+    
     # If user attempting to purchase the same subscription, send them to their orders
     if sub_price_id == package_stripe_id and latest_bill_paid == "paid":
         messages.error(request, "You are already subscribed to this package!")
         return redirect('get_my_orders')
-    elif latest_bill_paid == 'paid' and customer_has_pm.invoice_settings.default_payment_method:
+    elif latest_bill_paid == 'paid' and customer_has_dpm:
         sub_is_change = True
-    elif customer_has_pm.invoice_settings.default_payment_method and package_selection == 1:
+    elif customer_has_dpm and package_selection == 1:
         # User is downgrading to free account
+        sub_is_change = True
+    elif customer_has_dpm is None and package_selection == 2 or package_selection == 3:
+        # User is downgrading to free account
+        customer_needs_dpm = True
         sub_is_change = True
     else:
         sub_is_change = False
@@ -251,14 +286,13 @@ def confirm_order(request):
             stripe_client_secret = subscription.latest_invoice.payment_intent.client_secret
         except:
             stripe_client_secret = None
-    else: 
-        stripe_client_secret = None
     
     context = {
         "stripe_public_key": stripe_pk,
         'stripe_client_secret': stripe_client_secret,
         'package_selected': package_item,
         'upgrade': sub_is_change,
+        'needs_dpm': customer_needs_dpm,
         'next_period_start': next_period_start,
         'current_period_end': current_end,
         'customer_pm_details': customer_pm_details

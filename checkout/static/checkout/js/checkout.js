@@ -27,6 +27,7 @@ $('.update-package-card').on('click', function () {
 var stripePublicKey = $('#id_stripe_public_key').text().slice(1, -1);
 var stripeClientSecret = $('#id_stripe_client_secret').text().slice(1, -1);
 var is_upgrade = $('#is_upgrade').val();
+var needs_dpm = $('#needs_dpm').val();
 var stripe = Stripe(stripePublicKey);
 var elements = stripe.elements();
 var card = elements.create('card');
@@ -93,6 +94,78 @@ if (is_upgrade === "False") {
         });
     });
 }
+
+
+
+// Update card details if none found
+
+if (needs_dpm === "True") {
+    console.log("True")
+    card.mount('#card_element_update');
+
+    card.addEventListener('change', function (event) {
+        var errorDiv = $('#card_errors')
+        if (event.error) {
+            var html = `
+        <span class="icon" role="alert">
+        <i class="fas fa-times"></i>
+        </span>
+        <span>${event.error.message}</span>
+        `;
+            errorDiv.html(html);
+        } else {
+            errorDiv.text = "";
+        }
+    });
+
+    // Handle form submit
+    $('#submit_button').on('click', async (event) => {
+        event.preventDefault();
+    
+        card.update({ 'disabled': true });
+        $('.processing-spinner').css('display', 'flex').hide().fadeIn();
+        $('#submit_button').attr('disabled', true);
+        $('#submit_button').addClass('disabled');
+        var billingFirstName = $('#first_name').val();
+        var billingLastName = $('#last_name').val();
+    
+        stripe.createPaymentMethod({
+            type: 'card',
+            card: card,
+            billing_details: {
+                name: billingFirstName + billingLastName,
+            },
+        }).then(function (result) {
+            console.log("it worked")
+            var errorDiv = $('#card_errors')
+            if (result.error) {
+                console.log("broken")
+                var html = `
+                <span class="icon" role="alert">
+                <i class="fas fa-times"></i>
+                </span>
+                <span>${result.error.message}</span>
+                `;
+                card.update({ 'disabled': false });
+                errorDiv.html(html);
+                $('.processing-spinner').fadeOut();
+                $('#submit_button').attr('disabled', false);
+                $('#submit_button').removeClass('disabled');
+            } else {
+                console.log("not broken")
+                errorDiv.text = "";
+                if (result.paymentMethod) {
+                    console.log("how about this")
+                    $('#payment_method_form').append(`
+                <input type="hidden" name="payment_method" value="${result.paymentMethod.id}"></input>
+                `).submit();
+                
+                }
+            }
+        });
+    });
+};
+
 
 $(document).ready(() => {
     // If user abandons the page, destroy the subscription created
