@@ -144,7 +144,18 @@ function verifyForm(firstButton) {
             width: '50%'
         }, 100);
     if ($(firstButton).hasClass('verify')) {
-        $(firstButton).attr('type', 'submit');
+        var industry_completed = $('.ind_field_required > div >input.vscomp-hidden-input').val()
+        if (industry_completed == "") {
+            var ind_field = $('.ind_field_required')
+            $(ind_field).append(`
+            <span class="error">Select an industry to continue!</span>
+            `)
+            $('html, body').animate({
+                scrollTop: $(ind_field).offset().top-300
+            }, 100);
+        } else {
+            $(firstButton).attr('type', 'submit');
+        }
     } else {
         $(firstButton).addClass('verify').text('I know! Update Information');
         $(firstButton).animate({

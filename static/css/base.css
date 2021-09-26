@@ -131,6 +131,11 @@ a:hover, .anchor-link:hover {
     font-weight: 200;
 }
 
+span.error {
+    font-size: 14px;
+    color: var(--error);
+}
+
 .header-underline {
     border-bottom: 5px solid var(--accent-color);
 }   
