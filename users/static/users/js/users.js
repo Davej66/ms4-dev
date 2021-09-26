@@ -19,8 +19,9 @@ function splitSkills() {
             $(skillsLists[i]).text("");
             skillSet.forEach(function callback(element, index) {
                 if (index <= (maxSkillsShown - 1)) {
+                    var inner_skill = element.replace(/[^a-z0-9\s]/gi, '')
                     $(skillsLists[i]).append(`
-            <span class="skill-pill">${element}</span>
+            <span class="skill-pill">${inner_skill}</span>
             `);
                 } else if (limitReached != true) {
                     var skillsHidden = skillSet.length - maxSkillsShown;
