@@ -37,7 +37,7 @@
                                 <span>Community news & updates via monthly newsletter</span>
                             </li>
                         </ul>
-                        <div class="btn-wrap">
+                        <div class="btn-wrap flex-column">
                             <button type="submit" class="package-cta btn 
                             {% if users_package == 1%}featured primary-btn
                             {% else %} primary-btn-outline-color
@@ -50,6 +50,11 @@
                                 Select This Package
                                 {%endif%}
                             </button>
+                            {% if sub_change == "upgrade" and users_package == 1 %}
+                            <p class="p-text-underline pt-3 m-auto">Pending Upgrade!</p>
+                            {% elif sub_change == "downgrade" and users_package == 1 %}
+                            <p class="p-text-underline pt-3 m-auto">Pending Downgrade!</p>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
@@ -73,7 +78,7 @@
                                 <span>Register for 5 free events a month</span>
                             </li>
                         </ul>
-                        <div class="btn-wrap">
+                        <div class="btn-wrap flex-column">
                             <button type="submit" class="package-cta btn
                             {% if users_package == 1 or users_package == 3%}primary-btn-outline-color
                             {% else  %} featured primary-btn
@@ -86,6 +91,11 @@
                                 Recommended Package
                                 {%endif%}
                             </button>
+                            {% if sub_change == "upgrade" and users_package == 2 %}
+                            <p class="p-text-underline pt-3 m-auto">Pending Upgrade!</p>
+                            {% elif sub_change == "downgrade" and users_package == 2 %}
+                            <p class="p-text-underline pt-3 m-auto">Pending Downgrade!</p>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
@@ -106,7 +116,7 @@
                                 <span>Register for 10 free events a month</span>
                             </li>
                         </ul>
-                        <div class="btn-wrap">
+                        <div class="btn-wrap flex-column">
                             <button type="submit" class="package-cta btn 
                             {% if users_package == 3%}featured primary-btn
                             {% else %} primary-btn-outline-color
@@ -119,6 +129,9 @@
                                 Select This Package
                                 {%endif%}
                             </button>
+                            {% if sub_change == "downgrade" and users_package == 3 %}
+                            <p class="p-text-underline pt-3 m-auto">Pending Downgrade!</p>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
