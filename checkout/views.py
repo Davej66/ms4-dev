@@ -126,7 +126,7 @@ def confirm_order(request):
 
         except Exception as e:
             return JsonResponse({'message': e.user_message}), 400
-    elif package_item.tier != 1:
+    elif user.stripe_subscription_id:
         subscription = stripe.Subscription.retrieve(
             user.stripe_subscription_id,
             expand=['latest_invoice.payment_intent'])
@@ -171,8 +171,6 @@ def confirm_order(request):
     if request.method == 'POST':
 
         # If user updates their details on form, update their account
-        user.package_tier = package_item.tier
-        user.package_name = package_item.name
         user.first_name = request.POST.get('first_name', user.first_name)
         user.last_name = request.POST.get('last_name', user.last_name)
         user.email = request.POST.get('email', user.email)
@@ -212,7 +210,7 @@ def confirm_order(request):
         storage.used = True
         messages.success(request, "You have successfully subscribed!")
         return redirect('get_my_orders')
-
+    print(subscription)
     # Send end of current period to context
     if subscription != "" and subscription.plan.id is not free_package_id:
 
@@ -228,6 +226,7 @@ def confirm_order(request):
         next_period_start = ""
         current_end = datetime.fromtimestamp(subscription.current_period_end).strftime(
             '%d %b %y')
+        stripe_client_secret = subscription.latest_invoice.payment_intent
     else:
         next_period_start = ""
         current_end = ""
@@ -249,18 +248,16 @@ def confirm_order(request):
     if customer_pm_details is None:
         customer_pm_details = ""
     
-    
-    
-    print("stripe_client_secret", subscription)
-    
     if stripe_client_secret != "":
+        try:
             stripe_client_secret = subscription.latest_invoice.payment_intent.client_secret
+        except:
+            stripe_client_secret = None
     else: 
         stripe_client_secret = None
     
     context = {
         "stripe_public_key": stripe_pk,
-        # 'subId': subscription.id or None,
         'stripe_client_secret': stripe_client_secret,
         'package_selected': package_item,
         'upgrade': sub_is_change,

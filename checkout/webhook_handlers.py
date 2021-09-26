@@ -39,14 +39,14 @@ class StripeWH_Handler:
         user = MyAccount.objects.get(stripe_customer_id=stripe_customer)
         package = Package.objects.get(stripe_price_id=price_id)
 
-        if user.package_tier != package.tier:
-            try:
-                user.package_tier = package.tier
-                user.package_name = package.name
-                user.save()
-            except Exception as e:
-                return HttpResponse(content=f'Webhook received: {event["type"]}, \
-                                    but could not update user: {e}', status=500)
+        # if user.package_tier != package.tier:
+        #     try:
+        #         user.package_tier = package.tier
+        #         user.package_name = package.name
+        #         user.save()
+        #     except Exception as e:
+        #         return HttpResponse(content=f'Webhook received: {event["type"]}, \
+        #                             but could not update user: {e}', status=500)
         return HttpResponse(content=f'Webhook received: {event["type"]}', status=200)
     
 
@@ -91,18 +91,23 @@ class StripeWH_Handler:
         invoice_id = intent.invoice
         stripe_customer = intent.customer
         user = get_object_or_404(MyAccount, stripe_customer_id=stripe_customer)
+        print("intent", intent.customer)
+        
+        subscription = stripe.Subscription.retrieve(
+            user.stripe_subscription_id
+        )
+        
+        price_id = subscription['items']['data'][0].plan.id
+        package = Package.objects.get(stripe_price_id=price_id)
         
         if not user: 
             return HttpResponse(content=f'Webhook received: {event["type"]} | \
             No user found', status=200)
             
         name = user.first_name + " " + user.last_name
-        package_cost = intent.amount / 100
-        package = Package.objects.get(price=package_cost)
         
         get_events_attending = Event.objects.filter(registrants=user).count()
             
-        user.events_remaining_in_package = package.event_limit - get_events_attending
         user.is_blocked = False
         user.save()
             
@@ -133,6 +138,39 @@ class StripeWH_Handler:
         except:
             pass
         return HttpResponse(content=f'Webhook received: {event["type"]}', status=200)
+    
+    
+    def handle_invoice_payment_succeeded_event(self, event):
+        """ Handle webhook event when Stripe charge succeeds. Reset package tier and event allowance."""
+        
+        stripe_pk = settings.STRIPE_PUBLIC_KEY
+        stripe_sk = settings.STRIPE_SECRET_KEY
+        stripe.api_key = stripe_sk
+    
+        charge = event.data.object
+        stripe_customer = charge.customer
+        user = get_object_or_404(MyAccount, stripe_customer_id=stripe_customer)
+        
+        subscription = stripe.Subscription.retrieve(
+            user.stripe_subscription_id
+        )
+        
+        price_id = subscription['items']['data'][0].plan.id
+        package = Package.objects.get(stripe_price_id=price_id)
+        
+        if not user: 
+            return HttpResponse(content=f'Webhook received: {event["type"]} | \
+            No user found', status=200)
+            
+        get_events_attending = Event.objects.filter(registrants=user).count()
+            
+        user.events_remaining_in_package = package.event_limit - get_events_attending
+        user.is_blocked = False
+        user.package_tier = package.tier
+        user.package_name = package.name
+        user.save()
+        
+        return HttpResponse(content=f'Webhook received: {event["type"]}', status=200) 
     
 
     def handle_payment_failed_event(self, event):
