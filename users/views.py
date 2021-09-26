@@ -192,7 +192,17 @@ def dashboard_my_orders(request):
         upcoming_invoice = stripe.Invoice.upcoming(
             customer=stripe_customer_id,
         )
-
+        
+        customer_pm = stripe.Customer.retrieve(
+            stripe_customer_id
+        ).invoice_settings.default_payment_method
+        
+        if customer_pm != "null":
+            has_pm = True
+        else:
+            has_pm = False
+            
+            
         up_inv_period = upcoming_invoice.lines.data[0].period
         package_id = upcoming_invoice.lines.data[0].price.id
         get_package_object = Package.objects.get(stripe_price_id=package_id)
@@ -230,11 +240,11 @@ def dashboard_my_orders(request):
                 }
                 invoice_list.append(invoice_data)
     
-        
         context = {
             'invoices': invoice_list,
             'upcoming_invoice': upcoming_invoice_dict,
             'stripe_public_key': stripe_pk,
+            'has_pm': has_pm,
         }
         return render(request, 'users/user_orders.html', context)
 

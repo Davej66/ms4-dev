@@ -92,9 +92,15 @@
                                                 </td>
                                                 <td class="w-25">
                                                     <div class="order-detail">
-                                                        {% if this_user.is_blocked %}
+                                                        {% if this_user.is_blocked and not has_pm %}
                                                         <p class="error text-center p-2">You're previous payment
                                                             failed! Please update your payment details.</p>
+                                                        <button class="btn secondary-btn m-auto" data-bs-toggle="modal"
+                                                            data-bs-target="#update_billing_modal">Try Another
+                                                            Card</button>
+                                                        {% elif this_user.is_blocked and has_pm %}
+                                                        <p class="error text-center p-2">New payment method accepted. 
+                                                            We'll attempt to utilise this card shortly.</p>
                                                         <button class="btn secondary-btn m-auto" data-bs-toggle="modal"
                                                             data-bs-target="#update_billing_modal">Try Another
                                                             Card</button>

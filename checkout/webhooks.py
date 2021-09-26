@@ -39,6 +39,7 @@ def webhook(request):
     event_map = {
         'payment_intent.succeeded': handler.handle_payment_succeeded_event,
         'payment_intent.payment_failed': handler.handle_payment_failed_event,
+        'payment_intent.canceled': handler.handle_payment_cancelled_event,
         'customer.subscription.created': handler.handle_subscription_create_event,
         'customer.subscription.updated': handler.handle_subscription_update_event,
         'customer.subscription.deleted': handler.handle_subscription_deleted_event,

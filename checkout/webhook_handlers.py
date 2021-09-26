@@ -177,6 +177,21 @@ class StripeWH_Handler:
         
         return HttpResponse(content=f'Webhook received: {event["type"]}', status=200) 
     
+    
+    def handle_payment_cancelled_event(self, event):
+        """ Handle webhook event when Stripe payment intent cancels due to failed invoice"""
+        
+        intent = event.data.object
+        cancel_reason = intent.cancellation_reason
+        stripe_customer = intent.customer
+        user = MyAccount.objects.get(stripe_customer_id=stripe_customer)
+        
+        if cancel_reason == "failed_invoice":
+            user.is_blocked = True
+            user.save()
+        
+        return HttpResponse(content=f'Webhook received: {event["type"]}', status=200) 
+    
 
     def handle_payment_failed_event(self, event):
         """ Handle webhook event when Stripe payment fails. Block the user account until payment made successfully"""

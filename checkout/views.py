@@ -149,7 +149,6 @@ def confirm_order(request):
 
     
     if customer_has_pm.invoice_settings.default_payment_method == None:
-        print("No payment method")
         stripe.Customer.modify(
             user.stripe_customer_id,
             invoice_settings={'default_payment_method': sub_payment_method}
@@ -210,7 +209,7 @@ def confirm_order(request):
         storage.used = True
         messages.success(request, "You have successfully subscribed!")
         return redirect('get_my_orders')
-    print(subscription)
+    
     # Send end of current period to context
     if subscription != "" and subscription.plan.id is not free_package_id:
 
@@ -237,7 +236,6 @@ def confirm_order(request):
         messages.error(request, "You are already subscribed to this package!")
         return redirect('get_my_orders')
     elif latest_bill_paid == 'paid' and customer_has_pm.invoice_settings.default_payment_method:
-        print("upgrade")
         sub_is_change = True
     elif customer_has_pm.invoice_settings.default_payment_method and package_selection == 1:
         # User is downgrading to free account
