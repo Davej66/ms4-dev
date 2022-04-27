@@ -75,8 +75,8 @@ class StripeWH_Handler:
     def handle_payment_succeeded_event(self, event):
         """ Handle webhook event when Stripe payment succeeds"""
 
-        stripe_pk = settings.STRIPE_PUBLIC_KEY
-        stripe_sk = settings.STRIPE_SECRET_KEY
+        stripe_pk = settings.STRIPE_PUBLIC_KEY_MS4
+        stripe_sk = settings.STRIPE_SECRET_KEY_MS4
         stripe.api_key = stripe_sk
     
         intent = event.data.object

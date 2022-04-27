@@ -14,8 +14,8 @@ def webhook(request):
     """ Listen for Stripe webhooks"""
 
     # Setup webhook
-    wh_secret = settings.STRIPE_WH_SECRET
-    stripe.api_key = settings.STRIPE_SECRET_KEY
+    wh_secret = settings.STRIPE_WH_SECRET_MS4
+    stripe.api_key = settings.STRIPE_SECRET_KEY_MS4
 
     # Get webhook data
     payload = request.body
